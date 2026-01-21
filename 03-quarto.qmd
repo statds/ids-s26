@@ -63,7 +63,7 @@ go to an appropriate directory (folder), and clone the repo. For example,
 if you use `ssh` for authentication: 
 
 ```
-git clone git@github.com:statds/ids-s25.git
+git clone git@github.com:statds/ids-s26.git
 ```
 
 
@@ -124,13 +124,13 @@ deactivate
 Create the deep-learning environment (with Python 3.12):
 
 ```
-python3.12 -m venv .ids-f25-py3.12
+python3.12 -m venv .ids-s26-py3.12
 ```
 
 Activate it:
 
 ```
-. .ids-f25-py3.12/bin/activate
+. .ids-s26-py3.12/bin/activate
 ```
 
 Install the required packages:
@@ -156,7 +156,7 @@ Most chapters are to be rendered under the `.ids-s26` virtual
 environment:
 
 ```
-. .ids-s25/bin/activate
+. .ids-s26/bin/activate
 quarto render
 deactivate
 ```
@@ -166,7 +166,7 @@ This will leave the chapter on Advanced Topics unfinished with an
 error, because deep learning relies on Python 3.12:
 
 ```
-. .ids-f25-py3.12/bin/activate
+. .ids-s26-py3.12/bin/activate
 quarto render
 deactivate
 ```
