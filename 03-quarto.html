@@ -230,7 +230,7 @@ quarto convert hello.qmd   # converts to ipynb</code></pre>
 <section id="clone-the-repository" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="clone-the-repository"><span class="header-section-number">3.2.1</span> Clone the Repository</h3>
 <p>Clone the repository to your own computer. In a terminal (command line), go to an appropriate directory (folder), and clone the repo. For example, if you use <code>ssh</code> for authentication:</p>
-<pre><code>git clone git@github.com:statds/ids-s25.git</code></pre>
+<pre><code>git clone git@github.com:statds/ids-s26.git</code></pre>
 </section>
 <section id="set-up-your-python-virtual-environment" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="set-up-your-python-virtual-environment"><span class="header-section-number">3.2.2</span> Set up your Python Virtual Environment</h3>
@@ -260,13 +260,13 @@ on a much older verson of `numpy`, 1.26.4!
 Create the deep-learning environment (with Python 3.12):
 
 ```
-python3.12 -m venv .ids-f25-py3.12
+python3.12 -m venv .ids-s26-py3.12
 ```
 
 Activate it:
 
 ```
-. .ids-f25-py3.12/bin/activate
+. .ids-s26-py3.12/bin/activate
 ```
 
 Install the required packages:
@@ -287,7 +287,7 @@ deactivate
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="render-the-classnotes"><span class="header-section-number">3.2.3</span> Render the Classnotes</h3>
 <p>Assuming <code>quarto</code> has been set up, we render the classnotes in the cloned repository.</p>
 <p>Most chapters are to be rendered under the <code>.ids-s26</code> virtual environment:</p>
-<pre><code>. .ids-s25/bin/activate
+<pre><code>. .ids-s26/bin/activate
 quarto render
 deactivate</code></pre>
 <!--
@@ -295,7 +295,7 @@ This will leave the chapter on Advanced Topics unfinished with an
 error, because deep learning relies on Python 3.12:
 
 ```
-. .ids-f25-py3.12/bin/activate
+. .ids-s26-py3.12/bin/activate
 quarto render
 deactivate
 ```
