@@ -212,7 +212,3 @@ Online books on Python for data science:
 
 
 
-{{< include _ethics.qmd >}} 
-
-{{< include _communication.qmd >}} 
-
