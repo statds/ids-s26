@@ -134,6 +134,9 @@ Markdown.
 + Davis, Reid
 + Desai, Alysha
 + Faisal, Zaynab
+- Gain a better understanding of data science and real life applications
+- Become more comfortable using Git/GitHub
+- Improve python and coding skills
 + Ibrahim, Omar
 + Jackson, Brooke
 + Jiang, Ryan
