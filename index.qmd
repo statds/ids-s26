@@ -159,6 +159,9 @@ Markdown.
 + Watanabe, Sara
 + Wolven, Alexander
 + Zhang, Jianan
+      - Learn how to use Git and GitHub effectively for collaborative data science projects.
+      - Improve Python data analysis skills (NumPy, Pandas, Matplotlib) through applied projects.
+
 + Zharyy, Sofia
 
 
