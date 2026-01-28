@@ -143,6 +143,9 @@ Markdown.
 + Landolphi, Joseph
 + Lawrence, Claire
 + Liu, Kevin
+    - Use git better in a collobrative environment and more complex commands
+    - Apply data analysis to translate data to real-world results
+    - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
 + Nash, Jayden
