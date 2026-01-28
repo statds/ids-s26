@@ -168,6 +168,7 @@ cython_debug/
 /output/
 
 /templates/
+/95-exercises_files/
 
 /foreign/
 *.html
@@ -177,5 +178,3 @@ gmapKey.txt
 .DS_Store
 
 **/*.quarto_ipynb
-
-.python-version
