@@ -155,6 +155,9 @@ Markdown.
 + Sawyer, Riley
 + Sudarsanam, Shreya
 + Tessman, Sean
+    - Learn how data science applies to sports analytics and performance.
+    - Build a strong reproducible workflow with Git, Quarto, and Python.
+    - Gain experience with real-world datasets.
 + Trnka, Jonathan
 + Watanabe, Sara
 + Wolven, Alexander
