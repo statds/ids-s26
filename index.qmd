@@ -140,6 +140,9 @@ Markdown.
 + Jones, Cody
 + Kwak, Jinha
 + Lacasse, Violet
+    - Learn how to find/grab/handle datasets.
+    - Become familiar with Git and how it can be used to collaborate.
+    - Learn more about data science and how it can help in my data analysis (domain: earth data science) major.
 + Landolphi, Joseph
 + Lawrence, Claire
 + Liu, Kevin
