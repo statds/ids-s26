@@ -128,6 +128,9 @@ Markdown.
     - Wish 2
     - Wish 3
 + Bennett, Emily
+    - Become more experienced and confident with Python
+    - Gain experience with data science problems and relate them to the real world
+    - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
 + Burns, Kyle
 + Carbone, Vincenzo
