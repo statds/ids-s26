@@ -1,66 +1,45 @@
 # Preliminaries {.unnumbered}
 
-The notes are developed with Quarto; for details about Quarto, visit
-<https://quarto.org/docs/books>.
+The notes are developed with Quarto; for details about Quarto, visit <https://quarto.org/docs/books>.
 
+```{=html}
 <!-- 
 This book is free and is licensed under a [Creative Commons
 Attribution-NonCommercial-NoDerivs 3.0 United States License](http://creativecommons.org/licenses/by-nc-nd/3.0/us/).
 -->
+```
 
 ## Acknowledgement
-These lecture notes for STAT 3255/5255 in Spring 2026 will be built upon the notes from Professor Jun Yan and former students enrolled in the course. 
 
-For those interested, class notes from
-[Fall 2025](https://statds.github.io/ids-f25),
-[Spring 2025](https://statds.github.io/ids-s25),
-[Fall 2024](https://statds.github.io/ids-f24),
-[Spring 2024](https://statds.github.io/ids-s24),
-[Spring 2023](https://statds.github.io/ids-s23), and
-[Spring 2022](https://statds.github.io/ids-s22/)
-are publicly accessible. These archives offer
-insights into the evolution of the course content and the
-different perspectives brought by successive student cohorts.
+These lecture notes for STAT 3255/5255 in Spring 2026 will be built upon the notes from Professor Jun Yan and former students enrolled in the course.
 
+For those interested, class notes from [Fall 2025](https://statds.github.io/ids-f25), [Spring 2025](https://statds.github.io/ids-s25), [Fall 2024](https://statds.github.io/ids-f24), [Spring 2024](https://statds.github.io/ids-s24), [Spring 2023](https://statds.github.io/ids-s23), and [Spring 2022](https://statds.github.io/ids-s22/) are publicly accessible. These archives offer insights into the evolution of the course content and the different perspectives brought by successive student cohorts.
 
 ## Sources at GitHub
-We will adopt a cooperative approach, facilitated through the use of GitHub,
-a platform that encourages collaborative coding and content development. 
-To view these contributions and the lecture notes in their entirety, 
-please visit our GitHub repository at <https://github.com/statds/ids-s26>.
 
-Students will be asked to contribute to the notes by submitting pull requests
-to our GitHub repository. This method not only enriched the
-course material but also provided students with practical experience
-in collaborative software development and version control. 
+We will adopt a cooperative approach, facilitated through the use of GitHub, a platform that encourages collaborative coding and content development. To view these contributions and the lecture notes in their entirety, please visit our GitHub repository at <https://github.com/statds/ids-s26>.
 
+Students will be asked to contribute to the notes by submitting pull requests to our GitHub repository. This method not only enriched the course material but also provided students with practical experience in collaborative software development and version control.
 
 ## Compiling the Classnotes
-To reproduce the classnotes output on your own computer, here are the
-necessary steps. See Section @sec-buildnotes for details. 
 
-+ Clone the classnotes repository to an appropriate location on your
-  computer; see Chapter @sec-git for using Git.
-+ Set up a Python virtual environment in the root folder of the
-  source; see Section @sec-python-venv.
-+ Activate your virtual environment.
-+ Install all the packages specified in `requirements.txt` in your
-  virtual environment:
- ```
- pip install -r requirements.txt
- ```
-+ For some chapters that need to interact with certain sites that
-  require account information. For example, for Google map services,
-  you need to save your API key in a file named `api_key.txt` in the
-  root folder of the source.
-+ Render the book with `quarto render` from the root folder on a
-  terminal; the rendered book will be stored under `_book`.
+To reproduce the classnotes output on your own computer, here are the necessary steps. See Section @sec-buildnotes for details.
 
+-   Clone the classnotes repository to an appropriate location on your computer; see Chapter @sec-git for using Git.
+-   Set up a Python virtual environment in the root folder of the source; see Section @sec-python-venv.
+-   Activate your virtual environment.
+-   Install all the packages specified in `requirements.txt` in your virtual environment:
+
+```         
+pip install -r requirements.txt
+```
+
+-   For some chapters that need to interact with certain sites that require account information. For example, for Google map services, you need to save your API key in a file named `api_key.txt` in the root folder of the source.
+-   Render the book with `quarto render` from the root folder on a terminal; the rendered book will be stored under `_book`.
 
 ## Midterm Exam
 
-TBD
-<!-- Reproduce NYC street flood research [@agonafir2022machine;
+TBD <!-- Reproduce NYC street flood research [@agonafir2022machine;
 @agonafir2022understanding].
 
 Four students will be selected to present their work in a workshop at
@@ -70,110 +49,91 @@ welcome to invite your family and friends to join the workshop.
 
 ## Final Project
 
-Students are encouraged to start designing their final projects from
-the beginning of the semester. There are many open data that can be
-used. Here is a list of useful data challenges:
+Students are encouraged to start designing their final projects from the beginning of the semester. There are many open data that can be used. Here is a list of useful data challenges:
 
-+ [ASA Data Challenge
-  Expo](https://community.amstat.org/dataexpo/home): What works in education?
-+ [Kaggle](https://www.kaggle.com).
-+ [DrivenData](https://www.drivendata.org).
-+ [15 Data Science Hackathons to Test Your Skills](https://www.fynd.academy/blog/data-science-hackathons)
-+ [openFDA](https://open.fda.gov)
-+ If you work on sports analytics, you are welcome to submit a
-poster to [Connecticut Sports Analytics Symposium
-(CSAS) 2026](https://statds.org/events/csas2026/). A good resource for sports analytics is [ScoreNetwork](https://scorenetwork.org).
-+ [Paleobiology Database](https://paleobiodb.org/#/).
+-   [ASA Data Challenge Expo](https://community.amstat.org/dataexpo/home): What works in education?
+-   [Kaggle](https://www.kaggle.com).
+-   [DrivenData](https://www.drivendata.org).
+-   [15 Data Science Hackathons to Test Your Skills](https://www.fynd.academy/blog/data-science-hackathons)
+-   [openFDA](https://open.fda.gov)
+-   If you work on sports analytics, you are welcome to submit a poster to [Connecticut Sports Analytics Symposium (CSAS) 2026](https://statds.org/events/csas2026/). A good resource for sports analytics is [ScoreNetwork](https://scorenetwork.org).
+-   [Paleobiology Database](https://paleobiodb.org/#/).
 
 ## Adapting to Rapid Skill Acquisition
 
-In this course, students are expected to rapidly acquire new skills, a
-critical aspect of data science. To emphasize this, consider this
-insightful quote from @vanderplas2016python:
+In this course, students are expected to rapidly acquire new skills, a critical aspect of data science. To emphasize this, consider this insightful quote from @vanderplas2016python:
 
-> When a technologically-minded person is asked to help a friend, family member,
-> or colleague with a computer problem, most of the time it's less a matter of
-> knowing the answer as much as knowing how to quickly find an unknown
-> answer. In data science it's the same: searchable web resources such as online
-> documentation, mailing-list threads, and StackOverflow answers contain a
-> wealth of information, even (especially?) if it is a topic you've found
-> yourself searching before. Being an effective practitioner of data science is
-> less about memorizing the tool or command you should use for every possible
-> situation, and more about learning to effectively find the information you
-> don't know, whether through a web search engine or another means.
+> When a technologically-minded person is asked to help a friend, family member, or colleague with a computer problem, most of the time it's less a matter of knowing the answer as much as knowing how to quickly find an unknown answer. In data science it's the same: searchable web resources such as online documentation, mailing-list threads, and StackOverflow answers contain a wealth of information, even (especially?) if it is a topic you've found yourself searching before. Being an effective practitioner of data science is less about memorizing the tool or command you should use for every possible situation, and more about learning to effectively find the information you don't know, whether through a web search engine or another means.
 
-This quote captures the essence of what we aim to develop in our
-students: the ability to swiftly navigate and utilize the vast
-resources available to solve complex problems in data science.
-Examples tasks are: install needed software (or even hardware);
-search and find solutions to encountered problems. 
+This quote captures the essence of what we aim to develop in our students: the ability to swiftly navigate and utilize the vast resources available to solve complex problems in data science. Examples tasks are: install needed software (or even hardware); search and find solutions to encountered problems.
 
 ## Wishlist
 
-This is a wish list from all members of the class (alphabetical
-order, last name first, comma, then first name). Here is an example.
+This is a wish list from all members of the class (alphabetical order, last name first, comma, then first name). Here is an example.
 
-+ Chen, Kun
-    - Introduce practical data science tools to undergraduates.
-    - Pass real-world data science project experience to students.
-    - Teach student to think critically and statistically.
+-   Chen, Kun
+    -   Introduce practical data science tools to undergraduates.
+    -   Pass real-world data science project experience to students.
+    -   Teach student to think critically and statistically.
 
-Add yours through a pull request; note the syntax of nested list in
-Markdown. 
-
+Add yours through a pull request; note the syntax of nested list in Markdown.
 
 ### Students in STAT 3255
-+ Last name, First name
-    - Wish 1
-    - Wish 2
-    - Wish 3
-+ Bennett, Emily
-+ Budnick, Kayleigh
-+ Burns, Kyle
-+ Carbone, Vincenzo
-+ Davis, Reid
-+ Desai, Alysha
-+ Faisal, Zaynab
-+ Ibrahim, Omar
-+ Jackson, Brooke
-+ Jiang, Ryan
-+ Jones, Cody
-+ Kwak, Jinha
-+ Lacasse, Violet
-+ Landolphi, Joseph
-+ Lawrence, Claire
-+ Liu, Kevin
-+ Mccabe, Scott
-+ Mohan, Harish
-+ Nash, Jayden
-+ Orsini, Ronnie
-+ Patel, Reesha
-    - Learn about the process between identifying a problem/question and using data science to find solutitons/get insights.
-    - Improve my knowledge of packages in Python (scikit-learn, seaborn).
-    - Apply what I've learned in my classes to actual, real-world datasets.
-+ Patel, Vrajkumar
-+ Sawyer, Riley
-+ Sudarsanam, Shreya
-+ Tessman, Sean
-+ Trnka, Jonathan
-+ Watanabe, Sara
-+ Wolven, Alexander
-+ Zhang, Jianan
-+ Zharyy, Sofia
 
+-   Last name, First name
+    -   Wish 1
+    -   Wish 2
+    -   Wish 3
+-   Bennett, Emily
+-   Budnick, Kayleigh
+-   Burns, Kyle
+-   Carbone, Vincenzo
+-   Davis, Reid
+-   Desai, Alysha
+-   Faisal, Zaynab
+-   Ibrahim, Omar
+-   Jackson, Brooke
+-   Jiang, Ryan
+-   Jones, Cody
+-   Kwak, Jinha
+-   Lacasse, Violet
+-   Landolphi, Joseph
+-   Lawrence, Claire
+-   Liu, Kevin
+-   Mccabe, Scott
+-   Mohan, Harish
+-   Nash, Jayden
+-   Orsini, Ronnie
+-   Patel, Reesha
+    -   Learn about the process between identifying a problem/question and using data science to find solutitons/get insights.
+    -   Improve my knowledge of packages in Python (scikit-learn, seaborn).
+    -   Apply what I've learned in my classes to actual, real-world datasets.
+-   Patel, Vrajkumar
+-   Sawyer, Riley
+-   Sudarsanam, Shreya
+-   Tessman, Sean
+-   Trnka, Jonathan
+-   Watanabe, Sara
+    -   To apply data science concepts to real-world problems
+    -   To familiarize myself with Python
+    -   To learn how to manage projects through GitHub and VS Code
+-   Wolven, Alexander
+-   Zhang, Jianan
+-   Zharyy, Sofia
 
 ### Students in STAT 5255
-+ Last name, First name
-    - Wish 1
-    - Wish 2
-    - Wish 3
+
+-   Last name, First name
+    -   Wish 1
+    -   Wish 2
+    -   Wish 3
 
 ## Course Logistics
-
 
 ### Topic Presentation Orders
 
 The topic presentation order is set up in class.
+
 ```{python}
 #| eval: true
 
@@ -194,240 +154,191 @@ random.sample(presenters, len(presenters))
 ## random.shuffle(presenters) # This would shuffle the list in place
 ```
 
+Switching slots is allowed as long as you find someone who is willing to switch with you. In this case, make a pull request to switch the order and let me know.
 
-Switching slots is allowed as long as you find someone who
-is willing to switch with you. In this case, make a pull request
-to switch the order and let me know.
-
-You are welcome to choose a topic that you are interested the 
-most, subject to some order restrictions. For example, decision
-tree should be presented before random forest or extreme gradient
-boosting. This justifies certain requests for switching slots.
+You are welcome to choose a topic that you are interested the most, subject to some order restrictions. For example, decision tree should be presented before random forest or extreme gradient boosting. This justifies certain requests for switching slots.
 
 ### Presentation Task Board
 
-Talk to the professor about your topics at least one week prior to
-your scheduled presentation. Here are some example tasks:
+Talk to the professor about your topics at least one week prior to your scheduled presentation. Here are some example tasks:
 
-+ Markdown jumpstart 
-<!-- + Effective data science communication -->
-+ Import/Export data
-+ Data manipulation with `Pandas`
-+ Accessing US census data
-<!-- + Arrow as a cross-platform data format -->
-+ Database operation with Structured Query Language (SQL)
-+ Grammar of graphics
-+ Visualizing spatial data
-+ Spatial data with `GeoPandas`
-+ Visualize spatial data in a Google map with `gmplot`
-+ Animation
-+ Statistical analysis for proportions and rates
-+ False discovery rate control 
-+ Principal component analysis
-+ Multi-dimensional scaling
-+ t-SNE
-+ Uniform manifold approximation and projection (UMAP)
-+ Autoencoders
-+ K-means clustering
-+ Finite mixture model 
-+ Least absolute shrinkage and selection operator (Lasso) 
-+ Logistic regression and its extensions
-+ Support vector machine
-+ Random forest
-+ Gradient boosting machine
-<!-- + Naive Bayes -->
-+ Neural networks basics
-+ MLP/ANN/CNN/RNN/LSTM
-+ Deep learning
-+ Natural leanguage processing
-+ Large language models (LLM)
-+ LLM agents
-<!-- + TensorFlow -->
-+ Automatic differentiation
-+ Reinforcement learning
-+ Developing a Python package
-+ Web scraping
-<!-- + Personal webpage on GitHub
-+ Making presentations with Quarto  -->
-
-
+-   Markdown jumpstart <!-- + Effective data science communication -->
+-   Import/Export data
+-   Data manipulation with `Pandas`
+-   Accessing US census data <!-- + Arrow as a cross-platform data format -->
+-   Database operation with Structured Query Language (SQL)
+-   Grammar of graphics
+-   Visualizing spatial data
+-   Spatial data with `GeoPandas`
+-   Visualize spatial data in a Google map with `gmplot`
+-   Animation
+-   Statistical analysis for proportions and rates
+-   False discovery rate control
+-   Principal component analysis
+-   Multi-dimensional scaling
+-   t-SNE
+-   Uniform manifold approximation and projection (UMAP)
+-   Autoencoders
+-   K-means clustering
+-   Finite mixture model
+-   Least absolute shrinkage and selection operator (Lasso)
+-   Logistic regression and its extensions
+-   Support vector machine
+-   Random forest
+-   Gradient boosting machine <!-- + Naive Bayes -->
+-   Neural networks basics
+-   MLP/ANN/CNN/RNN/LSTM
+-   Deep learning
+-   Natural leanguage processing
+-   Large language models (LLM)
+-   LLM agents <!-- + TensorFlow -->
+-   Automatic differentiation
+-   Reinforcement learning
+-   Developing a Python package
+-   Web scraping <!-- + Personal webpage on GitHub
+    + Making presentations with Quarto  -->
 
 ### Topic Presentation Schedule
 
 The topic presentation is 20 points. It includes:
 
-+ Topic selection consultation in advance (4 points).
-+ Delivering the presentation in class (8 points). Your presentation should be about 20 minutes. 
-+ Contribute to the class notes within two weeks following the
-  presentation (8 points).
-  
+-   Topic selection consultation in advance (4 points).
+-   Delivering the presentation in class (8 points). Your presentation should be about 20 minutes.
+-   Contribute to the class notes within two weeks following the presentation (8 points).
 
 Please use the following table to sign up.
 
-   Date  | Presenter    | Topic
-  ----- | ------------- | ------------------------- 
-   02/16 | Last, First  | Selected topic
-   02/16 | Last, First  | Selected topic   
-   02/18 |  |
-   02/18 |  |   
-   02/23 |  |   
-   02/23 |  |  
-   02/25 |  |
-   02/25 |  |   
-   03/02 |  | 
-   03/02 |  |    
-   03/04 |  | 
-   03/04 |  | 
-   03/09 |  | 
-   03/09 |  | 
-   03/11 |  |
-   03/11 |  |
-   03/23 |  |
-   03/23 |  |
-   03/25 |  |
-   03/25 |  | 
-   03/30 |  |
-   03/30 |  |
-   04/01 |  |
-   04/01 |  |   
-   04/06 |  |
-   04/06 |  |
-   04/08 |  |
-   04/08 |  |
-   04/13 |  |   
-   04/13 |  |  
+| Date  | Presenter   | Topic          |
+|-------|-------------|----------------|
+| 02/16 | Last, First | Selected topic |
+| 02/16 | Last, First | Selected topic |
+| 02/18 |             |                |
+| 02/18 |             |                |
+| 02/23 |             |                |
+| 02/23 |             |                |
+| 02/25 |             |                |
+| 02/25 |             |                |
+| 03/02 |             |                |
+| 03/02 |             |                |
+| 03/04 |             |                |
+| 03/04 |             |                |
+| 03/09 |             |                |
+| 03/09 |             |                |
+| 03/11 |             |                |
+| 03/11 |             |                |
+| 03/23 |             |                |
+| 03/23 |             |                |
+| 03/25 |             |                |
+| 03/25 |             |                |
+| 03/30 |             |                |
+| 03/30 |             |                |
+| 04/01 |             |                |
+| 04/01 |             |                |
+| 04/06 |             |                |
+| 04/06 |             |                |
+| 04/08 |             |                |
+| 04/08 |             |                |
+| 04/13 |             |                |
+| 04/13 |             |                |
 
 ### Final Project Presentation Schedule
 
-We use the same order as the topic presentation for undergraduate
-final presentation. An [introduction on how to use Quarto to prepare
-presentation slides](https://github.com/statds/ids-s26/blob/main/templates/presentation.qmd)
-is available under the `templates` directory in
-the classnotes source tree, thank to Zachary Blanchard, which can
-be used as a template to start with.
+We use the same order as the topic presentation for undergraduate final presentation. An [introduction on how to use Quarto to prepare presentation slides](https://github.com/statds/ids-s26/blob/main/templates/presentation.qmd) is available under the `templates` directory in the classnotes source tree, thank to Zachary Blanchard, which can be used as a template to start with.
 
-   Date  | Presenter
-  ------ | ---------------------- 
-   04/15 |  
-   04/20 |  
-   04/22 |  
-   04/27 |    
-   04/29 | 
-   Scheduled Final Exam Time| 
+| Date                      | Presenter |
+|---------------------------|-----------|
+| 04/15                     |           |
+| 04/20                     |           |
+| 04/22                     |           |
+| 04/27                     |           |
+| 04/29                     |           |
+| Scheduled Final Exam Time |           |
 
-  
 ### Contributing to the Class Notes
 
-Contribution to the class notes is through a `pull request'.
+Contribution to the class notes is through a \`pull request'.
 
-+ Synchronize your local repo of the classnotes with my classnotes
-  repo.
-+ Start a new branch and switch to the new branch.
-+ On the new branch, add a `qmd` file for your presentation
-+ If using Python, create and activate a virtual environment with
-  `requirements.txt` 
-+ Work on your qmd file, test with `quarto render`.
-+ When satisfied, commit and make a pull request with your quarto
-  files and an updated `requirements.txt`.
+-   Synchronize your local repo of the classnotes with my classnotes repo.
+-   Start a new branch and switch to the new branch.
+-   On the new branch, add a `qmd` file for your presentation
+-   If using Python, create and activate a virtual environment with `requirements.txt`
+-   Work on your qmd file, test with `quarto render`.
+-   When satisfied, commit and make a pull request with your quarto files and an updated `requirements.txt`.
 
-
-I have added a template file `_mysection.qmd` as an example, 
-which is includeed in `index.qmd`. 
-See also how `_ethics.qmd` is 
-included into `05-ethics_communication.qmd` for example.
-
+I have added a template file `_mysection.qmd` as an example, which is includeed in `index.qmd`. See also how `_ethics.qmd` is included into `05-ethics_communication.qmd` for example.
 
 Here is a checklist to help smooth the process.
 
-+ Get approval for your topic at least one week in advance. Otherwise
-  you loose points.
-+ No plagiarism. Under no circumstances should you copy someone else's
-  notes and use it for your contribution.
-+ No yaml header. The whole souce tree is controlled by `_quarto.yml`. 
-+ The top heading level of your contribuion is section (`##`). See
-  existing sections for examples.
-+ Keep line width under 80 characters.
-+ Include a subsection (`###`) on further readings.
-+ Avoide dependence on external files (e.g., data, images,
-  etc.). Using example datasets that are already in the `data` folder
-  or that come with Python packages.
-+ No usage of copyrighted images.
-+ When citing article/book references, use BibTeX (learn how from our
-  sources).
-+ Test on your own computer before making a pull request.
-+ Send me your presentation two days in advance if you want feedbacks.
+-   Get approval for your topic at least one week in advance. Otherwise you loose points.
+-   No plagiarism. Under no circumstances should you copy someone else's notes and use it for your contribution.
+-   No yaml header. The whole souce tree is controlled by `_quarto.yml`.
+-   The top heading level of your contribuion is section (`##`). See existing sections for examples.
+-   Keep line width under 80 characters.
+-   Include a subsection (`###`) on further readings.
+-   Avoide dependence on external files (e.g., data, images, etc.). Using example datasets that are already in the `data` folder or that come with Python packages.
+-   No usage of copyrighted images.
+-   When citing article/book references, use BibTeX (learn how from our sources).
+-   Test on your own computer before making a pull request.
+-   Send me your presentation two days in advance if you want feedbacks.
 
+For more detailed style guidance, please see notes on [statistical writing](https://ohyoo.github.io/UConn-STAT-Writing/).
 
-For more detailed style guidance, please see notes on [statistical
-writing](https://ohyoo.github.io/UConn-STAT-Writing/).
+Plagiarism is to be prevented. Remember that these class notes are publicly available online with your names attached. Here are some resources on [how to avoid plagiarism](https://usingsources.fas.harvard.edu/how-avoid-plagiarism).
 
-Plagiarism is to be prevented. Remember that these class notes are publicly
-available online with your names attached.  Here are some resources on [how to
-avoid plagiarism](https://usingsources.fas.harvard.edu/how-avoid-plagiarism). 
-
+```{=html}
 <!-- In particular, in our course, one convenient way to avoid plagiarism is to use
 our own data (e.g., NYC Open Data). Combined with your own explanation of the
 code chunks, it would be hard to plagiarize. -->
-
+```
 
 ### Homework Logistics
 
-
 #### Workflow of Submitting Homework Assisngment
 
-+ Click the GitHub classroom assignment link in HuskCT announcement.
-+ Accept the assignment and follow the instructions to an empty
-  repository.
-+ Make a clone of the repo at an appropriate folder on your own
-  computer with `git clone`.
-+ Go to this folder, add your qmd source, work on it, and group your
-  changes to different commits.
-+ Push your work to your GitHub repo with `git push`.
-+ Create a new release and put the generated pdf file in it for ease
-  of grading.
-
+-   Click the GitHub classroom assignment link in HuskCT announcement.
+-   Accept the assignment and follow the instructions to an empty repository.
+-   Make a clone of the repo at an appropriate folder on your own computer with `git clone`.
+-   Go to this folder, add your qmd source, work on it, and group your changes to different commits.
+-   Push your work to your GitHub repo with `git push`.
+-   Create a new release and put the generated pdf file in it for ease of grading.
 
 #### Requirements
-+ Use the repo from Git Classroom to submit your work. See Chapter @sec-git.
-    - Keep the repo clean (no tracking generated files).
-        - Never "Upload" your files; use the git command lines.
-        - Make commit message informative (think about the readers).
-    - Make at least 10 commits and form a style of frequent small commits.
-+ Track `quarto` sources only in your repo. See Chapter @sec-quarto.
-+ For the convenience of grading, add your standalone html or pdf
-  output to a release in your repo.
-+ For standalone pdf output, you will need to have
-  [LaTeX](https://www.latex-project.org/get/) installed.
+
+-   Use the repo from Git Classroom to submit your work. See Chapter @sec-git.
+    -   Keep the repo clean (no tracking generated files).
+        -   Never "Upload" your files; use the git command lines.
+        -   Make commit message informative (think about the readers).
+    -   Make at least 10 commits and form a style of frequent small commits.
+-   Track `quarto` sources only in your repo. See Chapter @sec-quarto.
+-   For the convenience of grading, add your standalone html or pdf output to a release in your repo.
+-   For standalone pdf output, you will need to have [LaTeX](https://www.latex-project.org/get/) installed.
 
 ### Quizzes about Syllabus
 
-+ Do I accept late homework?
-+ Could you list a few examples of email etiquette?
-+ How would you lose style points?
-+ Would you use CLI and GUI?
-<!-- + How many students will present at 2025 NYC ODW and when will the -->
-<!--   presentations be? -->
-+ What's the first date on which you have to complete something about
-  your final project?
-+ Can you use AI for any task in this course? 
-+ If you need a reference letter, how could you help me to help you?
+-   Do I accept late homework?
+-   Could you list a few examples of email etiquette?
+-   How would you lose style points?
+-   Would you use CLI and GUI? <!-- + How many students will present at 2025 NYC ODW and when will the --> <!--   presentations be? -->
+-   What's the first date on which you have to complete something about your final project?
+-   Can you use AI for any task in this course?
+-   If you need a reference letter, how could you help me to help you?
 
 ## Practical Tips
 
 ### Data analysis
 
-+ Use an IDE so you can play with the data interactively
-+ Collect codes that have tested out into a script for batch processing
-+ During data cleaning, keep in mind how each variable will be used later
-+ No keeping large data files in a repo; assume a reasonable location with your collaborators
+-   Use an IDE so you can play with the data interactively
+-   Collect codes that have tested out into a script for batch processing
+-   During data cleaning, keep in mind how each variable will be used later
+-   No keeping large data files in a repo; assume a reasonable location with your collaborators
 
 ### Presentation
 
-+ Don't forget to introduce yourself if there is no moderator.
-+ Highlight your research questions and results, not code.
-+ Give an outline, carry it out, and summarize.
-+ Use your own examples to reduce the risk of plagiarism.
-
+-   Don't forget to introduce yourself if there is no moderator.
+-   Highlight your research questions and results, not code.
+-   Give an outline, carry it out, and summarize.
+-   Use your own examples to reduce the risk of plagiarism.
 
 <!-- Topic presentation template -->
+
 {{< include templates/_mysection.qmd >}}
