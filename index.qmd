@@ -130,7 +130,7 @@ Markdown.
 + Bennett, Emily
     - Become more experienced and confident with Python
     - Gain experience with real world data science problems
-    - Develop better understanding in GitHub and VSCode
+    - Develop better understanding in GitHub and VSCode to help my career track
 + Budnick, Kayleigh
 + Burns, Kyle
 + Carbone, Vincenzo
