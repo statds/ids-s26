@@ -129,8 +129,8 @@ Markdown.
     - Wish 3
 + Bennett, Emily
     - Become more experienced and confident with Python
-    - Gain experience with real world data science problems
-    - Develop better understanding in GitHub and VSCode to help my career track
+    - Gain experience with data science problems and relate them to the real world
+    - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
 + Burns, Kyle
 + Carbone, Vincenzo
