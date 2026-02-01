@@ -272,7 +272,7 @@ Please use the following table to sign up.
    02/16 | Last, First  | Selected topic
    02/16 | Last, First  | Selected topic   
    02/18 |  |
-   02/18 |  |   
+   02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
    02/23 |  |   
    02/23 |  |  
    02/25 |  |
