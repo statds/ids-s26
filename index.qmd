@@ -154,6 +154,9 @@ Markdown.
 + Patel, Vrajkumar
 + Sawyer, Riley
 + Sudarsanam, Shreya
+    - Improve my understanding of how to choose which programming language to use (i.e. R, Python, and SQL), and how to evaluate the strengths and weaknesses of popular languages in each step of the data analysis pipeline.
+    - Become more familiar with machine learning in research and industry based contexts.
+    - Learn/Demystify the process of completing a data science project from start to finish. This may involve mining, cleaning, and visualizing data and creating machine learning models to help make valuable inferences. 
 + Tessman, Sean
 + Trnka, Jonathan
 + Watanabe, Sara
