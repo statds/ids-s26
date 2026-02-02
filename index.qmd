@@ -146,6 +146,9 @@ Add yours through a pull request; note the syntax of nested list in Markdown.
     - I want to apply what I know to real world data sets from beginning 
     to end.
 + Watanabe, Sara
+    - To apply data science concepts to real-world problems
+    - To familiarize myself with Python
+    - To learn how to manage projects through GitHub and VS Code
 + Wolven, Alexander
 + Zhang, Jianan
     - Learn how to use Git and GitHub effectively for collaborative data 
