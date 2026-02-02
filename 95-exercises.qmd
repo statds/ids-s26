@@ -10,8 +10,7 @@ familiar with them through the following tasks.
 **Your goal**: produce a short, beginner-friendly *step-by-step manual* 
 for yourself (and future students) that documents what you did, what 
 went wrong, and how you fixed it. Please use the 
-[`templates/hw.qmd`](https://github.com/statds/ids-s26/blob/main/
-templates/hw.qmd) as your starting point. Use the command line 
+[`templates/hw.qmd`](https://github.com/statds/ids-s26/blob/main/templates/hw.qmd) as your starting point. Use the command line 
 interface.
 
 **Work in your GitHub Classroom repository** (the private repo created 

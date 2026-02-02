@@ -128,6 +128,10 @@ Markdown.
     - Wish 2
     - Wish 3
 + Bennett, Emily
+    - Become more experienced and confident with Python
+    - Gain experience with data science problems and relate them to the 
+    real world
+    - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
 + Burns, Kyle
 + Carbone, Vincenzo
@@ -143,25 +147,55 @@ Markdown.
 + Jones, Cody
 + Kwak, Jinha
 + Lacasse, Violet
+    - Learn how to find/grab/handle datasets.
+    - Become familiar with Git and how it can be used to collaborate.
+    - Learn more about data science and how it can help in my data analysis (domain: earth data science) major.
 + Landolphi, Joseph
 + Lawrence, Claire
 + Liu, Kevin
+    - Use git better in a collobrative environment and more complex commands
+    - Apply data analysis to translate data to real-world results
+    - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
 + Nash, Jayden
 + Orsini, Ronnie
 + Patel, Reesha
-    - Learn about the process between identifying a problem/question and using data science to find solutitons/get insights.
+    - Learn about the process between identifying a problem/question and 
+    using data science to find solutitons/get insights.
     - Improve my knowledge of packages in Python (scikit-learn, seaborn).
-    - Apply what I've learned in my classes to actual, real-world datasets.
+    - Apply what I've learned in my classes to actual, real-world 
+    datasets.
 + Patel, Vrajkumar
 + Sawyer, Riley
 + Sudarsanam, Shreya
+    - Improve my understanding of how to choose which programming 
+    language to use (i.e. R, Python, and SQL), and how to evaluate the 
+    strengths and weaknesses of popular languages in each step of the 
+    data analysis pipeline.
+    - Become more familiar with machine learning in research and industry 
+    based contexts.
+    - Learn/Demystify the process of completing a data science project 
+    from start to finish. This may involve mining, cleaning, and 
+    visualizing data and creating machine learning models to help make 
+    valuable inferences. 
 + Tessman, Sean
+    - Learn how data science applies to sports analytics and performance.
+    - Build a strong reproducible workflow with Git, Quarto, and Python.
+    - Gain experience with real-world datasets.
 + Trnka, Jonathan
+    - I want to get more comfortable using github, linux commands, and 
+    more.
+    - Learn more about ML and AI modeling. 
+    - I want to apply what I know to real world data sets from beginning 
+    to end.
 + Watanabe, Sara
 + Wolven, Alexander
 + Zhang, Jianan
+    - Learn how to use Git and GitHub effectively for collaborative data 
+    science projects.
+    - Improve Python data analysis skills (NumPy, Pandas, Matplotlib) 
+    through applied projects.
 + Zharyy, Sofia
 
 
@@ -190,12 +224,13 @@ print(f"Number of presenters: {len(presenters)}")
 
 import random
 ## seed jointly set by the class
-seed_s26 = 723
+seed_s26 = 723 + 2026 + 125 
 print(f"Random seed: {seed_s26}")
 random.seed(seed_s26)
 random.sample(presenters, len(presenters))
 ## random.shuffle(presenters) # This would shuffle the list in place
 ```
+
 
 Switching slots is allowed as long as you find someone who
 is willing to switch with you. In this case, make a pull request
@@ -271,7 +306,7 @@ Please use the following table to sign up.
    02/16 | Last, First  | Selected topic
    02/16 | Last, First  | Selected topic   
    02/18 |  |
-   02/18 |  |   
+   02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
    02/23 |  |   
    02/23 | Faisal, Zaynab |  Import/Export Data
    02/25 |  |
@@ -303,7 +338,7 @@ Please use the following table to sign up.
 
 We use the same order as the topic presentation for undergraduate
 final presentation. An [introduction on how to use Quarto to prepare
-presentation slides](https://github.com/statds/ids-f24/blob/main/templates/presentation.qmd)
+presentation slides](https://github.com/statds/ids-s26/blob/main/templates/presentation.qmd)
 is available under the `templates` directory in
 the classnotes source tree, thank to Zachary Blanchard, which can
 be used as a template to start with.
@@ -333,9 +368,10 @@ Contribution to the class notes is through a `pull request'.
   files and an updated `requirements.txt`.
 
 
-I have added a template file `_mysection.qmd` as an example, which is
-`include`ed in `index.qmd`. See also how `_ethics.qmd` is included
-into `05-ethics_communication.qmd` for example.
+I have added a template file `_mysection.qmd` as an example, 
+which is includeed in `index.qmd`. 
+See also how `_ethics.qmd` is 
+included into `05-ethics_communication.qmd` for example.
 
 
 Here is a checklist to help smooth the process.
