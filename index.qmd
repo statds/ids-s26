@@ -160,6 +160,9 @@ Markdown.
 + Mohan, Harish
 + Nash, Jayden
 + Orsini, Ronnie
+    - Learn how to apply data science techniques to real world datasets
+    - Improve collaboration skills using Git and GitHub
+    - Better understand Quarto for data analysis
 + Patel, Reesha
     - Learn about the process between identifying a problem/question and 
     using data science to find solutitons/get insights.
