@@ -190,6 +190,9 @@ Markdown.
     - I want to apply what I know to real world data sets from beginning 
     to end.
 + Watanabe, Sara
+    - Learn how to effectively use GitHub for collaboration on data
+    - Learn how to apply data science techniques to real world problems
+    - Improve my Python programming skills for data analysis
 + Wolven, Alexander
 + Zhang, Jianan
     - Learn how to use Git and GitHub effectively for collaborative data 
