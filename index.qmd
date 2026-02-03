@@ -136,6 +136,10 @@ Markdown.
 + Burns, Kyle
 + Carbone, Vincenzo
 + Davis, Reid
+    - Focus on real world data and modeling to solve problems
+    - Work start to finish on a full fledged data science project 
+    - Improve my knowledge of Python, Git, Quarto and working in repositories
+
 + Desai, Alysha
 + Faisal, Zaynab
     - Gain a better understanding of data science and real life applications
