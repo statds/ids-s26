@@ -137,6 +137,9 @@ Markdown.
 + Carbone, Vincenzo
 + Davis, Reid
 + Desai, Alysha
+    - Gain more hands-on experience cleaning, organizing, and breaking apart real-world datasets to better understand how raw data is transformed into usable insights.
+    - Improve my skills in preparing presentations of my findings and become more confident explaining more complex topics to an audience.
+    - Become more familiar with version control tools like Git and GitHub
 + Faisal, Zaynab
     - Gain a better understanding of data science and real life applications
     - Become more comfortable using Git/GitHub
