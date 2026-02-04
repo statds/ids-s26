@@ -153,6 +153,10 @@ Markdown.
 + Ibrahim, Omar
 + Jackson, Brooke
 + Jiang, Ryan
+    - Enhance my Python and coding abilities
+    - Introduce myself to the world of Data Science
+    - Becoming more comfortable with being able to present findings on specific
+      data and explaining findings more than just the words on the slides.
 + Jones, Cody
 + Kwak, Jinha
 + Lacasse, Violet
