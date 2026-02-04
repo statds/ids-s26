@@ -137,7 +137,7 @@ Markdown.
 + Carbone, Vincenzo
     - Connect data science to the world of sports analytics.
     - Improve my literacy with VS code, quarto, and git.
-    - Have an in depth understanding of python. 
+    - Have an in depth understanding of python code. 
 + Davis, Reid
 + Desai, Alysha
 + Faisal, Zaynab
