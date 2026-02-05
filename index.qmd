@@ -207,6 +207,10 @@ Markdown.
     - Learn how to apply data science techniques to real world problems
     - Improve my Python programming skills for data analysis
 + Wolven, Alexander
+    - Build hirable skills in Python, Quarto, and Git through projects. 
+    - Learn about machine learning and AI modeling. 
+    - Gain experience working with real datasets from cleaning to analysis 
+    and clear presentation.
 + Zhang, Jianan
     - Learn how to use Git and GitHub effectively for collaborative data 
     science projects.
