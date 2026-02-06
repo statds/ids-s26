@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; Exercises – Introduction to Data Science</title>
+<title>6&nbsp; Homework – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -118,7 +147,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./95-exercises.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercises</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./95-exercises.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./95-exercises.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercises</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -201,7 +230,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#homework-1" id="toc-homework-1" class="nav-link active" data-scroll-target="#homework-1"><span class="header-section-number">6.1</span> Homework 1</a></li>
+  <li><a href="#homework-1-due-0206" id="toc-homework-1-due-0206" class="nav-link active" data-scroll-target="#homework-1-due-0206"><span class="header-section-number">6.1</span> Homework 1 (due 02/06)</a></li>
+  <li><a href="#homework-2-due-0213" id="toc-homework-2-due-0213" class="nav-link" data-scroll-target="#homework-2-due-0213"><span class="header-section-number">6.2</span> Homework 2 (due 02/13)</a>
+  <ul class="collapse">
+  <li><a href="#part-1.-contributing-to-the-class-notes" id="toc-part-1.-contributing-to-the-class-notes" class="nav-link" data-scroll-target="#part-1.-contributing-to-the-class-notes"><span class="header-section-number">6.2.1</span> Part 1. <strong>Contributing to the Class Notes</strong></a></li>
+  <li><a href="#part-2.-generalized-fibonacci-like-recurrence" id="toc-part-2.-generalized-fibonacci-like-recurrence" class="nav-link" data-scroll-target="#part-2.-generalized-fibonacci-like-recurrence"><span class="header-section-number">6.2.2</span> Part 2. Generalized “Fibonacci-like” recurrence</a></li>
+  <li><a href="#part-c.-fast-method-using-matrices" id="toc-part-c.-fast-method-using-matrices" class="nav-link" data-scroll-target="#part-c.-fast-method-using-matrices"><span class="header-section-number">6.2.3</span> Part C. Fast method using matrices</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -210,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-ex" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Exercises</span></span></h1>
+<h1 class="title"><span id="sec-ex" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework</span></span></h1>
 </div>
 
 
@@ -227,8 +262,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="homework-1" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="homework-1"><span class="header-section-number">6.1</span> Homework 1</h2>
+<section id="homework-1-due-0206" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="homework-1-due-0206"><span class="header-section-number">6.1</span> Homework 1 (due 02/06)</h2>
 <p><strong>Quarto and Git setup</strong>: Quarto and Git are two important tools for data science: Quarto for communicating results (reports/websites/books) and Git/GitHub for version control and collaboration. This homework is about getting familiar with them through the following tasks.</p>
 <p><strong>Your goal</strong>: produce a short, beginner-friendly <em>step-by-step manual</em> for yourself (and future students) that documents what you did, what went wrong, and how you fixed it. Please use the <a href="https://github.com/statds/ids-s26/blob/main/templates/hw.qmd"><code>templates/hw.qmd</code></a> as your starting point. Use the command line interface.</p>
 <p><strong>Work in your GitHub Classroom repository</strong> (the private repo created for you when you accept the assignment link). Use the command line interface unless a step explicitly requires a browser (e.g., adding an SSH key).</p>
@@ -315,7 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Choose one tool (e.g., VS Code, Jupyter, Positron, Emacs) and follow the Quarto documentation to reproduce the example plot.</li>
 <li>Minimum requirement: include the plot in your <code>hw.qmd</code> using a Python code cell that produces a polar line plot with Matplotlib. For example:</li>
 </ul>
-<div id="d5483a3d" class="cell" data-execution_count="1">
+<div id="5d838fdb" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -335,8 +370,149 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Render the homework into a HTML. Print the HTML file to a pdf file and put the file into a release in your GitHub repo.</p>
+</section>
+<section id="homework-2-due-0213" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="homework-2-due-0213"><span class="header-section-number">6.2</span> Homework 2 (due 02/13)</h2>
+<section id="part-1.-contributing-to-the-class-notes" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="part-1.-contributing-to-the-class-notes"><span class="header-section-number">6.2.1</span> Part 1. <strong>Contributing to the Class Notes</strong></h3>
+<p>This part of the homework is to make sure that you know how to contribute to our classnotes by making pull request and to complete updating of your wishlist and presentation topic.</p>
+<p>To contribute to the classnote repository, you need to have a working copy of the sources on your computer. Document the following steps in a <code>qmd</code> file in the form of a step-by-step manual, as if you are explaining them to someone who wants to contribute too. Make at least 5 commits for this task, each with an informative message.</p>
+<ol type="1">
+<li>Create a fork of the notes repo with your own GitHub account.</li>
+<li>Clone it to an appropriate folder on your computer.</li>
+<li>Render the classnotes on your computer. If you encounter difficulties, try to document and resolve the issues (Quarto/Python installation, environment setup/activation, etc.).<br>
+</li>
+<li>Make a new branch (and name it appropriately) to experiment with your changes.</li>
+<li>Checkout your branch and add your wishes to the wish list; check the rendered notes to make sure your changes look good.</li>
+<li>Commit with an informative message; and push the changes to your GitHub account.</li>
+<li>Make a pull request to class notes repo from your fork at GitHub. Make sure you have clear messages to document the changes</li>
+<li>Make another branch and repeat the process to update your presentation topic.</li>
+</ol>
+<p>The grading will be based on whether you can successfully make pull requests to update your wishlist and presentation topic on time.</p>
+</section>
+<section id="part-2.-generalized-fibonacci-like-recurrence" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="part-2.-generalized-fibonacci-like-recurrence"><span class="header-section-number">6.2.2</span> Part 2. Generalized “Fibonacci-like” recurrence</h3>
+<p>Define a sequence <span class="math inline">\(\{a_n\}\)</span> by</p>
+<ul>
+<li><span class="math inline">\(a_1 = 1, a_2 = 1\)</span></li>
+<li><span class="math inline">\(a_n = c_1 a_{n-1} + c_2 a_{n-2}\)</span> for <span class="math inline">\(n \ge 3\)</span></li>
+</ul>
+<p>where <span class="math inline">\(c_1, c_2\)</span> are integers. Note that Fibonacci sequence corresponds to <span class="math inline">\(c_1 = 1, c_2 = 1\)</span>.</p>
+<ol type="1">
+<li><p>Based on the Fibonacci example in the notes, implement four functions:</p>
+<ul>
+<li><code>seq_rs(n, c1, c2)</code> (naive recursion)</li>
+<li><code>seq_dm(n, c1, c2)</code> (memoization)</li>
+<li><code>seq_dbu(n, c1, c2)</code> (bottom-up with list)</li>
+<li><code>seq_dbu_m(n, c1, c2)</code> (bottom-up constant memory)</li>
+</ul></li>
+<li><p>(optional) Add input checks and raise <code>ValueError</code> with a helpful message if:</p>
+<ul>
+<li><code>n</code> is not an integer or <code>n &lt; 1</code></li>
+<li><code>c1</code> or <code>c2</code> is not an integer</li>
+</ul></li>
+<li><p>Benchmark all four methods for:</p>
+<ul>
+<li><code>n = 10, 20, 40</code></li>
+<li>coefficients <code>(c1, c2) = (1, 1)</code> and <code>(2, 1)</code></li>
+<li>Use <code>%timeit</code> or <code>timeit</code> and present results in a small table.</li>
+</ul></li>
+<li><p>Briefly explain (2–5 sentences):</p>
+<ul>
+<li>Why recursion slows dramatically</li>
+<li>How memoization changes time complexity</li>
+<li>Memory usage differences between the bottom-up list vs constant-memory version</li>
+</ul></li>
+</ol>
+</section>
+<section id="part-c.-fast-method-using-matrices" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="part-c.-fast-method-using-matrices"><span class="header-section-number">6.2.3</span> Part C. Fast method using matrices</h3>
+<p>For the recurrence <span class="math inline">\(a_n = c_1 a_{n-1} + c_2 a_{n-2}\)</span>, define the matrix:</p>
+<p><span class="math display">\[M = \begin{pmatrix}
+c_1 &amp; c_2 \\
+1 &amp; 0
+\end{pmatrix}\]</span></p>
+<p>Then, one can show that:</p>
+<p><span class="math display">\[\begin{pmatrix}
+a_n \\
+a_{n-1}
+\end{pmatrix}
+=
+M^{n-2}
+\begin{pmatrix}
+a_2 \\
+a_1
+\end{pmatrix}
+\quad \text{for } n \ge 2\]</span></p>
+<p>It turns out this gives a very efficient way for computing the sequence (in fact the most efficient way with complexity O(log n)).</p>
+<ol type="1">
+<li>Implement <code>seq_log(n, c1, c2)</code> that computes (a_n). You may use the matrix functions provided below.</li>
+<li>Benchmark <code>seq_dbu_m</code> vs <code>seq_log</code> for large <code>n</code> (choose values like <code>10**3, 10**4</code> or as large as your machine can handle).</li>
+<li>In a few sentences, write down the biggest take-home message you learn from using five different ways of solving the same problem.</li>
+</ol>
+<hr>
+<p>Render your homework into a HTML. Print the HTML file to a pdf file and put them together with source files (<code>.qmd</code>) into a release in your GitHub repo.</p>
+<p><strong>Example code: 2×2 matrices + operations</strong></p>
+<p>Here are some functions of matrices that could be useful to you. You may direct use these defined functions in implementing <code>seq_log(n, c1, c2)</code>.</p>
+<div id="e722d96a" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A 2x2 matrix is represented as:</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[a, b],</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  [c, d]]</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mat2_mul(A, B):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Multiply two 2x2 matrices A and B."""</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            A[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> B[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> A[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">*</span> B[<span class="dv">1</span>][<span class="dv">0</span>],</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            A[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> B[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">+</span> A[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">*</span> B[<span class="dv">1</span>][<span class="dv">1</span>],</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        [</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>            A[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">*</span> B[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">+</span> A[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">*</span> B[<span class="dv">1</span>][<span class="dv">0</span>],</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            A[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">*</span> B[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">+</span> A[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">*</span> B[<span class="dv">1</span>][<span class="dv">1</span>],</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        ],</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mat2_vec_mul(A, v):</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Multiply 2x2 matrix A by 2-vector v = [x, y]."""</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        A[<span class="dv">0</span>][<span class="dv">0</span>] <span class="op">*</span> v[<span class="dv">0</span>] <span class="op">+</span> A[<span class="dv">0</span>][<span class="dv">1</span>] <span class="op">*</span> v[<span class="dv">1</span>],</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        A[<span class="dv">1</span>][<span class="dv">0</span>] <span class="op">*</span> v[<span class="dv">0</span>] <span class="op">+</span> A[<span class="dv">1</span>][<span class="dv">1</span>] <span class="op">*</span> v[<span class="dv">1</span>],</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mat2_pow(M, n):</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">    Compute M^n for a 2x2 matrix M and integer n &gt;= 0</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">    using exponentiation by squaring.</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(n, <span class="bu">int</span>) <span class="kw">or</span> n <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"n must be an integer &gt;= 0"</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Identity matrix I</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> [[<span class="dv">1</span>, <span class="dv">0</span>],</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>              [<span class="dv">0</span>, <span class="dv">1</span>]]</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    base <span class="op">=</span> M</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> n <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">1</span>:</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>            result <span class="op">=</span> mat2_mul(result, base)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        base <span class="op">=</span> mat2_mul(base, base)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        n <span class="op">//=</span> <span class="dv">2</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick sanity checks</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> [[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">0</span>, <span class="dv">1</span>]]</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> [[<span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>]]</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mat2_mul(I, A) <span class="op">==</span> A</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mat2_mul(A, I) <span class="op">==</span> A</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mat2_pow(A, <span class="dv">0</span>) <span class="op">==</span> I</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mat2_pow(A, <span class="dv">1</span>) <span class="op">==</span> A</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
