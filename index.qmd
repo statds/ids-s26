@@ -154,6 +154,9 @@ Markdown.
     - Become more comfortable using Git/GitHub
     - Improve python and coding skills
 + Ibrahim, Omar
+    - I want to gain expertise in using tools such as Git and Quarto in order to effectively communicate and collaborate through projects.
+    - I want to learn how how to clean and preprocess raw data to prepare it for projects
+    - Lastly, I want to learn how to ask the right questions and solve them using data.
 + Jackson, Brooke
 + Jiang, Ryan
     - Enhance my Python and coding abilities
