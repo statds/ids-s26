@@ -133,6 +133,9 @@ Markdown.
     real world
     - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
+    - Develop a strong understanding of the data science process from start to finish
+    - Gain experience working with political science datasets
+    - Improve skills in Python and Git
 + Burns, Kyle
 + Carbone, Vincenzo
     - Connect data science to the world of sports analytics.
