@@ -161,6 +161,9 @@ Markdown.
     - Becoming more comfortable with being able to present findings on specific
       data and explaining findings more than just the words on the slides.
 + Jones, Cody
+  - Understand the role of Git in Data Science
+  - Improve my communication and collaboration skills
+  - Strengthen my skills with python
 + Kwak, Jinha
 + Lacasse, Violet
     - Learn how to find/grab/handle datasets.
