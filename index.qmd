@@ -337,7 +337,7 @@ Please use the following table to sign up.
    Date  | Presenter    | Topic
   ----- | ------------- | ------------------------- 
    02/16 | Desai, Alysha  | 
-   02/16 | Kwak, Jinha  |   
+   02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
    02/18 | Jackson, Brooke |
    02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
    02/23 | Sawyer, Riley |   
