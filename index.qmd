@@ -155,6 +155,9 @@ Markdown.
 + Jiang, Ryan
 + Jones, Cody
 + Kwak, Jinha
+      - Become more comfortable with Python and more proficient at using editors
+      - Find topics I'm interested in where data science can be applied and learn how to apply data
+      - Learn how to use various tools to collaborate with others on data science projects
 + Lacasse, Violet
     - Learn how to find/grab/handle datasets.
     - Become familiar with Git and how it can be used to collaborate.
