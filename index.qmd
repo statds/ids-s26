@@ -134,6 +134,9 @@ Markdown.
     - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
 + Burns, Kyle
+    - Get better at working with Python, Git, and other common data science tools
+    - Gain experience with working on an actual data science project
+    - Apply my knowledge of statistical methods to real world data science problems
 + Carbone, Vincenzo
     - Connect data science to the world of sports analytics.
     - Improve my literacy with VS code, quarto, and git.
