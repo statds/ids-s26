@@ -350,7 +350,7 @@ window.Quarto = {
 <li>Choose one tool (e.g., VS Code, Jupyter, Positron, Emacs) and follow the Quarto documentation to reproduce the example plot.</li>
 <li>Minimum requirement: include the plot in your <code>hw.qmd</code> using a Python code cell that produces a polar line plot with Matplotlib. For example:</li>
 </ul>
-<div id="71d7a211" class="cell" data-execution_count="1">
+<div id="22ec3f89" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -415,6 +415,8 @@ window.Quarto = {
 <ul>
 <li><code>n = 10, 20, 40</code></li>
 <li>coefficients <code>(c1, c2) = (1, 1)</code> and <code>(2, 1)</code></li>
+<li>Verify your functions by computing the result for <code>n=10,(c1, c2) = (2, 1)</code>. The correct answer should be <code>1393</code>.<br>
+</li>
 <li>Use <code>%timeit</code> or <code>timeit</code> and present results in a small table.</li>
 </ul></li>
 <li><p>Briefly explain (2–5 sentences):</p>
@@ -443,18 +445,21 @@ M^{n-2}
 a_2 \\
 a_1
 \end{pmatrix}
-\quad \text{for } n \ge 2\]</span></p>
+\quad \text{for } n \ge 2.\]</span></p>
 <p>It turns out this gives a very efficient way for computing the sequence (in fact the most efficient way with complexity O(log n)).</p>
 <ol type="1">
-<li>Implement <code>seq_log(n, c1, c2)</code> that computes (a_n). You may use the matrix functions provided below.</li>
+<li>Implement <code>seq_log(n, c1, c2)</code> that computes <span class="math inline">\(a_n\)</span>. You may use the matrix functions provided below.
+<ul>
+<li>Verify your function by computing the result for <code>n=10,(c1, c2) = (2, 1)</code>. The correct answer should be <code>1393</code>.</li>
+</ul></li>
 <li>Benchmark <code>seq_dbu_m</code> vs <code>seq_log</code> for large <code>n</code> (choose values like <code>10**3, 10**4</code> or as large as your machine can handle).</li>
 <li>In a few sentences, write down the biggest take-home message you learn from using five different ways of solving the same problem.</li>
 </ol>
-<hr>
 <p>Render your homework into a HTML. Print the HTML file to a pdf file and put them together with source files (<code>.qmd</code>) into a release in your GitHub repo.</p>
+<hr>
 <p><strong>Example code: 2×2 matrices + operations</strong></p>
 <p>Here are some functions of matrices that could be useful to you. You may direct use these defined functions in implementing <code>seq_log(n, c1, c2)</code>.</p>
-<div id="701f7328" class="cell" data-execution_count="2">
+<div id="8034f74b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A 2x2 matrix is represented as:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[a, b],</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  [c, d]]</span></span>
