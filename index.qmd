@@ -227,6 +227,12 @@ Markdown.
     - Improve Python data analysis skills (NumPy, Pandas, Matplotlib) 
     through applied projects.
 + Zharyy, Sofia
+    - To increase my comfortability with Git and Github; I have never used
+    this for a course before.
+    - To learn different and applicable methods that intermingle geographic 
+    information science and statistical data science.
+    - Improve my researching capabilities to better equipe me for related 
+    careers. 
 
 
 ### Students in STAT 5255
