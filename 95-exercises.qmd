@@ -165,6 +165,7 @@ where $c_1, c_2$ are integers. Note that Fibonacci sequence corresponds to $c_1 
 
    * `n = 10, 20, 40`
    * coefficients `(c1, c2) = (1, 1)` and `(2, 1)`
+   * Verify your functions by computing the result for `n=10,(c1, c2) = (2, 1)`. The correct answer should be `1393`.   
    * Use `%timeit` or `timeit` and present results in a small table.
 
 4. Briefly explain (2–5 sentences):
@@ -193,18 +194,20 @@ M^{n-2}
 a_2 \\
 a_1
 \end{pmatrix}
-\quad \text{for } n \ge 2$$
+\quad \text{for } n \ge 2.$$
 
 It turns out this gives a very efficient way for computing the sequence (in fact the most efficient way with complexity O(log n)). 
 
-1. Implement `seq_log(n, c1, c2)` that computes (a_n). You may use the matrix functions provided below. 
+1. Implement `seq_log(n, c1, c2)` that computes $a_n$. You may use the matrix functions provided below. 
+   * Verify your function by computing the result for `n=10,(c1, c2) = (2, 1)`. The correct answer should be `1393`. 
 2. Benchmark `seq_dbu_m` vs `seq_log` for large `n` (choose values like `10**3, 10**4` or as large as your machine can handle).
 3. In a few sentences, write down the biggest take-home message you learn from using five different ways of solving the same problem. 
 
----
+
 
 Render your homework into a HTML. Print the HTML file to a pdf file and put them together with source files (`.qmd`) into a release in your GitHub repo.
 
+---
 
 **Example code: 2×2 matrices + operations**
 
