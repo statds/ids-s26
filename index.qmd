@@ -76,7 +76,7 @@ used. Here is a list of useful data challenges:
 
 + [ASA Data Challenge
   Expo](https://community.amstat.org/dataexpo/home): What works in education?
-+ [Kaggle](https://www.kaggle.com).
++ [Kaggle](https://www.kaggle.com)
 + [DrivenData](https://www.drivendata.org).
 + [15 Data Science Hackathons to Test Your Skills](https://www.fynd.academy/blog/data-science-hackathons)
 + [openFDA](https://open.fda.gov)
