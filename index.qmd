@@ -374,7 +374,7 @@ Please use the following table to sign up.
    03/23 | Landolphi, Joseph |
    03/25 | Burns, Kyle |
    03/25 | Mohan, Harish | 
-   03/30 | Carbone, Vincenzo |
+   03/30 | Carbone, Vincenzo | Large language models (LLM)
    03/30 | Bennett, Emily |
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
    04/01 | Ibrahim, Omar |   
