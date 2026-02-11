@@ -183,6 +183,9 @@ Markdown.
     - Learn more about data science and how it can help in my data analysis 
     (domain: earth data science) major.
 + Landolphi, Joseph
+    - Improve my efficiency with Python
+    - Be able to work with real-world data sets for future results
+    - Gain experience using data sets for sports analytics
 + Lawrence, Claire
 + Liu, Kevin
     - Use git better in a collobrative environment and more complex commands
