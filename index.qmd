@@ -193,6 +193,9 @@ Markdown.
     - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
+    - Enhance my skills in python
+    - Gain expertise in working with raw data and translating it to real world results
+    - Learn more about the data pipeline and how to use it in the real world
 + Nash, Jayden
 + Orsini, Ronnie
     - Learn how to apply data science techniques to real world datasets
