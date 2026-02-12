@@ -35,6 +35,21 @@ use of identifiable information and implementing secure data
 storage practices are essential steps. Transparency about
 how data is used further builds trust with stakeholders.
 
+##### Example: Netflix Prize Data
+
+Netflix released an ``anonymized''' movie-rating dataset for a public competition; researchers later showed individuals could be re-identified by linking a few ratings to public profiles or IMDB reviews. 
+
+Other examples: 
+    + Mobility/location traces indentify individuals
+    + Financial transanctions 
+    + Health/EHR data leaks via ZIP + birthdate + sex
+
+::: {.callout-tip collapse="true" title="Take-home message (click to expand)"}
+ + “Removing names” isn’t enough. High-dimensional behavioral data can be re-identified, so share less, aggregate more, and assess re-identification risk before releasing data.
+ + Need aggregration, differential privacy, etc.  
+:::
+
+
 #### Commitment to Fairness
 Bias can arise at any stage of the data science pipeline,
 from data collection to algorithm development. Ethical
@@ -53,6 +68,22 @@ equitable access, which can inspire fairness in algorithmic
 design. Collaborating with domain experts and stakeholders
 can provide additional insights into fairness issues.
 
+##### Example: Bias in Predictive modeling 
+
+We want to train a model for predicting suicide risk with EHR data. Is a model that can predict with 97% accuracy good?  
+
+::: {.callout-tip collapse="true" title="Take-home message (click to expand)"}
+ + Training data could be very unbalanced. In this problem, it is likely that the number of cases in the data is less than 3%. So a naive model that always predicts ``0'' can easily reach 97% accuracy.
+ + Model accuracy high overall but terrible for minorities
+ + Better model evaluation and bias awareness/adjustment.
+:::
+
+Other examples: 
+ + Face recognition errors by skin tone. 
+ + Lending/credit scoring bias.
+ + Bias in generative models such as LLMs. 
+
+
 #### Emphasis on Transparency
 Transparency builds trust and accountability in data
 science. Models should be interpretable, with clear
@@ -70,6 +101,12 @@ decision pathways and using tools like LIME or SHAP can
 enhance interpretability. Establishing clear communication
 protocols ensures that non-technical audiences can engage
 with the findings effectively.
+
+
+##### Example: deep learning vs. logistic regression 
+
+Which would you deploy in a hospital triage setting if they have similar performance? 
+
 
 #### Focus on Social Responsibility
 Data science projects must align with ethical goals and
@@ -90,6 +127,22 @@ real needs and avoid unintended consequences. Regular impact
 assessments help measure whether projects meet their ethical
 objectives.
 
+##### Example: Predictive policing feedback loop
+
+    + Police send patrols where past arrests are high
+    + More patrols lead to more arrests
+    + Model ``learns'' area has more crime
+
+::: {.callout-tip collapse="true" title="Take-home message (click to expand)"}
+ + Data $\neq$ ground truth
+ + Feedback loops amplify inequality
+:::
+
+Other examples:
+    + Recommender systems used by social media platforms
+    + Insurance pricing penalizing poor neighborhoods
+
+
 #### Adherence to Professional Integrity
 Professional integrity underpins all ethical practices in
 data science. Adhering to established ethical guidelines,
@@ -105,6 +158,14 @@ and independent validation of findings can help identify
 potential errors or biases. Documenting methodologies and
 maintaining transparency in reporting further strengthen
 trust.
+
+##### Examples
+
+ + p-hacking
+ + cherry picking
+ + misleading graphs
+ + no reproducibility
+
 
 ### Ensuring Ethics in Practice
 

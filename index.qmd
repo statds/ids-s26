@@ -183,6 +183,9 @@ Markdown.
     - Learn more about data science and how it can help in my data analysis 
     (domain: earth data science) major.
 + Landolphi, Joseph
+    - Improve my efficiency with Python
+    - Be able to work with real-world data sets for future results
+    - Gain experience using data sets for sports analytics
 + Lawrence, Claire
 + Liu, Kevin
     - Use git better in a collobrative environment and more complex commands
@@ -190,6 +193,9 @@ Markdown.
     - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
+    - Enhance my skills in python
+    - Gain expertise in working with raw data and translating it to real world results
+    - Learn more about the data pipeline and how to use it in the real world
 + Nash, Jayden
 + Orsini, Ronnie
     - Learn how to apply data science techniques to real world datasets
@@ -354,7 +360,7 @@ Please use the following table to sign up.
 
    Date  | Presenter    | Topic
   ----- | ------------- | ------------------------- 
-   02/16 | Desai, Alysha  | 
+   02/16 | Desai, Alysha  | K-Means Clustering 
    02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
    02/18 | Jackson, Brooke |
    02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
@@ -371,7 +377,7 @@ Please use the following table to sign up.
    03/11 | Orsini, Ronnie |
    03/11 | Patel, Vrajkumar |
    03/23 | Liu, Kevin |
-   03/23 | Landolphi, Joseph |
+   03/23 | Landolphi, Joseph | Exploratory analysis of sports/softball data
    03/25 | Burns, Kyle |
    03/25 | Mohan, Harish | 
    03/30 | Carbone, Vincenzo |
