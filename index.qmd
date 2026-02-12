@@ -373,7 +373,7 @@ Please use the following table to sign up.
    03/04 | Jones, Cody | 
    03/04 | Davis, Reid | 
    03/09 | Lawrence, Claire | 
-   03/09 | Trnka, Jonathan | 
+   03/09 | Trnka, Jonathan | LLM Agents 
    03/11 | Orsini, Ronnie |
    03/11 | Patel, Vrajkumar |
    03/23 | Liu, Kevin |
