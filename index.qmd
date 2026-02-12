@@ -384,7 +384,7 @@ Please use the following table to sign up.
    03/30 | Bennett, Emily |
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
    04/01 | Ibrahim, Omar |   
-   04/06 | Patel, Reesha |
+   04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
    04/08 | Lacasse, Violet |
