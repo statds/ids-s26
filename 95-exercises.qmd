@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Exercises {#sec-ex}
 
 ## Homework 1 
@@ -104,3 +105,279 @@ plt.show()
 
 Render the homework into a HTML. Print the HTML file to a pdf file and put the file into a release in your GitHub repo.
 
+=======
+# Homework {#sec-ex} 
+
+## Homework 1 (due 02/06) {#hw1}
+**Quarto and Git setup**:
+Quarto and Git are two important tools for data science: Quarto for 
+communicating results (reports/websites/books) and Git/GitHub for 
+version control and collaboration. This homework is about getting
+familiar with them through the following tasks. 
+
+**Your goal**: produce a short, beginner-friendly *step-by-step manual* 
+for yourself (and future students) that documents what you did, what 
+went wrong, and how you fixed it. Please use the 
+[`templates/hw.qmd`](https://github.com/statds/ids-s26/blob/main/templates/hw.qmd) as your starting point. Use the command line 
+interface.
+
+**Work in your GitHub Classroom repository** (the private repo created 
+for you when you accept the assignment link). Use the command line 
+interface unless a step explicitly requires a 
+browser (e.g., adding an SSH key).
+
+**Submission (What should be included in your repo)**
+
++ `hw.qmd` (your completed manual)
++ `hw.html` (rendered from `hw.qmd`)
++ `hw.pdf`
+
+**Tasks**
+
+a. Accept the GitHub Classroom assignment and clone your repo (SSH).
+
+  + Accept the assignment using the GitHub Classroom link provided on HuskyCT.
+  + In a terminal, verify Git is installed:
+    + `git --version`
+  + Set your Git identity (do this once per computer):
+    + `git config --global user.name "Your Name"`
+    + `git config --global user.email "XXX@uconn.edu"`  (use the 
+         email tied to your GitHub account if different).
+
+b. Set up SSH authentication between your computer and GitHub. There 
+are [`online tutorials`](https://docs.github.com/en/
+authentication/connecting-to-github-with-ssh) with more details.
+
+  + Check whether you already have an SSH key:
+    +`ls -al ~/.ssh`
+  + If you do not see something like `id_ed25519` and `id_ed25519.pub`,
+  create a new key:
+    + `ssh-keygen -t ed25519 -C "your_email@example.com"`
+    + Press Enter to accept the default location (`~/.ssh/id_ed25519`)
+    + Choose a passphrase or press Enter for none
+  + Start the SSH agent and add your key:
+    + `eval "$(ssh-agent -s)"`
+    + `ssh-add ~/.ssh/id_ed25519`
+  + Copy your public key and add it to GitHub:
+    + `cat ~/.ssh/id_ed25519.pub`
+    + In your browser: GitHub → Settings → SSH and GPG keys → New SSH 
+    key
+  + Test the connection:
+    + `ssh -T git@github.com`
+    + You should see a message that you have successfully 
+         authenticated.
+  + Now clone your GitHub Classroom repo (SSH) and enter it:
+    + `git clone git@github.com:<ORG>/<REPO>.git`
+    + `cd <REPO>`
+
+c. Set up the homework file in your repo.
+
+  + Download/copy the template into your Classroom repo as `hw.qmd`.
+  + Make an initial commit:
+    + `git status`
+    + `git add hw.qmd`
+    + `git commit -m "Start HW1"`
+    + `git push`
+
+d. Install Quarto and verify it works. Follow the official installation 
+instructions at <https://quarto.org/docs/get-started/> for your 
+operating system. Then verify:
+    + `quarto --version`
+    + `quarto check`
+
+In `hw.qmd`, record exactly what you installed (version +  method), and 
+any issues you hit (PATH problems are common) and how you fixed them.
+
+e. Pick an editor/tool and reproduce the "line plot on polar axis" 
+example.  
+  + Choose one tool (e.g., VS Code, Jupyter, Positron, Emacs) and 
+  follow the Quarto documentation to reproduce the example plot.
+  + Minimum requirement: include the plot in your `hw.qmd` using a 
+  Python code cell that produces a polar line plot with Matplotlib. For 
+  example:
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(subplot_kw={"projection": "polar"})
+ax.plot(theta, r)
+ax.set_rmax(2.0)
+ax.grid(True)
+plt.show()
+```
+
+Render the homework into a HTML. Print the HTML file to a pdf file and put the file into a release in your GitHub repo.
+
+
+
+## Homework 2 (due 02/13) {#hw2}
+
+
+### Part 1. **Contributing to the Class Notes**
+
+This part of the homework is to make sure that you know how to contribute to our classnotes by making pull request and to complete updating of your wishlist and presentation topic. 
+
+To contribute to the classnote repository, you need to have a working 
+copy of
+the sources on your computer. Document the following steps in a `qmd` 
+file in the form of a step-by-step manual, as if you are explaining 
+them to someone who wants to contribute too. Make at least 5 commits 
+for this task, each with an informative message.
+
+  1.  Create a fork of the notes repo with your own GitHub account.
+  2.  Clone it to an appropriate folder on your computer.
+  3.  Render the classnotes on your computer. If you encounter 
+    difficulties, try to 
+    document and resolve the issues (Quarto/Python installation, 
+    environment setup/activation, etc.).  
+  4.  Make a new branch (and name it appropriately) to experiment
+    with your changes.
+  5.  Checkout your branch and add your wishes to the wish list; 
+    check the rendered notes to make sure your changes look good.
+  6. Commit with an informative message; and push the changes to 
+    your GitHub account.
+  7.  Make a pull request to class notes repo from your fork at
+    GitHub. Make sure you have clear messages to document the changes
+  8. Make another branch and repeat the process to update your 
+    presentation topic. 
+
+The grading will be based on whether you can successfully make pull requests to update your wishlist and presentation topic on time.  
+
+
+
+### Part 2. Generalized “Fibonacci-like” recurrence
+
+Define a sequence $\{a_n\}$ by
+
+* $a_1 = 1, a_2 = 1$
+* $a_n = c_1 a_{n-1} + c_2 a_{n-2}$ for $n \ge 3$
+
+where $c_1, c_2$ are integers. Note that Fibonacci sequence corresponds to $c_1 = 1, c_2 = 1$.
+
+1. Based on the Fibonacci example in the notes, implement four functions:
+
+   * `seq_rs(n, c1, c2)` (naive recursion)
+   * `seq_dm(n, c1, c2)` (memoization)
+   * `seq_dbu(n, c1, c2)` (bottom-up with list)
+   * `seq_dbu_m(n, c1, c2)` (bottom-up constant memory)
+
+2. (optional) Add input checks and raise `ValueError` with a helpful message if:
+
+   * `n` is not an integer or `n < 1`
+   * `c1` or `c2` is not an integer
+
+3. Benchmark all four methods for:
+
+   * `n = 10, 20, 40`
+   * coefficients `(c1, c2) = (1, 1)` and `(2, 1)`
+   * Verify your functions by computing the result for `n=10,(c1, c2) = (2, 1)`. The correct answer should be `1393`.   
+   * Use `%timeit` or `timeit` and present results in a small table.
+
+4. Briefly explain (2–5 sentences):
+   * Why recursion slows dramatically
+   * How memoization changes time complexity
+   * Memory usage differences between the bottom-up list vs constant-memory version
+
+### Part C. Fast method using matrices
+
+For the recurrence $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, define the matrix:
+
+$$M = \begin{pmatrix}
+c_1 & c_2 \\
+1 & 0
+\end{pmatrix}$$
+
+Then, one can show that:
+
+$$\begin{pmatrix}
+a_n \\
+a_{n-1}
+\end{pmatrix}
+=
+M^{n-2}
+\begin{pmatrix}
+a_2 \\
+a_1
+\end{pmatrix}
+\quad \text{for } n \ge 2.$$
+
+It turns out this gives a very efficient way for computing the sequence (in fact the most efficient way with complexity O(log n)). 
+
+1. Implement `seq_log(n, c1, c2)` that computes $a_n$. You may use the matrix functions provided below. 
+   * Verify your function by computing the result for `n=10,(c1, c2) = (2, 1)`. The correct answer should be `1393`. 
+2. Benchmark `seq_dbu_m` vs `seq_log` for large `n` (choose values like `10**3, 10**4` or as large as your machine can handle).
+3. In a few sentences, write down the biggest take-home message you learn from using five different ways of solving the same problem. 
+
+
+
+Render your homework into a HTML. Print the HTML file to a pdf file and put them together with source files (`.qmd`) into a release in your GitHub repo.
+
+---
+
+**Example code: 2×2 matrices + operations**
+
+Here are some functions of matrices that could be useful to you. You may direct use these defined functions in implementing `seq_log(n, c1, c2)`.
+
+```{python}
+# A 2x2 matrix is represented as:
+# [[a, b],
+#  [c, d]]
+
+def mat2_mul(A, B):
+    """Multiply two 2x2 matrices A and B."""
+    return [
+        [
+            A[0][0] * B[0][0] + A[0][1] * B[1][0],
+            A[0][0] * B[0][1] + A[0][1] * B[1][1],
+        ],
+        [
+            A[1][0] * B[0][0] + A[1][1] * B[1][0],
+            A[1][0] * B[0][1] + A[1][1] * B[1][1],
+        ],
+    ]
+
+def mat2_vec_mul(A, v):
+    """Multiply 2x2 matrix A by 2-vector v = [x, y]."""
+    return [
+        A[0][0] * v[0] + A[0][1] * v[1],
+        A[1][0] * v[0] + A[1][1] * v[1],
+    ]
+
+def mat2_pow(M, n):
+    """
+    Compute M^n for a 2x2 matrix M and integer n >= 0
+    using exponentiation by squaring.
+    """
+    if not isinstance(n, int) or n < 0:
+        raise ValueError("n must be an integer >= 0")
+
+    # Identity matrix I
+    result = [[1, 0],
+              [0, 1]]
+    base = M
+
+    while n > 0:
+        if n % 2 == 1:
+            result = mat2_mul(result, base)
+        base = mat2_mul(base, base)
+        n //= 2
+
+    return result
+
+
+# Quick sanity checks
+I = [[1, 0], [0, 1]]
+A = [[2, 3], [4, 5]]
+
+assert mat2_mul(I, A) == A
+assert mat2_mul(A, I) == A
+assert mat2_pow(A, 0) == I
+assert mat2_pow(A, 1) == A
+```
+
+
+
+>>>>>>> main
