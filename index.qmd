@@ -193,7 +193,7 @@ Talk to the professor about your topics at least one week prior to your schedule
 -   Reinforcement learning
 -   Developing a Python package
 -   Web scraping <!-- + Personal webpage on GitHub
-        + Making presentations with Quarto  -->
+            + Making presentations with Quarto  -->
 
 ### Topic Presentation Schedule
 
