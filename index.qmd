@@ -387,7 +387,7 @@ Please use the following table to sign up.
    04/06 | Patel, Reesha |
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
-   04/08 | Lacasse, Violet |
+   04/08 | Lacasse, Violet | Test
    04/13 | Wolven, Alexander |   
    04/13 | Zharyy, Sofia |  
 
