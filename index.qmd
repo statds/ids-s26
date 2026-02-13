@@ -226,7 +226,7 @@ Markdown.
 + Tessman, Sean
     - Learn how data science applies to sports analytics and performance.
     - Build a strong reproducible workflow with Git, Quarto, and Python.
-    - Gain experience with real-world datasets.
+    - Gain experience with real-world datasets and examples. Also how to identify what problem is at task, and how to find a solution using data science. 
 + Trnka, Jonathan
     - I want to get more comfortable using github, linux commands, and 
     more.
