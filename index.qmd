@@ -366,7 +366,7 @@ Please use the following table to sign up.
    02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
    02/23 | Sawyer, Riley |   
    02/23 | Faisal, Zaynab |  Import/Export Data 
-   02/25 | Tessman, Sean |
+   02/25 | Tessman, Sean | Web Scraping 
    02/25 | Nash, Jayden |   
    03/02 | Watanabe, Sara | Random Forest
    03/02 | Jiang, Ryan |    
