@@ -264,7 +264,7 @@ Talk to the professor about your topics at least one week prior to your schedule
 -   Reinforcement learning
 -   Developing a Python package
 -   Web scraping <!-- + Personal webpage on GitHub
-        + Making presentations with Quarto  -->
+            + Making presentations with Quarto  -->
 
 ### Topic Presentation Schedule
 
@@ -277,7 +277,7 @@ The topic presentation is 20 points. It includes:
 Please use the following table to sign up.
 
 | Date | Presenter | Topic |
-|-----------------|------------------|------------------------------------|
+|------------------|------------------|------------------------------------|
 | 02/16 | Desai, Alysha | K-Means Clustering |
 | 02/16 | Kwak, Jinha | Data manipulation with 'Pandas' |
 | 02/18 | Jackson, Brooke |  |
@@ -299,7 +299,7 @@ Please use the following table to sign up.
 | 03/25 | Burns, Kyle |  |
 | 03/25 | Mohan, Harish |  |
 | 03/30 | Carbone, Vincenzo |  |
-| 03/30 | Bennett, Emily | Least absolute shrinkage and selection operator (Lasso) |
+| 03/30 | Bennett, Emily | Least absolute shrinkage and selection operator (LASSO) |
 | 04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates |
 | 04/01 | Ibrahim, Omar |  |
 | 04/06 | Patel, Reesha |  |
