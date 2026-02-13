@@ -128,41 +128,132 @@ Markdown.
     - Wish 2
     - Wish 3
 + Bennett, Emily
+    - Become more experienced and confident with Python
+    - Gain experience with data science problems and relate them to the 
+    real world
+    - Develop better understanding in GitHub, Git, and VSCode
 + Budnick, Kayleigh
+    - Develop a strong understanding of the data science process from start to finish
+    - Gain experience working with political science datasets
+    - Improve skills in Python and Git
 + Burns, Kyle
+    - Get better at working with Python, Git, and other common data science tools
+    - Gain experience with working on an actual data science project
+    - Apply my knowledge of statistical methods to real world data science problems
 + Carbone, Vincenzo
+    - Connect data science to the world of sports analytics.
+    - Improve my literacy with VS code, quarto, and git.
+    - Have an in depth understanding of python code. 
 + Davis, Reid
+    - Focus on real world data and modeling to solve problems
+    - Work start to finish on a full fledged data science project 
+    - Improve my knowledge of Python, Git, Quarto and working in repositories
 + Desai, Alysha
+    - Gain more hands-on experience cleaning, organizing, and breaking apart 
+    real-world datasets to better understand how raw data is transformed into 
+    usable insights.
+    - Improve my skills in preparing presentations of my findings and become 
+    more confident explaining more complex topics to an audience.
+    - Become more familiar with version control tools like Git and GitHub
 + Faisal, Zaynab
+    - Gain a better understanding of data science and real life applications
+    - Become more comfortable using Git/GitHub
+    - Improve python and coding skills
 + Ibrahim, Omar
+    - I want to gain expertise in using tools such as Git and Quarto in order to effectively communicate and collaborate through projects.
+    - I want to learn how how to clean and preprocess raw data to prepare it for projects
+    - Lastly, I want to learn how to ask the right questions and solve them using data.
 + Jackson, Brooke
 + Jiang, Ryan
+    - Enhance my Python and coding abilities
+    - Introduce myself to the world of Data Science
+    - Becoming more comfortable with being able to present findings on specific
+      data and explaining findings more than just the words on the slides.
 + Jones, Cody
+  - Understand the role of Git in Data Science
+  - Improve my communication and collaboration skills
+  - Strengthen my skills with python
 + Kwak, Jinha
+    - Become more comfortable with Python and more proficient at using editors
+    - Learn how to use Git and GitHub for collaboration
+    - Find topics I'm interested in where data science can be applied to and learn how to apply it
 + Lacasse, Violet
+    - Learn how to find/grab/handle datasets.
+    - Become familiar with Git and how it can be used to collaborate.
+    - Learn more about data science and how it can help in my data analysis 
+    (domain: earth data science) major.
 + Landolphi, Joseph
+    - Improve my efficiency with Python
+    - Be able to work with real-world data sets for future results
+    - Gain experience using data sets for sports analytics
 + Lawrence, Claire
 + Liu, Kevin
+    - Use git better in a collobrative environment and more complex commands
+    - Apply data analysis to translate data to real-world results
+    - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
+    - Enhance my skills in python
+    - Gain expertise in working with raw data and translating it to real world results
+    - Learn more about the data pipeline and how to use it in the real world
 + Nash, Jayden
 + Orsini, Ronnie
+    - Learn how to apply data science techniques to real world datasets
+    - Improve collaboration skills using Git and GitHub
+    - Better understand Quarto for data analysis
 + Patel, Reesha
-    - Learn about the process between identifying a problem/question and using data science to find solutitons/get insights.
+    - Learn about the process between identifying a problem/question and 
+    using data science to find solutitons/get insights.
     - Improve my knowledge of packages in Python (scikit-learn, seaborn).
-    - Apply what I've learned in my classes to actual, real-world datasets.
+    - Apply what I've learned in my classes to actual, real-world 
+    datasets.
 + Patel, Vrajkumar
 + Sawyer, Riley
+    - Learn how to process and interpret real data using Python.
+    - Work in a collaborative setting using GitHub.
+    - Gain experience using Quarto and GitHub.
 + Sudarsanam, Shreya
+    - Improve my understanding of how to choose which programming 
+    language to use (i.e. R, Python, and SQL), and how to evaluate the 
+    strengths and weaknesses of popular languages in each step of the 
+    data analysis pipeline.
+    - Become more familiar with machine learning in research and industry 
+    based contexts.
+    - Learn/Demystify the process of completing a data science project 
+    from start to finish. This may involve mining, cleaning, and 
+    visualizing data and creating machine learning models to help make 
+    valuable inferences. 
 + Tessman, Sean
     - Learn how data science applies to sports analytics and performance.
     - Build a strong reproducible workflow with Git, Quarto, and Python.
     - Gain experience with real-world datasets.
 + Trnka, Jonathan
+    - I want to get more comfortable using github, linux commands, and 
+    more.
+    - Learn more about ML and AI modeling. 
+    - I want to apply what I know to real world data sets from beginning 
+    to end.
 + Watanabe, Sara
+    - Learn how to effectively use GitHub for collaboration on data
+    - Learn how to apply data science techniques to real world problems
+    - Improve my Python programming skills for data analysis
 + Wolven, Alexander
+    - Build hirable skills in Python, Quarto, and Git through projects. 
+    - Learn about machine learning and AI modeling. 
+    - Gain experience working with real datasets from cleaning to analysis 
+    and clear presentation.
 + Zhang, Jianan
+    - Learn how to use Git and GitHub effectively for collaborative data 
+    science projects.
+    - Improve Python data analysis skills (NumPy, Pandas, Matplotlib) 
+    through applied projects.
 + Zharyy, Sofia
+    - To increase my comfortability with Git and Github; I have never used
+    this for a course before.
+    - To learn different and applicable methods that intermingle geographic 
+    information science and statistical data science.
+    - Improve my researching capabilities to better equipe me for related 
+    careers. 
 
 
 ### Students in STAT 5255
@@ -269,36 +360,36 @@ Please use the following table to sign up.
 
    Date  | Presenter    | Topic
   ----- | ------------- | ------------------------- 
-   02/16 | Last, First  | Selected topic
-   02/16 | Last, First  | Selected topic   
-   02/18 |  |
-   02/18 |  |   
-   02/23 |  |   
-   02/23 |  |  
-   02/25 |  |
-   02/25 |  |   
-   03/02 |  | 
-   03/02 |  |    
-   03/04 |  | 
-   03/04 |  | 
-   03/09 |  | 
-   03/09 |  | 
-   03/11 |  |
-   03/11 |  |
-   03/23 |  |
-   03/23 |  |
-   03/25 |  |
-   03/25 |  | 
-   03/30 |  |
-   03/30 |  |
-   04/01 |  |
-   04/01 |  |   
-   04/06 |  |
-   04/06 |  |
-   04/08 |  |
-   04/08 |  |
-   04/13 |  |   
-   04/13 |  |  
+   02/16 | Desai, Alysha  | K-Means Clustering 
+   02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
+   02/18 | Jackson, Brooke |
+   02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
+   02/23 | Sawyer, Riley |   
+   02/23 | Faisal, Zaynab |  Import/Export Data 
+   02/25 | Tessman, Sean |
+   02/25 | Nash, Jayden |   
+   03/02 | Watanabe, Sara | Random Forest
+   03/02 | Jiang, Ryan |    
+   03/04 | Jones, Cody | 
+   03/04 | Davis, Reid | 
+   03/09 | Lawrence, Claire | 
+   03/09 | Trnka, Jonathan | 
+   03/11 | Orsini, Ronnie |
+   03/11 | Patel, Vrajkumar |
+   03/23 | Liu, Kevin |
+   03/23 | Landolphi, Joseph | Exploratory analysis of sports/softball data
+   03/25 | Burns, Kyle |
+   03/25 | Mohan, Harish | 
+   03/30 | Carbone, Vincenzo |
+   03/30 | Bennett, Emily |
+   04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
+   04/01 | Ibrahim, Omar |   
+   04/06 | Patel, Reesha |
+   04/06 | Zhang, Jianan |
+   04/08 | Mccabe, Scott |
+   04/08 | Lacasse, Violet |
+   04/13 | Wolven, Alexander |   
+   04/13 | Zharyy, Sofia |  
 
 ### Final Project Presentation Schedule
 
