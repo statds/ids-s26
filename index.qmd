@@ -372,7 +372,7 @@ Please use the following table to sign up.
    03/02 | Jiang, Ryan |    
    03/04 | Jones, Cody | 
    03/04 | Davis, Reid | 
-   03/09 | Lawrence, Claire | 
+   03/09 | Lawrence, Claire | Visualizing Spatial Data
    03/09 | Trnka, Jonathan | 
    03/11 | Orsini, Ronnie |
    03/11 | Patel, Vrajkumar |
