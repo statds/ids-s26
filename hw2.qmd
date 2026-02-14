@@ -74,3 +74,48 @@ quarto render
 ```{bash}
 quarto preview
 ```
+
+I was able to render all of the class notes, though it took a while to load.
+
+At this point, I wanted to commit this homework into my repository. To do that, I must first clone the homework 2 repository to my local machine. I used this line below:
+
+```{bash}
+git clone git@github.com:ds-uconn/homework-2-mallorywhitlow.git
+```
+
+After the repository was cloned, I then added the homework file, hw2.qmd, into the cloned repository directory.
+
+```{bash}
+git add .
+```
+
+Once it was added, I committed the changes to be pushed.
+
+```{bash}
+git commit -m "Adding hw2.qmd to the homework 2 repository"
+```
+
+### Making New Branch
+
+To experiment with changes needed for my wishes on the class notes, I needed to first create a new branch so that I don't commit any changes that I don't want to save later. This is helpfull so I don't commit to any cahnges until I kno what I want. This branch was created off of main in the IDS-s26 repo.
+
+```{bash}
+git checkout -b "mall-exp"
+```
+
+To make sure I was in the right branch I used this command:
+
+```{bash}
+git branch
+```
+
+It wil have a star next to the name of the branch you are already in. In my case, the star was on "mall-exp" so I was all set. If it isn't, you can use this command to switch between branches.
+
+```{bash}
+git checkout "mall-exp"
+git checkout "main"
+```
+
+###  My Wishes to the Class Notes
+
+I now will add my name and learn wishes to the wishlist in the class notes. I did this by opening the index.qmd file and adding my name alphabetically to the list. When I saved the file, I checked the running html link in local host on my browser to see my changes. The changes were found succesfully on http://localhost:4048/.
