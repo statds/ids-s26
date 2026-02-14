@@ -11,3 +11,9 @@ Used to render the class notes.
 
 ### VS Code
 Used to edit files.
+
+## Fork and Clone Repository
+
+1. Fork the class repo on GitHub.
+2. Clone the fork to the computer using git clone.
+3. Navigate into the repository folder.
