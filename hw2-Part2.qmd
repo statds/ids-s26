@@ -1,0 +1,273 @@
+---
+title: 'HW2 Part 2: "Fibonacci-like" recurrence'
+author: "Sean Tessman"
+format: html
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Part 2 — Generalized “Fibonacci-like” Recurrence
+
+We define a sequence $\{a_n\}$ by:
+- $a_1 = 1$, $a_2 = 1$
+- $a_n = c_1 a_{n-1} + c_2 a_{n-2}$ for $n \ge 3$,
+where $c_1, c_2$ are integers.
+
+## 1) Four Implementations
+
+```{python}
+def _check_inputs(n, c1, c2):
+    if not isinstance(n, int) or n < 1:
+        raise ValueError("n must be an integer >= 1")
+    if not isinstance(c1, int) or not isinstance(c2, int):
+        raise ValueError("c1 and c2 must be integers")
+
+
+def seq_rs(n, c1, c2):
+    """naive recursion"""
+    _check_inputs(n, c1, c2)
+    if n == 1 or n == 2:
+        return 1
+    return c1 * seq_rs(n - 1, c1, c2) + c2 * seq_rs(n - 2, c1, c2)
+
+
+def seq_dm(n, c1, c2):
+    """memoization"""
+    _check_inputs(n, c1, c2)
+    memo = {1: 1, 2: 1}
+
+    def helper(k):
+        if k in memo:
+            return memo[k]
+        memo[k] = c1 * helper(k - 1) + c2 * helper(k - 2)
+        return memo[k]
+
+    return helper(n)
+
+
+def seq_dbu(n, c1, c2):
+    """bottom-up with list"""
+    _check_inputs(n, c1, c2)
+    if n == 1 or n == 2:
+        return 1
+    a = [0] * (n + 1)
+    a[1], a[2] = 1, 1
+    for k in range(3, n + 1):
+        a[k] = c1 * a[k - 1] + c2 * a[k - 2]
+    return a[n]
+
+
+def seq_dbu_m(n, c1, c2):
+    """bottom-up constant memory"""
+    _check_inputs(n, c1, c2)
+    if n == 1 or n == 2:
+        return 1
+    prev2, prev1 = 1, 1
+    for _ in range(3, n + 1):
+        cur = c1 * prev1 + c2 * prev2
+        prev2, prev1 = prev1, cur
+    return prev1
+```
+
+## 2) Correctness Check
+
+For $n=10$ and $(c_1,c_2)=(2,1)$ the correct answer is **1393**.
+
+```{python}
+results = {
+    "seq_rs": seq_rs(10, 2, 1),
+    "seq_dm": seq_dm(10, 2, 1),
+    "seq_dbu": seq_dbu(10, 2, 1),
+    "seq_dbu_m": seq_dbu_m(10, 2, 1),
+}
+results
+```
+
+```{python}
+assert all(v == 1393 for v in results.values())
+"All methods returned 1393"
+```
+
+## 3) Benchmark table (n=10,20,40; (1,1) and (2,1))
+
+```{python}
+import timeit
+import pandas as pd
+
+methods = [
+    ("seq_rs", seq_rs),
+    ("seq_dm", seq_dm),
+    ("seq_dbu", seq_dbu),
+    ("seq_dbu_m", seq_dbu_m),
+]
+
+cases = [(10, 1, 1), (20, 1, 1), (40, 1, 1),
+         (10, 2, 1), (20, 2, 1), (40, 2, 1)]
+
+rows = []
+for n, c1, c2 in cases:
+    for name, fn in methods:
+        number = 1 if name == "seq_rs" else 2000
+        t = timeit.timeit(lambda: fn(n, c1, c2), number=number) / number
+        rows.append({"n": n, "c1": c1, "c2": c2, "method": name, "seconds_per_call": t})
+
+df = pd.DataFrame(rows).sort_values(["c1", "c2", "n", "method"])
+df
+```
+
+## 4) Brief explanations (2–5 sentences)
+**Why recursion slows dramatically:**  
+Naive recursion keeps recalculating the same earlier terms over and over. Each call splits into more calls, so the total number of function calls grows very fast as n increases. That is why it becomes slow quickly.
+
+**How memoization changes time complexity:**  
+Memoization stores values after they are computed the first time. When the function needs that value again, it just looks it up instead of recomputing it. This changes the runtime from exponential growth to linear time, $O(n)$.
+
+**Memory usage differences between the bottom-up list vs constant-memory version**  
+The bottom-up list method saves every term up to $n$, so memory grows with $n$ ($O(n)$ space). The constant-memory version only keeps the last two terms at each step, so it uses fixed space ($O(1)$). Both methods still take linear time to run.
+
+# Part C — Fast method using matrices
+
+For the recurrence $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, define
+
+$$
+M =
+\begin{pmatrix}
+c_1 & c_2 \\
+1 & 0
+\end{pmatrix}.
+$$
+
+Then for $n \ge 2$,
+
+$$
+\begin{pmatrix}
+a_n \\
+a_{n-1}
+\end{pmatrix}
+=
+M^{n-2}
+\begin{pmatrix}
+a_2 \\
+a_1
+\end{pmatrix}.
+$$
+
+This gives an $O(\log n)$ method using exponentiation by squaring.
+
+## 1) Matrix helper functions
+
+```{python}
+# A 2x2 matrix is represented as:
+# [[a, b],
+#  [c, d]]
+
+def mat2_mul(A, B):
+    """Multiply two 2x2 matrices A and B."""
+    return [
+        [
+            A[0][0] * B[0][0] + A[0][1] * B[1][0],
+            A[0][0] * B[0][1] + A[0][1] * B[1][1],
+        ],
+        [
+            A[1][0] * B[0][0] + A[1][1] * B[1][0],
+            A[1][0] * B[0][1] + A[1][1] * B[1][1],
+        ],
+    ]
+
+def mat2_vec_mul(A, v):
+    """Multiply 2x2 matrix A by 2-vector v = [x, y]."""
+    return [
+        A[0][0] * v[0] + A[0][1] * v[1],
+        A[1][0] * v[0] + A[1][1] * v[1],
+    ]
+
+def mat2_pow(M, n):
+    """
+    Compute M^n for a 2x2 matrix M and integer n >= 0
+    using exponentiation by squaring.
+    """
+    if not isinstance(n, int) or n < 0:
+        raise ValueError("n must be an integer >= 0")
+
+    # Identity matrix I
+    result = [[1, 0],
+              [0, 1]]
+    base = M
+
+    while n > 0:
+        if n % 2 == 1:
+            result = mat2_mul(result, base)
+        base = mat2_mul(base, base)
+        n //= 2
+
+    return result
+
+
+# Quick sanity checks
+I = [[1, 0], [0, 1]]
+A = [[2, 3], [4, 5]]
+
+assert mat2_mul(I, A) == A
+assert mat2_mul(A, I) == A
+assert mat2_pow(A, 0) == I
+assert mat2_pow(A, 1) == A
+```
+
+## 2) Implement `seq_log(n, c1, c2)` 
+
+```{python}
+def seq_log(n, c1, c2):
+    """Compute a_n using the matrix method in O(log n)."""
+    _check_inputs(n, c1, c2)
+
+    if n == 1 or n == 2:
+        return 1
+
+    M = [[c1, c2],
+         [1,  0]]
+
+    # [a_n, a_{n-1}]^T = M^(n-2) * [a2, a1]^T, and a1=a2=1
+    P = mat2_pow(M, n - 2)
+    vec = mat2_vec_mul(P, [1, 1])   # [a2, a1]
+    return vec[0]                   # a_n
+```
+
+## 3) Verify correctness 
+
+For $n=10$ and $(c_1,c_2)=(2,1)$ the correct answer is **1393**.
+
+```{python}
+seq_log(10, 2, 1)
+```
+
+```{python}
+assert seq_log(10, 2, 1) == 1393
+"seq_log returned 1393"
+```
+
+## 4) Benchmark `seq_dbu_m` vs `seq_log` for large n
+
+We compare the constant-memory bottom-up method to the matrix method for large $n$.
+
+```{python}
+import timeit
+import pandas as pd
+
+c1, c2 = 2, 1
+big_ns = [10**3, 10**4]  # you can add 10**5 if it runs fast
+
+rows = []
+for n in big_ns:
+    t_dbu = timeit.timeit(lambda: seq_dbu_m(n, c1, c2), number=200) / 200
+    t_log = timeit.timeit(lambda: seq_log(n, c1, c2),   number=200) / 200
+    rows.append({"n": n, "method": "seq_dbu_m", "seconds_per_call": t_dbu})
+    rows.append({"n": n, "method": "seq_log",   "seconds_per_call": t_log})
+
+pd.DataFrame(rows)
+```
+
+## 5) Biggest take-home message
+
+Solving the same recurrence five different ways showed me that how you compute it matters just as much as the formula itself. Naive recursion is very slow because it keeps recalculating the same values over and over. Memoization and bottom-up methods are much faster since they reuse results instead of repeating work. The matrix method is fastest for very large $n$ because it cuts the number of steps down to about $\log n$. The big takeaway is that choosing the right algorithm makes a huge difference in performance.
