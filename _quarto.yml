@@ -23,6 +23,7 @@ book:
     - 02-git.qmd
     - 03-quarto.qmd
     - 04-python.qmd
+    - 05-ethics_communiacation.qmd
    # - 05-visualization.qmd
    # - 06-manipulation.qmd
    # - 07-exploration.qmd

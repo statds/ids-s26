@@ -52,17 +52,26 @@ import decimal  # for what?
 decimal.getcontext().prec = 150
 decimal.Decimal(1).exp().to_eng_string()
 decimal.Decimal(1).exp().to_eng_string()[2:]
+
+#print(decimal.Decimal(1).exp())
 ```
 
 ## Important Libraries
 
 + NumPy
+    - Fast arrays and math
 + pandas
+    - Data wrangling with labeled tables 
 + matplotlib
+    - Core plotting library
 + IPython/Jupyter
+    - Interactive computing environment 
 + SciPy
+    - Scientific algorithms built on NumPy 
 + scikit-learn
+    - Machine learning toolkit 
 + statsmodels
+    - Classical statistics/econometrics 
 
 Question: how to draw a random sample from a normal distribution and
 evaluate the density and distributions at these points?
@@ -74,14 +83,21 @@ mean, var, skew, kurt = norm.stats(mu, sigma, moments='mvsk')
 print(mean, var, skew, kurt)
 x = norm.rvs(loc = mu, scale = sigma, size = 10)
 x
+
+# help(norm.stats)
 ```
 The pdf and cdf can be evaluated:
 ```{python}
 norm.pdf(x, loc = mu, scale = sigma)
+
+# norm.cdf(x, loc = mu, scale = sigma)
 ```
 
-
 ## Writing a Function
+
+
+
+### Example: Fibonacci Sequence
 
 Consider the Fibonacci Sequence
 $1, 1, 2, 3, 5, 8, 13, 21, 34, ...$.
@@ -98,6 +114,12 @@ def fib_rs(n):
         return fib_rs(n - 1) + fib_rs(n - 2)
 
 %timeit fib_rs(10)
+
+# import timeit
+# t = timeit.timeit(lambda: fib_rs(10), number=10000)
+# print(t, "seconds total")
+# print(t/10000, "seconds per call")
+
 ```
 
 The second uses dynamic programming memoization.
@@ -133,11 +155,276 @@ def fib_dbu(n):
 %timeit fib_dbu(500)
 ```
 
-Apparently, the three solutions have very different performance for
-larger `n`.
+The fourth method: If we only need `fib(n)` (not all previous values), we can reduce memory usage by storing only the last two values. 
+```{python}
+def fib_dbu_m(n):
+    if n <= 2:
+        return 1
+    a, b = 1, 1
+    for _ in range(3, n + 1):
+        a, b = b, a + b
+    return b
+
+%timeit fib_dbu_m(500)    
+```
+
+Apparently, the solutions have very different performance for
+larger `n`. We could more rigrously analyze the computational complexity and memory usage of each implementation. 
 
 
-### Monty Hall
+### Basic Coding Structures
+
+Most Python/R programs are built from three core control structures:
+
++ **Sequence**: run statements top-to-bottom
++ **Branching**: choose a path using `if` / `elif` / `else`
++ **Looping**: repeat work using `for` or `while`
+
+These show up everywhere in data science coding for data cleaning, simulation, feature engineering, model evaluation, etc. 
+
+#### Sequence structure
+
+In a sequence, the program executes statements in order. Later lines can use variables created earlier.
+
+```{python}
+# A simple "data pipeline" in sequence: define -> compute -> report
+x = [2, 4, 4, 4, 5, 5, 7, 9]
+
+n = len(x)
+mean_x = sum(x) / n
+var_x = sum((xi - mean_x) ** 2 for xi in x) / (n - 1)   # sample variance
+sd_x = var_x ** 0.5
+
+mean_x, sd_x
+```
+
+A helpful habit: write code as a readable sequence of steps, with meaningful variable names.
+
+---
+
+#### Branching structure
+
+Branching lets the program make decisions based on conditions.
+
+```{python}
+def letter_grade(score):
+    if score >= 93:
+        return "A"
+    elif score >= 90:
+        return "A-"
+    elif score >= 87:
+        return "B+"
+    elif score >= 83:
+        return "B"
+    elif score >= 80:
+        return "B-"
+    else:
+        return "below B-"
+
+for s in [97, 91, 88, 81, 72]:
+    print(s, "->", letter_grade(s))
+```
+
+Common patterns:
+
++ **Range checks** with `<=`, `<`, `>=`, `>`
++ **Logic** with `and`, `or`, `not`
++ **Membership tests** with `in`
+
+```{python}
+x = 7
+
+(x > 0) and (x < 10), (x in [1, 3, 5, 7])
+```
+
+---
+
+#### Looping structure
+
+Loops repeat a block of code.
+
+##### `for` loops (iterate over a collection)
+
+```{python}
+values = [3, 1, 4, 1, 5]
+
+total = 0
+for v in values:
+    total += v
+
+total
+```
+
+Often you want both index and value:
+
+```{python}
+for i, v in enumerate(values):
+    print(i, v)
+```
+
+##### `while` loops (repeat until a condition becomes false)
+
+Use `while` when you *don’t know in advance* how many steps you need.
+
+```{python}
+# Keep doubling until we reach 1000
+x = 3
+steps = 0
+
+while x < 1000:
+    x *= 2
+    steps += 1
+
+x, steps
+```
+
+##### `break` and `continue`
+
++ `break` exits the loop early
++ `continue` skips to the next iteration
+
+```{python}
+nums = [2, 7, -1, 5, 0, 9]
+
+for n in nums:
+    if n < 0:
+        print("Found a negative, stopping.")
+        break
+    if n == 0:
+        continue
+    print("Reciprocal:", 1 / n)
+```
+
+----
+
+#### Avoid loops: list comprehensions and vectorized operations
+
+Pythonic code often avoids manual loops for simple transformations:
+
+```{python}
+values = [3, 1, 4, 1, 5]
+
+squares = [v**2 for v in values]
+big_only = [v for v in values if v >= 4]
+
+squares, big_only
+```
+
+
+```{python}
+import numpy as np
+
+# Square a large vector: Python loop vs NumPy vectorization
+def square_loop(x_list):
+    out = []
+    for v in x_list:
+        out.append(v * v)
+    return out
+
+def square_vectorized(x_np):
+    return x_np * x_np
+
+n = 2_000_000
+x_list = list(range(n))
+x_np = np.arange(n)
+
+# Timing 
+%timeit square_loop(x_list)
+%timeit square_vectorized(x_np)
+```
+
+```{python}
+# Filtering: Python loop vs NumPy boolean masking
+def filter_loop(x_list, threshold):
+    out = []
+    for v in x_list:
+        if v >= threshold:
+            out.append(v)
+    return out
+
+def filter_vectorized(x_np, threshold):
+    return x_np[x_np >= threshold]
+
+threshold = n // 2
+
+%timeit filter_loop(x_list, threshold)
+%timeit filter_vectorized(x_np, threshold)
+```
+
+
+In real data science workflows, libraries like NumPy and pandas provide *vectorized* operations that are faster than Python-level loops. Still, loops are essential for simulations, custom logic, and "glue code".
+
+---
+
+#### Other structures
+
+Beyond sequence, branching, and looping, Python has a few other 
+common "building blocks" that show up frequently in real programs and 
+data workflows.
+
+**Exception handling** (`try` / `except`) lets your code respond to 
+errors gracefully (e.g., messy input data) instead of crashing.
+
+```{python}
+def safe_float(s):
+    try:
+        return float(s)
+    except ValueError:
+        return np.nan
+
+[safe_float(x) for x in ["3.14", "oops", "2.0"]]
+```
+
+**Iteration helpers** make loops cleaner and less error-prone.
+
+```{python}
+names = ["Ada", "Linus", "Grace"]
+scores = [98, 85, 92]
+
+for i, (name, score) in enumerate(zip(names, scores), start=1):
+    print(i, name, score)
+```
+
+**Context managers** (`with`) manage resources 
+automatically—especially files—so they get closed even if something 
+goes wrong.
+
+```{python}
+with open("example.txt", "w") as f:
+    f.write("Hello!\n")
+
+with open("example.txt", "r") as f:
+    text = f.read()
+
+text
+```
+
+**Object-oriented structure (classes)** groups data and behavior 
+together. You'll see this in libraries, and occasionally you'll write 
+simple classes yourself.
+
+```{python}
+class RunningMean:
+    def __init__(self):
+        self.total = 0.0
+        self.n = 0
+
+    def update(self, x):
+        self.total += x
+        self.n += 1
+
+    def value(self):
+        return self.total / self.n
+
+rm = RunningMean()
+for x in [2, 4, 6]:
+    rm.update(x)
+
+rm.value()
+```
+
+
+### Example: Monty Hall
 Here is a function that performs the Monty Hall experiments.
 In this version, the host opens only one empty door.
 ```{python}
@@ -170,9 +457,9 @@ montyhall(4, 1000)
 The true value for the two strategies with $n$ doors are, respectively,
 $1 / n$ and $\frac{n - 1}{n (n - 2)}$.
 
-In the homework exercise, the host opens $m$ doors that are empty. An
+<!-- In the homework exercise, the host opens $m$ doors that are empty. An
 argument `nempty` could be added to the function.
-
+-->
 
 #### Faster version
 
@@ -211,21 +498,28 @@ def montyhall_fast(
     --------
     >>> results = montyhall_fast(3, 100000, seed=42)
     >>> results
-    {'noswitch': 33302, 'switch': 66698}
+    {'noswitch': 33120, 'switch': 66880}
     """
+    # Create a random number generator
     rng = np.random.default_rng(seed)
 
     # Initial random assignments
+    # Generate prize location and player choice for all trials
     prize = rng.integers(n_doors, size=n_trials, dtype=np.int32)
     player = rng.integers(n_doors, size=n_trials, dtype=np.int32)
 
+    # Allocate array for the host's opened door
     host = np.empty(n_trials, dtype=np.int32)
 
     # Case 1: player == prize → host excludes only 'player'
+    # 'same' is a boolean array: same[i] = True if the player 
+    # initially picked the prize in trial i.
     same = prize == player
     if np.any(same):
         k = rng.integers(n_doors - 1, size=np.sum(same), dtype=np.int32)
         p = player[same]
+        # If k is before p, keep it.
+        # If k is at/after p, shift it up by 1 to “jump over” p.
         host[same] = k + (k >= p)
 
     # Case 2: player != prize → host excludes 'player' and 'prize'
@@ -234,13 +528,13 @@ def montyhall_fast(
         a = np.minimum(player[diff], prize[diff])
         b = np.maximum(player[diff], prize[diff])
         k = rng.integers(n_doors - 2, size=np.sum(diff), dtype=np.int32)
-        host[diff] = k + (k >= a) + (k >= b)
+        host[diff] = k + (k >= a) + (k >= (b-1))
 
     # Player switches: exclude 'player' and 'host'
     a2 = np.minimum(player, host)
     b2 = np.maximum(player, host)
     k2 = rng.integers(n_doors - 2, size=n_trials, dtype=np.int32)
-    player2 = k2 + (k2 >= a2) + (k2 >= b2)
+    player2 = k2 + (k2 >= a2) + (k2 >= (b2-1))
 
     return {
         "noswitch": int((prize == player).sum()),
@@ -287,13 +581,13 @@ def _trial_once(n_doors: int) -> (int, int):
         a = player if player < prize else prize
         b = prize if prize > player else player
         k = np.random.randint(0, n_doors - 2)
-        host = k + (1 if k >= a else 0) + (1 if k >= b else 0)
+        host = k + (1 if k >= a else 0) + (1 if k >= (b-1) else 0)
 
     # player switches: choose uniformly from doors != player and != host
     a2 = player if player < host else host
     b2 = host if host > player else player
     k2 = np.random.randint(0, n_doors - 2)
-    player2 = k2 + (1 if k2 >= a2 else 0) + (1 if k2 >= b2 else 0)
+    player2 = k2 + (1 if k2 >= a2 else 0) + (1 if k2 >= (b2-1) else 0)
 
     noswitch_win = 1 if prize == player  else 0
     switch_win   = 1 if prize == player2 else 0
@@ -402,7 +696,7 @@ benchmark(n_doors = 4, n_trials = 1000_000)
 
 In Python, variables and the objects they point to actually live in
 two different places in the computer memory. Think of variables as
-pointers to the objects they’re associated with, rather than being
+pointers to the objects they're associated with, rather than being
 those objects. This matters when multiple variables point to the same
 object.
 ```{python}
@@ -497,7 +791,7 @@ are allocated when needed, at the cost of being slow.
 2 ** 63 * 1000
 ```
 This number is 1000 times larger than the prior number,
-but still displayed perfectly without any overflows
+but still displayed perfectly without any overflows.
 
 ### Floating Number
 

@@ -94,7 +94,7 @@ request to the class notes contributed by **Nick Pfeifer**..
 + Create a fork of the class repository on the GitHub website.
     + Make sure your fork is up to date by clicking **Sync fork** if necessary.
 + Clone your fork into a folder on your computer.
-    + `git clone https://github.com/GitHub_Username/ids-s25.git`
+    + `git clone https://github.com/GitHub_Username/ids-s26.git`
     + Replace **GitHub_Username** with your personal GitHub Username.
 + Check to see if you can access the folder/cloned repository in your code editor.
     + The class notes home page is located in the index.qmd file.

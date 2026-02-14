@@ -31,7 +31,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Load the cleaned NYC crash data
-crash_df = pd.read_feather("../ids-f25/data/nyc_crashes_cleaned.feather")
+crash_df = pd.read_feather("../ids-s26/data/nyc_crashes_cleaned.feather")
 
 # Count crashes by borough
 borough_counts = crash_df["borough"].value_counts().reset_index()
