@@ -183,6 +183,9 @@ Markdown.
     - Learn more about data science and how it can help in my data analysis 
     (domain: earth data science) major.
 + Landolphi, Joseph
+    - Improve my efficiency with Python
+    - Be able to work with real-world data sets for future results
+    - Gain experience using data sets for sports analytics
 + Lawrence, Claire
 + Liu, Kevin
     - Use git better in a collobrative environment and more complex commands
@@ -190,6 +193,9 @@ Markdown.
     - Understand the use of Quarto in data analysis
 + Mccabe, Scott
 + Mohan, Harish
+    - Enhance my skills in python
+    - Gain expertise in working with raw data and translating it to real world results
+    - Learn more about the data pipeline and how to use it in the real world
 + Nash, Jayden
 + Orsini, Ronnie
     - Learn how to apply data science techniques to real world datasets
@@ -367,21 +373,21 @@ Please use the following table to sign up.
    03/04 | Jones, Cody | 
    03/04 | Davis, Reid | 
    03/09 | Lawrence, Claire | 
-   03/09 | Trnka, Jonathan | 
+   03/09 | Trnka, Jonathan | LLM Agents 
    03/11 | Orsini, Ronnie |
    03/11 | Patel, Vrajkumar |
    03/23 | Liu, Kevin |
-   03/23 | Landolphi, Joseph |
+   03/23 | Landolphi, Joseph | Exploratory analysis of sports/softball data
    03/25 | Burns, Kyle |
    03/25 | Mohan, Harish | 
    03/30 | Carbone, Vincenzo |
    03/30 | Bennett, Emily |
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
    04/01 | Ibrahim, Omar |   
-   04/06 | Patel, Reesha |
+   04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
-   04/08 | Lacasse, Violet |
+   04/08 | Lacasse, Violet | Spatial data with `GeoPandas`
    04/13 | Wolven, Alexander |   
    04/13 | Zharyy, Sofia |  
 
