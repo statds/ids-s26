@@ -1,0 +1,438 @@
+## K-Means Clustering for Customer Segmentation
+
+This presentation was prepared by Alysha Desai
+
+
+# Introduction
+
+## What is K-Means and how does it work?
+- **K-Means Clustering** is a learning algorithm used for data clustering and grouping unlabeled data by similarity. 
+- **Unsupervised:** No pre-set labels or answers provided to the computer.
+- **Goal:** Find hidden patterns and structure in unorganized, raw data. The objective is to minimize the sum of distances between data points and their assigned clusters. 
+
+## Real-World Use Case
+
+::: {.incremental}
+- This type of cluster analysis is used in data science for market segmentation, document clustering, and much more. 
+- I will be focusing on **Customer Segmentation**, for targeting advertising. 
+
+**Dataset:** 
+
+*Mall Customer Segmentation*
+
+- Profiles of 200 shoppers from a supermarket mall.
+- We use Age, Income, and Spending Score to find groups.
+:::
+
+
+# The Logic 
+
+## The "K" in K-Means and Centroids 
+
+:::: {.columns}
+
+::: {.column width="40%"}
+### What is *K*?
+- *K* represents the number of clusters we want the algorithm to create.
+- You must choose *K* before the algorithm begins.
+
+### Centroids
+- A **centroid** is the imaginary "center" of a cluster.
+- It is the average of all data points in that group.
+- Centroids move as the group of points changes.
+:::
+
+::: {.column width="60%"}
+```{python}
+#| echo: false
+#| out-width: "40%"
+#| fig-align: "center"
+#| fig-width: 5
+#| fig-height: 4
+
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+
+# Generate 3 blobs
+X, y = make_blobs(n_samples=300, centers=3, cluster_std=0.60, random_state=0)
+
+#Configure and fit the model in one clean line
+kmeans = KMeans(n_clusters=3, n_init=10, random_state=0).fit(X)
+
+# Extract the final centroid coord
+centroids = kmeans.cluster_centers_
+
+# Plot results
+plt.figure(figsize=(5, 4))
+plt.scatter(X[:, 0], X[:, 1], s=30, c=y, cmap='viridis', alpha=0.7)
+
+# Red 'X' for centroids 
+plt.scatter(centroids[:, 0], centroids[:, 1], 
+            s=200, c='red', marker='X', edgecolor='k', label='Centroids')
+
+plt.title("Visualizing Centroids and Clusters")
+plt.legend()
+plt.tight_layout() 
+plt.show()
+```
+:::
+
+::::
+
+## K-Means in Motion 
+
+We can use Python to create an animation that shows the step-by-step flow of how clusters are formed by stopping the algorithm after each iteration.
+
+```{python}
+#| echo: false
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+import pandas as pd
+from IPython.display import HTML, display
+
+# --- FUNCTIONS FROM THE EXAMPLE ---
+def initializeCentroids(k: int, points: np.ndarray) -> np.ndarray:
+    indices = []
+    n = points.shape[0]
+    if k > len(points):
+        return
+    else:
+        while len(indices) < k:
+            index = np.random.randint(low=0, high=n)
+            if not index in indices:
+                indices.append(index)
+    return points[indices, :] 
+
+def assignPointsToClusters(centroids: np.ndarray, points: np.ndarray) -> np.ndarray:
+    n = points.shape[0] 
+    k = centroids.shape[0] 
+    clusters = np.zeros(shape=(n,)) 
+    for i in range(n):
+        distances = []
+        for j in range(k):
+            distances.append(np.linalg.norm(points[i, :] - centroids[j, :]))
+        clusters[i] = distances.index(min(distances))
+    return clusters
+
+def optimizeCentroids(centroids: np.ndarray, points: np.ndarray, clusters: np.ndarray) -> np.ndarray:
+    n = points.shape[0] 
+    k = centroids.shape[0] 
+    newCentroids = np.zeros(shape=(k, points.shape[1])) 
+    for i in range(k):
+        pointsInCluster = points[clusters == i]
+        if len(pointsInCluster) > 0:
+            newCentroids[i, :] = np.mean(pointsInCluster, axis=0)
+        else:
+            newCentroids[i, :] = centroids[i, :] # Keep old centroid if empty
+    return newCentroids
+
+# --- CLASS DEFINITION FROM THE EXAMPLE ---
+class KmeansAnimate2D():
+    def __init__(self, k: int, data: np.ndarray, startCentroids=None, columns:list=None, lables:list=None):
+        self.k = k
+        if data.shape[1] != 2:
+            raise RuntimeError('data must be of shape n x 2')
+        self.points = data
+        self.initialCentroids = startCentroids
+        self.columns = columns
+        self.cluster_lables = lables
+
+    def _generatorFuncAnimate(self):
+        if self.initialCentroids is None:
+            centroids = initializeCentroids(self.k, self.points)
+        else:
+            centroids = self.initialCentroids
+
+        clusters = assignPointsToClusters(centroids, self.points)
+        newCentroids = optimizeCentroids(centroids, self.points, clusters)
+        
+        iterations = 0
+        # Yield the first frame
+        yield centroids, clusters, iterations
+
+        # Loop until convergence
+        while not np.array_equal(centroids, newCentroids) and iterations < 15:
+            centroids = newCentroids
+            clusters = assignPointsToClusters(centroids, self.points)
+            newCentroids = optimizeCentroids(centroids, self.points, clusters)
+            iterations += 1
+            yield centroids, clusters, iterations
+
+    def _animate(self, generatorFuncData):
+        (centroids, clusters, i) = generatorFuncData 
+        points = self.points
+        plt.cla() # Clear axis
+        
+        # Plot User Data
+        plt.scatter(points[:, 0], points[:, 1], c=clusters, s=75, cmap='viridis', marker='o', alpha=0.6)
+        
+        # Plot Moving Centroids
+        plt.scatter(centroids[:, 0], centroids[:, 1], edgecolors="white", c='red', marker='X', s=200, label='Centroids')
+        
+        if self.columns:
+            plt.xlabel(self.columns[0])
+            plt.ylabel(self.columns[1])
+            
+        plt.title(f'Iteration: {i}\nK: {self.k}')
+        plt.legend()
+
+    def animate_jupyter_nb(self):
+        fig, ax = plt.subplots(figsize=(8, 6))
+        animObj = animation.FuncAnimation(
+            fig,  
+            self._animate, 
+            self._generatorFuncAnimate,
+            interval=800,
+            save_count=50 # Safety buffer for frames
+        )
+        display(HTML(animObj.to_jshtml()))
+        plt.close()
+
+# --- EXECUTION WITH YOUR MALL DATA ---
+# 1. Load your actual data
+df = pd.read_csv('Mall_Customers.csv')
+X = df.iloc[:, [3, 4]].values 
+
+# 2. Run the Custom Animation Class
+# We use K=5 and label the axes so it looks professional
+kmeans = KmeansAnimate2D(k=5, data=X, columns=['Annual Income (k$)', 'Spending Score (1-100)'])
+kmeans.animate_jupyter_nb()
+```
+
+- **Iterative Movement:** Watch how the Red X centroids physically shift as they recalculate the mean of their assigned points.
+- **Dynamic Assignment:** Notice how individual shoppers change colors (clusters) as centroids move closer to them.
+- **Convergence:** The animation stops once the centroids find their stable "home," resulting in our five final market segments.
+
+
+
+
+## The Elbow Method 
+### How do we find the optimal *K*?
+- A visual technique used to decide exactly how many clusters *K* are needed for a specific dataset.
+- As we add more clusters, the data points naturally get closer to their centers, but adding too many makes the model too complex.
+- We calculate the Within-Cluster Sum of Squares(WCSS), which is the total variance or "spread" inside each cluster.
+- We look for the specific point on the graph where the drop in WCSS slows down significantly—this is the "sweet spot".
+
+
+## Visualizing the Elbow Curve 
+
+:::: {.columns}
+
+::: {.column width="75%"}
+```{python}
+#| echo: false
+#| out-width: "100%"
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+
+df = pd.read_csv('Mall_Customers.csv')
+
+# Pick xolumn 3 (annual income) and column 4 (spending score)
+X = df.iloc[:, [3, 4]].values
+
+# Empty list to store "WCSS" scores
+wcss = []
+
+# Simple loop to test different K values (1 to 10)
+for i in range(1, 11):
+    kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+    kmeans.fit(X)
+    wcss.append(kmeans.inertia_)
+
+# Plot results to find the Elbow
+plt.figure(figsize=(6, 4))
+plt.plot(range(1, 11), wcss, marker='o', color='hotpink')
+plt.title('Elbow Method: Finding Optimal K')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('WCSS Score')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+:::
+
+::: {.column width="25%"}
+
+We tested *K* from 1 to 10 using our actual mall dataset. The "bend" happens at K=5, which is our optimal number.
+For our 200 shoppers, 5 clusters provide the best fit. Beyond 5, adding clusters provides very little extra value.
+
+:::
+
+::::
+
+## Step-by-step Breakdown 
+**Step 1: Initialization** 
+
+- Randomly select *K* points from the dataset to be initial centroids. 
+
+**Step 2: Assignment** 
+
+- Every data point is assigned to its nearest centroid using **Euclidean distance**.
+
+**Step 3: Update** 
+
+- Centroids move to the mathematical mean of all points in their new group. 
+
+**Step 4: Convergence** 
+
+- The loop repeats until centroids stop moving or reach a set limit. 
+
+# Python Implementation 
+
+## Coding with `Scikit-Learn` and `Matplotlib`
+
+First, we need to import the following libraries:
+
+- **<u>Numpy:</u>** Essential for numerical operations and distance calculations. 
+- **<u>Matplotlib:</u>** The primary tool for plotting our raw data and final results. 
+- **<u>Scikit learn:</u>** Used to generate synthetic data and run the KMeans model.
+
+```python
+import numpy as np 
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans 
+
+# Load the mall dataset
+import pandas as pd
+df = pd.read_csv('Mall_Customers.csv')
+
+# Extract the features for clustering
+# Using columns 3 (Income) and 4 (Spending Score)
+X = df.iloc[:, [3, 4]].values
+
+# Apply K-Means
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
+y_kmeans = kmeans.fit_predict(X)
+```
+
+## Visualizing Results
+
+### Raw Data & Model Setup
+
+:::: {.columns}
+
+::: {.column width="58%"}
+### The "Unorganized" Data
+```{python}
+#| echo: false
+#| out-width: "85%"
+import matplotlib.pyplot as plt
+import pandas as pd
+df = pd.read_csv('Mall_Customers.csv')
+X = df.iloc[:, [3, 4]].values
+
+plt.figure(figsize=(5, 4))
+plt.scatter(X[:, 0], X[:, 1], s=30, c='grey', alpha=0.5)
+plt.title('Unorganized Mall Data')
+plt.xlabel('Annual Income (k$)')
+plt.ylabel('Spending Score (1-100)')
+plt.tight_layout()
+plt.show()
+```
+:::
+
+::: {.column width="42%"}
+
+### Implementation Code
+
+```python
+# Select 5 clusters & Fit
+kmeans = KMeans(n_clusters=5, 
+                init='k-means++', 
+                random_state=42)
+y_kmeans = kmeans.fit_predict(X)
+
+# Plotting with Matplotlib
+plt.scatter(X[y_kmeans == 0, 0], 
+            X[y_kmeans == 0, 1], 
+            s=50, c='pink')
+```
+:::
+
+::::
+
+## Visualizing Results
+
+### Final Segments and Analysis 
+
+:::: {.columns}
+
+::: {.column width="60%"}
+### Segmented Clusters
+```{python}
+#| echo: false
+#| out-width: "85%"
+from sklearn.cluster import KMeans
+kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
+y_kmeans = kmeans.fit_predict(X)
+
+plt.figure(figsize=(5, 4))
+colors = ['pink', 'blue', 'green', 'purple', 'magenta']
+for i in range(5):
+    plt.scatter(X[y_kmeans == i, 0], X[y_kmeans == i, 1], 
+                s=30, c=colors[i], label=f'Cluster {i+1}')
+
+# Red 'X' for centroids
+plt.scatter(kmeans.cluster_centers_[:, 0], 
+            kmeans.cluster_centers_[:, 1], 
+            s=150, c='red', marker='X', label='Centroids')
+plt.title('Final Segmented Clusters')
+plt.tight_layout()
+plt.show()
+```
+:::
+
+::: {.column width="40%"}
+
+### Cluster Analysis
+
+**<u>Pink Group</u>:** High Income / Low Spenders
+
+**<u>Blue Group</u>:** High Income / High Spenders
+
+**<u>Centroids</u>:** The mathematical mean of each group
+
+**<u>Insight</u>:** Target <u>specific marketing</u> strategies
+
+::::
+
+
+## Advantages & Limitations 
+
+- **<u>Advantages</u>:** Simple to implement, fast, and highly scalable.
+
+- **<u>Outlier Sensitivity</u>:** Extreme points skew the mean and cluster shape.
+
+- **<u>Manual Choice of K</u>:** The model can't find the best K without us.
+
+- **<u>Initialization Risk</u>:** Starting positions heavily impact final results.
+
+- **<u>Dimensionality</u>:** Performance drops as you add too many variables.
+
+
+### Further Readings 
+
+**<u>Scikit-learn Clustering Guide</u>:** Technical documentation for K-Means and other models. https://scikit-learn.org/stable/modules/clustering.html
+
+**<u>Google Machine Learning Education</u>:** A great overview of K-Means advantages and disadvantages. https://developers.google.com/machine-learning/clustering/kmeans/
+
+**<u>IBM: What is K-Means?</u>:** A high-level explanation of how the algorithm is used in business. https://www.ibm.com/think/topics/k-means-clustering
+
+
+## Thank you! 
+### Questions?
+
+
+
+
+
+
+
+
+
+
