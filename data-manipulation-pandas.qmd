@@ -1,0 +1,204 @@
+---
+title: "Data Manipulation with Pandas"
+subtitle: "Introduction to Data Science | Spring 2026"
+format:
+    revealjs:
+        slide-number: true
+        preview-links: true
+        theme: default
+---
+
+# Introduction
+
+## What is Pandas?
+
+- Pandas is a Python library for data manipulation and analysis.
+- It is designed to work with structured or tabular data.
+- It provides flexible and efficient data structures.
+- It is widely used in data science and research.
+
+## Why is Data Manipulation Important?
+- Real-world data is often incomplete or inconsistent.
+- Datasets may contain missing values or duplicate entries.
+- Raw data is usually not ready for analysis.
+- Poor data quality can lead to incorrect conclusions.
+- Data manipulation improves accuracy and reliability.
+
+## Why Use Pandas for Data Manipulation?
+- Pandas provides powerful and intuitive tools for cleaning data.
+- It simplifies complex data operations into a few lines of code.
+- It is more efficient and scalable than spreadsheet software.
+- It integrates smoothly with other Python libraries.
+- It supports reproducible and automated workflows.
+
+# Core Concepts
+
+## DataFrame and Series
+
+- A DataFrame is a two-dimensional table with rows and columns.
+- A Series is a one-dimensional labeled array.
+- Each row represents an observation.
+- Each column represents a variable.
+- DataFrames allow us to perform operations across rows and columns.
+
+## Importing Data
+
+- Pandas allows us to import data from various file formats.
+- The most common format is CSV.
+- After importing, the data is stored in a DataFrame.
+
+``` python
+import pandas as pd
+
+df = pd.read_csv("data.csv")
+df.head()
+```
+
+# Key Operations
+
+## Selecting Data
+
+- Selecting allows us to focus on specific variables.
+- This reduces unnecessary complexity in the dataset.
+- It improves clarity and efficiency.
+
+``` python
+df["score"]
+
+df[["age", "score"]]
+```
+- 'df["score"]' selects a single column.
+- 'df[["age", "score"]]' selects multiple columns.
+
+## Filtering Rows
+
+- Filtering allows us to select observations that meet specific conditions.
+- This is useful when we want to analyze a specific group.
+- For example, we may only want students above a certain score.
+- Filtering helps reduce noise in the dataset.
+
+``` python
+df[df["score"] > 80]
+```
+-'df[df["score"] > 80'] selects rows where score is greater than 80.
+- We can also combine multiple conditions.
+
+``` python
+df[(df["score"] > 80) & (df["age"] > 18)]
+```
+-'df[(df["score"] > 80) & (df["age"] > 18)]' applies multiple conditions at the same time.
+
+Filtering helps focus on relevant observations.
+
+## Grouping and Aggregation
+
+- Grouping allows us to divide data into categories.
+- Aggregation summarizes values within each group.
+- Common functions include mean, sum, and count.
+
+``` python
+df.groupby("gender")["score"].mean()
+
+df.groupby("region")["sales"].sum()
+```
+- 'df.groupby("gender")["score"].mean()' groups data by gender and calculates the average score.
+
+## Handling Missing Data
+
+- Missing values are common in real datasets.
+- They must be handled before analysis.
+- Pandas provides built-in functions for detecting and treating missing data.
+- Unhandled missing values may bias statistical results.
+
+``` python
+df.isna().sum()
+
+df.dropna()
+
+df.fillna(0)
+```
+
+- 'df.isna()' checks where missing values exist.
+- 'df.dropna()' removes rows with missing values.
+- 'df.fillna(0)' replaces missing values with a specified value (in this case, 0).
+
+## Sorting Data
+
+- Sorting helps organize data in ascending or descending order.
+- It is useful for identifying highest or lowest values.
+
+``` python
+df.sort_values("score", ascending=False)
+```
+- 'df.sort_values("score", ascending=False)' sorts the dataset by score in descending order.
+
+## Common Mistakes in Data Manipulation
+
+- Ignoring missing values
+- Filtering too aggressively
+- Misinterpreting grouped results
+- Not checking for data types
+- Assuming the data is clean without verification
+
+## How to Avoid Common Mistakes
+
+- Always check for missing values before analysis
+- Filter carefully and review the remaining data
+- Verify group sizes when using groupby
+- Inspect data types using df.dtypes
+
+# Example Workflow
+
+## From Raw Data to Summary
+
+1. Load the dataset.
+2. Inspect the structure of the data.
+3. Handle missing values.
+4. Filter relevant observations.
+5. Group and summarize results.
+
+``` python
+df = pd.read_csv("data.csv")
+
+df = df.dropna()
+
+filtered = df[df["score"] > 80]
+
+summary = filtered.groupby("gender")["score"].mean()
+
+summary
+```
+
+# Why Pandas Is Important
+
+## Applications
+
+- Data preprocessing
+- Exploratory data analysis
+- Preparing datasets for machine learning
+- Academic research and industry analytics
+
+Pandas is typically the first step in a data science workflow, as it allows us to clean and prepare our data for further analysis.
+
+# Conclusion
+
+## Summary
+
+This presentation covered:
+
+- The role of Pandas in data manipulation and analysis
+- How Pandas works with structured tabular data
+- Key operations such as selecting, filtering, grouping and handling missing values
+- Common mistakes and best practices in data manipulation
+
+Effective data manipulation leads to more reliable and accurate analysis, which is crucial for making informed decisions based on data.
+
+## Further Reading
+
+For more information about Pandas:
+
+- [Pandas Official Documentation](https://pandas.pydata.org/docs/)
+- [10 Minutes to Pandas](https://pandas.pydata.org/docs/user_guide/10min.html)
+- [Pandas Cheat Sheet](https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf)
+
+# THANK YOU
