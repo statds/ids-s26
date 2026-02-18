@@ -361,7 +361,7 @@ Please use the following table to sign up.
    02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
    02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
    02/18 |  |   
-   02/23 | Sawyer, Riley |   
+   02/23 | Sawyer, Riley | Decision Trees   
    02/23 | Faisal, Zaynab |  Import/Export Data 
    02/25 | Tessman, Sean | Web Scraping
    02/25 |  |   
