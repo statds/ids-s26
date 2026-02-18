@@ -1,0 +1,35 @@
+## Install Required Software
+
+### Git
+Used to track file changes and collaborate.
+
+### Python
+Needed to run code in the class notes.
+
+### Quarto
+Used to render the class notes.
+
+### VS Code
+Used to edit files.
+
+## Fork and Clone Repository
+
+1. Fork the class repo on GitHub.
+2. Clone the fork to the computer using git clone.
+3. Navigate into the repository folder.
+
+## Render Class Notes
+
+1. Create a virtual environment.
+2. Activate the environment.
+3. Install requirements using pip install -r requirements.txt.
+4. Run quarto render.
+5. Open the generated files to check output.
+
+## Troubleshooting
+
+- If git is not recognized: install Git and restart the terminal.
+- If python is not recognized: reinstall Python and check “Add Python to PATH.”
+- If quarto is not recognized: reinstall Quarto and restart the terminal.
+- If pip install fails: make sure the virtual environment is activated first.
+- If quarto render fails: read the error message and install missing packages, then try again.

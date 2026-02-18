@@ -123,10 +123,6 @@ Markdown.
 
 
 ### Students in STAT 3255
-+ Last name, First name
-    - Wish 1
-    - Wish 2
-    - Wish 3
 + Bennett, Emily
     - Become more experienced and confident with Python
     - Gain experience with data science problems and relate them to the 
@@ -163,7 +159,6 @@ Markdown.
     - I want to gain expertise in using tools such as Git and Quarto in order to effectively communicate and collaborate through projects.
     - I want to learn how how to clean and preprocess raw data to prepare it for projects
     - Lastly, I want to learn how to ask the right questions and solve them using data.
-+ Jackson, Brooke
 + Jiang, Ryan
     - Enhance my Python and coding abilities
     - Introduce myself to the world of Data Science
@@ -187,6 +182,9 @@ Markdown.
     - Be able to work with real-world data sets for future results
     - Gain experience using data sets for sports analytics
 + Lawrence, Claire
+    - Become more comfortable coding in Python
+    - Learn to use Git and Github to collaborate with peers
+    - Work on a project from start to finish using real datasets and topics that interest me
 + Liu, Kevin
     - Use git better in a collobrative environment and more complex commands
     - Apply data analysis to translate data to real-world results
@@ -196,7 +194,6 @@ Markdown.
     - Enhance my skills in python
     - Gain expertise in working with raw data and translating it to real world results
     - Learn more about the data pipeline and how to use it in the real world
-+ Nash, Jayden
 + Orsini, Ronnie
     - Learn how to apply data science techniques to real world datasets
     - Improve collaboration skills using Git and GitHub
@@ -226,7 +223,7 @@ Markdown.
 + Tessman, Sean
     - Learn how data science applies to sports analytics and performance.
     - Build a strong reproducible workflow with Git, Quarto, and Python.
-    - Gain experience with real-world datasets.
+    - Gain experience with real-world datasets and examples. Also how to identify what problem is at task, and how to find a solution using data science. 
 + Trnka, Jonathan
     - I want to get more comfortable using github, linux commands, and 
     more.
@@ -362,33 +359,33 @@ Please use the following table to sign up.
   ----- | ------------- | ------------------------- 
    02/16 | Desai, Alysha  | K-Means Clustering 
    02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
-   02/18 | Jackson, Brooke |
    02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
+   02/18 |  |   
    02/23 | Sawyer, Riley |   
    02/23 | Faisal, Zaynab |  Import/Export Data 
-   02/25 | Tessman, Sean |
-   02/25 | Nash, Jayden |   
+   02/25 | Tessman, Sean | Web Scraping
+   02/25 |  |   
    03/02 | Watanabe, Sara | Random Forest
-   03/02 | Jiang, Ryan |    
+   03/02 | Jiang, Ryan | Animation   
    03/04 | Jones, Cody | Visualizing Spatial Data
-   03/04 | Davis, Reid | 
-   03/09 | Lawrence, Claire | 
+   03/04 | Davis, Reid | Markov Chains in Python
+   03/09 | Lawrence, Claire | [Visualizing Spatial Data]{style="color:red;"}
    03/09 | Trnka, Jonathan | LLM Agents 
-   03/11 | Orsini, Ronnie |
+   03/11 | Orsini, Ronnie | Logistic Regression
    03/11 | Patel, Vrajkumar |
-   03/23 | Liu, Kevin |
+   03/23 | Liu, Kevin | Natural leanguage processing
    03/23 | Landolphi, Joseph | Exploratory analysis of sports/softball data
-   03/25 | Burns, Kyle |
-   03/25 | Mohan, Harish | 
-   03/30 | Carbone, Vincenzo |
+   03/25 | Burns, Kyle | Support vector machine
+   03/25 | Mohan, Harish | [Large language models (LLM)]{style="color:red;"}
+   03/30 | Carbone, Vincenzo | Neural networks (used in predicting sports statistics)
    03/30 | Bennett, Emily | Lasso
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
    04/01 | Ibrahim, Omar |   
    04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
-   04/08 | Lacasse, Violet | Spatial data with `GeoPandas`
-   04/13 | Wolven, Alexander |   
+   04/08 | Lacasse, Violet | [Spatial data with `GeoPandas`]{style="color:red;"}
+   04/13 | Wolven, Alexander | [Neural Networks Basics]{style="color:red;"} 
    04/13 | Zharyy, Sofia |  
 
 ### Final Project Presentation Schedule

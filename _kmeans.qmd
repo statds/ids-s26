@@ -192,7 +192,7 @@ class KmeansAnimate2D():
 
 # --- EXECUTION WITH YOUR MALL DATA ---
 # 1. Load your actual data
-df = pd.read_csv('Mall_Customers.csv')
+df = pd.read_csv('data/Mall_Customers.csv')
 X = df.iloc[:, [3, 4]].values 
 
 # 2. Run the Custom Animation Class
@@ -229,7 +229,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-df = pd.read_csv('Mall_Customers.csv')
+df = pd.read_csv('data/Mall_Customers.csv')
 
 # Pick xolumn 3 (annual income) and column 4 (spending score)
 X = df.iloc[:, [3, 4]].values
@@ -298,7 +298,7 @@ from sklearn.cluster import KMeans
 
 # Load the mall dataset
 import pandas as pd
-df = pd.read_csv('Mall_Customers.csv')
+df = pd.read_csv('data/Mall_Customers.csv')
 
 # Extract the features for clustering
 # Using columns 3 (Income) and 4 (Spending Score)
@@ -323,7 +323,7 @@ y_kmeans = kmeans.fit_predict(X)
 #| out-width: "85%"
 import matplotlib.pyplot as plt
 import pandas as pd
-df = pd.read_csv('Mall_Customers.csv')
+df = pd.read_csv('data/Mall_Customers.csv')
 X = df.iloc[:, [3, 4]].values
 
 plt.figure(figsize=(5, 4))
