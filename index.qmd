@@ -386,7 +386,7 @@ Please use the following table to sign up.
    04/08 | Mccabe, Scott |
    04/08 | Lacasse, Violet | [Spatial data with `GeoPandas`]{style="color:red;"}
    04/13 | Wolven, Alexander | [Neural Networks Basics]{style="color:red;"} 
-   04/13 | Zharyy, Sofia |  
+   04/13 | Zharyy, Sofia |  Automatic Differentiation
 
 ### Final Project Presentation Schedule
 
