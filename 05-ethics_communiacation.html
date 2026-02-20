@@ -271,6 +271,15 @@ window.Quarto = {
   <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">5.2.10</span> Conclusion</a></li>
   <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading"><span class="header-section-number">5.2.11</span> Further Reading</a></li>
   </ul></li>
+  <li><a href="#other-examples" id="toc-other-examples" class="nav-link" data-scroll-target="#other-examples"><span class="header-section-number">5.3</span> Other examples</a>
+  <ul class="collapse">
+  <li><a href="#bad-visualization-examples" id="toc-bad-visualization-examples" class="nav-link" data-scroll-target="#bad-visualization-examples"><span class="header-section-number">5.3.1</span> Bad Visualization Examples</a></li>
+  <li><a href="#truncated-y-axis-cropped-axis-and-how-it-misleads" id="toc-truncated-y-axis-cropped-axis-and-how-it-misleads" class="nav-link" data-scroll-target="#truncated-y-axis-cropped-axis-and-how-it-misleads"><span class="header-section-number">5.3.2</span> Truncated y-axis (cropped axis) and how it misleads</a></li>
+  <li><a href="#aspect-ratio-slope-perception-banking-to-45-degrees" id="toc-aspect-ratio-slope-perception-banking-to-45-degrees" class="nav-link" data-scroll-target="#aspect-ratio-slope-perception-banking-to-45-degrees"><span class="header-section-number">5.3.3</span> Aspect ratio / slope perception (“banking to 45 degrees”)</a></li>
+  <li><a href="#color-misuse-in-scientific-communication-perception-accessibility" id="toc-color-misuse-in-scientific-communication-perception-accessibility" class="nav-link" data-scroll-target="#color-misuse-in-scientific-communication-perception-accessibility"><span class="header-section-number">5.3.4</span> Color misuse in scientific communication (perception + accessibility)</a></li>
+  <li><a href="#takeaway-titles-and-the-so-what-test" id="toc-takeaway-titles-and-the-so-what-test" class="nav-link" data-scroll-target="#takeaway-titles-and-the-so-what-test"><span class="header-section-number">5.3.5</span> “Takeaway titles” and the “So what?” test</a></li>
+  <li><a href="#asa-ethical-guidelines-communication-responsibilities" id="toc-asa-ethical-guidelines-communication-responsibilities" class="nav-link" data-scroll-target="#asa-ethical-guidelines-communication-responsibilities"><span class="header-section-number">5.3.6</span> ASA Ethical Guidelines (communication responsibilities)</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -470,7 +479,7 @@ window.Quarto = {
 <p>Even the best analysis doesn’t mean much if people cannot understand it. Clarity, honesty, and reproducibility are what make results useful.</p>
 <section id="example-framing-a-finding-clearly" class="level4" data-number="5.2.2.1">
 <h4 data-number="5.2.2.1" class="anchored" data-anchor-id="example-framing-a-finding-clearly"><span class="header-section-number">5.2.2.1</span> Example: Framing a Finding Clearly</h4>
-<div id="4ad6c3dc" class="cell" data-execution_count="1">
+<div id="f1df46d1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -533,7 +542,7 @@ window.Quarto = {
 - Add short interpretations under visuals.</p>
 <section id="example-turning-output-into-insight" class="level4" data-number="5.2.3.1">
 <h4 data-number="5.2.3.1" class="anchored" data-anchor-id="example-turning-output-into-insight"><span class="header-section-number">5.2.3.1</span> Example: Turning Output into Insight</h4>
-<div id="c23e3b40" class="cell" data-execution_count="2">
+<div id="0ebb285f" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average number of people injured per crash by borough</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>injury_summary <span class="op">=</span> (</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    crash_df.groupby(<span class="st">"borough"</span>)[<span class="st">"number_of_persons_injured"</span>]</span>
@@ -561,7 +570,7 @@ Name: number_of_persons_injured, dtype: float64</code></pre>
 </blockquote>
 <p>The first phrasing is correct but vague. It does not tell the audience how or by how much boroughs differ. The clearer version adds real numbers, ranks, and a hint of interpretation (density and traffic volume). Good phrasing gives context so the audience immediately grasps what the data shows.</p>
 <p>To make this pattern easier to see visually:</p>
-<div id="fb86d267" class="cell" data-execution_count="3">
+<div id="b500fde8" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sns.barplot(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>injury_summary.values,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>injury_summary.index,</span>
@@ -589,7 +598,7 @@ Name: number_of_persons_injured, dtype: float64</code></pre>
 <p>A good graphic should make the takeaway obvious in a few seconds. Titles, captions, and color choices all guide the audience toward what matters most.</p>
 <section id="example-highlighting-a-trend" class="level4" data-number="5.2.4.1">
 <h4 data-number="5.2.4.1" class="anchored" data-anchor-id="example-highlighting-a-trend"><span class="header-section-number">5.2.4.1</span> Example: Highlighting a Trend</h4>
-<div id="cedaf691" class="cell" data-execution_count="4">
+<div id="3908110e" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure datetime is parsed</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>crash_df[<span class="st">"crash_datetime"</span>] <span class="op">=</span> pd.to_datetime(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    crash_df[<span class="st">"crash_datetime"</span>], errors<span class="op">=</span><span class="st">"coerce"</span></span>
@@ -668,7 +677,7 @@ Name: number_of_persons_injured, dtype: float64</code></pre>
 - Use readable variable names and consistent file structure.</p>
 <section id="example-adding-reproducible-metadata" class="level4" data-number="5.2.6.1">
 <h4 data-number="5.2.6.1" class="anchored" data-anchor-id="example-adding-reproducible-metadata"><span class="header-section-number">5.2.6.1</span> Example: Adding Reproducible Metadata</h4>
-<div id="8110a8a3" class="cell" data-execution_count="5">
+<div id="ce3df7ae" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Data source: NYC Open Data (accessed October 2025)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># File: ids-f25/data/nyc_crashes_cleaned.feather</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Environment: Python 3.11 | pandas 2.2 | seaborn 0.13</span></span>
@@ -731,7 +740,7 @@ None</code></pre>
 - Write captions that clarify context and limitations.</p>
 <section id="example-1-cropped-axis" class="level4" data-number="5.2.7.1">
 <h4 data-number="5.2.7.1" class="anchored" data-anchor-id="example-1-cropped-axis"><span class="header-section-number">5.2.7.1</span> Example 1: Cropped Axis</h4>
-<div id="e3823b0f" class="cell" data-execution_count="6">
+<div id="09e65211" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 1: Cropped Axis</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>ymin <span class="op">=</span> borough_counts[<span class="st">"crash_count"</span>].<span class="bu">min</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ymax <span class="op">=</span> borough_counts[<span class="st">"crash_count"</span>].<span class="bu">max</span>()</span>
@@ -781,7 +790,7 @@ None</code></pre>
 </section>
 <section id="example-2-distorted-aspect-ratio" class="level4" data-number="5.2.7.2">
 <h4 data-number="5.2.7.2" class="anchored" data-anchor-id="example-2-distorted-aspect-ratio"><span class="header-section-number">5.2.7.2</span> Example 2: Distorted Aspect Ratio</h4>
-<div id="bee2948a" class="cell" data-execution_count="7">
+<div id="17bdd26f" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 2: Distorted Aspect Ratio</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="fl">3.5</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -814,7 +823,7 @@ None</code></pre>
 </section>
 <section id="example-3-misleading-color-emphasis" class="level4" data-number="5.2.7.3">
 <h4 data-number="5.2.7.3" class="anchored" data-anchor-id="example-3-misleading-color-emphasis"><span class="header-section-number">5.2.7.3</span> Example 3: Misleading Color Emphasis</h4>
-<div id="561a27fc" class="cell" data-execution_count="8">
+<div id="975d79e3" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example 3: Misleading Color Emphasis</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample data </span></span>
@@ -866,7 +875,7 @@ None</code></pre>
 <p>Great communication doesn’t stop at describing what happened, it explains what should happen next. Visuals paired with short, concrete takeaways make insights actionable.</p>
 <section id="example-turning-findings-into-decisions" class="level4" data-number="5.2.8.1">
 <h4 data-number="5.2.8.1" class="anchored" data-anchor-id="example-turning-findings-into-decisions"><span class="header-section-number">5.2.8.1</span> Example: Turning Findings into Decisions</h4>
-<div id="de32074e" class="cell" data-execution_count="9">
+<div id="efc84365" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter crashes with any injuries (pedestrians, cyclists, or motorists)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>injury_df <span class="op">=</span> crash_df[</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    (crash_df[<span class="st">"number_of_pedestrians_injured"</span>] <span class="op">&gt;</span> <span class="dv">0</span>)</span>
@@ -989,6 +998,55 @@ A scoping review.</em> <em>Public Health Reviews.</em><br>
 <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12060258/" class="uri">https://pmc.ncbi.nlm.nih.gov/articles/PMC12060258/</a></p>
 <p>Pragmatic Editorial Team. (2025). <em>Communication Skills for Data Science.</em><br>
 <a href="https://www.pragmaticinstitute.com/resources/articles/data/communication-skills-for-data-science/" class="uri">https://www.pragmaticinstitute.com/resources/articles/data/communication-skills-for-data-science/</a></p>
+</section>
+</section>
+<section id="other-examples" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="other-examples"><span class="header-section-number">5.3</span> Other examples</h2>
+<p>Below are additional real-world examples to illustrate communication choices (wording, context, and visualization ethics). Each item includes a short description and source links.</p>
+<section id="bad-visualization-examples" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="bad-visualization-examples"><span class="header-section-number">5.3.1</span> Bad Visualization Examples</h3>
+<ul>
+<li>Bad examples you can learn from: <a href="https://www.gooddata.com/blog/bad-data-visualization-examples-that-you-can-learn-from/?utm_source=chatgpt.com" class="uri">https://www.gooddata.com/blog/bad-data-visualization-examples-that-you-can-learn-from/?utm_source=chatgpt.com</a></li>
+</ul>
+</section>
+<section id="truncated-y-axis-cropped-axis-and-how-it-misleads" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="truncated-y-axis-cropped-axis-and-how-it-misleads"><span class="header-section-number">5.3.2</span> Truncated y-axis (cropped axis) and how it misleads</h3>
+<p>A common “ethical communication” pitfall: cropping the y-axis can exaggerate differences.</p>
+<ul>
+<li><p>Research evidence and discussion (peer-reviewed, open access): <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9200168/" class="uri">https://pmc.ncbi.nlm.nih.gov/articles/PMC9200168/</a></p></li>
+<li><p>Practical explainer with clear illustrations: <a href="https://www.lrs.org/2020/06/10/visualizing-data-manipulating-the-y-axis/" class="uri">https://www.lrs.org/2020/06/10/visualizing-data-manipulating-the-y-axis/</a></p></li>
+</ul>
+</section>
+<section id="aspect-ratio-slope-perception-banking-to-45-degrees" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="aspect-ratio-slope-perception-banking-to-45-degrees"><span class="header-section-number">5.3.3</span> Aspect ratio / slope perception (“banking to 45 degrees”)</h3>
+<p>Changing the aspect ratio changes perceived steepness and can distort how trends feel, even if the underlying data are unchanged.</p>
+<ul>
+<li><p>Conceptual explainer: <a href="https://eagereyes.org/basics/banking-45-degrees" class="uri">https://eagereyes.org/basics/banking-45-degrees</a></p></li>
+<li><p>Research paper (Heer &amp; Agrawala): <a href="https://dl.acm.org/doi/10.1109/TVCG.2006.163" class="uri">https://dl.acm.org/doi/10.1109/TVCG.2006.163</a></p></li>
+</ul>
+</section>
+<section id="color-misuse-in-scientific-communication-perception-accessibility" class="level3" data-number="5.3.4">
+<h3 data-number="5.3.4" class="anchored" data-anchor-id="color-misuse-in-scientific-communication-perception-accessibility"><span class="header-section-number">5.3.4</span> Color misuse in scientific communication (perception + accessibility)</h3>
+<p>Color palettes can unintentionally (or intentionally) bias interpretation, and why accessibility (e.g., color vision deficiency) matters.</p>
+<ul>
+<li>Nature Communications article on misuse of color: <a href="https://www.nature.com/articles/s41467-020-19160-7" class="uri">https://www.nature.com/articles/s41467-020-19160-7</a></li>
+</ul>
+</section>
+<section id="takeaway-titles-and-the-so-what-test" class="level3" data-number="5.3.5">
+<h3 data-number="5.3.5" class="anchored" data-anchor-id="takeaway-titles-and-the-so-what-test"><span class="header-section-number">5.3.5</span> “Takeaway titles” and the “So what?” test</h3>
+<p>How to write plot titles/captions that state the conclusion, not just describe the chart.</p>
+<ul>
+<li><p>``So what?’’ (Storytelling with Data): <a href="https://www.storytellingwithdata.com/blog/2017/3/22/so-what" class="uri">https://www.storytellingwithdata.com/blog/2017/3/22/so-what</a></p></li>
+<li><p>Takeaway titles exercise (SWD community): <a href="https://community.storytellingwithdata.com/exercises/use-takeaway-titles" class="uri">https://community.storytellingwithdata.com/exercises/use-takeaway-titles</a></p></li>
+</ul>
+</section>
+<section id="asa-ethical-guidelines-communication-responsibilities" class="level3" data-number="5.3.6">
+<h3 data-number="5.3.6" class="anchored" data-anchor-id="asa-ethical-guidelines-communication-responsibilities"><span class="header-section-number">5.3.6</span> ASA Ethical Guidelines (communication responsibilities)</h3>
+<p>An authoritative anchor for transparency, limitations, avoiding misleading claims, and responsibilities to audiences.</p>
+<ul>
+<li><p>ASA Ethics page: <a href="https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice" class="uri">https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice</a></p></li>
+<li><p>ASA guidelines PDF: <a href="https://www.amstat.org/docs/default-source/amstat-documents/ethicalguidelines.pdf" class="uri">https://www.amstat.org/docs/default-source/amstat-documents/ethicalguidelines.pdf</a></p></li>
+</ul>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
