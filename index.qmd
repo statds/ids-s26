@@ -384,7 +384,7 @@ Please use the following table to sign up.
    04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
-   04/08 | Lacasse, Violet | [Spatial data with `GeoPandas`]{style="color:red;"}
+   04/08 | Lacasse, Violet | [Gradient boosting machine]
    04/13 | Wolven, Alexander | [Neural Networks Basics]{style="color:red;"} 
    04/13 | Zharyy, Sofia |  Automatic Differentiation
 
