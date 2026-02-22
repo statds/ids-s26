@@ -1,0 +1,199 @@
+---
+title: "Importing and Exporting Data"
+author: "Zaynab Faisal"
+format:
+  html:
+    code-fold: false
+execute:
+  freeze: false
+  cache: false
+  echo: true
+  warning: false
+  message: false
+---
+
+### Introduction
+Data analysis begins with importing data and ends with exporting results. Before creating visualizations or running models, the dataset must be loaded correctly into memory. Small mistakes such as incorrect file paths, wrong delimiters or unparsed date columns can change how the data behaves. If these issues are not identified early, they affect every step of the workflow.
+
+In this section, I focus on importing and exporting data using pandas in Python. I use a real-world CSV file to demonstrate common issues and practical ways to address them.
+
+### Pandas
+Pandas is a Python library used for working with tabular data. It allows data to be stored in a DataFrame, which is similar to a spreadsheet or SQL table.
+
+### Importing CSV Files
+
+CSV (Comma Separated Values) files are the most common format for storing structured data. In pandas, CSV files are imported using the `read_csv()` function.
+
+#### Real-World Example
+
+The dataset used in this example is `nyc_crashes_lbdwk_2025.csv`, located in the `data` folder of the course repository. This file contains weekly crash records and has not been cleaned in order to demonstrate common issues that arise during the importing process.
+
+```{python}
+import pandas as pd
+
+#Import CSV file into Data Frame
+df = pd.read_csv("data/nyc_crashes_lbdwk_2025.csv")
+
+#Show the first 10 rows of the dataset. 
+df.head(10)
+```
+
+Importing the file is only the first step. After loading the dataset, it is important to verify its structure before proceeding with analysis.
+
+#### Verifying the Structure
+
+Importing a dataset doesn't guarantee that it was interpreted correctly. After immediately loading the file, the structure should be verified. So, checking the data types of each column is critical and is completed using the  `dtypes` attribute.
+
+```{python}
+ df.shape
+```
+
+The shape attribute will confirm the number of rows and columns. This helps detect incomplete or truncated files.
+
+
+```{python}
+df.dtypes
+```
+
+The dtypes attribute shows how pandas interpreted each column. This is important because data type determines how a variable behaves during filtering and modeling. 
+
+```{python}
+df.info()
+```
+
+The info() function provides a summary of the counts and data types. This helps identify columns with missing values and detect unexpected type assignments.
+
+### Common Mistakes When Importing CSV Files
+
+By importing a dataset, it doesn't guarantee that it was interpreted correctly. Many issues occur silently, meaning the dataset loads without error but behaves incorrectly during analysis.
+
+The following examples demonstrate common mistakes and how to identify and fix them.
+
+#### Incorrect File Path
+
+A very common issue that arises when importing data is an incorrect file path. 
+```{python}
+#| error: true
+pd.read_csv("nyc_crashes_lbdwk_2025.csv")
+```
+
+This error occurs because Python searches for the file in the current working directory. Since the file is stored inside the data folder, the relative path must include that folder name.
+
+
+In order to confirm the working directory:
+```{python}
+import os
+os.getcwd()
+```
+
+The working directory determines where Python searches for files when using relative paths. If the file is stored inside a folder, the path must reflect that structure. 
+
+#### Fixing the Path
+The correct path to the file would be as follows:
+```{python}
+pd.read_csv("data/nyc_crashes_lbdwk_2025.csv").head()
+```
+
+#### Wrong Delimiter
+
+In some files, the separator between values is not a comma. If the delimiter is incorrect, the entire dataset may appear as a single column. In those cases, the correct separator must be specified.
+
+```{python}
+# Example of incorrect delimiter
+df_wrong = pd.read_csv("data/nyc_crashes_lbdwk_2025.csv", sep=";")
+df_wrong.head(10)
+```
+
+In this case, the entire dataset loads into a single column. This happens because the file actually uses commas, not semicolons.
+
+The correct import removes the incorrect separator argument:
+```{python}
+df_correct = pd.read_csv("data/nyc_crashes_lbdwk_2025.csv")
+df_correct.head()
+```
+
+#### Unexpected Data Types
+
+Numeric columns may be interpreted as object type if they contain inconsistent values or non-numeric characters.
+```{python}
+df["ZIP CODE"].dtype
+```
+
+To convert the column safely:
+```{python}
+df["ZIP CODE"] = pd.to_numeric(df["ZIP CODE"], errors="coerce")
+df["ZIP CODE"].dtype
+```
+
+The argument errors="coerce" converts invalid values into missing values rather than raising an error.
+
+#### Missing Values
+
+Missing values affect summary statistics and modeling decisions. They should be inspected early.
+
+```{python}
+df.isnull().sum()
+```
+
+To visualize missingness:
+
+```{python}
+import matplotlib.pyplot as plt
+
+missing_counts = df.isnull().sum()
+
+missing_counts[missing_counts > 0] \
+    .sort_values(ascending=False) \
+    .plot(kind="bar", figsize=(10,5))
+
+plt.title("Missing Values by Column")
+plt.ylabel("Count")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+```
+
+Visualizing missing values helps identify which variables may require cleaning before modeling.
+
+### Comparing CSV and Feather Formats
+
+CSV is the most common format for tabular data, but it is not always the most efficient. Feather is a binary format designed for speed and type preservation.
+
+Feather files require the `pyarrow` dependency. In some environments, attempting to read a Feather file without `pyarrow` installed will result in an ImportError. This highlights an important reproducibility lesson: certain file formats require additional dependencies that must be installed before use.
+
+Feather files are optimized for performance and type preservation, making them well-suited for large-scale workflows. However, because they are binary and not human-readable, CSV files remain more portable and easier to inspect manually.
+
+### Exporting Data
+
+After verifying and cleaning the dataset, the results can be exported for reuse or collaboration. Exporting ensures that the cleaned version of the data can be shared or reused without repeating the cleaning steps.
+
+For example, the cleaned DataFrame can be exported to a new CSV file.
+```{python}
+df.to_csv("data/nyc_crashes_cleaned_export.csv", index=False)
+```
+
+This command creates a new CSV file containing the cleaned dataset. The argument index=False prevents pandas from writing the DataFrame index as an extra column. Forgetting this argument often results in unwanted columns such as "Unnamed: 0" when the file is imported again.
+
+### Best Practices for Importing and Exporting Data
+The following practices help prevent silent errors:
+
+1. Inspect the shape, data types, and missing values immediately after importing a dataset.
+2. Use relative file paths within a repository to maintain portability.
+3. Parse date columns during import instead of converting them later.
+4. Avoid manually editing raw data files after they are stored.
+5. Separate raw data from processed outputs within the project directory.
+6. Always verify structure before beginning analysis.
+
+
+### Further Readings 
+- https://realpython.com/python-csv/
+- https://miamioh.edu/centers-institutes/center-for-analytics-data-science/students/coding-tutorials/python/reading-data-and-writing-files.html
+- https://pandas.pydata.org/docs/user_guide/10min.html
+- https://www.sqlshack.com/exporting-data-with-pandas-in-python/
+
+
+## Thank you!
+
+### Questions?
+
+
