@@ -354,7 +354,7 @@ window.Quarto = {
 <li>Choose one tool (e.g., VS Code, Jupyter, Positron, Emacs) and follow the Quarto documentation to reproduce the example plot.</li>
 <li>Minimum requirement: include the plot in your <code>hw.qmd</code> using a Python code cell that produces a polar line plot with Matplotlib. For example:</li>
 </ul>
-<div id="586663c8" class="cell" data-execution_count="1">
+<div id="24d5944a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -467,7 +467,7 @@ a_1
 <hr>
 <p><strong>Example code: 2×2 matrices + operations</strong></p>
 <p>Here are some functions of matrices that could be useful to you. You may direct use these defined functions in implementing <code>seq_log(n, c1, c2)</code>.</p>
-<div id="0744a75a" class="cell" data-execution_count="2">
+<div id="6f534565" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A 2x2 matrix is represented as:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[a, b],</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  [c, d]]</span></span>
@@ -531,7 +531,7 @@ a_1
 <p>You are asked to use the provided code to run the analysis and answer the questions at the end. The code simulates a dataset with a strong signal for group A and a relatively weaker signal + higher noise for group B, and then runs three different model strategies, namely, 1) a pooled model, 2) two separate models, and 3) a partial pooling model.</p>
 <section id="creates-data-different-model-strategies" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="creates-data-different-model-strategies"><span class="header-section-number">6.3.1</span> Creates data + different model strategies</h3>
-<div id="a35d9f60" class="cell" data-execution_count="3">
+<div id="710f34e2" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -561,7 +561,7 @@ a_1
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> group <span class="op">==</span> <span class="st">"A"</span>:</span>
 <span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        b0, b1, b2, sig <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span>,  <span class="fl">2.2</span>, <span class="op">-</span><span class="fl">1.4</span>, <span class="fl">1.0</span></span>
 <span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        b0, b1, b2, sig <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.8</span>,  <span class="fl">0.6</span>, <span class="fl">1.0</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        b0, b1, b2, sig <span class="op">=</span> <span class="op">-</span><span class="fl">0.2</span>, <span class="op">-</span><span class="fl">0.8</span>,  <span class="fl">0.6</span>, <span class="fl">1.8</span></span>
 <span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    lin <span class="op">=</span> b0 <span class="op">+</span> b1<span class="op">*</span>x1 <span class="op">+</span> b2<span class="op">*</span>x2 <span class="op">+</span> rng.normal(<span class="dv">0</span>, sig, n)</span>
 <span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>lin))</span>
@@ -582,15 +582,15 @@ a_1
 A    2500
 B     120
 Name: count, dtype: int64
-Base rate y=1 overall: 0.472
+Base rate y=1 overall: 0.475
 Base rate by group:
  group
 A    0.472
-B    0.458
+B    0.525
 Name: y, dtype: float64</code></pre>
 </div>
 </div>
-<div id="ea02a113" class="cell" data-execution_count="4">
+<div id="dc9ca703" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split within each group so both groups appear in train/test</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_parts, test_parts <span class="op">=</span> [], []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g, sub <span class="kw">in</span> df.groupby(<span class="st">"group"</span>):</span>
@@ -634,7 +634,7 @@ Name: y, dtype: float64</code></pre>
 <span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="d0600590" class="cell" data-execution_count="5">
+<div id="636dfc52" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) POOLED model</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -642,16 +642,13 @@ Name: y, dtype: float64</code></pre>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pooled.fit(Xtr, ytr)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">=== 1) Pooled (ignores group) ==="</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(eval_by_group(pooled, Xte, yte, gte).<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># print(eval_by_group(pooled, Xte, yte, gte).round(3))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-=== 1) Pooled (ignores group) ===
-  group  n_test    acc    auc    FPR    FNR
-0     A     750  0.768  0.856  0.197  0.271
-1     B      36  0.361  0.310  0.474  0.824</code></pre>
+=== 1) Pooled (ignores group) ===</code></pre>
 </div>
 </div>
-<div id="6d67d564" class="cell" data-execution_count="6">
+<div id="d62cc2dd" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) SEPARATE models</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -666,16 +663,13 @@ Name: y, dtype: float64</code></pre>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    rows.append(res)</span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>sep_results <span class="op">=</span> pd.concat(rows, ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sep_results.<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># print(sep_results.round(3))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-=== 2) Separate models (A model, B model) ===
-  group  n_test    acc    auc    FPR    FNR
-0     A     750  0.779  0.860  0.184  0.263
-1     B      36  0.556  0.563  0.421  0.471</code></pre>
+=== 2) Separate models (A model, B model) ===</code></pre>
 </div>
 </div>
-<div id="65eaa3e7" class="cell" data-execution_count="7">
+<div id="69fb5d50" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) "Partial pooling"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -691,7 +685,7 @@ Name: y, dtype: float64</code></pre>
 <span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>Xtr_int <span class="op">=</span> add_interactions(train[[<span class="st">"group"</span>] <span class="op">+</span> features])</span>
 <span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>Xte_int <span class="op">=</span> add_interactions(test[[<span class="st">"group"</span>] <span class="op">+</span> features])</span>
 <span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>partial <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">5000</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>partial <span class="op">=</span> make_pipeline(StandardScaler(), LogisticRegression(max_iter<span class="op">=</span><span class="dv">5000</span>, C<span class="op">=</span><span class="fl">0.3</span>))</span>
 <span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>partial.fit(Xtr_int, ytr)</span>
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">=== 3) One model with group interaction (regularized) ==="</span>)</span>
@@ -700,13 +694,11 @@ Name: y, dtype: float64</code></pre>
 <pre><code>
 === 3) One model with group interaction (regularized) ===
   group  n_test    acc    auc    FPR    FNR
-0     A     750  0.773  0.861  0.189  0.268
-1     B      36  0.639  0.666  0.316  0.412</code></pre>
+0     A     750  0.771  0.861  0.194  0.268
+1     B      36  0.694  0.768  0.353  0.263</code></pre>
 </div>
 </div>
 <ul>
-<li><p>Explain the data generating process and how the two groups differ in terms of signal and noise. Why is it harder to learn for group B?</p></li>
-<li><p>Explain the evaluation metrics (accuracy, AUC, FPR, FNR) and what they mean in this binary classification context.</p></li>
 <li><p>Explain how the pooled model works and how it performs for each group. Why does it perform worse for B?</p></li>
 <li><p>Explain how separate models work and how they perform for each group. Why does the B model perform better?</p></li>
 <li><p>Explain how the interaction model works and how it performs for each group. Why does it lead to the best performance for B?</p></li>
