@@ -15,7 +15,7 @@ execute:
 ### Introduction
 Data analysis begins with importing data and ends with exporting results. Before creating visualizations or running models, the dataset must be loaded correctly into memory. Small mistakes such as incorrect file paths, wrong delimiters or unparsed date columns can change how the data behaves. If these issues are not identified early, they affect every step of the workflow.
 
-In this section, I focus on importing and exporting data using pandas in Python. I use a real-world CSV file to demonstrate common issues and practical ways to address them.
+This presentation focuses on building a reproducible importing and exporting workflow using pandas in Python.
 
 ### Pandas
 Pandas is a Python library used for working with tabular data. It allows data to be stored in a DataFrame, which is similar to a spreadsheet or SQL table.
@@ -45,7 +45,7 @@ Importing the file is only the first step. After loading the dataset, it is impo
 Importing a dataset doesn't guarantee that it was interpreted correctly. After immediately loading the file, the structure should be verified. So, checking the data types of each column is critical and is completed using the  `dtypes` attribute.
 
 ```{python}
- df.shape
+df.shape
 ```
 
 The shape attribute will confirm the number of rows and columns. This helps detect incomplete or truncated files.
@@ -74,7 +74,10 @@ The following examples demonstrate common mistakes and how to identify and fix t
 A very common issue that arises when importing data is an incorrect file path. 
 ```{python}
 #| error: true
-pd.read_csv("nyc_crashes_lbdwk_2025.csv")
+try:
+    pd.read_csv("nyc_crashes_lbdwk_2025.csv")
+except FileNotFoundError as e:
+    print("FileNotFoundError:", e)
 ```
 
 This error occurs because Python searches for the file in the current working directory. Since the file is stored inside the data folder, the relative path must include that folder name.
@@ -135,25 +138,33 @@ Missing values affect summary statistics and modeling decisions. They should be 
 df.isnull().sum()
 ```
 
-To visualize missingness:
+Checking missing values early helps identify which variables may require cleaning before modeling.
+
+### Importing Other Common Formats
+
+While CSV is the most common format, pandas supports many other file types used in practice.
+
+#### Excel Files
+
+Excel files are frequently used in business settings. They can be imported using `read_excel()`.
 
 ```{python}
-import matplotlib.pyplot as plt
-
-missing_counts = df.isnull().sum()
-
-missing_counts[missing_counts > 0] \
-    .sort_values(ascending=False) \
-    .plot(kind="bar", figsize=(10,5))
-
-plt.title("Missing Values by Column")
-plt.ylabel("Count")
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.show()
+#| eval: false
+df_excel = pd.read_excel("data/example.xlsx", sheet_name="Sheet1")
 ```
 
-Visualizing missing values helps identify which variables may require cleaning before modeling.
+Excel files may contain multiple sheets, so specifying sheet_name is often necessary. Similar to CSV, the structure should be verified immediately after import using .shape, .info(), and .dtypes.
+
+#### JSON Files
+
+JSON files are commonly used in web applications and APIs. They can be imported using `read_json()`.
+
+```{python}
+#| eval: false
+df_json = pd.read_json("data/example.json")
+```
+
+Unlike CSV and Excel, JSON files may contain nested structures. In those cases, additional processing such as normalization may be required before analysis.
 
 ### Comparing CSV and Feather Formats
 
@@ -174,22 +185,49 @@ df.to_csv("data/nyc_crashes_cleaned_export.csv", index=False)
 
 This command creates a new CSV file containing the cleaned dataset. The argument index=False prevents pandas from writing the DataFrame index as an extra column. Forgetting this argument often results in unwanted columns such as "Unnamed: 0" when the file is imported again.
 
+#### Exporting Figures
+```{python}
+import matplotlib.pyplot as plt
+import os
+
+plt.figure()
+df["ZIP CODE"].value_counts().head(10).plot(kind="bar")
+
+plt.title("Top ZIP Codes by Crash Count")
+plt.ylabel("Count")
+plt.xticks(rotation=45)
+
+os.makedirs("figures", exist_ok=True)
+plt.savefig("figures/top_zipcodes.png", dpi=300, bbox_inches="tight")
+
+plt.show() 
+plt.close()
+```
+
+The `savefig()` function saves the visualization to a file:
+
+- `dpi=300` ensures high resolution for reports.
+- `bbox_inches="tight"` removes excess whitespace.
+- Saving figures to a `figures/` folder improves project organization.
+
 ### Best Practices for Importing and Exporting Data
+
 The following practices help prevent silent errors:
 
-1. Inspect the shape, data types, and missing values immediately after importing a dataset.
-2. Use relative file paths within a repository to maintain portability.
-3. Parse date columns during import instead of converting them later.
-4. Avoid manually editing raw data files after they are stored.
-5. Separate raw data from processed outputs within the project directory.
-6. Always verify structure before beginning analysis.
+- Inspect the shape, data types, and missing values immediately after importing a dataset.
+- Use relative file paths within a repository to maintain portability.
+- Parse date columns during import instead of converting them later.
+- Avoid manually editing raw data files after they are stored.
+- Separate raw data from processed outputs within the project directory.
+- Always verify structure before beginning analysis.
 
+### Further Readings
 
-### Further Readings 
 - https://realpython.com/python-csv/
 - https://miamioh.edu/centers-institutes/center-for-analytics-data-science/students/coding-tutorials/python/reading-data-and-writing-files.html
 - https://pandas.pydata.org/docs/user_guide/10min.html
 - https://www.sqlshack.com/exporting-data-with-pandas-in-python/
+- https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
 
 
 ## Thank you!
