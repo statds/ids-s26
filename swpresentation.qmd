@@ -1,0 +1,501 @@
+---
+title: "Random Forest Classifier"
+subtitle: "Introduction to Data Science | Spring 2026"
+author: "Sara Watanabe"
+format:
+    html:
+      toc: true
+      number-sections: true
+      html-math-method: katex
+      self-contained-math: true
+---
+
+# Overview
+
+Random forest is a machine learning algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions. The algorithm uses a collection of decision trees to reach a single result in order to make predictions or regression models based on imputed data.
+
+# Decision Trees
+
+ A Decision Tree is a method that uses a flow chart-like structure to make decisions about a simple question. They can output either a categorical or numerical result, and are constructed using nodes and branches.
+
+### Structure
+
+::: columns
+::: {.column width="40%"}
+**Root Node:** Asks a question about data, contains all training samples
+
+**Internal nodes:** Where decisions are made about data features
+
+**Leaf Nodes:** Tree end points; the final decision/prediction
+
+**Branches:** Lines connecting the nodes
+:::
+
+::: {.column width="60%"}
+```{python}
+#| code-fold: true
+
+import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(4.5, 2))
+
+# Turn off axes
+ax.axis('off')
+
+# Helper function to draw a labeled box
+def draw_box(x, y, text, color):
+    ax.text(
+        x, y, text,
+        ha='center', va='center',
+        fontsize=8, fontweight='bold',
+        bbox=dict(boxstyle="round,pad=0.4", facecolor=color, edgecolor='black')
+    )
+
+# Root node
+draw_box(0.5, 0.9, "Root Node", "#2e7d32")
+
+# Internal nodes
+draw_box(0.25, 0.6, "Internal Node", "#c5e1a5")
+draw_box(0.75, 0.6, "Internal Node", "#c5e1a5")
+
+# Leaf nodes
+draw_box(0.1, 0.3, "Leaf Node", "#fff9c4")
+draw_box(0.4, 0.3, "Leaf Node", "#fff9c4")
+draw_box(0.6, 0.3, "Leaf Node", "#fff9c4")
+draw_box(0.9, 0.3, "Leaf Node", "#fff9c4")
+
+# Helper function to draw a line
+def connect(x1, y1, x2, y2):
+    ax.plot([x1, x2], [y1, y2])
+
+# Connections from root
+connect(0.5, 0.85, 0.25, 0.65)
+connect(0.5, 0.85, 0.75, 0.65)
+
+# Connections from left internal
+connect(0.25, 0.55, 0.1, 0.35)
+connect(0.25, 0.55, 0.4, 0.35)
+
+# Connections from right internal
+connect(0.75, 0.55, 0.6, 0.35)
+connect(0.75, 0.55, 0.9, 0.35)
+
+plt.show()
+```
+
+:::
+:::
+## Iris Dataset Example
+
+### Dataset Overview
+The Iris dataset has 150 samples of iris flowers. This data measures four features: sepal length, sepal width, petal length, and petal width. These features are used by the Decision Tree algorithm to classify the samples into three classes: setosa, versicolor, and virginica.
+
+```{python}
+from sklearn.datasets import load_iris
+import pandas as pd
+
+# Load data
+iris = load_iris()
+X = iris.data       # all features
+y = iris.target     # all classes (setosa, versicolor, virginica)
+
+df = pd.DataFrame(X, columns=iris.feature_names)
+df["species"] = iris.target_names[y]
+
+df.head()
+```
+
+### Modelling the Data
+
+Here we initialize the Decision Tree Classifier and fit it to the data. The Decision Tree Classifier is imported from the sklearn package, and matplotlib is imorted for future visualization.
+```{python}
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+
+# Initialize the model with Gini impurity (default)
+model = DecisionTreeClassifier(max_depth=3, random_state=42)
+# Fitting the model calculates Gini values for all possible splits
+model.fit(X, y)
+```
+
+### Growth-Stop Conditions
+Decision trees are prone to overfitting, and can cause the model to fragment data into small catergories that cannot be generalized to new data. To prevent this, growth-stop conditions can be passed as parameters to the model. These include:
+
+- **max_depth**: Sets the maximum depth of the tree, which limits how many splits the tree can make. In this case, we set it to 3.
+- **min_samples_split**: Sets the minimum number of samples required to split a node. If a node has fewer samples than this threshold, it will not be split further.
+- **min_impurity_decrease**: Sets the minimum reduction in the Gini Coefficient required to split a node. If the reduction is less than this value, the node will not be split.
+
+### Gini Coefficient
+In order for the Decision Tree Classifier to determine the best splits, it uses a metric to evaluate the quality of splits. The Gini Coefficient is used as the default metric, and is calculated as:
+$$
+\mathrm{Gini}(p) = 1 - \sum_{i=1}^{n} p_i^2
+$$
+
+Where $p_i$ is the proportion of samples belonging to class $i$ at a given node.
+
+Gini can range from 0 to 0.5 for binary classification, where 0 indicates a pure node and 0.5 indicates a completely impure node (ex. 50% True and 50% False).
+
+
+### Training Process
+
+Decision Trees are built by recursively splitting training samples in a series of steps:
+
+**Step 1.**  Start with the root node; this contains all training smaples.
+
+```{python}
+# Root node contains all 150 samples
+
+print("Number of samples at root:", X.shape[0])
+class_dist = {str(name): int(sum(y == i)) for i, name in enumerate(iris.target_names)}
+print("Class distribution at root:", class_dist)
+
+```
+
+
+**Step 2.**  The algorithm evaluates calculated metrics to determine the features that best split the data. In this case, the Gini Coefficient is used. The smaller the Gini value, the better the split.
+
+```{python}
+# Step 2: Evaluate metrics to find the best split
+
+# Show Gini at root and splits (access tree structure)
+
+tree = model.tree_
+print("Gini at root:", tree.impurity[0])
+print("Gini at left child of root:", tree.impurity[1])
+print("Gini at right child of root:", tree.impurity[2])
+print("Number of samples at root:", tree.n_node_samples[0])
+
+```
+
+**Step 3.**  The data is then split based on the selected feature and threshold value
+
+```{python}
+# You can see which feature and threshold were chosen at root
+root_feature = tree.feature[0]
+root_threshold = tree.threshold[0]
+
+print("Best feature at root:", iris.feature_names[root_feature])
+print("Threshold at root:", root_threshold)
+print("Samples go left if feature < threshold, else right")
+print("\n")
+```
+
+**Step 4.**  Steps 2 and 3 are repeated until growth-stop conditions are met. These include a maximum depth of the tree, a minimum number of samples required to split a node, and a minimum reduction in the Gini Coefficient required to split a node. The lower the Gini value the better
+
+```{python}
+# max_depth=3 and minimum samples per split control stopping
+
+print("Max depth set:", model.max_depth)
+print("Tree stops splitting when nodes reach max depth or minimum samples")
+```
+
+**The resulting tree is visualized below:**
+
+::: columns
+::: {.column width="60%"}
+```{python}
+#| code-fold: true
+
+# 4. Plot the tree with smaller size
+plt.figure(figsize=(6.5, 4.5))  # adjust width and height
+plot_tree(
+    model, 
+    feature_names=iris.feature_names, 
+    class_names=iris.target_names, 
+    filled=True,
+    fontsize=7  # smaller font
+)
+plt.show()
+```
+:::
+
+::: {.column width="40%"}
+ - **Root Node:** Contains all 150 samples, 50 in each class, with a Gini Coefficient of 0.66
+ - **Internal Nodes:** 
+    - The first split uses petal length with a threshold of 2.45. 
+    - The left split uses petal width with a threshold of 0.8
+    - the right split uses petal width with a threshold of 1.75.
+- **Leaf Nodes:** The Gini Coefficient at the leaf nodes are considerably small, indicating that the samples at these nodes are mostly of one class.
+
+:::
+:::
+
+
+*Seen in each box is the calculated Gini Coefficient, the number of samples at the node, and the distribution of classes at the node.*
+
+## Benefits and Limitations of Decision Trees
+::: {.columns}
+
+::: {.column width="35%"}
+
+**Benefits**
+
+- Easy to understand and interpret
+- Computationally efficient
+- Time and space efficient
+
+:::
+
+::: {.column width="65%"}
+
+**Limitations**
+
+- Decision Trees are prone to bias and overfitting
+  - As a tree grows in size, it can result in data fragmentation
+  - Using the random forest algorithm reduces the risk of making extreme predictions due to overfitting
+- Decision Trees tend to stay on the smaller side, making it hard to deal with many complex variables
+
+:::
+
+:::
+
+# Random Forest Classifier
+
+Random Forest is an algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions.
+
+## Characteristics:
+- While singular Decision Trees consider the use of all possible feature splits, Random Forest only considers a random subset of features for each split.
+- Random Forest uses random features to make splits, which reduces correlation between trees and improves generalization
+- Random Forest can be used for classification or regression problems
+    - classification uses the majority vote of all trees to come to a conclusion
+    - regression uses the average of all trees to make a prediction
+
+## Iris Dataset Example
+
+```{python}
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+# Load data
+iris = load_iris()
+X = iris.data
+y = iris.target
+
+df = pd.DataFrame(X, columns=iris.feature_names)
+df["species"] = iris.target_names[y]
+
+df.head()
+```
+### Bagging
+Random Forest uses a combination of bootstrap and aggregation, also known as bagging, during the creation process.
+
+- **Bootstrap:** A resampling technique that uses sampling with replacement to create triaining sets
+- A training set is selected with replacement for each Decision Tree made
+- The unselected values will be set aside as part of the out-of-bag samples
+- Individual Decision Trees are then trained independently using respective training sets, selecting their own features for each split
+
+Thirty percent of our selected bootstrap sample is set aside for training (out-of-bag sample), which will be used for cross-validation later on
+
+### Tree construction
+
+**Step 1.** Create the training sets (Described above)
+
+```{python}
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.3, random_state=42
+)
+```
+
+**Step 2.** Create Random forest
+
+- Assign a random set of features to each dataset
+    - Set parameters; **n_estimators** is the number of trees that will be created
+
+```{python}
+# Create Random Forest model
+model = RandomForestClassifier(
+    n_estimators=100,   # number of trees
+    random_state=42
+)
+```
+
+**Step 3.** Train each tree
+
+- Use the best feature to split the data
+    - The feature that makes the clearest separation is used
+- Trees continue to grow until growth-stop conditions are met
+
+```{python}
+# Train model (same idea as decision tree fit)
+model.fit(X_train, y_train)
+```
+
+**Step 4.** Repeat steps 2 and 3 until you have the intended number of trees with the intended depth
+
+- Use the completed forest to make predictions
+```{python}
+# Make predictions
+y_pred = model.predict(X_test)
+```
+
+**Step 5.** Test all of the trees with the out-of-bag set to determine how good the model is
+
+- You can adjust how many random variables are considered, number of trees, etc. in an attempt to improve accuracy
+```{python}
+# Evaluate accuracy
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+```
+
+Our accuracy score is 1.0, which means that all of our predictions were correct. This is a good score, but it is important to note that this is likely due to the simplicity of the dataset and the fact that we have a small number of features. Adjusting things like the number of trees, the number of features considered for each split, and the depth of the trees can help to improve accuracy on more complex datasets.
+
+### Feature Selection
+
+**Feature Randomization** Selection of a random subset of features for each split
+
+- Reduces correlation between trees and improves generalization
+- The Random Forest algorithm uses this during the training process
+- Nymber of features that are considered can be changed to improve model accuaracy; the default value is the square root of the total number of features
+
+**Feature Importance:** The relative importance of each feature in the data
+
+- Tells what features are the most important in making accurate predictions
+- Random Forest has built-in feature importance
+- Feature importance is measured as the average decrease in impurity across all trees
+    - if a feature splits the data into "purer" subsets, it is considered more important
+    - Can also consider how much a feature is used and how much it contributes to the overall predictions of the algorithm
+
+
+```{python}
+plt.figure()
+plt.bar(iris.feature_names, model.feature_importances_)
+plt.xticks(rotation=45)
+plt.title("Feature Importance (Random Forest)")
+plt.show()
+```
+
+***The horizontal axis shows feature, and the vertical axis shows the average reduction in Gini Coefficient caused by splits using that feature across all trees***
+As shown in the figure, petal length and petal width are the most important features for making accurate predictions in this dataset. This means that they created the most "pure" splits in the data, and were used more often in the Decision Trees to make accurate predictions.
+
+### Benefits and Limitations of Random Forest
+::: {.columns}
+
+::: {.column width="55%"}
+
+**Benefits**
+
+- **“Wisdom of crowds”:** even if a few trees make a mistake, the overall collective decision will mitigate these mistakes
+- Reduces the risk of overfitting compared to a single Decision Tree through feature randomization and bagging
+- Can handle large datasets with higher dimensionality and complex interactions between features
+
+:::
+
+::: {.column width="45%"}
+
+**Limitations**
+
+- Decision Trees are simpler and can be easier to interpret
+- Random Forest can be computationally intensive, especially with a large number of trees and features
+- Training time can get long with large datasets, and it may require more memory to store the multiple trees
+
+:::
+
+:::
+
+
+
+# Regression example
+Now we are going to use the Random Forest regression model to predict the median house value per neighborhood in California. 
+
+**Step 1.** Load the dataset and split into training and testing sets
+```{python}
+# Import libraries
+from sklearn.datasets import fetch_california_housing
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+import pandas as pd
+
+# Load dataset
+data = fetch_california_housing()
+X = data.data
+y = data.target
+
+# Print out the first few rows of the dataset
+df = pd.DataFrame(X, columns=data.feature_names)
+df["target"] = y
+print(df.head())
+
+# Split into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+```
+Our x-values will be all features in this dataset(Median income, Average house age, Average number of rooms, Average number of bedrooms, Population, Longitude, and Latitude), the target variable is the median house value per neighborhood. Based on my knowledge of housing prices, I am expecting median income to be the most important feature in making accurate predictions.
+
+**Step 2.** Create the Random Forest regression model, train it, and make predictions
+```{python}
+
+# Create Random Forest regression model
+model = RandomForestRegressor(
+    n_estimators=100,   # number of trees
+    random_state=42
+)
+
+# Train model
+model.fit(X_train, y_train)
+
+# Make predictions
+predictions = model.predict(X_test)
+```
+**Step 3.** Evaluate the performance of the model using mean squared error
+```{python}
+# Evaluate performance
+mse = mean_squared_error(y_test, predictions)
+print("Mean Squared Error:", mse)
+```
+Mean squared error tells us the average squared difference between the predicted values and the actual values. In this case, an MSE of 0.25537 indicates our model is doing a pretty good job at predicting the median house values, but if we wanted to imporve our model's accuracy we could adjust parameters such as the number of trees, the number of features considered for each split, and the depth of the trees.
+
+**Step 4.** Evalutate feature importance to determine which features are most important in making accurate predictions
+```{python}
+plt.figure()
+plt.bar(data.feature_names, model.feature_importances_)
+plt.xticks(rotation=45)
+plt.title("Feature Importance (Random Forest Regression)")
+plt.show()
+```
+As seen in the figure above, median income is the most important feature for making accurate predictions in this dataset, as predicted. This means that it created the most "pure" splits in the data, and was used more often in the Decision Trees to make accurate predictions. 
+
+# Further Reading
+
+::: {.columns}
+:::{.column width="55%"}
+[What Is Random Forest? | IBM](https://www.ibm.com/think/topics/random-forest#684929713)
+
+[Decision Trees Explained | Towards Data Science](https://towardsdatascience.com/decision-trees-explained-3ec41632ceb6/)
+
+[Random Forest, Explained | Towards Data Science](https://towardsdatascience.com/random-forest-explained-a-visual-guide-with-code-examples-9f736a6e1b3c/)
+
+[What Is Random Forest in Machine Learning?](https://www.snowflake.com/en/fundamentals/random-forest/)
+
+[Random Forest Feature Importance Computed with Python](https://mljar.com/blog/feature-importance-in-random-forest/)
+
+[Feature Importance & Random Forest - Python Example](https://vitalflux.com/feature-importance-random-forest-classifier-python/)
+
+[StatQuest: Random Forests Part 1 - Building, Using and Evaluating](https://www.youtube.com/watch?v=J4Wdy0Wc_xQ)
+
+[Gini Coefficient - GeeksforGeeks](https://www.geeksforgeeks.org/machine-learning/gini-coefficient/)
+:::
+:::{.column width="45%"}
+Breif overeview of Random Forest 
+
+In-depth Walkthrough and Example
+
+Step-By-Step Guide with Code Examples
+
+General Overview of Random Forest
+
+Explanation of feature importance with examples
+
+
+In-depth explanation of feature importance
+
+Step-by-step guide to the random forest training process
+
+Explanation of the gini metric
+:::
+:::
