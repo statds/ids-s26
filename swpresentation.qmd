@@ -291,7 +291,9 @@ Thirty percent of our selected bootstrap sample is set aside for training (out-o
 
 ### Tree construction
 
-**Step 1.** Create the training sets (Described above)
+**Step 1.** Create the training and testing sets
+
+- These will be used to create bootstrap samples and out-of-bag samples for each tree, during the fitting process
 
 ```{python}
 # Split into training and testing sets
@@ -313,7 +315,7 @@ model = RandomForestClassifier(
 )
 ```
 
-**Step 3.** Train each tree
+**Step 3.** Fit the model: Train each tree
 
 - Use the best feature to split the data
     - The feature that makes the clearest separation is used
@@ -323,10 +325,15 @@ model = RandomForestClassifier(
 # Train model (same idea as decision tree fit)
 model.fit(X_train, y_train)
 ```
+**Internal Process:**
+1. Bootstrap samples are created for each tree from the training set created in step 1
+2. A random subset of features is selected to consider at each split
+3. The best feature is selected to split the data, and the best threshold value is also determined
+4. The data is split based on the selected feature and threshold value
+5. repeat steps 2-4 until growth-stop conditions are met (ex. max depth, minimum samples per split, minimum impurity decrease)
 
-**Step 4.** Repeat steps 2 and 3 until you have the intended number of trees with the intended depth
+**Step 4.** Make Predictions
 
-- Use the completed forest to make predictions
 ```{python}
 # Make predictions
 y_pred = model.predict(X_test)
