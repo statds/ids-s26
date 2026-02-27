@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Take-Home Midterm Exam – Introduction to Data Science</title>
+<title>8&nbsp; Take-Home Midterm Exam – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./96-midterm-bike-sharing.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./96-midterm-bike-sharing.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,14 +181,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./06-topics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Various topics</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./95-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./96-midterm-bike-sharing.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -207,32 +213,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">7.1</span> Overview</a>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">8.1</span> Overview</a>
   <ul class="collapse">
-  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source"><span class="header-section-number">7.1.1</span> Data source</a></li>
-  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem"><span class="header-section-number">7.1.2</span> Problem</a></li>
-  <li><a href="#expectations-for-your-submission" id="toc-expectations-for-your-submission" class="nav-link" data-scroll-target="#expectations-for-your-submission"><span class="header-section-number">7.1.3</span> Expectations for your submission</a></li>
+  <li><a href="#data-source" id="toc-data-source" class="nav-link" data-scroll-target="#data-source"><span class="header-section-number">8.1.1</span> Data source</a></li>
+  <li><a href="#problem" id="toc-problem" class="nav-link" data-scroll-target="#problem"><span class="header-section-number">8.1.2</span> Problem</a></li>
+  <li><a href="#expectations-for-your-submission" id="toc-expectations-for-your-submission" class="nav-link" data-scroll-target="#expectations-for-your-submission"><span class="header-section-number">8.1.3</span> Expectations for your submission</a></li>
   </ul></li>
-  <li><a href="#part-1-data-import-and-data-quality" id="toc-part-1-data-import-and-data-quality" class="nav-link" data-scroll-target="#part-1-data-import-and-data-quality"><span class="header-section-number">7.2</span> Part 1 — Data import and data quality</a>
+  <li><a href="#part-1-data-import-and-data-quality" id="toc-part-1-data-import-and-data-quality" class="nav-link" data-scroll-target="#part-1-data-import-and-data-quality"><span class="header-section-number">8.2</span> Part 1 — Data import and data quality</a>
   <ul class="collapse">
-  <li><a href="#task-1-data-checks-missingness-duplicates-and-consistency" id="toc-task-1-data-checks-missingness-duplicates-and-consistency" class="nav-link" data-scroll-target="#task-1-data-checks-missingness-duplicates-and-consistency"><span class="header-section-number">7.2.1</span> Task 1 — Data checks: missingness, duplicates, and consistency</a></li>
-  <li><a href="#task-2-examine-individual-variables-and-marginal-distributions" id="toc-task-2-examine-individual-variables-and-marginal-distributions" class="nav-link" data-scroll-target="#task-2-examine-individual-variables-and-marginal-distributions"><span class="header-section-number">7.2.2</span> Task 2 — Examine individual variables and marginal distributions</a></li>
+  <li><a href="#task-1-data-checks-missingness-duplicates-and-consistency" id="toc-task-1-data-checks-missingness-duplicates-and-consistency" class="nav-link" data-scroll-target="#task-1-data-checks-missingness-duplicates-and-consistency"><span class="header-section-number">8.2.1</span> Task 1 — Data checks: missingness, duplicates, and consistency</a></li>
+  <li><a href="#task-2-examine-individual-variables-and-marginal-distributions" id="toc-task-2-examine-individual-variables-and-marginal-distributions" class="nav-link" data-scroll-target="#task-2-examine-individual-variables-and-marginal-distributions"><span class="header-section-number">8.2.2</span> Task 2 — Examine individual variables and marginal distributions</a></li>
   </ul></li>
-  <li><a href="#part-2-exploratory-data-analysis-eda" id="toc-part-2-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#part-2-exploratory-data-analysis-eda"><span class="header-section-number">7.3</span> Part 2 — Exploratory data analysis (EDA)</a>
+  <li><a href="#part-2-exploratory-data-analysis-eda" id="toc-part-2-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#part-2-exploratory-data-analysis-eda"><span class="header-section-number">8.3</span> Part 2 — Exploratory data analysis (EDA)</a>
   <ul class="collapse">
-  <li><a href="#task-3-summary-statistics-for-the-response-demand" id="toc-task-3-summary-statistics-for-the-response-demand" class="nav-link" data-scroll-target="#task-3-summary-statistics-for-the-response-demand"><span class="header-section-number">7.3.1</span> Task 3 — Summary statistics for the response (demand)</a></li>
-  <li><a href="#task-4-visualize-trends-over-time" id="toc-task-4-visualize-trends-over-time" class="nav-link" data-scroll-target="#task-4-visualize-trends-over-time"><span class="header-section-number">7.3.2</span> Task 4 — Visualize trends over time</a></li>
-  <li><a href="#task-5-visual-comparisons-by-groups" id="toc-task-5-visual-comparisons-by-groups" class="nav-link" data-scroll-target="#task-5-visual-comparisons-by-groups"><span class="header-section-number">7.3.3</span> Task 5 — Visual comparisons by groups</a></li>
+  <li><a href="#task-3-summary-statistics-for-the-response-demand" id="toc-task-3-summary-statistics-for-the-response-demand" class="nav-link" data-scroll-target="#task-3-summary-statistics-for-the-response-demand"><span class="header-section-number">8.3.1</span> Task 3 — Summary statistics for the response (demand)</a></li>
+  <li><a href="#task-4-visualize-trends-over-time" id="toc-task-4-visualize-trends-over-time" class="nav-link" data-scroll-target="#task-4-visualize-trends-over-time"><span class="header-section-number">8.3.2</span> Task 4 — Visualize trends over time</a></li>
+  <li><a href="#task-5-visual-comparisons-by-groups" id="toc-task-5-visual-comparisons-by-groups" class="nav-link" data-scroll-target="#task-5-visual-comparisons-by-groups"><span class="header-section-number">8.3.3</span> Task 5 — Visual comparisons by groups</a></li>
   </ul></li>
-  <li><a href="#part-3-predictive-modeling" id="toc-part-3-predictive-modeling" class="nav-link" data-scroll-target="#part-3-predictive-modeling"><span class="header-section-number">7.4</span> Part 3 — Predictive modeling</a>
+  <li><a href="#part-3-predictive-modeling" id="toc-part-3-predictive-modeling" class="nav-link" data-scroll-target="#part-3-predictive-modeling"><span class="header-section-number">8.4</span> Part 3 — Predictive modeling</a>
   <ul class="collapse">
-  <li><a href="#task-6-set-up-modeling-target-and-features" id="toc-task-6-set-up-modeling-target-and-features" class="nav-link" data-scroll-target="#task-6-set-up-modeling-target-and-features"><span class="header-section-number">7.4.1</span> Task 6 — Set up modeling target and features</a></li>
-  <li><a href="#task-7-traintest-split" id="toc-task-7-traintest-split" class="nav-link" data-scroll-target="#task-7-traintest-split"><span class="header-section-number">7.4.2</span> Task 7 — Train/test split</a></li>
-  <li><a href="#task-8-model-training" id="toc-task-8-model-training" class="nav-link" data-scroll-target="#task-8-model-training"><span class="header-section-number">7.4.3</span> Task 8 — Model training</a></li>
+  <li><a href="#task-6-set-up-modeling-target-and-features" id="toc-task-6-set-up-modeling-target-and-features" class="nav-link" data-scroll-target="#task-6-set-up-modeling-target-and-features"><span class="header-section-number">8.4.1</span> Task 6 — Set up modeling target and features</a></li>
+  <li><a href="#task-7-traintest-split" id="toc-task-7-traintest-split" class="nav-link" data-scroll-target="#task-7-traintest-split"><span class="header-section-number">8.4.2</span> Task 7 — Train/test split</a></li>
+  <li><a href="#task-8-model-training" id="toc-task-8-model-training" class="nav-link" data-scroll-target="#task-8-model-training"><span class="header-section-number">8.4.3</span> Task 8 — Model training</a></li>
   </ul></li>
-  <li><a href="#part-4-summary" id="toc-part-4-summary" class="nav-link" data-scroll-target="#part-4-summary"><span class="header-section-number">7.5</span> Part 4 — Summary</a>
+  <li><a href="#part-4-summary" id="toc-part-4-summary" class="nav-link" data-scroll-target="#part-4-summary"><span class="header-section-number">8.5</span> Part 4 — Summary</a>
   <ul class="collapse">
-  <li><a href="#task-9" id="toc-task-9" class="nav-link" data-scroll-target="#task-9"><span class="header-section-number">7.5.1</span> Task 9</a></li>
+  <li><a href="#task-9" id="toc-task-9" class="nav-link" data-scroll-target="#task-9"><span class="header-section-number">8.5.1</span> Task 9</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -242,7 +248,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-midterm" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></h1>
+<h1 class="title"><span id="sec-midterm" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></h1>
 </div>
 
 
@@ -259,11 +265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="overview" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">7.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">8.1</span> Overview</h2>
 <p>In this take-home exam, you will work with the <em>Bike Sharing Dataset</em> (daily data, <code>day.csv</code>) to explore and predict bike rental demand. The exam is designed to test your skills in data import, cleaning, exploratory data analysis (EDA), and predictive modeling. You will also write a short memo summarizing your findings and recommendations.</p>
-<section id="data-source" class="level3" data-number="7.1.1">
-<h3 data-number="7.1.1" class="anchored" data-anchor-id="data-source"><span class="header-section-number">7.1.1</span> Data source</h3>
+<section id="data-source" class="level3" data-number="8.1.1">
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="data-source"><span class="header-section-number">8.1.1</span> Data source</h3>
 <p>The dataset comes from the UCI Machine Learning Repository: <em>Bike Sharing Dataset</em> by Hadi Fanaee-T. It contains daily counts of bike rentals in Washington, D.C. along with weather and calendar information.</p>
 <p>You will use <code>day.csv</code> (731 rows; one row per day). Variables (from the dataset README) are listed below:</p>
 <ul>
@@ -298,12 +304,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>cnt</code>: total rentals (<code>casual + registered</code>)</li>
 </ul>
 </section>
-<section id="problem" class="level3" data-number="7.1.2">
-<h3 data-number="7.1.2" class="anchored" data-anchor-id="problem"><span class="header-section-number">7.1.2</span> Problem</h3>
+<section id="problem" class="level3" data-number="8.1.2">
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="problem"><span class="header-section-number">8.1.2</span> Problem</h3>
 <p>Our main goal is to <em>forecast daily bike rental demand</em> (<code>cnt</code>). Accurate forecasts can help staffing, bike rebalancing, and maintenance planning.</p>
 </section>
-<section id="expectations-for-your-submission" class="level3" data-number="7.1.3">
-<h3 data-number="7.1.3" class="anchored" data-anchor-id="expectations-for-your-submission"><span class="header-section-number">7.1.3</span> Expectations for your submission</h3>
+<section id="expectations-for-your-submission" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="expectations-for-your-submission"><span class="header-section-number">8.1.3</span> Expectations for your submission</h3>
 <ul>
 <li>You should submit:
 <ol type="1">
@@ -314,8 +320,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Your answers should be <em>reproducible</em>.</li>
 <li>You should justify key choices if applicable (e.g., data splitting, feature engineering, metric selection, model choice).</li>
 </ul>
-<section id="load-packages-and-data" class="level4" data-number="7.1.3.1">
-<h4 data-number="7.1.3.1" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">7.1.3.1</span> Load packages and data</h4>
+<section id="load-packages-and-data" class="level4" data-number="8.1.3.1">
+<h4 data-number="8.1.3.1" class="anchored" data-anchor-id="load-packages-and-data"><span class="header-section-number">8.1.3.1</span> Load packages and data</h4>
 <p>Load the packages you plan to use (e.g., <code>pandas</code>, <code>numpy</code>, <code>matplotlib</code> or <code>seaborn</code>, and <code>scikit-learn</code>). For example:</p>
 <div id="f069b585" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -343,10 +349,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 </section>
 </section>
-<section id="part-1-data-import-and-data-quality" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="part-1-data-import-and-data-quality"><span class="header-section-number">7.2</span> Part 1 — Data import and data quality</h2>
-<section id="task-1-data-checks-missingness-duplicates-and-consistency" class="level3" data-number="7.2.1">
-<h3 data-number="7.2.1" class="anchored" data-anchor-id="task-1-data-checks-missingness-duplicates-and-consistency"><span class="header-section-number">7.2.1</span> Task 1 — Data checks: missingness, duplicates, and consistency</h3>
+<section id="part-1-data-import-and-data-quality" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="part-1-data-import-and-data-quality"><span class="header-section-number">8.2</span> Part 1 — Data import and data quality</h2>
+<section id="task-1-data-checks-missingness-duplicates-and-consistency" class="level3" data-number="8.2.1">
+<h3 data-number="8.2.1" class="anchored" data-anchor-id="task-1-data-checks-missingness-duplicates-and-consistency"><span class="header-section-number">8.2.1</span> Task 1 — Data checks: missingness, duplicates, and consistency</h3>
 <ol type="1">
 <li>Display the first 5-10 rows of the dataset to understand its structure.</li>
 <li>How many missing values are in each column?</li>
@@ -357,8 +363,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="task-2-examine-individual-variables-and-marginal-distributions" class="level3" data-number="7.2.2">
-<h3 data-number="7.2.2" class="anchored" data-anchor-id="task-2-examine-individual-variables-and-marginal-distributions"><span class="header-section-number">7.2.2</span> Task 2 — Examine individual variables and marginal distributions</h3>
+<section id="task-2-examine-individual-variables-and-marginal-distributions" class="level3" data-number="8.2.2">
+<h3 data-number="8.2.2" class="anchored" data-anchor-id="task-2-examine-individual-variables-and-marginal-distributions"><span class="header-section-number">8.2.2</span> Task 2 — Examine individual variables and marginal distributions</h3>
 <ol type="1">
 <li>Report summary statistics of <code>temp</code>, <code>atemp</code>, <code>hum</code>, <code>windspeed</code>, or make some visualization (e.g., boxplot, histogram) of those variables. Note that these variables are normalized to be between 0 and 1 (except that humidity can be 0).</li>
 <li>Briefly comment: do these distributions look plausible? Any potential outliers or anomalies?</li>
@@ -369,10 +375,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="part-2-exploratory-data-analysis-eda" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="part-2-exploratory-data-analysis-eda"><span class="header-section-number">7.3</span> Part 2 — Exploratory data analysis (EDA)</h2>
-<section id="task-3-summary-statistics-for-the-response-demand" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="task-3-summary-statistics-for-the-response-demand"><span class="header-section-number">7.3.1</span> Task 3 — Summary statistics for the response (demand)</h3>
+<section id="part-2-exploratory-data-analysis-eda" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="part-2-exploratory-data-analysis-eda"><span class="header-section-number">8.3</span> Part 2 — Exploratory data analysis (EDA)</h2>
+<section id="task-3-summary-statistics-for-the-response-demand" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="task-3-summary-statistics-for-the-response-demand"><span class="header-section-number">8.3.1</span> Task 3 — Summary statistics for the response (demand)</h3>
 <p>Compute and report:</p>
 <ol type="1">
 <li>Overall mean, median, and standard deviation of <code>cnt</code>.</li>
@@ -383,8 +389,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="task-4-visualize-trends-over-time" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="task-4-visualize-trends-over-time"><span class="header-section-number">7.3.2</span> Task 4 — Visualize trends over time</h3>
+<section id="task-4-visualize-trends-over-time" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="task-4-visualize-trends-over-time"><span class="header-section-number">8.3.2</span> Task 4 — Visualize trends over time</h3>
 <p>Make a time-series plot of <code>cnt</code> vs <code>dteday</code>.</p>
 <ol type="1">
 <li>Is there an overall trend over time?</li>
@@ -394,8 +400,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="task-5-visual-comparisons-by-groups" class="level3" data-number="7.3.3">
-<h3 data-number="7.3.3" class="anchored" data-anchor-id="task-5-visual-comparisons-by-groups"><span class="header-section-number">7.3.3</span> Task 5 — Visual comparisons by groups</h3>
+<section id="task-5-visual-comparisons-by-groups" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="task-5-visual-comparisons-by-groups"><span class="header-section-number">8.3.3</span> Task 5 — Visual comparisons by groups</h3>
 <p>Create two appropriate and informative plots (your choice) to compare <code>cnt</code> across groups. Pick from:</p>
 <ul>
 <li><code>season</code></li>
@@ -411,10 +417,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="part-3-predictive-modeling" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="part-3-predictive-modeling"><span class="header-section-number">7.4</span> Part 3 — Predictive modeling</h2>
-<section id="task-6-set-up-modeling-target-and-features" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="task-6-set-up-modeling-target-and-features"><span class="header-section-number">7.4.1</span> Task 6 — Set up modeling target and features</h3>
+<section id="part-3-predictive-modeling" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="part-3-predictive-modeling"><span class="header-section-number">8.4</span> Part 3 — Predictive modeling</h2>
+<section id="task-6-set-up-modeling-target-and-features" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="task-6-set-up-modeling-target-and-features"><span class="header-section-number">8.4.1</span> Task 6 — Set up modeling target and features</h3>
 <p>We will predict:</p>
 <ul>
 <li><em>Target</em>: <code>cnt</code> (daily total rentals)</li>
@@ -434,8 +440,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="task-7-traintest-split" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="task-7-traintest-split"><span class="header-section-number">7.4.2</span> Task 7 — Train/test split</h3>
+<section id="task-7-traintest-split" class="level3" data-number="8.4.2">
+<h3 data-number="8.4.2" class="anchored" data-anchor-id="task-7-traintest-split"><span class="header-section-number">8.4.2</span> Task 7 — Train/test split</h3>
 <p>We will use the following code to make train/test data split.</p>
 <div id="9b186109" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>day_sorted <span class="op">=</span> day.sort_values(<span class="st">"dteday"</span>).reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
@@ -464,8 +470,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="task-8-model-training" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="task-8-model-training"><span class="header-section-number">7.4.3</span> Task 8 — Model training</h3>
+<section id="task-8-model-training" class="level3" data-number="8.4.3">
+<h3 data-number="8.4.3" class="anchored" data-anchor-id="task-8-model-training"><span class="header-section-number">8.4.3</span> Task 8 — Model training</h3>
 <p>The following code fits a ridge regression with one-hot encoding for categorical variables.</p>
 <div id="1e063d2f" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -551,10 +557,10 @@ Test R^2 : 0.652</code></pre>
 </ol>
 </section>
 </section>
-<section id="part-4-summary" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="part-4-summary"><span class="header-section-number">7.5</span> Part 4 — Summary</h2>
-<section id="task-9" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="task-9"><span class="header-section-number">7.5.1</span> Task 9</h3>
+<section id="part-4-summary" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="part-4-summary"><span class="header-section-number">8.5</span> Part 4 — Summary</h2>
+<section id="task-9" class="level3" data-number="8.5.1">
+<h3 data-number="8.5.1" class="anchored" data-anchor-id="task-9"><span class="header-section-number">8.5.1</span> Task 9</h3>
 <p>Write a short memo (as if to a bike-share operations manager).</p>
 <ul>
 <li>2–3 key insights from your analysis</li>
@@ -970,7 +976,7 @@ Test R^2 : 0.652</code></pre>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./95-exercises.html" class="pagination-link" aria-label="Homework">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Homework</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Homework</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
