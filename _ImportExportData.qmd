@@ -1,16 +1,5 @@
----
-title: "Importing and Exporting Data"
-author: "Zaynab Faisal"
-format:
-  html:
-    code-fold: false
-execute:
-  freeze: false
-  cache: false
-  echo: true
-  warning: false
-  message: false
----
+## Importing and Exporting Data
+This presentation was prepared by Zaynab Faisal.
 
 ### Introduction
 Data analysis begins with importing data and ends with exporting results. Before creating visualizations or running models, the dataset must be loaded correctly into memory. Small mistakes such as incorrect file paths, wrong delimiters or unparsed date columns can change how the data behaves. If these issues are not identified early, they affect every step of the workflow.
@@ -180,12 +169,14 @@ After verifying and cleaning the dataset, the results can be exported for reuse 
 
 For example, the cleaned DataFrame can be exported to a new CSV file.
 ```{python}
+#| eval: false
 df.to_csv("data/nyc_crashes_cleaned_export.csv", index=False)
 ```
 
 This command creates a new CSV file containing the cleaned dataset. The argument index=False prevents pandas from writing the DataFrame index as an extra column. Forgetting this argument often results in unwanted columns such as "Unnamed: 0" when the file is imported again.
 
 #### Exporting Figures
+
 ```{python}
 import matplotlib.pyplot as plt
 import os
@@ -198,9 +189,9 @@ plt.ylabel("Count")
 plt.xticks(rotation=45)
 
 os.makedirs("figures", exist_ok=True)
-plt.savefig("figures/top_zipcodes.png", dpi=300, bbox_inches="tight")
 
-plt.show() 
+plt.savefig("figures/top_zipcodes.png", dpi=300, bbox_inches="tight")
+plt.show()
 plt.close()
 ```
 
@@ -230,8 +221,8 @@ The following practices help prevent silent errors:
 - https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html
 
 
-## Thank you!
+### Thank you!
 
-### Questions?
+#### Questions?
 
 
