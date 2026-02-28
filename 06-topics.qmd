@@ -1,0 +1,3 @@
+# Various topics
+
+{{< include _kmeans.qmd >}} 

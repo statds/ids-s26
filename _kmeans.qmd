@@ -1,16 +1,15 @@
 ## K-Means Clustering for Customer Segmentation
 
-This presentation was prepared by Alysha Desai
+This presentation was prepared by Alysha Desai. 
 
+### Introduction
 
-# Introduction
-
-## What is K-Means and how does it work?
+#### What is K-Means and how does it work?
 - **K-Means Clustering** is a learning algorithm used for data clustering and grouping unlabeled data by similarity. 
 - **Unsupervised:** No pre-set labels or answers provided to the computer.
 - **Goal:** Find hidden patterns and structure in unorganized, raw data. The objective is to minimize the sum of distances between data points and their assigned clusters. 
 
-## Real-World Use Case
+#### Real-World Use Case
 
 ::: {.incremental}
 - This type of cluster analysis is used in data science for market segmentation, document clustering, and much more. 
@@ -25,9 +24,9 @@ This presentation was prepared by Alysha Desai
 :::
 
 
-# The Logic 
+### The Logic 
 
-## The "K" in K-Means and Centroids 
+#### The "K" in K-Means and Centroids 
 
 :::: {.columns}
 
@@ -80,7 +79,7 @@ plt.show()
 
 ::::
 
-## K-Means in Motion 
+#### K-Means in Motion 
 
 We can use Python to create an animation that shows the step-by-step flow of how clusters are formed by stopping the algorithm after each iteration.
 
@@ -208,15 +207,15 @@ kmeans.animate_jupyter_nb()
 
 
 
-## The Elbow Method 
-### How do we find the optimal *K*?
+### The Elbow Method 
+#### How do we find the optimal *K*?
 - A visual technique used to decide exactly how many clusters *K* are needed for a specific dataset.
 - As we add more clusters, the data points naturally get closer to their centers, but adding too many makes the model too complex.
 - We calculate the Within-Cluster Sum of Squares(WCSS), which is the total variance or "spread" inside each cluster.
 - We look for the specific point on the graph where the drop in WCSS slows down significantly—this is the "sweet spot".
 
 
-## Visualizing the Elbow Curve 
+#### Visualizing the Elbow Curve 
 
 :::: {.columns}
 
@@ -264,7 +263,7 @@ For our 200 shoppers, 5 clusters provide the best fit. Beyond 5, adding clusters
 
 ::::
 
-## Step-by-step Breakdown 
+### Step-by-step Breakdown 
 **Step 1: Initialization** 
 
 - Randomly select *K* points from the dataset to be initial centroids. 
@@ -281,9 +280,9 @@ For our 200 shoppers, 5 clusters provide the best fit. Beyond 5, adding clusters
 
 - The loop repeats until centroids stop moving or reach a set limit. 
 
-# Python Implementation 
+### Python Implementation 
 
-## Coding with `Scikit-Learn` and `Matplotlib`
+#### Coding with `Scikit-Learn` and `Matplotlib`
 
 First, we need to import the following libraries:
 
@@ -310,9 +309,9 @@ kmeans = KMeans(n_clusters=5, init='k-means++', random_state=42)
 y_kmeans = kmeans.fit_predict(X)
 ```
 
-## Visualizing Results
+### Visualizing Results
 
-### Raw Data & Model Setup
+#### Raw Data & Model Setup
 
 :::: {.columns}
 
@@ -338,7 +337,7 @@ plt.show()
 
 ::: {.column width="42%"}
 
-### Implementation Code
+#### Implementation Code
 
 ```python
 # Select 5 clusters & Fit
@@ -356,14 +355,14 @@ plt.scatter(X[y_kmeans == 0, 0],
 
 ::::
 
-## Visualizing Results
+### Visualizing Results
 
-### Final Segments and Analysis 
+#### Final Segments and Analysis 
 
 :::: {.columns}
 
 ::: {.column width="60%"}
-### Segmented Clusters
+#### Segmented Clusters
 ```{python}
 #| echo: false
 #| out-width: "85%"
@@ -389,7 +388,7 @@ plt.show()
 
 ::: {.column width="40%"}
 
-### Cluster Analysis
+#### Cluster Analysis
 
 **<u>Pink Group</u>:** High Income / Low Spenders
 
@@ -399,10 +398,12 @@ plt.show()
 
 **<u>Insight</u>:** Target <u>specific marketing</u> strategies
 
+:::
+
 ::::
 
 
-## Advantages & Limitations 
+### Advantages & Limitations 
 
 - **<u>Advantages</u>:** Simple to implement, fast, and highly scalable.
 
@@ -415,7 +416,7 @@ plt.show()
 - **<u>Dimensionality</u>:** Performance drops as you add too many variables.
 
 
-### Further Readings 
+#### Further Readings 
 
 **<u>Scikit-learn Clustering Guide</u>:** Technical documentation for K-Means and other models. https://scikit-learn.org/stable/modules/clustering.html
 
@@ -424,8 +425,8 @@ plt.show()
 **<u>IBM: What is K-Means?</u>:** A high-level explanation of how the algorithm is used in business. https://www.ibm.com/think/topics/k-means-clustering
 
 
-## Thank you! 
-### Questions?
+### Thank you! 
+#### Questions?
 
 
 
