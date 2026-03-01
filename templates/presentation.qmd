@@ -1,18 +1,116 @@
 ---
-title: "Creating Presentations with Quarto"
-subtitle: "Introduction to Data Science | Fall 2024"
+title: "Visualizing Spatial Data"
+author: "Cody Jones"
 format:
-    revealjs:
-        slide-number: true
-        preview-links: true
-        theme: default
+  revealjs:
+    theme: default
+    slide-number: true
+    transition: slide
 ---
 
-## About Revealjs
+# Visualizing Spatial Data
 
-- A format used by Quarto to create presentations
-- Renders slides as an HTML file by default
-- Highly recommended over alternatives, such as `beamer` or `pptx`, due to its capabilities
+Table of contents
+- Definition
+- Different Types(Vector, Raster)
+- Visualization Methods
+- Importance of Map Projections
+- Design Principles
+- Tools and Technology
+- Faults and Errors
+- Real-World Application
+- Questions
+
+---
+
+# What is Spatial Data?
+
+- Background of the topic
+- Why this topic matters
+- What question you are addressing
+
+Notes:
+- Explain context clearly
+- Keep this under 1–2 minutes
+
+---
+
+# Vector Vs Raster Data
+
+Vector
+- Points(crime incidents)
+- Lines(roads, rivers)
+- Polygons(territories, census tracts)
+Raster
+- Grid Data(temperature, elevation, satellite)
+- Used in Environmental Studies
+
+---
+
+# Visualization Methods
+
+- Main idea
+- Supporting evidence
+- Visual or data reference (if applicable)
+
+Notes:
+- Connect this back to your research question
+
+---
+
+# Data / Evidence
+
+- Source of data
+- What the data shows
+- Important trends or findings
+
+Notes:
+- Highlight only the most important takeaway
+
+---
+
+# Analysis
+
+- What does the evidence mean?
+- Interpretation
+- Any surprising results?
+
+Notes:
+- This is where you demonstrate understanding
+
+---
+
+# Implications
+
+- Why this matters
+- Real-world impact
+- Policy or practical relevance
+
+Notes:
+- Keep this focused and concise
+
+---
+
+# Conclusion
+
+- Restate main question
+- Summarize findings
+- Final takeaway message
+
+Notes:
+- End confidently
+- Do not introduce new information here
+
+---
+
+# Questions
+
+Thank you!
+
+
+## Introduction Question
+
+- Has anyone ever heard of spatial data?
 
 # Creating Slides
 
