@@ -1,0 +1,831 @@
+---
+title: "Markov Chains and Hidden Markov Models"
+author: "Reid Davis"
+date: "2026-02-27"
+format: "html"
+---
+
+# Markov Chains and Hidden Markov Models
+
+## What is a Markov Chain?
+
+- A **Markov Chain** is a mathematical system (stochastic model) that models a sequence of events where the probability of transitioning to the next state depends solely on the current state, not on previous history
+- Utilizes the memoryless property, meaning only the present state matters for predicting the future
+
+### Components of a Markov Chain
+- States: the possible situations/nodes the chain can be in at any given time
+- Can be represented by the state space (set of all possible states)
+- Transition Probabilities: measure the probabiliy of a stochastic system moving from one state to another
+within a specific timeframe or single step (represented by arrows)
+- Written mathematically as $$ p_{ij} = \Pr(X_{n+1} = j \mid X_n = i)$$
+
+---
+
+### Example of Weather Markov Chain
+![Weather Markov Chain](https://www.kdnuggets.com/wp-content/uploads/Captura-de-pantalla-2024-09-27-a-las-16.46.05.png)
+
+---
+
+###  A Transition Matrix
+- Definition: A square matrix that describes the probabilities of transitioning from one state to another
+- $p_{ij}$ represents the probability of moving from state i to state j
+- Rows represent the current states, columns represent the possible next states
+- All rows must sum to 1
+- We can create our transition matrix using a numpy array
+
+```{python}
+import numpy as np
+
+# Create a 3x3 matrix
+my_matrix = np.array([[0.7, 0.2, 0.1],[0.1, 0.6, 0.3],[0.2, 0.5, 0.3]])
+print(my_matrix)
+```
+---
+
+
+
+### Stationary Distributions
+
+A **stationary distribution** of a Markov chain is a probability vector 
+$$
+\pi = (\pi_1, \pi_2, \dots, \pi_n)
+$$
+that satisfies
+
+$$
+\pi P = \pi
+$$
+
+where P is the transition matrix. The values of $\pi\$ represent the long run
+probabilities of being in a specific state.  
+
+It also satisfies the normalization condition:
+
+$$
+\sum_{i=1}^{n} \pi_i = 1
+$$
+
+Stationary distributions are important because they describe the long-term 
+behavior of a Markov chain regardless of the initial state.
+
+
+## Stationary Distribution Calculation
+
+Consider the transition matrix
+
+\[
+
+\begin{bmatrix}
+0.7 & 0.2 & 0.1 \\
+0.1 & 0.6 & 0.3 \\
+0.2 & 0.5 & 0.3
+\end{bmatrix}
+\]
+
+
+---
+
+
+## Step 1: Transition Matrix
+
+The transition matrix is:
+
+$$
+P = 
+\begin{bmatrix}
+0.7 & 0.1 & 0.2 \\
+0.2 & 0.6 & 0.5 \\
+0.1 & 0.3 & 0.3
+\end{bmatrix}
+$$
+
+Let the stationary distribution be:
+
+$$
+\pi = (\pi_1, \pi_2, \pi_3)
+$$
+
+satisfying:
+
+$$
+\pi P = \pi, \quad \pi_1 + \pi_2 + \pi_3 = 1
+$$
+
+---
+
+## Step 2: System of Equations
+
+$$
+\begin{aligned}
+\pi_1 &= 0.7 \pi_1 + 0.1 \pi_2 + 0.2 \pi_3 \\
+\pi_2 &= 0.2 \pi_1 + 0.6 \pi_2 + 0.5 \pi_3 \\
+\pi_3 &= 0.1 \pi_1 + 0.3 \pi_2 + 0.3 \pi_3
+\end{aligned}
+$$
+
+Move all terms to the left:
+
+$$
+\begin{aligned}
+0.3 \pi_1 - 0.1 \pi_2 - 0.2 \pi_3 &= 0 \\
+-0.2 \pi_1 + 0.4 \pi_2 - 0.5 \pi_3 &= 0 \\
+-0.1 \pi_1 - 0.3 \pi_2 + 0.7 \pi_3 &= 0
+\end{aligned}
+$$
+
+---
+
+## Step 3: Solve for <span>$\pi_1$</span>
+
+From the first equation:
+
+$$
+0.3 \pi_1 = 0.1 \pi_2 + 0.2 \pi_3 \implies \pi_1 = \frac{1}{3} \pi_2 + \frac{2}{3} \pi_3
+$$
+
+---
+
+## Step 4: Substitute into second equation
+
+$$
+-0.2\left(\frac{1}{3}\pi_2 + \frac{2}{3}\pi_3\right) + 0.4 \pi_2 - 0.5 \pi_3 = 0
+$$
+
+Simplify:
+
+$$
+0.3333 \pi_2 - 0.6333 \pi_3 = 0 \implies \pi_2 \approx 1.9 \pi_3
+$$
+
+Then:
+
+$$
+\pi_1 \approx \frac{1}{3} (1.9 \pi_3) + \frac{2}{3} \pi_3 \approx 1.3 \pi_3
+$$
+
+---
+
+## Step 5: Apply normalization
+
+$$
+\pi_1 + \pi_2 + \pi_3 = 1 \implies 1.3 \pi_3 + 1.9 \pi_3 + \pi_3 = 4.2 \pi_3 = 1
+$$
+
+$$
+\pi_3 \approx 0.2381, \quad \pi_2 \approx 0.4524, \quad \pi_1 \approx 0.3095
+$$
+
+---
+
+## Step 6: Final Stationary Distribution
+
+$$
+\pi = (\pi_1, \pi_2, \pi_3) \approx (0.3095, 0.4524, 0.2381)
+$$
+
+
+
+## Multistep Transition Probabilities in Markov Chains
+
+Let \( P \) be the one-step transition matrix of a Markov chain.
+
+The **n-step transition probability** from state \( i \) to state \( j \) is defined as
+
+\$$
+p_{ij}^{(n)} = \Pr(X_n = j | X_0 = i).
+$$\
+
+---
+
+### Matrix Interpretation
+
+The matrix of $n$-step transition probabilities is given by
+
+$$
+P^{(n)} = P^n
+$$
+
+That is, the $n$-step transition matrix is simply the matrix $P$ multiplied by itself $n$ times.  
+Each row of $P^n$ gives the distribution of the chain after $n$ steps starting from a specific state.
+
+---
+
+### Connection to Convergence
+
+If the chain is irreducible and aperiodic, then
+
+$$
+\lim_{n \to \infty} P^n =
+\begin{bmatrix}
+\pi \\
+\pi \\
+\vdots \\
+\pi
+\end{bmatrix}
+$$
+
+where $\pi$ is the stationary distribution.
+
+This means:
+
+- The rows of $P^n$ converge to the stationary distribution.
+- The chain “forgets” its initial state.
+
+
+## Matrix Power Function
+
+```{python}
+import numpy as np
+
+def matrix_power(matrix, power):
+    if power == 0:
+        return np.identity(len(matrix))
+    elif power == 1:
+        return matrix
+    else:
+        return np.dot(matrix, matrix_power(matrix, power - 1))
+
+matrix_power(my_matrix, 1)
+```
+
+```{python}
+for i in range(1, 17, 3):
+    print(
+        f"\nStep Transition Matrix at the nth power {i}\n",
+        matrix_power(my_matrix, i),
+        "\n"
+    )
+```
+
+
+### Real World Examples
+
+[Using Markov Chains to Predict K% and BB%](https://community.fangraphs.com/using-markov-chains-to-predict-k-and-bb/)
+
+- States are defined as the count
+- Transition probabilities were created using indexed pitching stats (normalized zone%, zoneswing%, oswing%, fair/foul%) 
+- This is a good example of the memoryless property, the count two pitches ago doesn't matter, only the count now
+- Based off these probabilities, we can find the stationary distribution that gives us expected K% and BB%
+
+
+```{python}
+import numpy as np
+import pandas as pd
+
+states = ["0-0","0-1","0-2","1-0","1-1","1-2",
+          "2-0","2-1","2-2","3-0","3-1","3-2",
+          "K","BB","IP"]
+
+# Transition Matrix (Single Pitch)
+P = pd.DataFrame([
+[0,0.546,0,0.344,0,0,0,0,0,0,0,0,0,0,0.110],
+[0,0,0.471,0.350,0,0,0,0,0,0,0,0,0,0,0.180],
+[0,0,0.207,0,0.395,0,0,0,0,0,0,0,0,0.221,0.177],
+[0,0,0,0.542,0.290,0,0,0,0,0,0,0,0,0,0.168],
+[0,0,0,0,0.509,0.283,0,0,0,0,0,0,0,0,0.208],
+[0,0,0,0,0,0.240,0,0.317,0,0,0,0,0,0.238,0.204],
+[0,0,0,0,0,0,0.564,0.260,0,0,0,0,0,0,0.175],
+[0,0,0,0,0,0,0,0.541,0.225,0,0,0,0,0,0.234],
+[0,0,0,0,0,0,0,0.283,0,0.231,0,0,0.246,0,0.241],
+[0,0,0,0,0,0,0,0,0,0.664,0,0,0,0.298,0.038],
+[0,0,0,0,0,0,0,0,0,0,0.567,0,0,0.203,0.229],
+[0,0,0,0,0,0,0,0,0,0,0,0.332,0.242,0.144,0.282],
+[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+], index=states, columns=states)
+
+
+# Limit Matrix (Long-Run Probabilities)
+P_inf = pd.DataFrame([
+[0,0,0,0,0,0,0,0,0,0,0,0,0.285,0.041,0.674],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.369,0.023,0.608],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.530,0.014,0.455],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.243,0.082,0.675],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.341,0.046,0.613],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.505,0.029,0.466],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.202,0.197,0.602],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.295,0.111,0.594],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.459,0.069,0.471],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.136,0.515,0.349],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.205,0.326,0.469],
+[0,0,0,0,0,0,0,0,0,0,0,0,0.362,0.216,0.422],
+[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+], index=states, columns=states)
+
+print("Single Pitch Transition Matrix:\n")
+print(P)
+
+print("\nLong-Run Limit Matrix:\n")
+print(P_inf)
+```
+
+# Hidden Markov Models
+
+## What is a Hidden Markov Model?
+
+- A Hidden Markov Model (HMM) is a Markov model where the observations are dependent on a hidden (latent) Markov process
+- An HMM requires that there be an observable process \displaystyle Y whose outcomes depend on the outcomes of \displaystyle X
+- Since \displaystyle X cannot be observed directly, the goal is to learn about state of  \displaystyle X by observing \displaystyleY
+
+### Requirements/Assumptions of HMMs
+1. the outcome of $Y$ at time $t=t_{0}$ must be "influenced" exclusively by the outcome of $X$ at $t=t_{0}$
+
+2. the outcomes of $X$ and $Y$ at $t<t{0}$ must be conditionally independent of $Y$ at 
+$t=t_{0}$ given $X$ at time $t=t_0$
+
+![Hidden Markov Model](https://avikdas.com/assets/images/2019-06-24-dynamic-programming-for-machine-learning-hidden-markov-models/hmm-bare.png)
+
+---
+
+### Weather Example cont.
+
+Let us continue with another example involving the weather.
+
+- Suppose that we cannot go outside and cannot tell what the weather is
+- Our only indicator of possible weather is what our neighbor is doing
+
+### Hidden States
+
+Let the hidden states represent the true weather:
+
+$$
+X_t \in \text{Sunny}, \text{Rainy}
+$$
+
+The weather evolves according to a Markov chain:
+
+$$
+\Pr(X_{t+1} \mid X_t)
+$$
+
+This means tomorrow’s weather depends only on today’s weather.
+
+---
+
+### Observations
+
+Suppose we do not directly observe the weather.
+
+Instead, we observe what activity our roommate does:
+
+$$
+Y_t \in \{\text{walking}, \text{shopping}, \text{cleaning}\}
+$$
+
+The observation depends only on the current hidden state:
+
+$$
+\Pr(Y_t \mid X_t)
+$$
+
+For example:
+
+- If it is Rainy, cleaning or shopping probability might be high.
+- If it is Sunny, walking probability might be low.
+
+---
+
+### Matrices 
+
+- Remember we have a transition matrix describing how weather changes
+- Now we need a matrix to describe how the weather effects the activity
+This is called an **emission matrix**
+- It defines the probability of a specific observable output symbol being generated from a particular hidden state
+- For N states and M observations, this is an N by M matrix
+- Rows sum to 1
+
+---
+
+###  Assumptions
+
+The first key HMM assumption is:
+
+$$
+\Pr(Y_t \mid X_t, X_{t-1}, Y_{t-1}, \dots)
+=
+\Pr(Y_t \mid X_t)
+$$
+
+This means:
+
+- Once we know today’s weather $X_t$, past weather and past activities
+provide no additional information about today’s activities, bringing in the memoryless property.
+
+The second assumption is that each observation $Y_t$ is generated only from the corresponding hidden state $X_t$, .
+
+- The outcome of $Y$ at time $t=t_{0}$ must be "influenced" exclusively by the outcome of $X$ at $t=t_{0}$
+- The decision to on what activity to do is only influenced by the weather
+- You wouldn't use go for a walk today because of the weather yesterday, or based on what you did yesterday
+- You can see this idea well on the graph, where x is the hidden state weather, 
+and y is the known state (activity)
+
+
+
+---
+
+## Forward Algorithm
+
+The **forward algorithm** is used in Hidden Markov Models (HMMs) to compute the probability of an observed sequence. Instead of listing every possible hidden state sequence (which grows exponentially), it uses dynamic programming to build the answer step by step.
+
+At each time step, the algorithm keeps track of the probability of being in each hidden state, given all observations seen so far. It updates these probabilities by combining
+- the previous step’s probabilities,
+- the transition probabilities between states, and
+- the likelihood of the current observation.
+
+By moving forward through time and updating these values recursively, the algorithm efficiently computes the total probability of the full observation sequence.
+
+
+```{python}
+# 0 = Rainy,  1 = Sunny
+
+# 0 = walk, 1 = shop, 2 = clean
+
+import numpy as np
+
+# Initial probabilities
+pi = np.array([0.6, 0.4])
+
+# Transition matrix A
+A = np.array([
+    [0.7, 0.3],   # from Rainy
+    [0.4, 0.6]    # from Sunny
+])
+
+# Emission matrix B
+B = np.array([
+    [0.1, 0.4, 0.5],   # Rainy emits walk, shop, clean
+    [0.6, 0.3, 0.1]    # Sunny emits walk, shop, clean
+])
+
+# Observations as indices
+obs = np.array([0, 1, 2])  # walk, shop, clean
+
+
+def forward_np(obs, pi, A, B):
+    T = len(obs)
+    N = len(pi)
+    
+    alpha = np.zeros((T, N))
+    
+    # Initialization
+    alpha[0] = pi * B[:, obs[0]]
+    
+    # Recursion 
+    for t in range(1, T):
+        alpha[t] = (alpha[t-1] @ A) * B[:, obs[t]]
+    
+    # Termination
+    prob = np.sum(alpha[T-1])
+    
+    return alpha, prob
+
+alpha, prob = forward_np(obs, pi, A, B)
+
+print("Forward matrix:\n", alpha)
+print("Total probability:", prob)
+```
+
+---
+
+# Hidden Markov Model: Weather Example
+
+## Model Setup
+
+Initial probabilities:
+
+$$
+P(R_0 = \text{Rainy}) = 0.6
+$$
+
+$$
+P(R_0 = \text{Sunny}) = 0.4
+$$
+
+Transition matrix:
+
+$$
+A =
+\begin{bmatrix}
+0.7 & 0.3 \\
+0.4 & 0.6
+\end{bmatrix}
+$$
+
+Emission matrix:
+
+$$
+B =
+\begin{bmatrix}
+0.1 & 0.4 & 0.5 \\
+0.6 & 0.3 & 0.1
+\end{bmatrix}
+$$
+
+Observations:
+
+$$
+O = (\text{walk}, \text{shop}, \text{clean})
+$$
+
+---
+
+# Forward Algorithm
+
+We compute:
+
+$$
+\alpha_t(j) = P(O_0, \dots, O_t, X_t = j)
+$$
+
+---
+
+## Step 0 (Initialization)
+
+$$
+\alpha_0(j) = \pi_j B_{j,O_0}
+$$
+
+For Rainy:
+
+$$
+\alpha_0(R) = 0.6 \cdot 0.1 = 0.06
+$$
+
+For Sunny:
+
+$$
+\alpha_0(S) = 0.4 \cdot 0.6 = 0.24
+$$
+
+So,
+
+$$
+\alpha_0 =
+\begin{bmatrix}
+0.06 & 0.24
+\end{bmatrix}
+$$
+
+---
+
+## Step 1 (Observation = shop)
+
+$$
+\alpha_1(j) =
+\left(
+\sum_i \alpha_0(i) A_{ij}
+\right)
+B_{j,O_1}
+$$
+
+### Rainy
+
+$$
+\alpha_1(R) =
+(0.06 \cdot 0.7 + 0.24 \cdot 0.4)\cdot 0.4
+$$
+
+$$
+= (0.042 + 0.096)\cdot 0.4
+$$
+
+$$
+= 0.138 \cdot 0.4
+$$
+
+$$
+= 0.0552
+$$
+
+### Sunny
+
+$$
+\alpha_1(S) =
+(0.06 \cdot 0.3 + 0.24 \cdot 0.6)\cdot 0.3
+$$
+
+$$
+= (0.018 + 0.144)\cdot 0.3
+$$
+
+$$
+= 0.162 \cdot 0.3
+$$
+
+$$
+= 0.0486
+$$
+
+So,
+
+$$
+\alpha_1 =
+\begin{bmatrix}
+0.0552 & 0.0486
+\end{bmatrix}
+$$
+
+---
+
+## Step 2 (Observation = clean)
+
+### Rainy
+
+$$
+\alpha_2(R) =
+(0.0552 \cdot 0.7 + 0.0486 \cdot 0.4)\cdot 0.5
+$$
+
+$$
+= (0.03864 + 0.01944)\cdot 0.5
+$$
+
+$$
+= 0.05808 \cdot 0.5
+$$
+
+$$
+= 0.02904
+$$
+
+### Sunny
+
+$$
+\alpha_2(S) =
+(0.0552 \cdot 0.3 + 0.0486 \cdot 0.6)\cdot 0.1
+$$
+
+$$
+= (0.01656 + 0.02916)\cdot 0.1
+$$
+
+$$
+= 0.04572 \cdot 0.1
+$$
+
+$$
+= 0.004572
+$$
+
+So,
+
+$$
+\alpha_2 =
+\begin{bmatrix}
+0.02904 & 0.004572
+\end{bmatrix}
+$$
+
+---
+
+## Termination Step
+
+$$
+P(O) = \sum_j \alpha_2(j)
+$$
+
+$$
+= 0.02904 + 0.004572
+$$
+
+$$
+= 0.033612
+$$
+
+---
+
+# Final Result
+
+$$
+P(\text{walk, shop, clean}) = 0.033612
+$$
+
+This matches the full sum over all 8 possible hidden state paths.
+
+---
+
+### Viterbi Algorithm
+
+The **Viterbi Algorithm** finds the most likely sequence of hidden states that could have generated a given observation sequence
+
+**How it works**
+
+1. Initialization: Initialize a probability matrix with the initial state probabilities multiplied by the emission probabilities.
+2. Recursion: For each time step and state, calculate the highest probability of reaching that state from a previous state, keeping track of the best previous state using "backpointers".
+3. Termination: Find the maximum probability among the final states.
+4. Path Backtracking: Follow the backpointers from the final, most likely state back to the beginning to reconstruct the optimal sequence.
+
+```{python}
+def viterbi_np(obs, pi, A, B):
+    T = len(obs)
+    N = len(pi)
+    
+    delta = np.zeros((T, N))     # stores max probabilities
+    psi = np.zeros((T, N), dtype=int)  # backpointers
+    
+    # Initialization
+    delta[0] = pi * B[:, obs[0]]
+    
+    # Recursion
+    for t in range(1, T):
+        for j in range(N):
+            probs = delta[t-1] * A[:, j]
+            psi[t, j] = np.argmax(probs)
+            delta[t, j] = np.max(probs) * B[j, obs[t]]
+    
+    # Termination
+    best_last_state = np.argmax(delta[T-1])
+    best_prob = delta[T-1, best_last_state]
+    
+    # Backtracking
+    best_path = np.zeros(T, dtype=int)
+    best_path[T-1] = best_last_state
+    
+    for t in range(T-2, -1, -1):
+        best_path[t] = psi[t+1, best_path[t+1]]
+    
+    return best_path, best_prob
+
+path, prob = viterbi_np(obs, pi, A, B)
+
+print("Best path (state indices):", path)
+print("Probability of best path:", prob)
+```
+
+
+----
+
+
+### Other Algorithms
+
+#### Forward-Backward Algorithm
+- The Forward-Backward algorithm computes the probability of each hidden state at every time step given the full observation sequence.
+- It uses a forward pass to calculate the probability of observations up to each time step and a backward pass to calculate the probability
+- of the remaining observations. Multiplying these forward and backward probabilities and normalizing gives the posterior probability of being in each state at each time.
+
+
+
+#### Baum-Welch Algorithm
+- The Baum-Welch algorithm is an Expectation-Maximization (EM) method used to learn the HMM parameters from observation sequences when hidden states are unknown.
+- It alternates between computing expected counts of state visits and transitions (E-step) and updating the initial, transition, and emission probabilities to maximize likelihood (M-step). 
+- Repeating these steps iteratively improves the model to better fit the observed data.
+
+---
+
+### Applications of HMMS
+
+- Financial Time Series Data
+    + Algorithmic trading strategies
+    + Credit risk modeling
+    + Portfolio optimization
+    + Interest rate modeling
+
+
+
+- Bioinformatics 
+    + Gene finding
+    + DNA sequencing
+    + Protein family modeling
+
+---
+
+### Advantages and Limitations
+
+
+#### Markov Chains
+**Advantages**
+
+- Simple and easy to understand; only requires transition probabilities between states
+- Can be analyzed mathematically with well-established tools
+- Accurately models systems where only the present, not the past history, matters, which simplifies complex calculations
+- Can be applied to diverse fields, including marketing attribution (customer paths), finance (stock trends), gaming, and weather modeling
+
+**Limitations**
+
+- Assumes the current state fully determines the next state (memoryless), which may be unrealistic
+- Transition probabilities must be known or estimated accurately, which can be hard for large state spaces
+- They predict the next state but do not explain why it happened (poor explanatory power)
+- They assume probabilities remain constant, failing to adapt to dynamic systems
+
+
+---
+
+#### Hidden Markov Models
+
+**Advantages**
+
+- Can model sequences where the true states are hidden and only observations are seen
+- Captures uncertainty by using probabilities for transitions and emissions
+- Good at handling missing or incomplete data (power to infer states/observation)
+- Algorithms like the Forward-Backward algorithm and Viterbi algorithm provide polynomial-time solutions for training and decoding, ensuring fast inference
+
+**Limitation**
+
+- Assumes Markov property and conditional independence of observations given states, which may not always hold
+- Performance heavily relies on the quality of initial parameter estimates (e.g., transition probabilities)
+- Hidden states may not have clear, real-world meaning, making results harder to interpret
+- With too many hidden states, HMMs can fit the training data very well but generalize poorly.
+
