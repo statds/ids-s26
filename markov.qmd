@@ -270,6 +270,7 @@ for i in range(1, 17, 3):
 
 
 ```{python}
+#| echo: false
 import numpy as np
 import pandas as pd
 
