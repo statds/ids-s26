@@ -1,0 +1,406 @@
+---
+title: "Creating Presentations with Quarto"
+subtitle: "Introduction to Data Science | Fall 2024"
+format:
+    revealjs:
+        slide-number: true
+        preview-links: true
+        theme: default
+---
+
+## About Revealjs
+
+- A format used by Quarto to create presentations
+- Renders slides as an HTML file by default
+- Highly recommended over alternatives, such as `beamer` or `pptx`, due to its capabilities
+
+# Creating Slides
+
+## Title Slide Configuration
+
+All specifications for a title slide are included in the Quarto document's YAML code.
+
+A simple example:
+
+``` yaml
+---
+title: "Creating Presentations with Quarto"
+subtitle: "Introduction to Data Science | Fall 2024"
+format: revealjs
+---
+```
+
+Specifications for *date* and *author* can also be added.
+
+## Revealjs Options
+
+- `slide-number`: display the slide number on each slide
+- `preview-links`: open links in an overlay on the slide
+- `theme`: configure the presentation theme
+- `incremental`: items in lists appear individually
+- `footer`: include a footer at the bottom of each slide
+
+Many other options can be used under `revealjs` to customize a presentation.
+
+## YAML Example
+
+``` yaml
+---
+title: "Creating Presentations with Quarto"
+subtitle: "Introduction to Data Science | Fall 2024"
+format:
+    revealjs:
+        slide-number: true
+        preview-links: true
+        theme: default
+---
+```
+
+This is a verbatim copy of the YAML code used in the Quarto file for this presentation!
+
+## Subsequent Slides
+
+- To create a section slide, use a single `#` followed by the slide's title.
+- To create a regular slide, use a double `##` followed by the slide's title. Then, use markdown syntax to add content to the slide after the title line.
+
+The title slide **does not** need to be added in this way; it is created and included automatically based on the information in the YAML code block!
+
+## Slides Example
+
+``` markdown
+---
+title: "Example Presentation"
+date: today
+author: "NAME"
+format: revealjs
+---
+
+# Section Title
+
+## List A
+
+- Bullet Point 1A
+- Bullet Point 2A
+
+## List B
+
+- Bullet Point 1B
+- Bullet Point 2B
+```
+
+# Slide Content
+
+## Code Blocks
+
+- It may be useful to display blocks of code in a slide.
+- Open a code block with at least three ```` ``` ```` followed by the language of the code.
+- Close a code block with the same number of ```` ``` ```` as in the opening.
+
+## Code Block Example
+
+For example, the following code *in the Quarto document*
+
+```` markdown
+``` python
+import numpy as np
+np.arange(10)
+```
+````
+
+will yield the following output *in the rendered slide*.
+
+``` python
+import numpy as np
+np.arange(10)
+```
+
+Notice that this does not run the Python code; it simply displays the block of code in the slide.
+
+## Executable Code
+
+To display the output of a code block in a slide, enclose the programming language inside `{}`. For example, the following code *in the Quarto document*
+
+```` python
+```{{python}}
+import numpy as np
+np.arange(10)
+```
+````
+
+will yield the following output *in the rendered slide*.
+
+```{python}
+import numpy as np
+np.arange(10)
+```
+
+Including a period inside `{}` before the programming language will display the code block instead of running it.
+
+## Images from Code Output
+
+Executable code blocks can be used to display images in slides. Consider the following code example.
+
+```` python
+```{{python}}
+#| fig-align: center
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+````
+
+## Images from Code Output -- Example
+
+The preceding code example will create the following image.
+
+```{python}
+#| fig-align: center
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+## Images from Files
+
+It is also possible to insert an image from a saved file.
+
+```{python}
+#| fig-align: center
+#| fig-cap: "A line plot on a polar axis"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+
+## Images from Files -- Markdown Syntax
+
+To import a saved image for display in a slide, use the following markdown syntax as an example. This line of code may be used to display the image on the previous slide.
+
+``` markdown
+![A line plot on a polar axis](polar_axis.png)
+```
+
+- The caption for the figure is enclosed inside `[]`.
+- The file path for the saved image file is enclosed inside `()`.
+
+Remember to use relative references, as opposed to absolute references, when specifying the file path!
+
+## Markdown Syntax for Links
+
+To create a link, use the same markdown syntax as before, but omit the initial `!`.
+
+- The text of the link is enclosed inside `[]`.
+- The URL is enclosed inside `()`.
+
+For example, use the following markdown syntax to obtain a link to the Quarto website.
+
+``` markdown
+[Quarto](https://quarto.org)
+```
+
+[Quarto](https://quarto.org)
+
+## Tables -- Markdown Syntax
+
+Refer to the [Quarto documentation](https://quarto.org/docs/authoring/tables.html) for a comprehensive explanation on the details of creating tables in markdown.
+
+The basic syntax for a simple table is illustrated by the following example.
+
+``` markdown
+| Left | Center | Right |
+|:-----|:------:|------:|
+| ABC  | ABC    | ABC   |
+| ABCD | ABCD   | ABCD  |
+```
+
+| Left | Center | Right |
+|:-----|:------:|------:|
+| ABC  | ABC    | ABC   |
+| ABCD | ABCD   | ABCD  |
+
+## Mathematical Notation
+
+- Use LaTeX to typeset mathematical notation.
+- In-text math is enclosed with a single `$` on each side.
+- Display math is enclosed with a double `$$` on each side.
+
+## LaTeX Example
+
+``` markdown
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+The quadratic formula is given by the above equation.
+This is used to find the solutions to the equation $ax^2 + bx + c = 0$.
+```
+
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+The quadratic formula is given by the above equation.
+This is used to find the solutions to the equation $ax^2 + bx + c = 0$.
+
+# Slide Customization
+
+## Incremental Lists
+
+::: {.incremental}
+- This slide contains an incremental list.
+- Lists on specific slides can be configured to display incrementally.
+- Alternatively, lists can display incrementally by default for the entire presentation.
+- Additionally, incremental displays can be disabled on specific slides, when lists display incrementally by default.
+:::
+
+## Incremental Lists -- Entire Presentation
+
+By including the following under the `revealjs` options in the YAML block, bulleted and numbered lists will display incrementally by default.
+
+``` yaml
+---
+title: "Presentation Title"
+format:
+    revealjs:
+        incremental: true
+---
+```
+
+## Incremental Lists -- Specific Slides
+
+By enclosing a list's code in a div, the display of the list can go against the default setting.
+
+To make a list incremental:
+
+``` markdown
+::: {.incremental}
+- Item 1
+- Item 2
+:::
+```
+
+To make a list non-incremental:
+
+``` markdown
+::: {.nonincremental}
+- Item 1
+- Item 2
+:::
+```
+
+## Div Containers
+
+:::: {.columns}
+
+::: {.column width="50%"}
+- The previous slide demonstrated how div containers may be used to override default settings.
+- The next slide will demonstrate how they may be used to display content in multiple columns, as in the current slide.
+:::
+
+::: {.column width="50%"}
+- Divs are useful for adding various attributes to specific pieces of code.
+- Furthermore, divs may be nested within each other.
+- For more information on the syntax and application of div containers, refer to the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html#sec-divs-and-spans).
+:::
+
+::::
+
+## Multiple Columns
+
+This framework, which makes use of nested divs, enables the display of multiple columns in a slide.
+
+``` markdown
+:::: {.columns}
+
+::: {.column width="50%"}
+Left Column
+:::
+
+::: {.column width="50%"}
+Right Column
+:::
+
+::::
+```
+
+## Avoiding Content Overflow: Introducing a Scroll Bar {.scrollable}
+
+- Be mindful of the amount of content on each slide.
+- Render the presentation frequently to see if content overflow is present on any slides.
+- If a slide overflows with content, consider separating it into more than one slide.
+- If separating the content is not possible, it may be useful to introduce a scroll bar into the slide.
+
+This can be accomplished by including `{.scrollable}` after the slide title, as shown in the following example.
+
+``` markdown
+## Avoiding Content Overflow: Introducing a Scroll Bar {.scrollable}
+```
+
+If content overflow is a problem throughout the presentation, the scroll bar can be applied to all slides by including `scrollable: true` under `revealjs` in the YAML block.
+
+## Avoiding Content Overflow: Decreasing the Text Size {.smaller}
+
+- Be mindful of the amount of content on each slide.
+- Render the presentation frequently to see if content overflow is present on any slides.
+- If a slide overflows with content, consider separating it into more than one slide.
+- If separating the content is not possible, it may be useful to decrease the size of the text on the slide.
+
+This can be accomplished by including `{.smaller}` after the slide title, as shown in the following example.
+
+``` markdown
+## Avoiding Content Overflow: Decreasing the Text Size {.smaller}
+```
+
+If content overflow is a problem throughout the presentation, the smaller text size can be applied to all slides by including `smaller: true` under `revealjs` in the YAML block.
+
+# Conclusion
+
+## Summary
+
+This presentation has covered:
+
+- Creating slides in a Revealjs presentation
+- Adding various content to slides
+- Basic ways to customize slides
+
+It would be impossible to describe all the capabilities of Revealjs in one presentation. This presentation is meant to provide an introduction to the broad functionality of Revealjs.
+
+## Further Reading
+
+For more information about creating Revealjs presentations:
+
+- [Presentations -- Quarto](https://quarto.org/docs/presentations/)
+- [Revealjs -- Quarto](https://quarto.org/docs/presentations/revealjs/)
+- [Presenting Slides -- Quarto](https://quarto.org/docs/presentations/revealjs/presenting.html)
+
+For a useful guide on fundamental markdown syntax:
+
+- [Markdown Basics -- Quarto](https://quarto.org/docs/authoring/markdown-basics.html)
+
+# THANK YOU!!!
