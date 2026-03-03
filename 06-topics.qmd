@@ -5,3 +5,8 @@
 - Data Science in Animation
   - `_animation.qmd`
 {{< include _kmeans.qmd >}} 
+
+- SQL and Data Manipulation
+ - `_SQL_and_Data_Manipulation.qmd`
+{{< include _SQL_and_Data_Manipulation.qmd >}}
+
