@@ -1,19 +1,13 @@
 ---
--title: "Creating Presentations with Quarto"
--subtitle: "Introduction to Data Science | Fall 2024"
-+title: "Visualizing Spatial Data"
-+author: "Cody Jones"
- format:
--    revealjs:
--        slide-number: true
--        preview-links: true
--        theme: default
-+  revealjs:
-+    theme: default
-+    slide-number: true
-+    transition: slide
- ---
- 
+title: "Creating Presentations with Quarto"
+subtitle: "Introduction to Data Science | Fall 2024"
+format:
+  revealjs:
+    slide-number: true
+    transition: slide
+    theme: default
+---
+
 ## About Revealjs
 # Visualizing Spatial Data
 
@@ -322,4 +316,4 @@ A familiar mapping platform for the web. It provides basemaps and geographical c
 
 # Questions?
 
-Thank you!
+Thank you! - Cody Jones
