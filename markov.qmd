@@ -361,7 +361,7 @@ $$
 The weather evolves according to a Markov chain:
 
 $$
-\P(X_{t+1} \mid X_t)
+P(X_{t+1} \mid X_t)
 $$
 
 This means tomorrow’s weather depends only on today’s weather.
@@ -381,7 +381,7 @@ $$
 The observation depends only on the current hidden state:
 
 $$
-\P(Y_t \mid X_t)
+P(Y_t \mid X_t)
 $$
 
 For example:
@@ -406,9 +406,9 @@ For example:
 The first key HMM assumption is:
 
 $$
-\Pr(Y_t \mid X_t, X_{t-1}, Y_{t-1}, \dots)
+P(Y_t \mid X_t, X_{t-1}, Y_{t-1}, \dots)
 =
-\Pr(Y_t \mid X_t)
+P(Y_t \mid X_t)
 $$
 
 This means:
