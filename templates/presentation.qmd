@@ -17,89 +17,124 @@ Table of contents
 - Importance of Map Projections
 - Design Principles
 - Tools and Technology
-- Faults and Errors
-- Real-World Application
 - Questions
 
 ---
 
 # What is Spatial Data?
 
-- Background of the topic
-- Why this topic matters
-- What question you are addressing
-
-Notes:
-- Explain context clearly
-- Keep this under 1–2 minutes
+Visualizing spatial data is the process of displaying data that has a geographic component on a map. This helps us see patterns across locations, compare regional patterns, identify any trends or clusters, and understand how place influences outcome.
+Regular data might tell you information such as income, temperature, and population. But spatial data takes a look "income where? Temperature where? Population where?" Location changes everything.
 
 ---
 
 # Vector Vs Raster Data
 
-Vector
+## Vector
+Describes the literal geometric level of the data
 - Points(crime incidents)
 - Lines(roads, rivers)
 - Polygons(territories, census tracts)
-Raster
-- Grid Data(temperature, elevation, satellite)
+## Raster
+Describes grid data
+- Temperature
+- Elevation
+- Satellite
 - Used in Environmental Studies
 
 ---
 
-# Visualization Methods
+# Visualization Methods(Maps)
 
-- Main idea
-- Supporting evidence
-- Visual or data reference (if applicable)
+## Choropleth Maps
+- Encapsulates spatial data over a studied area
+- Regional, colored map
+- Usually follows one variable and its correlation to region
+- Runs the risk of being misleading if raw count is considered
+![Choropleth Map Example](../images/Screenshot_1-3-2026_153637_www.bing.com.jpeg){width=70%}
 
-Notes:
-- Connect this back to your research question
+
+## Heat Maps
+- Focuses on the density of variables
+- Includs a variance in hue or intensity of color
+- 2 Dimensional, covers the observations into categories between two variables
+- Unlike choropleth maps, heat maps do not require a geographic map
+![Heat Map Example](../images/Screenshot_1-3-2026_15210_www.bing.com.jpeg){width=70%}
+
+## Proportional Symbol Map
+- Uses symbol sizes as its main form of communication(commonly a circle)
+- Covers over geographical maps, similar to choropleth maps
+- Size of symbol expresses the condition of the variable
+- Comparable details to choropleth, substitutes the symbol for color changes
+![Proportional Symbol Map Example](../images/Screenshot_1-3-2026_153042_www.bing.com.jpeg){width=70%}
+
+## Dot Density Map
+- Covers a region and details occurances
+- The data is technically quantifiable with symbols and a legend
+- Dots can be approximate or accurate
+- Simple color variance allows for more variables
+- Usually covered over a map
+- Some drawbacks of dot density maps are that they could be congested/needs to be counted
+![Dot Density Map Example](../images/Screenshot_1-3-2026_161613_www.bing.com.jpeg){width=70%}
+
+## Cartograms
+- Takes a regional map and distorts regions based on the given variable
+- Cartograms follow one variable
+- Geographical maps are necessary
+- Goofy looking
+![Dot Density Map Example](../images/Screenshot_1-3-2026_172819_www.bing.com.jpeg){width=70%}
+
+
+# Significance
+
+## Decision making
+Strictly numerical data cannot determine conclusions influenced by geographical trends. The ability to view data through a map grants new eyes for the viewer. Visualizing spatial data allows for new levels of decision making and conclusion-drawing. Some examples of this are:
+- Detecting anomalies in network performance
+- Determining patterns based on seasonal variations
+- General urban planning
+
+## Map Projections
+It's important to understand the relationship between the world and maps. Earth is 3-Dimensional space and capturing and presenting is data can be challenging. While transferring geographical data into a workspace, some aspects might be distorted for digestion. This includes:
+- Area
+- Shape
+- Distance
+- Direction
+- Mercator Projection(full)
+- Robinson Projection(slight roundedness)
+
+# Design Principles
+It's important to keep visuals basic and easy for the viewer to understand. This includes following some general rules in order to keep information neat and understandable. Some of these rules include:
+- Colors(sequential vs diverging)
+- Classification Methods(Equal intervals, even quantiles)
+- Natural breaks(jenks: reduce variance within, maximize variance between)
+- Avoid misinterpretation(Rates vs totals, per capita, color-friendly)
+
 
 ---
 
-# Data / Evidence
+# Tools and Technologies
 
-- Source of data
-- What the data shows
-- Important trends or findings
+## Tableau
+Stand-out data visualization tool. Tableau creates interactive maps and visualizes geographic trends with strategies mentioned previously. It is able to connect location data to data sets. Primary tool for dashboards and storytelling. Prioritizes clean visuals over heavy analysis.
+- Shapefiles(GIS, geometric)
+- MapInfo Tables
+- KML Files(Google Earth)
 
-Notes:
-- Highlight only the most important takeaway
+## R
+Statistical programming language that is able to perform some spatial anaylsis. Handles GIS data(shapefiles, GeoJSON). Utilizes packages to create its advanced maps. R is a tool for analyzing spatial data statistically
+- sf: structure, rgdal: enables reading, sp: classes and methods
+- ggplot2: customizable data visualizations
 
----
+## Python
+All-purpose programming language used for data science. It can focus on spatial data processing and GIS anaylsis. It can involve machine learning with location data and adopts libraries to accomplish its modeling and processing.
+- Geopandas: loads spatial data formats(.shp, geojson)
+- Matplotlib: plotting
 
-# Analysis
+## Google Maps
+A familiar mapping platform for the web. It provides basemaps and geographical context to the user. It visualizes spatial data in an interactive manner and embeds maps into apps. It's the perfect platform for displaying and interacting with geographic data.
+- Imports GIS data (shapefiles, converted into KML)
+- Geocoding API(addresses to coordinates)
 
-- What does the evidence mean?
-- Interpretation
-- Any surprising results?
-
-Notes:
-- This is where you demonstrate understanding
-
----
-
-# Implications
-
-- Why this matters
-- Real-world impact
-- Policy or practical relevance
-
-Notes:
-- Keep this focused and concise
-
----
-
-# Conclusion
-
-- Restate main question
-- Summarize findings
-- Final takeaway message
-
-Notes:
-- End confidently
-- Do not introduce new information here
 
 ---
 
