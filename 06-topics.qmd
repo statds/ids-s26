@@ -1,0 +1,7 @@
+# Various topics
+- K-Means Clustering
+  - `_kmeans.qmd`
+
+- Data Science in Animation
+  - `_animation.qmd`
+{{< include _kmeans.qmd >}} 

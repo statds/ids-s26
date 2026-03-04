@@ -1,0 +1,371 @@
+## Decision Trees
+**by Riley Sawyer**
+
+
+### Introduction
+Decision trees (DTs) are non-paremtreic supervised learning method used for classification and regression. This presentation will cover:
+
+1. How decision trees work
+
+2. The advanatages and disadvantages of decision trees
+
+3. Classification
+
+4. Regression
+
+5. How to use decision trees in Python
+
+6. Remedies
+
+
+
+
+### How decision trees work
+
+**Structure of a decision tree**
+A decision tree has a flow chart like structure that allows individuals to clearly visualize the decision making process. Decision trees have three main components:
+
+1. **Root node**: This is the first node of the tree. All following nodes can be traced make to the root node.
+
+2. **Internal nodes**: These nodes represent the features used for splitting the data. These features determine the path taken from this node onward. There are two types of internal nodes:
+
+   - *Decision nodes*: nodes where a specific question, atribute, or choice is made to split the data.
+
+   - *Chance nodes*: these nodes represent uncertainty in the decision-making process. Mulitple outcomes are possible here, so a probability is assigned to each outcome and the path is determined from there.
+
+3. **Leaf nodes**: These are the terminal nodes of the tree that represent the final output or decision. In classification tasks, leaf nodes represent class labels, while in regression tasks, they represent continuous values.
+
+**What should I eat: a decision tree**
+![Decision Tree example](https://cdn.careerfoundry.com/en/wp-content/uploads/old-blog-uploads/decision-tree-example.jpg)
+
+
+
+
+### Advantages and disadvantages of decision trees
+
+**Advantages**
+
+* Simple to understand and interpret
+
+* Requires little data preprocessing, ei:
+
+    + feature scaling
+
+    + normalization
+
+* Can handle both numerical and categorical data
+
+* Can capture non-linear relationships
+
+* Can be easily validated with statistical tests
+
+
+**Disadvantages**
+
+* Prone to overfitting, especially with deep trees. Can be remedied by:
+
+    + Pruning
+
+    + Setting a maximum depth
+
+* Can be unstable, as small changes in the data can lead to different tree structures
+
+    + Can be remedied by ensemble methods like random forests
+
+* Can be biased towards features with more levels. May not perform well with imbalanced datasets. Can be remedies by:
+
+    + Class weighing
+
+    + Resampling methods
+
+* May not capture complex relationships as well as other models, ei:
+
+    + XOR problems: where classes cannot be separated by a single linear decision boundary
+
+    + Parity problems: determining if something is even or odd. XOR is a type of parity problem.
+
+    + Mulitplexer problems: complex, non-linear boolian functions.
+
+
+
+
+### Classification
+Decision trees can be used to classify data into different categories. Ei,:
+
+* Image classification
+
+* Spam detection
+
+* Customer segmentation
+
+This uses `DecisionTreeClassifier` from `sklearn.tree` module in Python.
+
+
+
+
+### Regression
+Decision trees can also be used for regression tasks, where the goal is to predict a continuous value. Ei,:
+
+* Predicting house prices
+
+* Forecasting sales
+
+* Estimating average customer spending
+
+This uses `DecisionTreeRegressor` from `sklearn.tree` module in Python.
+
+
+
+
+### How to use decision trees in Python
+Decision trees can be implemented in Python using the `scikit-learn` library. However, here are other library you may want to use to supplement your DT usage.
+
+
+**Step 1: Import necessary libraries**
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+```
+
+
+**Step 2: Import scikit-learn modules**
+
+Before accessing any decision tree model, you will need to import the designated library. Use the following code to install:
+`pip install -U scikit-learn`
+
+Now, you can use the following code to import the indicated modules:
+```{python}
+from sklearn import tree # this is where your DTs are located
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+```
+
+`confusion_matrix` uses a table layout and is used to evaluate the performance of a classification model. It compares the predicted labels from your trained decision tree with the true labels from the data set.
+
+* It is a summary of the correct and incorrect predicitons.
+
+`accuracy_score` is a metric used to evaluate the performance of a classification model. It calculates the ratio of correctly predicted instances to the total number of instances in the dataset.
+
+`classification_report` is a function that provides a detailed report of the precision, recall, F1-score, and support for each class in a classification model. It helps to evaluate the performance of the model for each class.
+
+* precision: number of true positive predictions vs. number of positive predictions made by the model.
+
+* recall: number of true positive predictions vs. number of actual positive instances in the dataset.
+
+* F1-score: a combination of both precision and recall, an average of the two.
+
+`train_test_split` is a function used to split a dataset into training and testing sets. It allows you to decide a random state for reproducibility.
+
+`plot_tree` is a function used to visualize a decision tree model. Can help to understand how the model makes predictions and to identify important features in the dataset.
+
+
+
+**Step 3: Name your decision tree model**
+
+You'll know based on your statisitcal questions what type of decision tree you will want to call.
+
+For classification:
+```{python}
+clf = tree.DecisionTreeClassifier()
+```
+
+For regression:
+```{python}
+reg = tree.DecisionTreeRegressor()
+```
+
+
+
+
+**Step 4: Load data**
+
+For this example, we will be using the iris dataset. It contains 150 samples of iris flowers, with 4 features (sepal length, sepal width, petal length, petal width) and a target variable (species of iris).
+
+```{python}
+from sklearn.datasets import load_iris
+iris = load_iris()
+```
+
+
+Assing your features to `X` and `y`. Your data will always be `X` and your target variable will always be `y`.
+```{python}
+X = iris.data
+y = iris.target
+```
+
+
+Always split your data into training and testing sets. If you skip this step, you will not be able to evaluate the performance of your model.
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+```
+* `train_test_split` splits the data into training and testing sets. 
+* `test_size` indicates how much of the dataset you want in your testing group (here, it is 20%).
+* `random_state` ensures reproducibility. This can be any integer.
+
+
+**Step 5: Fit your model**
+
+Also knows as "training" your model. Fit your model only on the training set.
+
+```{python}
+clf.fit(X_train, y_train)
+```
+* `fit` is used to train a model on a training data. It takes a format as follows:
+`your_model_type.fit(X_train, y_train)`
+
+
+
+
+**Step 6: Make predictions**
+
+Now that your model is trained, you can use it to predict the classifications from the testing set. Save the predictions that your model makes in a variable you can call upon later. Here, we will call it `y_pred`.
+
+```{python}
+y_pred = clf.predict(X_test)
+```
+* `predict` is used to make predictions on new data. It takes a format as follows:
+`your_model_type.predict(X_test)`
+
+
+
+
+**Step 7: Evaluate your model**
+
+It is in good practice to test the performance of your model.
+
+```{python}
+print(confusion_matrix(y_test, y_pred))
+print(accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+```
+
+
+You can also show the decision tree itself.
+```{python}
+plt.figure(figsize=(12,8))
+plot_tree(clf,
+        feature_names=iris.feature_names, # refers to x-variables
+        class_names=iris.target_names,    #refers to y-variables
+        filled=True)    # colors the nodes to indicate the majority class
+plt.show()
+```
+
+
+
+
+### Remedies
+
+
+**Overfitting**
+
+When a decision tree is too complex, it may fit the training data too well and be unable to predict new data well.
+
+You can check to see if you have overfit your data by comparing the perfomance on your model on the training data vs. the testing data.
+```{python}
+train_score = clf.score(X_train, y_train)
+test_score = clf.score(X_test, y_test)
+
+print(f"Training score: {train_score}")
+print(f"Testing score: {test_score}")
+```
+* `.score` is used to evaluate the performance of a model on a given dataset. It takes a format as follows:
+`your_model_type.score(X, y)`
+
+If your training score and testing score are similar, your model has not be overfit. If your training score is much higher than your testing score, your model has likely overfit the data.
+
+Here are some remedies for overfitting:
+1. *Pruning*: This involves removing branches of the tree that do not significantly improve your model's predictions. This can be done by:
+* Setting a minimum number of samples
+    `DecisionTreeClassifier(min_samples_split=n)`
+
+2. *Setting a maximum depth*: This limits the depth of the tree, preventing it from becoming too complex and overfitting the data. *A good place to start is n=3.*
+    `DecisionTreeClassifier(max_depth=n)`
+
+3. *Setting minimum samples per leaf*: This sets a minimum number of samples required to be at a leaf node. This can prevent the tree from creating a branch that only applies to a small number of samples, which can lead to overfitting.
+    `DecisionTreeClassifier(min_samples_leaf=n)`
+
+To find out what number you should set for these parameters, you can use `GridSearchCV` from `sklearn`.
+```{python}
+from sklearn.model_selection import GridSearchCV
+```
+
+GridSearchCV allows you to set a range of values for specified parameters and test each combination for the best performing model.
+
+You must specify the parameters you want to test and the values you want to test for. Your parameters should be stored in a dictionary:
+```{python}
+param_grid = {
+    'max_depth': [3, 5, 10, None],
+    'min_samples_split': [2, 5, 10],
+    'min_samples_leaf': [2, 5, 10]
+    }
+```
+
+Now, you must call `GridSearchCV` and specify *the model*, *the parameter grid*, as well as the *number of cross folds* and *the scoring metric*.
+```{python}
+grid_search = GridSearchCV(
+    estimator = clf, # the model you want to test
+    param_grid = param_grid, # the parameters
+    cv = 5, # the number of cross folds
+    scoring = 'accuracy' # the scoring metric
+    )
+```
+
+Grid search must now be fit to your data, like so:
+```{python}
+grid_search.fit(X_train, y_train)
+```
+
+Grid search actually tests a lot of different feature of your model. You can find all the features being tested [here](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html). However, we only tested three parameters: max_depth, min_samples_split, and min_samples_leaf.
+```{python}
+print("Best parameters:", grid_search.best_params_)
+print("Best score:", grid_search.best_score_)
+```
+
+Now, you can create a new model including these updated parameters.
+
+4. *Changing the criterion*: This involves changing the criterion used to split the data at each node. Changing the criterion can help to reduce overfitting by making the tree less sensitive to small changes in the data.
+    `DecisionTreeClassifier(criterion='gini')`
+    * *gini impurity*: the probability of misclassifying a randomly chosen element from the dataset
+    * *entropy*: the average amount of information needed to classify an element from the dataset
+    * *log_loss*: the negative log-likelihood of the true labels given the predicted probabilities from the model. Used when the output is a probability distribution over multiple classes.
+
+    `DecisionTreeRegressor(criterion='squared_error')`
+    * *squared_error*:  the mean squared error between the predicted values and the true values
+    * *friedman_mse*: the mean squared error between the predicted values and the true values, but with a bias towards reducing the variance of the predictions
+    * *absolute_error*: the mean absolute error between the predicted values and the true values
+    * *poisson*: the mean Poisson deviance between the predicted values and the true values, used for count data
+
+5. *Using ensemble methods*: Ensemble methods (ei, random forests) combine multiple decision trees to make predictions, thus generalizing the model and reducing the risk of overfitting.
+
+
+**Unbalanced datasets**
+
+When one class is much more prevalent than the other, the decision tree may be biased towards the majority class.
+
+You can tell if a dataset is unbalanced by counting the number of instances in each class. If one class has significantly more instances than the other, the dataset is likely unbalanced. Note that decision trees use np.float32 array internally.
+```{python}
+unique, counts = np.unique(y, return_counts=True) # coutns the number of instances in each class
+num_in_class = {int(k): int(v) for k, v in zip(unique, counts)} # readable format
+print(num_in_class)
+```
+
+Here are some remedies for unbalanced datasets:
+
+1. *Class weighting*: This involves assigning higher weights to the minority class during the training process, which can help the model pay more attention to the minority class and improve its performance on that class.
+    `DecisionTreeClassifier(class_weight='balanced')`
+
+2. *Resampling methods*: This involves either oversampling the minority class (creating synthetic samples) or undersampling the majority class (removing samples) to balance the dataset.
+    * Oversampling: `from imblearn.over_sampling import SMOTE`
+    * Undersampling: `from imblearn.under_sampling import RandomUnderSampler`
+
+
+### Further readings
+[scikit-learn modules](https://scikit-learn.org/stable/modules/tree.html)
+
+[Decision tree implementation](https://www.geeksforgeeks.org/machine-learning/decision-tree-implementation-python/)
+
+[What is a decision tree?](https://careerfoundry.com/en/blog/data-analytics/what-is-a-decision-tree/)
+
+[Work management topics: decision trees](https://www.atlassian.com/work-management/project-management/decision-tree)
+
