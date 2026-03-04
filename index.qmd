@@ -367,7 +367,7 @@ Please use the following table to sign up.
    03/02 | Jiang, Ryan | Animation   
    03/04 | Jones, Cody | Visualizing Spatial Data
    03/04 | Davis, Reid | Markov Chains in Python
-   03/09 | Lawrence, Claire | [Visualizing Spatial Data]{style="color:red;"}
+   03/09 | Lawrence, Claire | Accessing US Census Data
    03/09 | Trnka, Jonathan | LLM Agents 
    03/11 | Orsini, Ronnie | Logistic Regression
    03/11 | Patel, Vrajkumar |
