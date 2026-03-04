@@ -5,3 +5,7 @@
 - Data Science in Animation
   - `_animation.qmd`
 {{< include _kmeans.qmd >}} 
+
+- Random Forests
+  - `_random_forests.qmd`
+{{< include _random_forests.qmd >}}

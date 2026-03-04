@@ -10,15 +10,15 @@ format:
       self-contained-math: true
 ---
 
-# Overview
+## Overview
 
 Random forest is a machine learning algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions. The algorithm uses a collection of decision trees to reach a single result in order to make predictions or regression models based on imputed data.
 
-# Decision Trees
+## Decision Trees
 
  A Decision Tree is a method that uses a flow chart-like structure to make decisions about a simple question. They can output either a categorical or numerical result, and are constructed using nodes and branches.
 
-### Structure
+#### Structure
 
 ::: columns
 ::: {.column width="40%"}
@@ -85,9 +85,9 @@ plt.show()
 
 :::
 :::
-## Iris Dataset Example
+### Iris Dataset Example
 
-### Dataset Overview
+#### Dataset Overview
 The Iris dataset has 150 samples of iris flowers. This data measures four features: sepal length, sepal width, petal length, and petal width. These features are used by the Decision Tree algorithm to classify the samples into three classes: setosa, versicolor, and virginica.
 
 ```{python}
@@ -105,7 +105,7 @@ df["species"] = iris.target_names[y]
 df.head()
 ```
 
-### Modelling the Data
+#### Modelling the Data
 
 Here we initialize the Decision Tree Classifier and fit it to the data. The Decision Tree Classifier is imported from the sklearn package, and matplotlib is imorted for future visualization.
 ```{python}
@@ -118,7 +118,7 @@ model = DecisionTreeClassifier(max_depth=3, random_state=42)
 model.fit(X, y)
 ```
 
-### Growth-Stop Conditions
+#### Growth-Stop Conditions
 Decision trees are prone to overfitting, and can cause the model to fragment data into small catergories that cannot be generalized to new data. To prevent this, growth-stop conditions can be passed as parameters to the model. These include:
 
 - **max_depth**: Sets the maximum depth of the tree, which limits how many splits the tree can make. In this case, we set it to 3.
@@ -136,7 +136,7 @@ Where $p_i$ is the proportion of samples belonging to class $i$ at a given node.
 Gini can range from 0 to 0.5 for binary classification, where 0 indicates a pure node and 0.5 indicates a completely impure node (ex. 50% True and 50% False).
 
 
-### Training Process
+#### Training Process
 
 Decision Trees are built by recursively splitting training samples in a series of steps:
 
@@ -225,7 +225,7 @@ plt.show()
 
 *Seen in each box is the calculated Gini Coefficient, the number of samples at the node, and the distribution of classes at the node.*
 
-## Benefits and Limitations of Decision Trees
+### Benefits and Limitations of Decision Trees
 ::: {.columns}
 
 ::: {.column width="35%"}
@@ -251,18 +251,18 @@ plt.show()
 
 :::
 
-# Random Forest Classifier
+## Random Forest Classifier
 
 Random Forest is an algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions.
 
-## Characteristics:
+### Characteristics:
 - While singular Decision Trees consider the use of all possible feature splits, Random Forest only considers a subset of features for each split.
 - Random Forest uses random features to make splits, which reduces correlation between trees and improves generalization
 - Random Forest can be used for classification or regression problems
     - classification uses the majority vote of all trees to come to a conclusion
     - regression uses the average of all trees to make a prediction
 
-## Iris Dataset Example
+### Iris Dataset Example
 
 ```{python}
 from sklearn.datasets import load_iris
@@ -281,7 +281,7 @@ df["species"] = iris.target_names[y]
 
 df.head()
 ```
-### Bagging
+#### Bagging
 Random Forest uses a combination of bootstrap and aggregation, also known as bagging, during the creation process.
 
 - **Bootstrap:** A resampling technique that uses sampling with replacement to create triaining sets
@@ -292,7 +292,7 @@ Random Forest uses a combination of bootstrap and aggregation, also known as bag
 
 Thirty percent of our selected bootstrap sample is set aside for training (out-of-bag sample), which will be used for cross-validation later on
 
-### Tree construction
+#### Tree construction
 
 **Step 1.** Create the training and testing sets
 
@@ -354,7 +354,7 @@ print("Accuracy:", accuracy)
 
 Our accuracy score is 1.0, which means that all of our predictions were correct. This is a good score, but it is important to note that this is likely due to the simplicity of the dataset and the fact that we have a small number of features. Adjusting things like the number of trees, the number of features considered for each split, and the depth of the trees can help to improve accuracy on more complex datasets.
 
-### Feature Selection
+#### Feature Selection
 
 **Feature Randomization** Selection of a random subset of features for each split
 
@@ -383,7 +383,7 @@ plt.show()
 
 As shown in the figure, petal length and petal width are the most important features for making accurate predictions in this dataset. This means that they created the most "pure" splits in the data, and were used more often in the Decision Trees to make accurate predictions.
 
-### Benefits and Limitations of Random Forest
+#### Benefits and Limitations of Random Forest
 ::: {.columns}
 
 ::: {.column width="55%"}
@@ -410,7 +410,7 @@ As shown in the figure, petal length and petal width are the most important feat
 
 
 
-# Regression example
+## Regression example
 Now we are going to use the Random Forest regression model to predict the median house value per neighborhood in California. 
 
 **Step 1.** Load the dataset and split into training and testing sets
@@ -472,7 +472,7 @@ plt.show()
 ```
 As seen in the figure above, median income is the most important feature for making accurate predictions in this dataset, as predicted. This means that it created the most "pure" splits in the data, and was used more often in the Decision Trees to make accurate predictions. 
 
-# Further Reading
+## Further Reading
 
 ::: {.columns}
 :::{.column width="55%"}
