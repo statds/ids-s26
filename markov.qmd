@@ -706,7 +706,7 @@ def viterbi_np(obs, pi, A, B):
 
     
     # Initialization
-    delta[0] = pi * B[:, obs[0]] # initial prob times backpointers
+    delta[0] = pi * B[:, obs[0]] # initial prob times emission prob
     
     # Recursion
     for t in range(1, T):  # loop over time steps for all states
