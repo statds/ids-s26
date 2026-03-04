@@ -4,4 +4,10 @@
 
 - Data Science in Animation
   - `_animation.qmd`
+
+- Web Scraping
+  - `_webscraping.qmd`
+
 {{< include _kmeans.qmd >}} 
+
+{{< include _webscraping.qmd >}}
