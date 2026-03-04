@@ -1,18 +1,6 @@
----
-title: "Web Scraping"
-subtitle: "STAT-3255-Introduction to Data Science Presentation"
-author: "Sean Tessman"
+## Web Scraping
 
-format:
-  html:
-    toc: true
-    number-sections: true
-
-execute:
-  echo: true
-  warning: false
-  message: false
----
+The presentation was made by Sean Tessman
 
 ## Introduction
 
@@ -86,29 +74,24 @@ If a site is dynamic, your scraper might “work” but return empty results.
 
     ------------------------------------------------------------------------
 
-+:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ## Using BeautifulSoup                                                                                                                                                                                                                                                                                                                                                                    |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ### What is BeautifulSoup                                                                                                                                                                                                                                                                                                                                                                 |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| BeautifulSoup is a Python tool that helps you look through and pull information from a webpage's HTML code. While `pandas.read_html()` is useful for grabbing whole tables, BeautifulSoup is better when you want specific things like text, links, or section titles. It works by organizing the HTML into a structure that makes it easier to search and extract exactly what you need. |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| ### Why use BeautifulSoup?                                                                                                                                                                                                                                                                                                                                                                |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-| -   Get text that isn't in a table                                                                                                                                                                                                                                                                                                                                                        |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-| -   Grab links or other small pieces of information                                                                                                                                                                                                                                                                                                                                       |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-| -   Look for specific parts of a page, like `div`, `p`, or `span`                                                                                                                                                                                                                                                                                                                         |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-| -   Work with more complicated pages                                                                                                                                                                                                                                                                                                                                                      |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-|     It's most helpful when the data isn't neatly organized in a table .                                                                                                                                                                                                                                                                                                                   |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-|     For structured tables –\> use `pandas.read_html()`\                                                                                                                                                                                                                                                                                                                                   |
-|                                                                                                                                                                                                                                                                                                                                                                                           |
-|     For flexible HTML parsing –\> use BeautifulSoup                                                                                                                                                                                                                                                                                                                                       |
-+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+## Using BeautifulSoup
+
+### What is BeautifulSoup
+
+BeautifulSoup is a Python tool that helps you look through and pull information from a webpage's HTML code. While `pandas.read_html()` is useful for grabbing whole tables, BeautifulSoup is better when you want specific things like text, links, or section titles. It works by organizing the HTML into a structure that makes it easier to search and extract exactly what you need.
+
+### Why use BeautifulSoup?
+
+-   Get text that isn't in a table\
+-   Grab links or other small pieces of information\
+-   Look for specific parts of a page, like `div`, `p`, or `span`\
+-   Work with more complicated pages
+
+It's most helpful when the data isn't neatly organized in a table.
+
+For structured tables –\> use `pandas.read_html()` 
+
+For flexible HTML parsing –\> use BeautifulSoup
 
 ------------------------------------------------------------------------
 
