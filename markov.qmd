@@ -29,7 +29,6 @@ within a specific timeframe or single step (represented by arrows)
 ###  A Transition Matrix
 - Definition: A square matrix that describes the probabilities of transitioning from one state to another
 - $p_{ij}$ represents the probability of moving from state i to state j
-- Rows represent the current states, columns represent the possible next states
 - All rows must sum to 1
 - We can create our transition matrix using a numpy array
 
@@ -205,14 +204,14 @@ $$
 P^{(n)} = P^n
 $$
 
-That is, the $n$-step transition matrix is simply the matrix $P$ multiplied by itself $n$ times.  
+That is, the $n$-step transition matrix is simply the matrix $P$ to the power of n ex. 2 step matrix is P times P 
 Each row of $P^n$ gives the distribution of the chain after $n$ steps starting from a specific state.
 
 ---
 
 ### Connection to Convergence
 
-If the chain is irreducible and aperiodic, then
+If the chain is irreducible and aperiodic (full loop), then
 
 $$
 \lim_{n \to \infty} P^n =
@@ -264,8 +263,8 @@ for i in range(1, 17, 3):
 [Using Markov Chains to Predict K% and BB%](https://community.fangraphs.com/using-markov-chains-to-predict-k-and-bb/)
 
 - States are defined as the count
-- Transition probabilities were created using indexed pitching stats (normalized zone%, zoneswing%, oswing%, fair/foul%) 
 - This is a good example of the memoryless property, the count two pitches ago doesn't matter, only the count now
+- Transition probabilities were created using indexed pitching stats for each pitcher (normalized zone%, zoneswing%, oswing%, fair/foul%, compared to league average) 
 - Based off these probabilities, we can find the stationary distribution that gives us expected K% and BB%
 
 
@@ -332,7 +331,7 @@ print(P_inf)
 
 - A Hidden Markov Model (HMM) is a Markov model where the observations are dependent on a hidden (latent) Markov process
 - An HMM requires that there be an observable process \displaystyle Y whose outcomes depend on the outcomes of \displaystyle X
-- Since \displaystyle X cannot be observed directly, the goal is to learn about state of  \displaystyle X by observing \displaystyleY
+- Since \displaystyle X cannot be observed directly, the goal is to learn about state of  \displaystyle X by observing Y
 
 ### Requirements/Assumptions of HMMs
 1. the outcome of $Y$ at time $t=t_{0}$ must be "influenced" exclusively by the outcome of $X$ at $t=t_{0}$
@@ -400,31 +399,6 @@ For example:
 - For N states and M observations, this is an N by M matrix
 - Rows sum to 1
 
----
-
-###  Assumptions
-
-The first key HMM assumption is:
-
-$$
-P(Y_t \mid X_t, X_{t-1}, Y_{t-1}, \dots)
-=
-P(Y_t \mid X_t)
-$$
-
-This means:
-
-- Once we know today’s weather $X_t$, past weather and past activities
-provide no additional information about today’s activities, bringing in the memoryless property.
-
-The second assumption is that each observation $Y_t$ is generated only from the corresponding hidden state $X_t$, .
-
-- The outcome of $Y$ at time $t=t_{0}$ must be "influenced" exclusively by the outcome of $X$ at $t=t_{0}$
-- The decision to on what activity to do is only influenced by the weather
-- You wouldn't go for a walk today because of the weather yesterday, or based on what you did yesterday
-- You can see this idea well on the graph, where x is the hidden state weather, 
-and y is the known state (activity)
-
 
 
 ---
@@ -437,7 +411,7 @@ At each time step, the algorithm keeps track of the probability of being in each
 
 - the previous step’s probabilities
 - the transition probabilities between state
-- the likelihood of the current observation.
+- the likelihood of the current observation
 
 By moving forward through time and updating these values recursively, the algorithm efficiently computes the total probability of the full observation sequence.
 
