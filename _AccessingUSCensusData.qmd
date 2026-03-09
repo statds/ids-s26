@@ -1,0 +1,333 @@
+---
+title: "Accessing U.S. Census Data"
+author: "Claire Lawrence"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: default
+execute:
+  echo: true
+---
+
+# Introduction
+
+The U.S. Census Bureau provides some of the most widely used demographic and geographic data in the United States. These data are used in research, public policy, business analysis, and mapping.
+
+# Why Census Data Matters
+
+## Common uses of Census data
+
+- Population counts
+- Population characteristics (gender, age, and race.)
+- Income and poverty measures 
+- Housing characteristics (occupancy, vacancy, tenure)
+- Educational attainment
+- Geographic comparisons across states, counties, and census tracts
+
+## Major Census products
+
+The U.S. Census Bureau provides a multitude of datasets that cover the United States. The most important are:
+
+- **Decennial Census**: full population count every 10 years
+- **American Community Survey (ACS)**: yearly estimates on social and economic characteristics
+- **TIGER/Line shapefiles**: spatial boundary files for mapping
+
+# Accessing Census Data
+
+## Main ways to get Census data
+
+- Download tables manually from `data.census.gov`
+- Use the Census API (preferred method)
+- Download geographic boundary files from TIGER/Line
+- Access data through Python or R packages
+
+## Why use the API?
+
+While you may be drawn to manually downloading census data locally and importing it, using the API will make your workflow smoother.
+
+Using the API makes your code:
+- Reproducible
+- Easy to update
+- Good for larger workflows
+- Useful for combining with code and mapping
+
+Instead of worrying about your downloads and folders, Python finds your data for you. 
+This is incredibly useful if you are working with others. 
+
+# Python Setup
+
+## Packages
+
+```{python}
+import requests
+import pandas as pd
+import plotly.express as px
+```
+
+These packages let us request Census data from the API, turn the response into a dataframe, and visualize it.
+
+# Example 1: Pulling Census Data from the API
+
+## API example: total population by state
+
+```{python}
+url = "https://api.census.gov/data/2022/acs/acs5?get=NAME,B01003_001E&for=state:*"
+response = requests.get(url)
+data = response.json()
+data[:5]
+```
+
+This query asks for:
+
+- `NAME`: the place name
+- `B01003_001E`: total population estimate
+- `for=state:*`: all states
+
+There are many datasets made publicly available through the Census Bureau. You can also submit requests through their developer forum.
+The Census Bureau also provides an API discovery tool that shows all available datasets, their geographies and variables, and how to access them via API.
+
+## Converting the response into a dataframe
+
+```{python}
+df = pd.DataFrame(data[1:], columns=data[0])
+df.head()
+```
+
+## Cleaning the data
+
+```{python}
+df["B01003_001E"] = df["B01003_001E"].astype(int)
+
+df = df.rename(columns={
+    "NAME": "state_name",
+    "B01003_001E": "population",
+    "state": "state_fips"
+})
+
+df.head()
+```
+
+Now the data are in a more readable format and ready for analysis!
+
+# Example 2: Another useful Census variable
+
+## Median household income by state
+
+```{python}
+income_url = "https://api.census.gov/data/2022/acs/acs5?get=NAME,B19013_001E&for=state:*"
+income_response = requests.get(income_url)
+income_data = income_response.json()
+
+income_df = pd.DataFrame(income_data[1:], columns=income_data[0])
+income_df["B19013_001E"] = pd.to_numeric(income_df["B19013_001E"], errors="coerce")
+
+income_df = income_df.rename(columns={
+    "NAME": "state_name",
+    "B19013_001E": "median_income",
+    "state": "state_fips"
+})
+
+income_df.head()
+```
+
+The same API structure can be reused for different variables.
+
+# Visualizing Census Data
+
+Once Census data are in a dataframe, they can be visualized using standard Python plotting libraries. Before making a map, lets look at a few simpler visualizations.
+
+## Example 1: Bar chart of Poverty rates
+
+## Pulling poverty data
+To calculate poverty rate, we pull the number of people below the poverty line from the ACS.
+```{python}
+#| code-fold: true
+poverty_url = "https://api.census.gov/data/2022/acs/acs5?get=NAME,B17001_002E&for=state:*"
+poverty_response = requests.get(poverty_url)
+poverty_data = poverty_response.json()
+
+poverty_df = pd.DataFrame(poverty_data[1:], columns=poverty_data[0])
+
+poverty_df = poverty_df.rename(columns={
+    "NAME": "state_name",
+    "B17001_002E": "poverty_count",
+    "state": "state_fips"
+})
+
+poverty_df["poverty_count"] = pd.to_numeric(poverty_df["poverty_count"], errors="coerce")
+
+poverty_df.head()
+```
+Calculating poverty rate:
+```{python}
+#| code-fold: true
+poverty_merged = pd.merge(
+    df,
+    poverty_df.drop(columns=["state_name"]),
+    on="state_fips"
+)
+
+poverty_merged["poverty_rate"] = (
+    poverty_merged["poverty_count"] / poverty_merged["population"]
+) * 100
+
+poverty_merged.head()
+```
+## Example 1: States with highest poverty rates
+
+This bar chart compares poverty rates across states using ACS data.
+
+```{python}
+top_poverty = poverty_merged.sort_values("poverty_rate", ascending=False).head(10)
+
+fig = px.bar(
+    top_poverty,
+    x="state_name",
+    y="poverty_rate",
+    color="poverty_rate",
+    title="Top 10 States by Poverty Rate",
+    labels={
+        "poverty_rate": "Poverty Rate (%)",
+        "state_name": "State"
+    }
+)
+
+fig.show()
+```
+
+
+## Example 2: Distribution of state populations
+
+Histograms help us understand how Census values are distributed across geographic units.
+
+```{python}
+fig = px.histogram(
+    df,
+    x="population",
+    nbins=20,
+    title="Distribution of State Populations"
+)
+
+fig.show()
+```
+
+
+
+## Example 3: Comparing population and income
+
+Scatter plots allow us to compare two Census variables across geographic units.
+
+```{python}
+merged = pd.merge(
+    df,
+    income_df.drop(columns=["state_name"]),
+    on="state_fips"
+)
+
+fig = px.scatter(
+    merged,
+    x="population",
+    y="median_income",
+    hover_name="state_name",
+    color="median_income",
+    title="Population vs Median Household Income"
+)
+
+fig.show()
+```
+
+This makes it possible to compare whether states with larger populations also tend to have higher median household incomes.
+
+
+# Spatial Census Data
+
+## Why the spatial side matters
+
+Census data are tied to geography. That makes them useful for:
+
+- choropleth maps
+- regional comparisons
+- policy analysis across places
+- combining social data with boundaries
+We will be looking at the national level for this next example, but you can go as small as census blocks (typically around the size of one city block).
+
+
+# Spatial Example
+
+## Mapping Census data by state
+
+Instead of using shapefiles, I will make a choropleth map directly in Python using Plotly. This is an easier way to visualize Census data spatially at the state level.
+You can use stronger tools in Python such as geoplotlib, or even import Census data into GIS such as ArcGIS.
+
+## Pulling median household income by state
+
+```{python}
+income_url = "https://api.census.gov/data/2022/acs/acs5?get=NAME,B19013_001E&for=state:*"
+income_response = requests.get(income_url)
+income_data = income_response.json()
+
+income_df = pd.DataFrame(income_data[1:], columns=income_data[0])
+
+income_df = income_df.rename(columns={
+    "NAME": "state_name",
+    "B19013_001E": "median_income",
+    "state": "state_fips"
+})
+
+income_df["median_income"] = pd.to_numeric(income_df["median_income"], errors="coerce")
+income_df.head()
+```
+
+## Add state abbreviations for mapping
+
+```{python}
+#| code-fold: true
+state_abbrev = {
+    "Alabama": "AL", "Alaska": "AK", "Arizona": "AZ", "Arkansas": "AR",
+    "California": "CA", "Colorado": "CO", "Connecticut": "CT", "Delaware": "DE",
+    "District of Columbia": "DC", "Florida": "FL", "Georgia": "GA", "Hawaii": "HI",
+    "Idaho": "ID", "Illinois": "IL", "Indiana": "IN", "Iowa": "IA",
+    "Kansas": "KS", "Kentucky": "KY", "Louisiana": "LA", "Maine": "ME",
+    "Maryland": "MD", "Massachusetts": "MA", "Michigan": "MI", "Minnesota": "MN",
+    "Mississippi": "MS", "Missouri": "MO", "Montana": "MT", "Nebraska": "NE",
+    "Nevada": "NV", "New Hampshire": "NH", "New Jersey": "NJ", "New Mexico": "NM",
+    "New York": "NY", "North Carolina": "NC", "North Dakota": "ND", "Ohio": "OH",
+    "Oklahoma": "OK", "Oregon": "OR", "Pennsylvania": "PA", "Rhode Island": "RI",
+    "South Carolina": "SC", "South Dakota": "SD", "Tennessee": "TN", "Texas": "TX",
+    "Utah": "UT", "Vermont": "VT", "Virginia": "VA", "Washington": "WA",
+    "West Virginia": "WV", "Wisconsin": "WI", "Wyoming": "WY", "Puerto Rico": "PR"
+}
+
+income_df["abbr"] = income_df["state_name"].map(state_abbrev)
+income_df.head()
+```
+
+## Choropleth map
+
+```{python}
+fig = px.choropleth(
+    income_df,
+    locations="abbr",
+    locationmode="USA-states",
+    color="median_income",
+    scope="usa",
+    hover_name="state_name",
+    title="Median Household Income by State (ACS 2022)"
+)
+
+fig.show()
+```
+
+# Conclusion
+
+Census data are one of the most widely used public datasets in the United States. By accessing the Census API with Python, we can automatically retrieve demographic data, organize it for analysis, and visualize patterns across geographic areas.
+
+## Key takeaways
+
+- The U.S. Census Bureau provides extensive demographic, economic, and geographic data.
+- The Census API allows these datasets to be accessed programmatically instead of downloading files manually.
+- Python tools like pandas and plotly make it easy to clean, analyze, and visualize Census data.
+- Census variables can be explored through multiple visualization methods, including bar charts, histograms, scatter plots, and maps.
+- Combining Census data with geographic context helps reveal spatial patterns in social and economic data.
