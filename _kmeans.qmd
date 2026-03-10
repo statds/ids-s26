@@ -1,4 +1,4 @@
-## K-Means Clustering for Customer Segmentation
+
 
 This presentation was prepared by Alysha Desai. 
 
