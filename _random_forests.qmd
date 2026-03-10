@@ -167,6 +167,8 @@ print("Number of samples at root:", tree.n_node_samples[0])
 
 ```
 
+***Internally, all possible Gini values are calculated for each feature and threshold for each step, and the split uses the feature and threshold that produces the lowest Gini value***
+
 **Step 3.**  The data is then split based on the selected feature and threshold value
 
 ```{python}
@@ -254,7 +256,7 @@ plt.show()
 Random Forest is an algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions.
 
 ## Characteristics:
-- While singular Decision Trees consider the use of all possible feature splits, Random Forest only considers a random subset of features for each split.
+- While singular Decision Trees consider the use of all possible feature splits, Random Forest only considers a subset of features for each split.
 - Random Forest uses random features to make splits, which reduces correlation between trees and improves generalization
 - Random Forest can be used for classification or regression problems
     - classification uses the majority vote of all trees to come to a conclusion
@@ -283,9 +285,10 @@ df.head()
 Random Forest uses a combination of bootstrap and aggregation, also known as bagging, during the creation process.
 
 - **Bootstrap:** A resampling technique that uses sampling with replacement to create triaining sets
-- A training set is selected with replacement for each Decision Tree made
-- The unselected values will be set aside as part of the out-of-bag samples
-- Individual Decision Trees are then trained independently using respective training sets, selecting their own features for each split
+    - A training set is selected with replacement for each Decision Tree made
+    - The unselected values will be set aside as part of the out-of-bag samples
+    - Individual Decision Trees are then trained independently using respective training sets, selecting their own features for each split
+- **Aggregation:** The process of combining the predictions of all the trees created by the random forest algorithm 
 
 Thirty percent of our selected bootstrap sample is set aside for training (out-of-bag sample), which will be used for cross-validation later on
 
@@ -293,7 +296,7 @@ Thirty percent of our selected bootstrap sample is set aside for training (out-o
 
 **Step 1.** Create the training and testing sets
 
-- These will be used to create bootstrap samples and out-of-bag samples for each tree, during the fitting process
+- These will be used to create bootstrap samples and out-of-bag samples for each tree during the fitting process
 
 ```{python}
 # Split into training and testing sets
@@ -326,6 +329,7 @@ model = RandomForestClassifier(
 model.fit(X_train, y_train)
 ```
 **Internal Process:**
+
 1. Bootstrap samples are created for each tree from the training set created in step 1
 2. A random subset of features is selected to consider at each split
 3. The best feature is selected to split the data, and the best threshold value is also determined
@@ -356,7 +360,7 @@ Our accuracy score is 1.0, which means that all of our predictions were correct.
 
 - Reduces correlation between trees and improves generalization
 - The Random Forest algorithm uses this during the training process
-- Nymber of features that are considered can be changed to improve model accuaracy; the default value is the square root of the total number of features
+- Number of features that are considered can be changed to improve model accuaracy; the default value is the square root of the total number of features
 
 **Feature Importance:** The relative importance of each feature in the data
 
@@ -376,6 +380,7 @@ plt.show()
 ```
 
 ***The horizontal axis shows feature, and the vertical axis shows the average reduction in Gini Coefficient caused by splits using that feature across all trees***
+
 As shown in the figure, petal length and petal width are the most important features for making accurate predictions in this dataset. This means that they created the most "pure" splits in the data, and were used more often in the Decision Trees to make accurate predictions.
 
 ### Benefits and Limitations of Random Forest
