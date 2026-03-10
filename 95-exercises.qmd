@@ -140,6 +140,8 @@ The grading will be based on whether you can successfully make pull requests to 
 
 
 
+
+
 ### Part 2. Generalized “Fibonacci-like” recurrence
 
 Define a sequence $\{a_n\}$ by
@@ -173,18 +175,25 @@ where $c_1, c_2$ are integers. Note that Fibonacci sequence corresponds to $c_1 
    * How memoization changes time complexity
    * Memory usage differences between the bottom-up list vs constant-memory version
 
+
+
+
+
 ### Part C. Fast method using matrices
 
 For the recurrence $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, define the matrix:
 
-$$M = \begin{pmatrix}
+$$
+M = \begin{pmatrix}
 c_1 & c_2 \\
 1 & 0
-\end{pmatrix}$$
+\end{pmatrix}
+$$
 
 Then, one can show that:
 
-$$\begin{pmatrix}
+$$
+\begin{pmatrix}
 a_n \\
 a_{n-1}
 \end{pmatrix}
@@ -194,7 +203,9 @@ M^{n-2}
 a_2 \\
 a_1
 \end{pmatrix}
-\quad \text{for } n \ge 2.$$
+\quad \text{for } n \ge 2.
+$$
+
 
 It turns out this gives a very efficient way for computing the sequence (in fact the most efficient way with complexity O(log n)). 
 
@@ -270,5 +281,176 @@ assert mat2_pow(A, 0) == I
 assert mat2_pow(A, 1) == A
 ```
 
+
+## Homework 3
+
+You are asked to model a binary outcome using a set of features. The data come from two groups:
++ Group A (large)
++ Group B (small)
+
+You are asked to use the provided code to run the analysis and answer the questions at the end. The code simulates a dataset with a strong signal for group A and a relatively weaker signal + higher noise for group B, and then runs three different model strategies, namely, 1) a pooled model, 2) two separate models, and 3) a partial pooling model.
+
+### Creates data + different model strategies
+
+```{python}
+import numpy as np
+import pandas as pd
+
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, roc_auc_score, confusion_matrix
+
+# -----------------------------
+# 0) Create a dataset
+# -----------------------------
+rng = np.random.default_rng(3255)
+
+nA = 2500   # large group
+nB = 120    # small group
+p_noise = 40
+
+def sim_group(n, group):
+    x1 = rng.normal(0, 1, n)
+    x2 = rng.normal(0, 1, n)
+    noise = {f"z{i}": rng.normal(0, 1, n) for i in range(p_noise)}
+
+    # Group-specific relationship between features and outcome
+    # A: strong signal, easier to learn
+    # B: weaker signal + higher noise, hard to learn with small n
+    if group == "A":
+        b0, b1, b2, sig = -0.2,  2.2, -1.4, 1.0
+    else:
+        b0, b1, b2, sig = -0.2, -0.8,  0.6, 1.0
+
+    lin = b0 + b1*x1 + b2*x2 + rng.normal(0, sig, n)
+    p = 1 / (1 + np.exp(-lin))
+    y = rng.binomial(1, p)
+
+    d = {"group": group, "x1": x1, "x2": x2, "y": y}
+    d.update(noise)
+    return pd.DataFrame(d)
+
+df = pd.concat([sim_group(nA, "A"), sim_group(nB, "B")], ignore_index=True)
+
+print("Counts:\n", df["group"].value_counts())
+print("Base rate y=1 overall:", round(df["y"].mean(), 3))
+print("Base rate by group:\n", df.groupby("group")["y"].mean().round(3))
+```
+
+
+```{python}
+# Split within each group so both groups appear in train/test
+train_parts, test_parts = [], []
+for g, sub in df.groupby("group"):
+    tr, te = train_test_split(sub, test_size=0.30, random_state=1, stratify=sub["y"])
+    train_parts.append(tr)
+    test_parts.append(te)
+
+train = pd.concat(train_parts).sample(frac=1, random_state=1)
+test  = pd.concat(test_parts).sample(frac=1, random_state=1)
+
+features = ["x1", "x2"] + [f"z{i}" for i in range(p_noise)]
+
+Xtr = train[features]
+ytr = train["y"]
+Xte = test[features]
+yte = test["y"]
+gte = test["group"]
+
+# -----------------------------
+# Helper: evaluate by group
+# -----------------------------
+def eval_by_group(model, X_test, y_test, g_test):
+    proba = model.predict_proba(X_test)[:, 1]
+    pred = (proba >= 0.5).astype(int)
+
+    rows = []
+    for g in sorted(g_test.unique()):
+        idx = (g_test == g)
+        yt = y_test[idx]
+        pb = proba[idx]
+        pr = pred[idx]
+
+        acc = accuracy_score(yt, pr)
+        auc = roc_auc_score(yt, pb) if yt.nunique() == 2 else np.nan
+
+        tn, fp, fn, tp = confusion_matrix(yt, pr, labels=[0, 1]).ravel()
+        fpr = fp / (fp + tn) if (fp + tn) else np.nan
+        fnr = fn / (fn + tp) if (fn + tp) else np.nan
+
+        rows.append({"group": g, "n_test": idx.sum(), "acc": acc, "auc": auc, "FPR": fpr, "FNR": fnr})
+
+    return pd.DataFrame(rows)
+```
+
+
+```{python}
+# -----------------------------
+# 1) POOLED model
+# -----------------------------
+pooled = make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000))
+pooled.fit(Xtr, ytr)
+
+print("\n=== 1) Pooled (ignores group) ===")
+print(eval_by_group(pooled, Xte, yte, gte).round(3))
+```
+
+
+```{python}
+# -----------------------------
+# 2) SEPARATE models
+# -----------------------------
+print("\n=== 2) Separate models (A model, B model) ===")
+rows = []
+for g in ["A", "B"]:
+    tr_g = train[train["group"] == g]
+    te_g = test[test["group"] == g]
+    m = make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000))
+    m.fit(tr_g[features], tr_g["y"])
+    res = eval_by_group(m, te_g[features], te_g["y"], te_g["group"])
+    rows.append(res)
+
+sep_results = pd.concat(rows, ignore_index=True)
+print(sep_results.round(3))
+
+```
+
+
+```{python}
+# -----------------------------
+# 3) "Partial pooling"
+# -----------------------------
+def add_interactions(dfX_with_group):
+    X = dfX_with_group.copy()
+    gB = (X["group"] == "B").astype(int)
+    X = X.drop(columns=["group"])
+    X["gB"] = gB
+    X["x1_gB"] = dfX_with_group["x1"] * gB
+    X["x2_gB"] = dfX_with_group["x2"] * gB
+    return X
+
+Xtr_int = add_interactions(train[["group"] + features])
+Xte_int = add_interactions(test[["group"] + features])
+
+partial = make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000))
+partial.fit(Xtr_int, ytr)
+
+print("\n=== 3) One model with group interaction (regularized) ===")
+print(eval_by_group(partial, Xte_int, yte, gte).round(3))
+```
+
++ Explain the data generating process and how the two groups differ in terms of signal and noise. Why is it harder to learn for group B?
+
++ Explain the evaluation metrics (accuracy, AUC, FPR, FNR) and what they mean in this binary classification context.
+
++ Explain how the pooled model works and how it performs for each group. Why does it perform worse for B?
+
++ Explain how separate models work and how they perform for each group. Why does the B model perform better?
+
++ Explain how the interaction model works and how it performs for each group. Why does it lead to the best performance for B?
+
++ What's the ethical/real-world lesson here about how to handle small groups in modeling?
 
 

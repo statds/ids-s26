@@ -24,6 +24,7 @@ book:
     - 03-quarto.qmd
     - 04-python.qmd
     - 05-ethics_communiacation.qmd
+    - 06-topics.qmd
    # - 05-visualization.qmd
    # - 06-manipulation.qmd
    # - 07-exploration.qmd
@@ -34,6 +35,7 @@ book:
    # - 20-deeplearning.qmd
    # - 90-advanced.qmd
     - 95-exercises.qmd
+    - 96-midterm-bike-sharing.qmd
     - 99-references.qmd
 
 bibliography:
