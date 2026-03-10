@@ -25,9 +25,9 @@ This presentation is prepared by Jinha.
 - It integrates smoothly with other Python libraries.
 - It supports reproducible and automated workflows.
 
-## Core Concepts
+### Core Concepts
 
-### DataFrame and Series
+#### DataFrame and Series
 
 - A DataFrame is a two-dimensional table with rows and columns.
 - A Series is a one-dimensional labeled array.
@@ -35,7 +35,7 @@ This presentation is prepared by Jinha.
 - Each column represents a variable.
 - DataFrames allow us to perform operations across rows and columns.
 
-### Importing Data
+#### Importing Data
 
 - Pandas allows us to import data from various file formats.
 - The most common format is CSV.
@@ -48,9 +48,9 @@ df = pd.read_csv("data.csv")
 df.head()
 ```
 
-## Key Operations
+### Key Operations
 
-### Selecting Data
+#### Selecting Data
 
 - Selecting allows us to focus on specific variables.
 - This reduces unnecessary complexity in the dataset.
@@ -64,7 +64,7 @@ df[["age", "score"]]
 - 'df["score"]' selects a single column.
 - 'df[["age", "score"]]' selects multiple columns.
 
-### Filtering Rows
+#### Filtering Rows
 
 - Filtering allows us to select observations that meet specific conditions.
 - This is useful when we want to analyze a specific group.
@@ -84,7 +84,7 @@ df[(df["score"] > 80) & (df["age"] > 18)]
 
 Filtering helps focus on relevant observations.
 
-### Grouping and Aggregation
+#### Grouping and Aggregation
 
 - Grouping allows us to divide data into categories.
 - Aggregation summarizes values within each group.
@@ -97,7 +97,7 @@ df.groupby("region")["sales"].sum()
 ```
 - 'df.groupby("gender")["score"].mean()' groups data by gender and calculates the average score.
 
-### Handling Missing Data
+#### Handling Missing Data
 
 - Missing values are common in real datasets.
 - They must be handled before analysis.
@@ -116,7 +116,7 @@ df.fillna(0)
 - 'df.dropna()' removes rows with missing values.
 - 'df.fillna(0)' replaces missing values with a specified value (in this case, 0).
 
-### Sorting Data
+#### Sorting Data
 
 - Sorting helps organize data in ascending or descending order.
 - It is useful for identifying highest or lowest values.
@@ -126,7 +126,7 @@ df.sort_values("score", ascending=False)
 ```
 - 'df.sort_values("score", ascending=False)' sorts the dataset by score in descending order.
 
-### Common Mistakes in Data Manipulation
+#### Common Mistakes in Data Manipulation
 
 - Ignoring missing values
 - Filtering too aggressively
@@ -134,16 +134,16 @@ df.sort_values("score", ascending=False)
 - Not checking for data types
 - Assuming the data is clean without verification
 
-### How to Avoid Common Mistakes
+#### How to Avoid Common Mistakes
 
 - Always check for missing values before analysis
 - Filter carefully and review the remaining data
 - Verify group sizes when using groupby
 - Inspect data types using df.dtypes
 
-## Example Workflow
+### Example Workflow
 
-### From Raw Data to Summary
+#### From Raw Data to Summary
 
 1. Load the dataset.
 2. Inspect the structure of the data.
@@ -163,9 +163,9 @@ summary = filtered.groupby("gender")["score"].mean()
 summary
 ```
 
-## Why Pandas Is Important
+### Why Pandas Is Important
 
-### Applications
+#### Applications
 
 - Data preprocessing
 - Exploratory data analysis
@@ -174,9 +174,9 @@ summary
 
 Pandas is typically the first step in a data science workflow, as it allows us to clean and prepare our data for further analysis.
 
-## Conclusion
+### Conclusion
 
-### Summary
+#### Summary
 
 This presentation covered:
 
@@ -187,7 +187,7 @@ This presentation covered:
 
 Effective data manipulation leads to more reliable and accurate analysis, which is crucial for making informed decisions based on data.
 
-### Further Reading
+#### Further Reading
 
 For more information about Pandas:
 
