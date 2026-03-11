@@ -1,20 +1,12 @@
----
-title: "Random Forest Classifier"
-subtitle: "Introduction to Data Science | Spring 2026"
-author: "Sara Watanabe"
-format:
-    html:
-      toc: true
-      number-sections: true
-      html-math-method: katex
-      self-contained-math: true
----
+## Random Forest Classifier 
 
-## Overview
+This presentation was prepared by Sara Watanabe
+
+### Overview
 
 Random forest is a machine learning algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions. The algorithm uses a collection of decision trees to reach a single result in order to make predictions or regression models based on imputed data.
 
-## Decision Trees
+### Decision Trees
 
  A Decision Tree is a method that uses a flow chart-like structure to make decisions about a simple question. They can output either a categorical or numerical result, and are constructed using nodes and branches.
 
@@ -85,9 +77,9 @@ plt.show()
 
 :::
 :::
-### Iris Dataset Example
+#### Iris Dataset Example
 
-#### Dataset Overview
+##### Dataset Overview
 The Iris dataset has 150 samples of iris flowers. This data measures four features: sepal length, sepal width, petal length, and petal width. These features are used by the Decision Tree algorithm to classify the samples into three classes: setosa, versicolor, and virginica.
 
 ```{python}
@@ -105,7 +97,7 @@ df["species"] = iris.target_names[y]
 df.head()
 ```
 
-#### Modelling the Data
+##### Modelling the Data
 
 Here we initialize the Decision Tree Classifier and fit it to the data. The Decision Tree Classifier is imported from the sklearn package, and matplotlib is imorted for future visualization.
 ```{python}
@@ -125,7 +117,7 @@ Decision trees are prone to overfitting, and can cause the model to fragment dat
 - **min_samples_split**: Sets the minimum number of samples required to split a node. If a node has fewer samples than this threshold, it will not be split further.
 - **min_impurity_decrease**: Sets the minimum reduction in the Gini Coefficient required to split a node. If the reduction is less than this value, the node will not be split.
 
-### Gini Coefficient
+#### Gini Coefficient
 In order for the Decision Tree Classifier to determine the best splits, it uses a metric to evaluate the quality of splits. The Gini Coefficient is used as the default metric, and is calculated as:
 $$
 \mathrm{Gini}(p) = 1 - \sum_{i=1}^{n} p_i^2
@@ -225,7 +217,7 @@ plt.show()
 
 *Seen in each box is the calculated Gini Coefficient, the number of samples at the node, and the distribution of classes at the node.*
 
-### Benefits and Limitations of Decision Trees
+#### Benefits and Limitations of Decision Trees
 ::: {.columns}
 
 ::: {.column width="35%"}
@@ -251,18 +243,18 @@ plt.show()
 
 :::
 
-## Random Forest Classifier
+### Random Forest Classifier
 
 Random Forest is an algorithm that uses a combination of bagging, feature importance, and complex decision trees to make predictions.
 
-### Characteristics:
+#### Characteristics:
 - While singular Decision Trees consider the use of all possible feature splits, Random Forest only considers a subset of features for each split.
 - Random Forest uses random features to make splits, which reduces correlation between trees and improves generalization
 - Random Forest can be used for classification or regression problems
     - classification uses the majority vote of all trees to come to a conclusion
     - regression uses the average of all trees to make a prediction
 
-### Iris Dataset Example
+#### Iris Dataset Example
 
 ```{python}
 from sklearn.datasets import load_iris
@@ -410,7 +402,7 @@ As shown in the figure, petal length and petal width are the most important feat
 
 
 
-## Regression example
+#### Regression example
 Now we are going to use the Random Forest regression model to predict the median house value per neighborhood in California. 
 
 **Step 1.** Load the dataset and split into training and testing sets
@@ -472,7 +464,7 @@ plt.show()
 ```
 As seen in the figure above, median income is the most important feature for making accurate predictions in this dataset, as predicted. This means that it created the most "pure" splits in the data, and was used more often in the Decision Trees to make accurate predictions. 
 
-## Further Reading
+### Further Reading
 
 ::: {.columns}
 :::{.column width="55%"}
