@@ -306,6 +306,9 @@ data = load_breast_cancer()
 
 X = data.data
 y = data.target
+
+print("Predictor variables used in the model:")
+print(data.feature_names)
 ```
 
 Here:
@@ -335,7 +338,20 @@ model = LogisticRegression(max_iter=10000)
 model.fit(X_train, y_train)
 ```
 
-The `.fit()` function allows the model to learn the relationship between the predictor variables and the response variable.
+The model estimates the probability that the outcome is 1 given the predictor variables.
+
+$$
+P(Y = 1 \mid X) = \frac{1}{1 + e^{-z}}
+$$
+
+where
+
+$$
+z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p
+$$
+
+The .fit() function allows the model to learn the relationship between the predictor variables and the response variable.
+
 
 ### Step 5: Make predictions
 
