@@ -359,17 +359,15 @@ Please use the following table to sign up.
   ----- | ------------- | ------------------------- 
    02/16 | Desai, Alysha  | K-Means Clustering 
    02/16 | Kwak, Jinha  |   Data manipulation with 'Pandas'
-   02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)   
-   02/18 |  |   
-   02/23 | Sawyer, Riley |   
-   02/23 | Faisal, Zaynab |  Import/Export Data 
+   02/18 | Sudarsanam, Shreya | Database operation with Structured Query Language (SQL)      
+   02/25 | Sawyer, Riley | Decision Trees   
+   02/25 | Faisal, Zaynab |  Import/Export Data 
    02/25 | Tessman, Sean | Web Scraping
-   02/25 |  |   
    03/02 | Watanabe, Sara | Random Forest
    03/02 | Jiang, Ryan | Animation   
    03/04 | Jones, Cody | Visualizing Spatial Data
    03/04 | Davis, Reid | Markov Chains in Python
-   03/09 | Lawrence, Claire | [Visualizing Spatial Data]{style="color:red;"}
+   03/09 | Lawrence, Claire | Accessing US Census Data
    03/09 | Trnka, Jonathan | LLM Agents 
    03/11 | Orsini, Ronnie | Logistic Regression
    03/11 | Patel, Vrajkumar |
@@ -380,13 +378,13 @@ Please use the following table to sign up.
    03/30 | Carbone, Vincenzo | Neural networks (used in predicting sports statistics)
    03/30 | Bennett, Emily | Lasso
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
-   04/01 | Ibrahim, Omar |   
+   04/01 | Ibrahim, Omar | Deep learning 
    04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
    04/06 | Zhang, Jianan |
    04/08 | Mccabe, Scott |
-   04/08 | Lacasse, Violet | [Spatial data with `GeoPandas`]{style="color:red;"}
+   04/08 | Lacasse, Violet | Gradient boosting machine
    04/13 | Wolven, Alexander | [Neural Networks Basics]{style="color:red;"} 
-   04/13 | Zharyy, Sofia |  
+   04/13 | Zharyy, Sofia |  Automatic Differentiation
 
 ### Final Project Presentation Schedule
 

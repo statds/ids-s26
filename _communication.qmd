@@ -176,9 +176,11 @@ plt.title("Daily NYC Crashes (Labor Day Week, 2025)")
 plt.xlabel("Date")
 plt.ylabel("Crash Count")
 plt.xticks(rotation=45)
+# plt.ylim(bottom=0) # <- y-axis starts at 0
 plt.tight_layout()
 plt.show()
 ```
+
 This line chart shows how crash frequency changed across Labor Day week 2025.
 The dataset covers a short time window, so we see day-to-day variation rather 
 than long-term trends. Clear labeling and a simple layout make the pattern 
@@ -541,3 +543,48 @@ A scoping review.* *Public Health Reviews.*
 
 Pragmatic Editorial Team. (2025). *Communication Skills for Data Science.*  
 <https://www.pragmaticinstitute.com/resources/articles/data/communication-skills-for-data-science/>
+
+
+
+
+## Other examples
+
+Below are additional real-world examples to illustrate communication choices (wording, context, and visualization ethics). Each item includes a short description and source links.
+
+### Bad Visualization Examples
+
+- Bad examples you can learn from: <https://www.gooddata.com/blog/bad-data-visualization-examples-that-you-can-learn-from/?utm_source=chatgpt.com>
+
+### Truncated y-axis (cropped axis) and how it misleads
+A common "ethical communication" pitfall: cropping the y-axis can exaggerate differences. 
+
+- Research evidence and discussion (peer-reviewed, open access): <https://pmc.ncbi.nlm.nih.gov/articles/PMC9200168/>
+
+- Practical explainer with clear illustrations: <https://www.lrs.org/2020/06/10/visualizing-data-manipulating-the-y-axis/>
+
+### Aspect ratio / slope perception (“banking to 45 degrees”)
+Changing the aspect ratio changes perceived steepness and can distort how trends feel, even if the underlying data are unchanged.
+
+- Conceptual explainer: <https://eagereyes.org/basics/banking-45-degrees>
+
+- Research paper (Heer & Agrawala): <https://dl.acm.org/doi/10.1109/TVCG.2006.163>
+
+
+### Color misuse in scientific communication (perception + accessibility)
+Color palettes can unintentionally (or intentionally) bias interpretation, and why accessibility (e.g., color vision deficiency) matters.
+
+- Nature Communications article on misuse of color: <https://www.nature.com/articles/s41467-020-19160-7>
+
+### “Takeaway titles” and the “So what?” test
+How to write plot titles/captions that state the conclusion, not just describe the chart.
+
+- ``So what?'' (Storytelling with Data): <https://www.storytellingwithdata.com/blog/2017/3/22/so-what>
+
+- Takeaway titles exercise (SWD community): <https://community.storytellingwithdata.com/exercises/use-takeaway-titles>
+
+### ASA Ethical Guidelines (communication responsibilities)
+An authoritative anchor for transparency, limitations, avoiding misleading claims, and responsibilities to audiences.
+
+- ASA Ethics page: <https://www.amstat.org/your-career/ethical-guidelines-for-statistical-practice>
+
+- ASA guidelines PDF: <https://www.amstat.org/docs/default-source/amstat-documents/ethicalguidelines.pdf>
