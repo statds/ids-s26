@@ -28,7 +28,7 @@ Hello! My name is Jonathan Trnka and this is my presentation on LLM Agents!
 - Explain what makes an LLM-Agent different
 - Compare them
 - Explain my process 
-- Use statistical tools to explain my dat
+- Use statistical tools to explain my Data
 - Conclusion
  
 
@@ -175,8 +175,6 @@ and use linear regression techniques to analyze differences in performance, erro
      - extract final answers
      - normalize errors
      - count tool usage
-     - compute num_tools
-     - assign tool_pattern
      - produce 1 row per query
         │
         ▼
@@ -243,12 +241,9 @@ def reset_logs():
 # Start fresh
 reset_logs()
 
-# Run agentic + baseline benchmarks
-from Agents_Multi_step import benchmark, benchmark_queries
+from Agents_Multi_step import run_full_benchmark_and_save_csv
 
-agentic_stats = benchmark("agentic", benchmark_queries)
-baseline_stats = benchmark("baseline", benchmark_queries)
-
+agentic_stats, baseline_stats = run_full_benchmark_and_save_csv()
 ```
 
 ## 'Does the complexity(# of tool calls required to complete a task) of the task predict total_latency?

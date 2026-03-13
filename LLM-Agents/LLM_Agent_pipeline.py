@@ -14,7 +14,8 @@ def run_regression_comparison(
     # ============================
     agent = pd.read_json(agent_file, lines=True)
     base = pd.read_json(baseline_file, lines=True)
-
+    def jitter(series, amount=0.15):
+        return series + np.random.uniform(-amount, amount, size=len(series))
     # ============================
     # Query classification
     # ============================
@@ -50,14 +51,7 @@ def run_regression_comparison(
     agent["total_latency"] = agent["total_time"]
     base["total_latency"] = base["total_time"]
 
-    # ============================
-    # Add jitter for visualization
-    # ============================
-    def jitter(series, amount=0.15):
-        return series + np.random.uniform(-amount, amount, size=len(series))
 
-    agent[f"{predictor}_jitter"] = jitter(agent[predictor])
-    base[f"{predictor}_jitter"] = jitter(base[predictor])
 
     # ============================
     # Extract errors (LLM-Agent only)
@@ -97,8 +91,48 @@ def run_regression_comparison(
 
     if len(errors) > 0:
         errors["error_group"] = errors["error_type"].apply(normalize_error_type)
+        # ============================
+# Reduce to one row per query (preserve tool_count)
+# ============================
+
+    # Preserve original tool_count per query
+    if "tool_count" in agent.columns:
+        agent_tool_counts = agent[["query", "tool_count"]].drop_duplicates()
+    else:
+        agent_tool_counts = pd.DataFrame(columns=["query", "tool_count"])
+
+    if "tool_count" in base.columns:
+        base_tool_counts = base[["query", "tool_count"]].drop_duplicates()
+    else:
+        base_tool_counts = pd.DataFrame(columns=["query", "tool_count"])
+
+    # Collapse everything else
+    agent = agent.groupby("query", as_index=False).agg({
+        "task_complexity": "mean",
+        "total_latency": "mean",
+        "query_type": "first",
+        "api_difficulty": "mean",
+    })
+
+    base = base.groupby("query", as_index=False).agg({
+        "task_complexity": "mean",
+        "total_latency": "mean",
+        "query_type": "first",
+        "api_difficulty": "mean",
+    })
+
+    
+
+    # Merge tool_count back in
+    agent = agent.merge(agent_tool_counts, on="query", how="left")
+    base = base.merge(base_tool_counts, on="query", how="left")
 
     # ============================
+    # Count queries per category
+    # ============================
+    agent_counts = agent["query_type"].value_counts().to_dict()
+    base_counts  = base["query_type"].value_counts().to_dict()
+        # ============================
     # Fit regressions
     # ============================
     X_agent = sm.add_constant(agent[predictor])
@@ -168,36 +202,32 @@ def run_regression_comparison(
     base_line = base_intercept + model_base.params[predictor] * x_vals
 
     # ============================
-    # COUNT POINTS PER CATEGORY
+    # Add jitter for visualization
     # ============================
+   
+
+    agent[f"{predictor}_jitter"] = jitter(agent[predictor])
+    base[f"{predictor}_jitter"] = jitter(base[predictor])
     # ============================
     # UNIQUE QUERY COUNTS FOR LEGEND
     # ============================
+        # ============================
+    # ============================
+    # Create figure + axis
+    # ============================
+    fig, ax = plt.subplots(figsize=(10, 6))
 
     # ============================
-    # Plot
+    # Plot points by category (Agent + Baseline, with counts)
     # ============================
 
-    fig, ax = plt.subplots(figsize=(12, 7))
-
-    # Colors per query type (LLM-Agent)
     colors = {
         "weather": "blue",
         "math": "green",
         "search/knowledge": "purple",
         "multi-tool": "orange",
         "failure-recovery": "red",
-        "ambiguous/complex": "gray"
-    }
-
-    # Completely different color family for Baseline
-    baseline_colors = {
-        "weather": "#00B3B3",            # teal
-        "math": "#A3D900",               # lime
-        "search/knowledge": "#FF66CC",   # magenta
-        "multi-tool": "#FFB347",         # gold
-        "failure-recovery": "#FF6F61",   # salmon
-        "ambiguous/complex": "#C0C0C0"   # silver
+        "ambiguous/complex": "gray",
     }
 
     # ----------------------------------------
@@ -209,62 +239,122 @@ def run_regression_comparison(
                 .first()
                 .reset_index()
         )
-        error_unique[f"{predictor}_jitter"] = jitter(error_unique[predictor], amount=0.05)
+        error_unique[f"{predictor}_jitter"] = jitter(
+            error_unique[predictor], amount=0.05
+        )
     else:
         error_unique = pd.DataFrame()
 
     # ----------------------------------------
-    # 2. LLM-Agent points (agent colors)
+    # 2. LLM-Agent points (circles, with counts)
     # ----------------------------------------
-    for qtype, df in agent.groupby("query_type"):
+    for category, color in colors.items():
+        subset = agent[agent["query_type"] == category]
+
+        if subset.empty:
+            continue
+
+        count = len(subset)
+        label = f"{category} – agent ({count})"
+
         ax.scatter(
-            df[f"{predictor}_jitter"],
-            df[outcome],
-            alpha=0.6,
-            color=colors[qtype],          # agent palette
+            subset[f"{predictor}_jitter"],
+            subset[outcome],
+            alpha=0.75,
+            color=color,
             marker="o",
             s=60,
-            label=qtype
+            edgecolor="black",
+            label=label
         )
 
     # ----------------------------------------
-    # 3. Baseline points (baseline colors)
+    # 3. Baseline points (square markers, with counts)
     # ----------------------------------------
-    for qtype, df in base.groupby("query_type"):
+    for category, color in colors.items():
+        subset = base[base["query_type"] == category]
+
+        if subset.empty:
+            continue
+
+        count = len(subset)
+        label = f"{category} – baseline ({count})"
+
         ax.scatter(
-            df[f"{predictor}_jitter"],
-            df[outcome],
-            alpha=0.6,
-            color=baseline_colors[qtype],  # completely different palette
+            subset[f"{predictor}_jitter"],
+            subset[outcome],
+            alpha=0.75,
+            color=color,
             marker="s",
             s=60,
-            label=qtype
+            edgecolor="black",
+            linewidths=0.8,
+            label=label
+                )
+    # ----------------------------------------
+    # 4. Clean error markers (one per query)
+    # ----------------------------------------
+
+    # LLM-Agent Errors (thin red X)
+    if len(error_unique) > 0:
+        ax.scatter(
+            error_unique[f"{predictor}_jitter"],
+            error_unique[outcome],
+            color="red",
+            marker="x",
+            s=60,
+            alpha=0.55,
+            linewidths=0.9,
+            label="LLM-Agent Errors"
         )
-        # ----------------------------------------
-        # 4. Clean error markers (one per query)
-        # ----------------------------------------
-        if len(error_unique) > 0:
-            ax.scatter(
-                error_unique[f"{predictor}_jitter"],
-                error_unique[outcome],
-                color="red",
-                marker="x",
-                s=50,
-                alpha=0.6,
-                linewidths=1.2
-            )
+
     # ----------------------------------------
-    # Add ONE legend entry for error + replan
+    # Extract LLM-Agent Error + Replan events
     # ----------------------------------------
-    ax.scatter(
-        [], [],                # empty data → nothing plotted
-        color="red",
-        marker="x",
-        s=60,
-        linewidths=1.2,
-        label="LLM-Agent Error + Replan"
-    )
-        # ----------------------------------------
+    if "recovery_action" in agent.columns:
+        replan_unique = agent[agent["recovery_action"] == "replan"]
+    elif "error_type" in errors.columns:
+        replan_unique = errors[errors["error_type"].str.contains("replan", case=False)]
+    else:
+        replan_unique = pd.DataFrame()
+
+    # Collapse to one per query
+    if len(replan_unique) > 0:
+        replan_unique = (
+            replan_unique.groupby("query")
+                        .first()
+                        .reset_index()
+        )
+        replan_unique[f"{predictor}_jitter"] = jitter(
+            replan_unique[predictor], amount=0.05
+        )
+
+    # Plot replan markers (triangle)
+    if len(replan_unique) > 0:
+        ax.scatter(
+            replan_unique[f"{predictor}_jitter"],
+            replan_unique[outcome],
+            color="red",
+            marker="^",
+            s=70,
+            alpha=0.55,
+            edgecolor="black",
+            linewidths=0.9,
+            label="LLM-Agent Error + Replan"
+        )
+    else:
+        # Legend-only entry so the symbol always appears
+        ax.scatter(
+            [], [], 
+            color="red",
+            marker="^",
+            s=110,
+            alpha=0.85,
+            edgecolor="black",
+            linewidths=1.2,
+            label="LLM-Agent Error + Replan"
+        )
+    # ----------------------------------------
     # 5. Error summary boxes
     # ----------------------------------------
     if len(error_unique) > 0:
