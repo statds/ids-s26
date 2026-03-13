@@ -395,7 +395,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The point of these steps is not to “discover the answer” yet: it is to make sure we are asking a question the data can reasonably support.</p>
 <section id="load-packages" class="level4" data-number="7.4.3.1">
 <h4 data-number="7.4.3.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">7.4.3.1</span> Load packages</h4>
-<div id="13f97ec1" class="cell" data-execution_count="1">
+<div id="fb5cb4c1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -408,18 +408,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Libraries loaded.</code></pre>
 </div>
 </div>
-<div id="14aa4793" class="cell" data-execution_count="2">
+<div id="59db3b7c" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"CWD:"</span>, os.getcwd())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>CWD: /Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/01-case-study</code></pre>
+<pre><code>CWD: /Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/01-case-study</code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="set-file-paths" class="level3" data-number="7.4.4">
 <h3 data-number="7.4.4" class="anchored" data-anchor-id="set-file-paths"><span class="header-section-number">7.4.4</span> Set file paths</h3>
-<div id="5c36012e" class="cell" data-execution_count="3">
+<div id="08fb200d" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -445,7 +445,7 @@ Years: [2010, 2011, 2012, 2013, 2014]</code></pre>
 </div>
 <section id="read-the-school-district-admissionsattempt-counts" class="level4" data-number="7.4.4.1">
 <h4 data-number="7.4.4.1" class="anchored" data-anchor-id="read-the-school-district-admissionsattempt-counts"><span class="header-section-number">7.4.4.1</span> Read the school-district admissions/attempt counts</h4>
-<div id="74d3a1e9" class="cell" data-execution_count="4">
+<div id="6e64ea10" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sch_data <span class="op">=</span> pd.read_csv(path_sch)</span>
@@ -709,7 +709,7 @@ sch_data columns (first 25): ['Unnamed: 0', 'school_district', 'E952010', 'E9520
 </section>
 <section id="create-admcount-keep-school_district-and-all-columns" class="level4" data-number="7.4.4.2">
 <h4 data-number="7.4.4.2" class="anchored" data-anchor-id="create-admcount-keep-school_district-and-all-columns"><span class="header-section-number">7.4.4.2</span> Create admcount: keep school_district and ALL* columns</h4>
-<div id="25f3d598" class="cell" data-execution_count="5">
+<div id="59677eb1" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep: school_district + ALL columns</span></span>
@@ -804,7 +804,7 @@ admcount shape: (119, 6)</code></pre>
 </section>
 <section id="read-the-death-records" class="level4" data-number="7.4.4.3">
 <h4 data-number="7.4.4.3" class="anchored" data-anchor-id="read-the-death-records"><span class="header-section-number">7.4.4.3</span> Read the death records</h4>
-<div id="2ab1cc51" class="cell" data-execution_count="6">
+<div id="72bc319a" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data_death = pd.read_csv(path_death)</span></span>
@@ -825,7 +825,7 @@ admcount shape: (119, 6)</code></pre>
 </section>
 <section id="extract-year-from-dateofdeath-keep-20102014" class="level4" data-number="7.4.4.4">
 <h4 data-number="7.4.4.4" class="anchored" data-anchor-id="extract-year-from-dateofdeath-keep-20102014"><span class="header-section-number">7.4.4.4</span> Extract year from dateofdeath + keep 2010–2014</h4>
-<div id="964a2523" class="cell" data-execution_count="7">
+<div id="bed07ebc" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract year from dateofdeath</span></span>
@@ -849,7 +849,7 @@ admcount shape: (119, 6)</code></pre>
 </section>
 <section id="build-deathcount-district-year-table" class="level4" data-number="7.4.4.5">
 <h4 data-number="7.4.4.5" class="anchored" data-anchor-id="build-deathcount-district-year-table"><span class="header-section-number">7.4.4.5</span> Build deathcount: district × year table</h4>
-<div id="10a0ad07" class="cell" data-execution_count="8">
+<div id="f7b35b94" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># death_pivot = (</span></span>
@@ -887,7 +887,7 @@ admcount shape: (119, 6)</code></pre>
 </section>
 <section id="merge-admcount-deathcount-to-form-allcount" class="level4" data-number="7.4.4.6">
 <h4 data-number="7.4.4.6" class="anchored" data-anchor-id="merge-admcount-deathcount-to-form-allcount"><span class="header-section-number">7.4.4.6</span> Merge admcount + deathcount to form allcount</h4>
-<div id="8e948da2" class="cell" data-execution_count="9">
+<div id="0c35ee3d" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>deathcount_path <span class="op">=</span> <span class="st">"data/deathcount_by_district_2010_2014.csv"</span></span>
@@ -1097,7 +1097,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="compute-yearlycount-all-counts-death-counts" class="level4" data-number="7.4.4.7">
 <h4 data-number="7.4.4.7" class="anchored" data-anchor-id="compute-yearlycount-all-counts-death-counts"><span class="header-section-number">7.4.4.7</span> Compute yearlycount = (ALL counts) + (death counts)</h4>
-<div id="5c0641c3" class="cell" data-execution_count="10">
+<div id="d291386d" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we align by year using lists and numpy arrays.</span></span>
@@ -1212,7 +1212,7 @@ Final yearlycount totals (2010–2014): 1878</code></pre>
 </ul>
 <section id="aggregate-5-years-of-counts-per-district" class="level4" data-number="7.4.5.1">
 <h4 data-number="7.4.5.1" class="anchored" data-anchor-id="aggregate-5-years-of-counts-per-district"><span class="header-section-number">7.4.5.1</span> Aggregate 5 years of counts per district</h4>
-<div id="74a21056" class="cell" data-execution_count="11">
+<div id="1e0f27ac" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>nyear <span class="op">=</span> <span class="dv">5</span></span>
@@ -1247,7 +1247,7 @@ Check (sum of yearlycount without district col): 1878</code></pre>
 </section>
 <section id="compute-5-year-population-per-district" class="level4" data-number="7.4.5.2">
 <h4 data-number="7.4.5.2" class="anchored" data-anchor-id="compute-5-year-population-per-district"><span class="header-section-number">7.4.5.2</span> Compute 5-year population per district</h4>
-<div id="c09cf6d6" class="cell" data-execution_count="12">
+<div id="170ccf9f" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Here: use sch_data (same alignment as before) and multiply by 5</span></span>
@@ -1277,7 +1277,7 @@ Any missing population? 0</code></pre>
 </section>
 <section id="compute-district-rates-and-drop-missing-na-rates" class="level4" data-number="7.4.5.3">
 <h4 data-number="7.4.5.3" class="anchored" data-anchor-id="compute-district-rates-and-drop-missing-na-rates"><span class="header-section-number">7.4.5.3</span> Compute district rates and drop missing (NA) rates</h4>
-<div id="caac6dfe" class="cell" data-execution_count="13">
+<div id="291e6947" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#We assume the row order matches sch_data. Let's verify quickly.</span></span>
@@ -1331,7 +1331,7 @@ After removing NA rates:
 </section>
 <section id="sort-districts-by-rate-descending-show-top-results" class="level4" data-number="7.4.5.4">
 <h4 data-number="7.4.5.4" class="anchored" data-anchor-id="sort-districts-by-rate-descending-show-top-results"><span class="header-section-number">7.4.5.4</span> Sort districts by rate (descending), show top results</h4>
-<div id="ea308356" class="cell" data-execution_count="14">
+<div id="cf640cf1" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>order_idx <span class="op">=</span> np.argsort(<span class="op">-</span>rate_schlevel_15_19.to_numpy())  <span class="co"># descending</span></span>
@@ -1362,7 +1362,7 @@ After removing NA rates:
 </section>
 <section id="compute-state-average-rate" class="level4" data-number="7.4.5.5">
 <h4 data-number="7.4.5.5" class="anchored" data-anchor-id="compute-state-average-rate"><span class="header-section-number">7.4.5.5</span> Compute state average rate</h4>
-<div id="29662044" class="cell" data-execution_count="15">
+<div id="02eef70c" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>rate_state_15_19 <span class="op">=</span> count_schlevel_15_19_aligned.<span class="bu">sum</span>() <span class="op">/</span> pop_schlevel_15_19_aligned.<span class="bu">sum</span>()</span>
@@ -1380,7 +1380,7 @@ After removing NA rates:
 <p>We can now visualize the data and do some preliminary statistial analysis. It is useful to visualize the counts, the rates, the at-risk population sizes, and the set of “distinctive” school districts on a spatial map of the State of Connecticut.</p>
 <section id="testing-for-above-and-below-state-average" class="level4" data-number="7.5.0.1">
 <h4 data-number="7.5.0.1" class="anchored" data-anchor-id="testing-for-above-and-below-state-average"><span class="header-section-number">7.5.0.1</span> Testing for <strong>above</strong> and <strong>below</strong> state average</h4>
-<div id="89e2b77a" class="cell" data-execution_count="16">
+<div id="4ebf9b3d" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">#import numpy as np</span></span>
@@ -1438,7 +1438,7 @@ After removing NA rates:
 </section>
 <section id="build-district-level-vectors-counts-population-rates" class="level4" data-number="7.5.0.2">
 <h4 data-number="7.5.0.2" class="anchored" data-anchor-id="build-district-level-vectors-counts-population-rates"><span class="header-section-number">7.5.0.2</span> Build district-level vectors (counts, population, rates)</h4>
-<div id="8ac2cbfd" class="cell" data-execution_count="17">
+<div id="331c9036" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to clean numpy arrays / Series</span></span>
@@ -1464,7 +1464,7 @@ After removing NA rates:
 </section>
 <section id="compute-p-values-and-confidence-intervals" class="level4" data-number="7.5.0.3">
 <h4 data-number="7.5.0.3" class="anchored" data-anchor-id="compute-p-values-and-confidence-intervals"><span class="header-section-number">7.5.0.3</span> Compute p-values and confidence intervals</h4>
-<div id="184c9511" class="cell" data-execution_count="18">
+<div id="9869ae6e" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p_above <span class="op">=</span> np.empty(<span class="bu">len</span>(districts), dtype<span class="op">=</span><span class="bu">float</span>)</span>
@@ -1538,7 +1538,7 @@ After removing NA rates:
 </section>
 <section id="bh-adjustment-benjaminihochberg-on-two-sided-p-values" class="level4" data-number="7.5.0.4">
 <h4 data-number="7.5.0.4" class="anchored" data-anchor-id="bh-adjustment-benjaminihochberg-on-two-sided-p-values"><span class="header-section-number">7.5.0.4</span> BH adjustment (Benjamini–Hochberg) on two-sided p-values</h4>
-<div id="86a56b66" class="cell" data-execution_count="19">
+<div id="deee71dd" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to R: p.adjust(p_twoside, method="BH")</span></span>
@@ -1558,7 +1558,7 @@ How many significant at FDR &lt;= 0.05? 15</code></pre>
 </section>
 <section id="assemble-results-table" class="level4" data-number="7.5.0.5">
 <h4 data-number="7.5.0.5" class="anchored" data-anchor-id="assemble-results-table"><span class="header-section-number">7.5.0.5</span> Assemble <code>results</code> table</h4>
-<div id="ac3ed671" class="cell" data-execution_count="20">
+<div id="5e76c839" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># population per year (for display) like round(mydata$pop_sch_15_19)</span></span>
@@ -1998,7 +1998,7 @@ How many significant at FDR &lt;= 0.05? 15</code></pre>
 </section>
 <section id="save-the-full-results-table" class="level4" data-number="7.5.0.6">
 <h4 data-number="7.5.0.6" class="anchored" data-anchor-id="save-the-full-results-table"><span class="header-section-number">7.5.0.6</span> Save the full <code>results</code> table</h4>
-<div id="8afaae95" class="cell" data-execution_count="21">
+<div id="98004d83" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -2019,7 +2019,7 @@ How many significant at FDR &lt;= 0.05? 15</code></pre>
 results shape: (119, 21)</code></pre>
 </div>
 </div>
-<div id="1ab27b21" class="cell" data-execution_count="22">
+<div id="303cce9e" class="cell" data-execution_count="22">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter significant by BH-adjusted p-value &lt;= 0.10</span></span>
@@ -2280,7 +2280,7 @@ results shape: (119, 21)</code></pre>
 </div>
 </div>
 </div>
-<div id="ba2329ac" class="cell" data-execution_count="23">
+<div id="041414d1" class="cell" data-execution_count="23">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>out_path_table1 <span class="op">=</span> <span class="ss">f"results/Table_1_2010_2014_</span><span class="sc">{</span>agerange<span class="sc">}</span><span class="ss">.csv"</span></span>
@@ -2297,7 +2297,7 @@ results shape: (119, 21)</code></pre>
 <h3 data-number="7.5.1" class="anchored" data-anchor-id="visualization"><span class="header-section-number">7.5.1</span> Visualization</h3>
 <section id="build-the-plotting-dataframe-subset-significant-districts" class="level4" data-number="7.5.1.1">
 <h4 data-number="7.5.1.1" class="anchored" data-anchor-id="build-the-plotting-dataframe-subset-significant-districts"><span class="header-section-number">7.5.1.1</span> Build the plotting dataframe + subset significant districts</h4>
-<div id="53f0cae5" class="cell" data-execution_count="24">
+<div id="27390a9d" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -2411,7 +2411,7 @@ Number of significant districts plotted: 17</code></pre>
 </section>
 <section id="make-the-plot-of-significant-districts" class="level4" data-number="7.5.1.2">
 <h4 data-number="7.5.1.2" class="anchored" data-anchor-id="make-the-plot-of-significant-districts"><span class="header-section-number">7.5.1.2</span> Make the plot of significant districts</h4>
-<div id="baa5e516" class="cell" data-execution_count="25">
+<div id="3164912e" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -2483,7 +2483,7 @@ Number of significant districts plotted: 17</code></pre>
 </div>
 </div>
 </div>
-<div id="0baff144" class="cell" data-execution_count="26">
+<div id="4ea668e2" class="cell" data-execution_count="26">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save as PDF</span></span>
@@ -2502,7 +2502,7 @@ Number of significant districts plotted: 17</code></pre>
 <h3 data-number="7.5.2" class="anchored" data-anchor-id="making-spatial-plot"><span class="header-section-number">7.5.2</span> Making Spatial Plot</h3>
 <section id="combine-results-classify-districts" class="level4" data-number="7.5.2.1">
 <h4 data-number="7.5.2.1" class="anchored" data-anchor-id="combine-results-classify-districts"><span class="header-section-number">7.5.2.1</span> Combine results + classify districts</h4>
-<div id="36a6df90" class="cell" data-execution_count="27">
+<div id="f4fdf00d" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge </span></span>
@@ -2549,7 +2549,7 @@ Significant above: 10 Significant below: 7</code></pre>
 <section id="download-tigerline-school-district-boundaries" class="level4" data-number="7.5.2.2">
 <h4 data-number="7.5.2.2" class="anchored" data-anchor-id="download-tigerline-school-district-boundaries"><span class="header-section-number">7.5.2.2</span> Download TIGER/Line school district boundaries</h4>
 <p>We’ll download <strong>Unified (UNSD)</strong> and <strong>Secondary (SCSD)</strong> for Connecticut and combine them. CT school districts can appear under one type or the other depending on how they’re defined, so combining makes matching easier.</p>
-<div id="1df6a5d2" class="cell" data-execution_count="28">
+<div id="a6c57da0" class="cell" data-execution_count="28">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
@@ -2604,7 +2604,7 @@ SCSD extracted to: data/geoshapes/tl_2024_09_scsd</code></pre>
 </section>
 <section id="read-boundaries-with-geopandas-combine" class="level4" data-number="7.5.2.3">
 <h4 data-number="7.5.2.3" class="anchored" data-anchor-id="read-boundaries-with-geopandas-combine"><span class="header-section-number">7.5.2.3</span> Read boundaries with GeoPandas + combine</h4>
-<div id="cf9291d2" class="cell" data-execution_count="29">
+<div id="98c02a22" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -2641,7 +2641,7 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </section>
 <section id="harmonize-a-few-district-names" class="level4" data-number="7.5.2.4">
 <h4 data-number="7.5.2.4" class="anchored" data-anchor-id="harmonize-a-few-district-names"><span class="header-section-number">7.5.2.4</span> Harmonize a few district names</h4>
-<div id="dc5a0b26" class="cell" data-execution_count="30">
+<div id="1c61aa57" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
@@ -2688,7 +2688,7 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </section>
 <section id="some-simple-fix-of-the-mismatches" class="level4" data-number="7.5.2.5">
 <h4 data-number="7.5.2.5" class="anchored" data-anchor-id="some-simple-fix-of-the-mismatches"><span class="header-section-number">7.5.2.5</span> Some simple fix of the mismatches</h4>
-<div id="01c57e55" class="cell" data-execution_count="31">
+<div id="b7dbc36f" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Exclude Woodstock from mapping join (keep it in tables/results)</span></span>
@@ -2718,7 +2718,7 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </section>
 <section id="join-attributes-to-geometry-prepare-centroids-for-labels" class="level4" data-number="7.5.2.6">
 <h4 data-number="7.5.2.6" class="anchored" data-anchor-id="join-attributes-to-geometry-prepare-centroids-for-labels"><span class="header-section-number">7.5.2.6</span> Join attributes to geometry + prepare centroids for labels</h4>
-<div id="738b8c33" class="cell" data-execution_count="32">
+<div id="147352d8" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Join: geometry + results info (INCLUDING counts + population + rates) </span></span>
@@ -2856,7 +2856,7 @@ Significant polygons available for labels: 17</code></pre>
 </section>
 <section id="map-1-5-year-total-counts-can-be-misleading" class="level4" data-number="7.5.2.7">
 <h4 data-number="7.5.2.7" class="anchored" data-anchor-id="map-1-5-year-total-counts-can-be-misleading"><span class="header-section-number">7.5.2.7</span> Map 1: 5-year total counts (can be misleading)</h4>
-<div id="daced4a4" class="cell" data-execution_count="33">
+<div id="e0ab91ca" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -2901,7 +2901,7 @@ Significant polygons available for labels: 17</code></pre>
 </section>
 <section id="map-2-population-size" class="level4" data-number="7.5.2.8">
 <h4 data-number="7.5.2.8" class="anchored" data-anchor-id="map-2-population-size"><span class="header-section-number">7.5.2.8</span> Map 2: Population size</h4>
-<div id="b5daf099" class="cell" data-execution_count="34">
+<div id="1c30fade" class="cell" data-execution_count="34">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"pop_15_19_times_nyear"</span> <span class="kw">in</span> g_plot.columns:</span>
@@ -2940,7 +2940,7 @@ Significant polygons available for labels: 17</code></pre>
 </section>
 <section id="map-3-rates-per-10000-more-comparable-but-noisier" class="level4" data-number="7.5.2.9">
 <h4 data-number="7.5.2.9" class="anchored" data-anchor-id="map-3-rates-per-10000-more-comparable-but-noisier"><span class="header-section-number">7.5.2.9</span> Map 3: Rates per 10,000 (more comparable, but noisier)</h4>
-<div id="624f9ff1" class="cell" data-execution_count="35">
+<div id="585b640f" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">6</span>))</span>
@@ -2979,7 +2979,7 @@ Significant polygons available for labels: 17</code></pre>
 </section>
 <section id="map-4-significant-districts" class="level4" data-number="7.5.2.10">
 <h4 data-number="7.5.2.10" class="anchored" data-anchor-id="map-4-significant-districts"><span class="header-section-number">7.5.2.10</span> Map 4: Significant districts</h4>
-<div id="0b3a46f9" class="cell" data-execution_count="36">
+<div id="ecc889f5" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -3047,7 +3047,7 @@ Significant polygons available for labels: 17</code></pre>
 <pre><code>Saved: results/CT_sig_rate_2010_2014_15-19.pdf</code></pre>
 </div>
 </div>
-<div id="aa543cf7" class="cell" data-execution_count="37">
+<div id="f6f4fad3" class="cell" data-execution_count="37">
 <details class="code-fold">
 <summary>Show Python</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -3167,7 +3167,7 @@ Significant polygons available for labels: 17</code></pre>
 </ul>
 <section id="load-covariate-datasets-build-one-district-level-analysis-table" class="level4" data-number="7.6.3.1">
 <h4 data-number="7.6.3.1" class="anchored" data-anchor-id="load-covariate-datasets-build-one-district-level-analysis-table"><span class="header-section-number">7.6.3.1</span> Load covariate datasets + build one district-level analysis table</h4>
-<div id="5971f656" class="cell" data-execution_count="38">
+<div id="d2176184" class="cell" data-execution_count="38">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Path (project-relative)</span></span>
@@ -3346,7 +3346,7 @@ Districts with all covariates missing after merge: 0</code></pre>
 </section>
 <section id="visualization-by-pca-and-k-means" class="level4" data-number="7.6.3.2">
 <h4 data-number="7.6.3.2" class="anchored" data-anchor-id="visualization-by-pca-and-k-means"><span class="header-section-number">7.6.3.2</span> Visualization by PCA and K-means</h4>
-<div id="160033aa" class="cell" data-execution_count="39">
+<div id="b9c63a5c" class="cell" data-execution_count="39">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -3508,7 +3508,7 @@ Districts with all covariates missing after merge: 0</code></pre>
 Total missing values: 0</code></pre>
 </div>
 </div>
-<div id="72d9870d" class="cell" data-execution_count="40">
+<div id="31445067" class="cell" data-execution_count="40">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Impute + standardize ---</span></span>
 <span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">"median"</span>)</span>
 <span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
@@ -3523,7 +3523,7 @@ Total missing values: 0</code></pre>
 Any NaN after impute/scale? False</code></pre>
 </div>
 </div>
-<div id="0bdefe94" class="cell" data-execution_count="41">
+<div id="da956fe4" class="cell" data-execution_count="41">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- PCA (2D for visualization) ---</span></span>
 <span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>pca <span class="op">=</span> PCA(n_components<span class="op">=</span><span class="dv">2</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>PC <span class="op">=</span> pca.fit_transform(X_std)</span>
@@ -3590,7 +3590,7 @@ Any NaN after impute/scale? False</code></pre>
 </div>
 </div>
 </div>
-<div id="508ec64b" class="cell" data-execution_count="42">
+<div id="6508910c" class="cell" data-execution_count="42">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Choose k for k-means using silhouette on PC scores ---</span></span>
 <span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We'll cluster using the first 2 PCs (what students see). You can switch to more PCs later.</span></span>
 <span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a>k_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">9</span>)</span>
@@ -3626,7 +3626,7 @@ Chosen k (max silhouette): 2</code></pre>
 </div>
 </div>
 </div>
-<div id="8d182ed4" class="cell" data-execution_count="43">
+<div id="dcd7be23" class="cell" data-execution_count="43">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Fit k-means with chosen k and plot PC1 vs PC2 colored by cluster ---</span></span>
 <span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>best_k, n_init<span class="op">=</span><span class="dv">25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>pc_df[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans.fit_predict(PC)</span>
@@ -3662,7 +3662,7 @@ Chosen k (max silhouette): 2</code></pre>
 </section>
 <section id="t-sne-k-means-clustering" class="level4" data-number="7.6.3.3">
 <h4 data-number="7.6.3.3" class="anchored" data-anchor-id="t-sne-k-means-clustering"><span class="header-section-number">7.6.3.3</span> t-SNE + k-means clustering</h4>
-<div id="6b1a2109" class="cell" data-execution_count="44">
+<div id="c613adc7" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co">##import numpy as np</span></span>
 <span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -3745,7 +3745,7 @@ Chosen k (max silhouette): 2</code></pre>
 </div>
 </div>
 </div>
-<div id="621a2ebb" class="cell" data-execution_count="45">
+<div id="b1572674" class="cell" data-execution_count="45">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Choose k using silhouette on the 2D embedding</span></span>
 <span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a>k_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">9</span>)</span>
 <span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>sil <span class="op">=</span> []</span>
@@ -3779,7 +3779,7 @@ Chosen k (t-SNE): 5</code></pre>
 </div>
 </div>
 </div>
-<div id="20327ef4" class="cell" data-execution_count="46">
+<div id="7bc4755e" class="cell" data-execution_count="46">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit k-means with chosen k and plot t-SNE colored by cluster</span></span>
 <span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>kmeans_tsne <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>best_k_tsne, n_init<span class="op">=</span><span class="dv">25</span>, random_state<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>tsne_df[<span class="st">"cluster"</span>] <span class="op">=</span> kmeans_tsne.fit_predict(Z_tsne)</span>
@@ -3811,7 +3811,7 @@ Chosen k (t-SNE): 5</code></pre>
 </section>
 <section id="umap-k-means-clustering-with-fallback" class="level4" data-number="7.6.3.4">
 <h4 data-number="7.6.3.4" class="anchored" data-anchor-id="umap-k-means-clustering-with-fallback"><span class="header-section-number">7.6.3.4</span> UMAP + k-means clustering (with fallback)</h4>
-<div id="1bdaba4d" class="cell" data-execution_count="47">
+<div id="690c6623" class="cell" data-execution_count="47">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="co">##import numpy as np</span></span>
 <span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -3860,13 +3860,13 @@ We expect that some modules will need time to support NumPy 2.
 
 Traceback (most recent call last):  File "&lt;frozen runpy&gt;", line 198, in _run_module_as_main
   File "&lt;frozen runpy&gt;", line 88, in _run_code
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel_launcher.py", line 18, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel_launcher.py", line 18, in &lt;module&gt;
     app.launch_new_instance()
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/traitlets/config/application.py", line 1075, in launch_instance
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/traitlets/config/application.py", line 1075, in launch_instance
     app.start()
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelapp.py", line 758, in start
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelapp.py", line 758, in start
     self.io_loop.start()
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/tornado/platform/asyncio.py", line 211, in start
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/tornado/platform/asyncio.py", line 211, in start
     self.asyncio_loop.run_forever()
   File "/opt/homebrew/Cellar/python@3.11/3.11.14_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/asyncio/base_events.py", line 608, in run_forever
     self._run_once()
@@ -3874,47 +3874,47 @@ Traceback (most recent call last):  File "&lt;frozen runpy&gt;", line 198, in _r
     handle._run()
   File "/opt/homebrew/Cellar/python@3.11/3.11.14_1/Frameworks/Python.framework/Versions/3.11/lib/python3.11/asyncio/events.py", line 84, in _run
     self._context.run(self._callback, *self._args)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 614, in shell_main
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 614, in shell_main
     await self.dispatch_shell(msg, subshell_id=subshell_id)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 471, in dispatch_shell
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 471, in dispatch_shell
     await result
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/ipkernel.py", line 366, in execute_request
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/ipkernel.py", line 366, in execute_request
     await super().execute_request(stream, ident, parent)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 827, in execute_request
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/kernelbase.py", line 827, in execute_request
     reply_content = await reply_content
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/ipkernel.py", line 458, in do_execute
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/ipkernel.py", line 458, in do_execute
     res = shell.run_cell(
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/zmqshell.py", line 663, in run_cell
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/ipykernel/zmqshell.py", line 663, in run_cell
     return super().run_cell(*args, **kwargs)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3123, in run_cell
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3123, in run_cell
     result = self._run_cell(
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3178, in _run_cell
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3178, in _run_cell
     result = runner(coro)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/async_helpers.py", line 128, in _pseudo_sync_runner
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/async_helpers.py", line 128, in _pseudo_sync_runner
     coro.send(None)
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3400, in run_cell_async
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3400, in run_cell_async
     has_raised = await self.run_ast_nodes(code_ast.body, cell_name,
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3641, in run_ast_nodes
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3641, in run_ast_nodes
     if await self.run_code(code, result, async_=asy):
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3701, in run_code
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3701, in run_code
     exec(code_obj, self.user_global_ns, self.user_ns)
-  File "/var/folders/1m/wb686y150lvczfd93wrmz0mw0000gp/T/ipykernel_30949/620713501.py", line 12, in &lt;module&gt;
+  File "/var/folders/w9/lfdf18vd055ds72yz1x94d400000gp/T/ipykernel_25912/620713501.py", line 12, in &lt;module&gt;
     import umap
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/__init__.py", line 7, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/__init__.py", line 7, in &lt;module&gt;
     from .parametric_umap import ParametricUMAP, load_ParametricUMAP
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/parametric_umap.py", line 36, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/parametric_umap.py", line 36, in &lt;module&gt;
     import torch
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/__init__.py", line 1477, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/__init__.py", line 1477, in &lt;module&gt;
     from .functional import *  # noqa: F403
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/functional.py", line 9, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/functional.py", line 9, in &lt;module&gt;
     import torch.nn.functional as F
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/__init__.py", line 1, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/__init__.py", line 1, in &lt;module&gt;
     from .modules import *  # noqa: F403
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/modules/__init__.py", line 35, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/modules/__init__.py", line 35, in &lt;module&gt;
     from .transformer import TransformerEncoder, TransformerDecoder, \
-  File "/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/modules/transformer.py", line 20, in &lt;module&gt;
+  File "/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/torch/nn/modules/transformer.py", line 20, in &lt;module&gt;
     device: torch.device = torch.device(torch._C._get_default_device()),  # torch.device('cpu'),
-/Users/kun.chen/Library/CloudStorage/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/umap_.py:1952: UserWarning:
+/Users/kun.chen/Dropbox/Teaching/Spring-2026/STAT3255/ids-s26/.ids-s26/lib/python3.11/site-packages/umap/umap_.py:1952: UserWarning:
 
 n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallelism.
 </code></pre>
@@ -3972,7 +3972,7 @@ n_jobs value 1 overridden to 1 by setting random_state. Use no seed for parallel
 </div>
 </div>
 </div>
-<div id="e208f34a" class="cell" data-execution_count="48">
+<div id="d48ab49e" class="cell" data-execution_count="48">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Only run clustering/plot if UMAP worked</span></span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> Z_umap <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
 <span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>    k_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">9</span>)</span>
@@ -4038,7 +4038,7 @@ Chosen k (UMAP): 3</code></pre>
 </section>
 <section id="arcsinsqrt-transform-for-rateproportion-covariates" class="level4" data-number="7.6.3.5">
 <h4 data-number="7.6.3.5" class="anchored" data-anchor-id="arcsinsqrt-transform-for-rateproportion-covariates"><span class="header-section-number">7.6.3.5</span> Arcsin–sqrt transform for rate/proportion covariates</h4>
-<div id="bcc82e1d" class="cell" data-execution_count="49">
+<div id="8e13c91d" class="cell" data-execution_count="49">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4205,7 +4205,7 @@ Chosen k (UMAP): 3</code></pre>
 </section>
 <section id="correlation-structure-of-covariates-after-transform" class="level4" data-number="7.6.3.6">
 <h4 data-number="7.6.3.6" class="anchored" data-anchor-id="correlation-structure-of-covariates-after-transform"><span class="header-section-number">7.6.3.6</span> Correlation structure of covariates (after transform)</h4>
-<div id="870b51a3" class="cell" data-execution_count="50">
+<div id="1d3660a5" class="cell" data-execution_count="50">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
 <span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4250,7 +4250,7 @@ Chosen k (UMAP): 3</code></pre>
 <section id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1" class="level4" data-number="7.6.3.7">
 <h4 data-number="7.6.3.7" class="anchored" data-anchor-id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1"><span class="header-section-number">7.6.3.7</span> Build a social-economic factor (PC1) and an academic factor (PC1)</h4>
 <p>We’ll use two groups of covariates and extract a <strong>single latent factor</strong> from each group using PCA on standardized variables.</p>
-<div id="ea125dd2" class="cell" data-execution_count="51">
+<div id="b6654e29" class="cell" data-execution_count="51">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.decomposition <span class="im">import</span> PCA</span>
 <span id="cb100-3"><a href="#cb100-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4386,7 +4386,7 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 </div>
 <section id="add-the-two-factor-scores-back-into-district-covariate-table" class="level5" data-number="7.6.3.7.1">
 <h5 data-number="7.6.3.7.1" class="anchored" data-anchor-id="add-the-two-factor-scores-back-into-district-covariate-table"><span class="header-section-number">7.6.3.7.1</span> Add the two factor scores back into district covariate table</h5>
-<div id="f9587ac9" class="cell" data-execution_count="52">
+<div id="763bd73d" class="cell" data-execution_count="52">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a>cov_with_factors <span class="op">=</span> (</span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>    cov.merge(social_factor_df, on<span class="op">=</span><span class="st">"school_district"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
 <span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>       .merge(acad_factor_df, on<span class="op">=</span><span class="st">"school_district"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
@@ -4459,7 +4459,7 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 <p>In Python, we will use <code>statsmodels.genmod.bayes_mixed_glm.PoissonBayesMixedGLM</code> (a Poisson GLMM fit with variational Bayes).</p>
 <section id="build-dat1-in-long-format-district-year" class="level5" data-number="7.6.3.8.1">
 <h5 data-number="7.6.3.8.1" class="anchored" data-anchor-id="build-dat1-in-long-format-district-year"><span class="header-section-number">7.6.3.8.1</span> 1) Build <code>dat1</code> in long format (district × year)</h5>
-<div id="e1fa7735" class="cell" data-execution_count="53">
+<div id="6b85875f" class="cell" data-execution_count="53">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4618,7 +4618,7 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 <section id="fit-poisson-regression-model" class="level5" data-number="7.6.3.8.2">
 <h5 data-number="7.6.3.8.2" class="anchored" data-anchor-id="fit-poisson-regression-model"><span class="header-section-number">7.6.3.8.2</span> 2) Fit Poisson regression model</h5>
 <p>Model: [ y_{d,t} (<em>{d,t}), (</em>{d,t})=(pop_{d,t})+_0+_1 social+_2 acad+_t]</p>
-<div id="f1d21f89" class="cell" data-execution_count="54">
+<div id="17a16661" class="cell" data-execution_count="54">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="co">##import numpy as np</span></span>
 <span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a><span class="co">##import pandas as pd</span></span>
 <span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
@@ -4746,7 +4746,7 @@ Model Family:                 Poisson   Df Model:                            6
 Link Function:                    Log   Scale:                          1.0000
 Method:                          IRLS   Log-Likelihood:                -1204.4
 Date:                Wed, 11 Mar 2026   Deviance:                       1006.0
-Time:                        09:44:20   Pearson chi2:                 1.02e+03
+Time:                        11:27:54   Pearson chi2:                 1.02e+03
 No. Iterations:                     5   Pseudo R-squ. (CS):            0.07123
 Covariance Type:            nonrobust                                         
 ===================================================================================
@@ -4767,7 +4767,7 @@ factor_academic     0.0811      0.016      5.045      0.000       0.050       0.
 </section>
 <section id="exponentiate-fixed-effects-for-rate-ratios" class="level3" data-number="7.6.4">
 <h3 data-number="7.6.4" class="anchored" data-anchor-id="exponentiate-fixed-effects-for-rate-ratios"><span class="header-section-number">7.6.4</span> 3) Exponentiate fixed effects for rate ratios</h3>
-<div id="118594c8" class="cell" data-execution_count="55">
+<div id="a15bd1d9" class="cell" data-execution_count="55">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="co">##import numpy as np</span></span>
 <span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>coef <span class="op">=</span> glm_pois.params</span>
 <span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>se <span class="op">=</span> glm_pois.bse</span>
@@ -4854,7 +4854,7 @@ factor_academic     0.0811      0.016      5.045      0.000       0.050       0.
 </div>
 </div>
 </div>
-<div id="97d39a7c" class="cell" data-execution_count="56">
+<div id="aba3bf22" class="cell" data-execution_count="56">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Social loadings:</span><span class="ch">\n</span><span class="st">"</span>, social_loadings.sort_values())</span>
 <span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Academic loadings:</span><span class="ch">\n</span><span class="st">"</span>, acad_loadings.sort_values())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
