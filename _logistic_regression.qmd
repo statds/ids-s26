@@ -1,0 +1,486 @@
+## Logistic Regression
+**by Ronnie Orsini**
+
+
+## Regression idea
+
+Before talking about logistic regression, it helps to briefly understand
+what regression means in statistics.
+
+Regression is a method used to model the relationship between a response
+variable and one or more predictor variables. The goal is usually to
+predict the value of the response variable based on the predictors.
+
+For example, regression can be used to predict:
+
+* house prices based on square footage and location
+
+* sales revenue based on advertising spending
+
+* temperature based on time of day
+
+One of the most common forms is **linear regression**, which assumes the
+relationship between variables follows a straight line.
+
+A simple linear regression model looks like:
+
+$$
+y = \beta_0 + \beta_1 x
+$$
+
+Here:
+
+* $y$ is the response variable we want to predict  
+* $x$ is a predictor variable  
+* $\beta_0$ is the intercept  
+* $\beta_1$ is the coefficient describing how $x$ affects $y$
+
+Linear regression works well when the response variable is a continuous
+number, such as price, temperature, or revenue.
+
+## Classification problem
+
+In many real-world situations, we are not trying to predict a numerical
+value. Instead, we want to predict **which category an observation
+belongs to**.
+
+This type of problem is called a **classification problem**.
+
+Examples include:
+
+* determining whether an email is spam or not spam
+
+* diagnosing whether a patient has a disease
+
+In many cases there are only **two possible outcomes**, which is known as
+a **binary classification problem**.
+
+For convenience, these outcomes are usually coded as:
+
+* `1` → the event occurs (positive class)
+
+* `0` → the event does not occur (negative class)
+
+Instead of predicting a number, the goal is to estimate the **probability**
+that an observation belongs to class 1.
+
+This probability is written as:
+
+$$
+P(Y = 1 \mid X)
+$$
+
+which means the probability that the outcome is 1 given the predictor
+variables \(X\).
+
+### Example: Insider trading project
+
+As an example, in a data science project I worked on last semester,
+we looked at whether politicians were outperforming the stock market
+using their disclosed trades.
+
+The question we wanted to answer was:
+
+*Are politicians consistently beating the market?*
+
+At first it might seem like this could be modeled with linear regression,
+because we could try to predict how much a trade outperformed the market.
+
+However, the main question we cared about was simpler:
+
+*Did the trade beat the market or not?*
+
+So each trade could be classified into one of two outcomes:
+
+* `1` → the trade **outperformed** the market
+
+* `0` → the trade **did not outperform** the market
+
+Because the response variable only had two possible outcomes,
+this became a **binary classification problem**.
+
+Instead of predicting a numerical value, the model estimated the
+probability that a trade would outperform the market.
+
+This is exactly the type of situation where **logistic regression is
+more appropriate than linear regression**.
+
+
+## Why linear regression fails for classification
+
+At first, it might seem like we could still use linear regression for
+classification problems.
+
+For example, in the insider trading project mentioned earlier, we might
+try to predict whether a trade beats the market using a linear model like
+
+$$
+y = \beta_0 + \beta_1 x
+$$
+
+However, this creates several problems when the response variable only
+takes values of 0 or 1.
+
+
+**Problem 1: Predictions can fall outside the probability range**
+
+Linear regression can produce any real number as a prediction.
+
+For example, the model might predict:
+
+* -0.3  
+* 0.7  
+* 1.4  
+
+But probabilities must always stay between:
+
+$$
+0 \le p \le 1
+$$
+
+A predicted probability of -0.3 or 1.4 does not make sense.
+
+So linear regression cannot guarantee valid probability predictions.
+
+
+**Problem 2: The relationship between predictors and probability is not linear**
+
+With binary outcomes, the relationship between predictors and the
+probability of an event usually follows an **S-shaped pattern** rather
+than a straight line.
+
+```{python}
+#| fig-align: center
+#| fig-cap: "Linear relationship vs logistic (S-shaped) probability curve"
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(-10,10,200)
+
+# linear relationship
+linear = 0.1*x + 0.5
+
+# logistic function
+logistic = 1/(1+np.exp(-x))
+
+plt.figure(figsize=(7,5))
+
+plt.plot(x, linear, label="Linear regression", linestyle="--")
+plt.plot(x, logistic, label="Logistic regression")
+
+plt.axhline(0, color='gray', linewidth=0.5)
+plt.axhline(1, color='gray', linewidth=0.5)
+
+plt.xlabel("Predictor")
+plt.ylabel("Predicted Value / Probability")
+plt.legend()
+plt.show()
+```
+
+For example, as a predictor increases, the probability of success might
+increase quickly at first, then level off as it approaches 1.
+
+A straight line cannot capture this behavior properly.
+
+Because of these issues, we need a model that:
+
+* produces predictions between 0 and 1  
+* can model nonlinear probability behavior  
+
+This is where **logistic regression** comes in.
+
+## Logistic regression solution
+
+To solve the problems with linear regression, we need a model that
+predicts **probabilities between 0 and 1**.
+
+Logistic regression does this by using a special function called the
+**logistic function**.
+
+Instead of predicting the outcome directly, logistic regression first
+computes a linear combination of the predictors:
+
+$$
+z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_p x_p
+$$
+
+This part is actually very similar to linear regression.
+
+However, instead of using this value directly as the prediction,
+logistic regression passes it through the **logistic function**:
+
+$$
+P(Y = 1 | X) = \frac{1}{1 + e^{-z}}
+$$
+
+where:
+
+- $P(Y = 1 \mid X)$ = the probability that the outcome is 1 given the predictor variables $X$
+
+- $Y$ = the response variable we are trying to predict
+
+- $X$ = the predictor variables used to make the prediction
+
+- $z$ = the input to the logistic function
+
+- $e$ = Euler’s number, approximately 2.718
+
+This transformation converts any real number into a value between **0
+and 1**, which allows the model to represent **probabilities**.
+
+The logistic function produces an **S-shaped curve**, where:
+
+* probabilities close to 0 indicate the event is unlikely
+* probabilities close to 1 indicate the event is likely
+* probabilities near 0.5 represent uncertainty
+
+Because of this transformation, logistic regression avoids the main
+problem of linear regression. Predictions are always valid
+probabilities.
+
+## Interpreting logistic regression predictions
+
+Logistic regression produces a **predicted probability** that an
+observation belongs to class 1.
+
+For example, the model might output:
+
+$$
+P(Y = 1 \mid X) = 0.82
+$$
+
+This means the model estimates an **82% probability** that the outcome
+belongs to class 1 given the predictor variables.
+
+However, in many applications we still need to convert this probability
+into a final class prediction.
+
+A common rule is to use a **threshold of 0.5**:
+
+* if $P(Y = 1 \mid X) \geq 0.5$, predict class **1**
+
+* if $P(Y = 1 \mid X) < 0.5$, predict class **0**
+
+The threshold does not always have to be 0.5. In some applications it
+may be adjusted depending on the cost of incorrect predictions.
+
+## Logistic regression in Python
+
+Up to this point we have discussed how logistic regression works conceptually. Now we will look at a simple example of how it can be implemented in Python.
+
+In this example, the goal is to predict whether a breast tumor is cancerous or not based on measured features from cell samples.
+
+We will use the **Breast Cancer Wisconsin dataset**, which is included in the `scikit-learn` library. This dataset contains several numerical measurements that will be used as predictor variables.
+
+The response variable is binary:
+
+- 1 → tumor is not cancerous  
+- 0 → tumor is cancerous  
+
+This makes it a **binary classification problem**, which is exactly the type of situation where logistic regression is commonly used.
+
+### Step 1: Import libraries
+
+First we import the libraries needed to run logistic regression.
+```{python}
+import numpy as np
+from sklearn.datasets import load_breast_cancer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+```
+
+These modules allow us to:
+
+- load the dataset
+- train a logistic regression model
+- split the data into training and testing sets
+- evaluate model performance
+
+### Step 2: Load the dataset
+
+Next we load the dataset and separate the predictor variables and the response variable.
+```{python}
+data = load_breast_cancer()
+
+X = data.data
+y = data.target
+
+print("Predictor variables used in the model:")
+print(data.feature_names)
+```
+
+Here:
+
+- `X` contains the predictor variables
+- `y` contains the response variable (0 or 1)
+
+### Step 3: Split the data
+
+Before training the model, we split the data into training and testing sets so we can evaluate how well the model performs on new data.
+```{python}
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+```
+
+In this case:
+
+- 80% of the data is used for training
+- 20% of the data is used for testing
+
+### Step 4: Train the model
+
+Now we create the logistic regression model and train it using the training data.
+```{python}
+model = LogisticRegression(max_iter=10000)
+model.fit(X_train, y_train)
+```
+
+The model estimates the probability that the outcome is 1 given the predictor variables.
+
+$$
+P(Y = 1 \mid X) = \frac{1}{1 + e^{-z}}
+$$
+
+where
+
+$$
+z = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \cdots + \beta_p x_p
+$$
+
+The .fit() function allows the model to learn the relationship between the predictor variables and the response variable.
+
+
+### Step 5: Make predictions
+
+Once the model has been trained, we can use it to predict outcomes for the testing data.
+```{python}
+y_pred = model.predict(X_test)
+```
+
+These predictions are class labels:
+
+- 0 → predicted cancerous
+- 1 → predicted not cancerous
+
+### Step 6: Predict probabilities
+
+Logistic regression can also estimate the probability that an observation belongs to each class.
+```{python}
+y_prob = model.predict_proba(X_test)
+
+print(np.round(y_prob[:5], 4))
+```
+
+Each row contains two probabilities:
+
+- probability of class 0
+- probability of class 1
+
+For example, for output:
+```
+[0.1217, 0.8783]
+```
+This means the model estimates:
+
+• 12.17% probability the tumor is cancerous  
+• 87.83% probability the tumor is not cancerous
+
+### Step 7: Evaluate model performance
+
+Finally, we evaluate how well the model performs using several common metrics.
+```{python}
+print(confusion_matrix(y_test, y_pred))
+print(accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+```
+
+From the confusion matrix we can see how the model performed on the test data.
+
+• 39 tumors were correctly predicted as cancerous
+
+• 70 tumors were correctly predicted as not cancerous
+
+• 4 tumors were predicted as not cancerous when they were actually cancerous
+
+• 1 tumor was predicted as cancerous when it was actually not cancerous
+
+In total, the model made 109 correct predictions out of 114 cases, which gives an overall accuracy of about 95.6%.
+
+Looking at the classification report, we can also see that the model performs very well for both classes:
+
+• For cancerous tumors (class 0), the model correctly identifies most of them with a recall of 0.91.
+
+• For non-cancerous tumors (class 1), the recall is 0.99, meaning the model almost always correctly identifies 
+tumors that are not cancerous.
+
+Overall, these results suggest that the logistic regression model performs very well on this classification 
+task and is able to correctly classify most tumors in the dataset.
+
+## Advantages and limitations of logistic regression
+
+Like any statistical model, logistic regression has both strengths and limitations. Understanding these helps us decide when it is a good model to use and when another method might be better.
+
+### Advantages
+
+• Easy to interpret  
+
+One of the biggest advantages of logistic regression is that it is relatively easy to understand compared to more complex machine learning models.  
+
+Each coefficient tells us how a predictor variable affects the probability of the outcome.
+
+Because of this, logistic regression is often preferred when we want a model that is both predictive and interpretable.
+
+• Produces probabilities  
+
+Unlike some classification models that only give a final class prediction, logistic regression estimates the probability that an observation belongs to a particular class.
+
+This is useful in many real world situations where we care about **risk or likelihood**, not just the final classification.
+
+• Computationally efficient  
+
+Logistic regression is also relatively fast to train and does not require extremely large amounts of data.
+
+Because of this, it is often used as a **baseline model** when starting a new classification problem.
+
+### Limitations
+
+• Assumes a linear relationship in the log-odds  
+
+Logistic regression assumes that the predictor variables have a linear relationship with the **log-odds** of the outcome.
+
+If the true relationship between the predictors and the response is highly nonlinear, the model may not perform as well.
+
+• Limited ability to capture complex patterns  
+
+More flexible models such as decision trees, random forests, or neural networks are able to capture complex nonlinear relationships that logistic regression cannot.
+
+Because of this, logistic regression may not perform well on very complicated datasets.
+
+• Sensitive to correlated predictors  
+
+If predictor variables are highly correlated with each other, the estimated coefficients can become unstable and harder to interpret.
+
+This can sometimes make it difficult to understand the true effect of each predictor on the outcome.
+
+### When logistic regression works well
+
+In practice, logistic regression tends to work well when
+
+• the response variable is **binary**  
+• the relationship between predictors and the outcome is relatively simple  
+• interpretability of the model is important  
+
+Because of these properties, logistic regression is widely used in areas such as medicine, finance, and risk analysis.
+
+### Works Cited
+
+[Scikit-learn Logistic Regression Documentation](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)
+
+[Breast Cancer Wisconsin Dataset](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+(Diagnostic))
+
+[Logistic Regression Explained](https://towardsdatascience.com/logistic-regression-detailed-overview-46c4da4303bc)
+
+## Thank You
