@@ -63,7 +63,7 @@ However, finite sampling introduces variance — and in animation, that variance
 
 #### Monte Carlo convergence (integral estimation)
 
-This demo estimates \(\int_0^1 x^2\,dx = 1/3\), illustrating how random sampling approximates an integral.
+This demo estimates $\int_0^1 x^2\,dx = 1/3$, illustrating how random sampling approximates an integral.
 
 ```{python}
 #| echo: false
@@ -92,9 +92,12 @@ plt.legend()
 plt.show()
 ```
 
-- As shown, when the sample size is small, the estimate fluctuates but as the sample size increases, the estimate stabilizes around the true value.
+- As shown, when the sample size is smalll, the estimate fluctuates but as the 
+sample size increases, the estimate stabilizes around the true value.
 
-- This is exactly what happens in rendering: more samples per pixel reduce variability and produce smoother images.
+- This is exactly what happens in rendering: more samples per pixel reduce 
+variability and produce smoother images.
+
 ---
 
 #### Variance reduction and noise analogy
@@ -231,7 +234,7 @@ x_{t+1} = x_t + v_t \Delta t
 
 ---
 
-## Works Cited
+### Works Cited
 
 **Kajiya, J. (1986).** *The Rendering Equation.* SIGGRAPH.  
 https://dl.acm.org/doi/10.1145/15922.15902  
