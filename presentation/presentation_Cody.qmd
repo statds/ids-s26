@@ -1,0 +1,319 @@
+---
+title: "Creating Presentations with Quarto"
+subtitle: "Introduction to Data Science | Fall 2024"
+format:
+  revealjs:
+    slide-number: true
+    transition: slide
+    theme: default
+---
+
+## About Revealjs
+# Visualizing Spatial Data
+
+Table of contents
+- Definition
+- Different Types(Vector, Raster)
+- Visualization Methods
+- Importance of Map Projections
+- Design Principles
+- Tools and Technology
+- Questions
+
+---
+
+# What is Spatial Data?
+
+Visualizing spatial data is the process of displaying data that has a geographic component on a map. This helps us see patterns across locations, compare regional patterns, identify any trends or clusters, and understand how place influences outcome.
+Regular data might tell you information such as income, temperature, and population. But spatial data takes a look "income where? Temperature where? Population where?" Location changes everything.
+
+---
+
+# Vector Vs Raster Data
+
+## Vector
+Describes the literal geometric level of the data
+- Points(crime incidents)
+- Lines(roads, rivers)
+- Polygons(territories, census tracts)
+## Raster
+Describes grid data
+- Temperature
+- Elevation
+- Satellite
+- Used in Environmental Studies
+
+---
+
+# Visualization Methods(Maps)
+
+## Choropleth Maps
+- Encapsulates spatial data over a studied area
+- Regional, colored map
+- Usually follows one variable and its correlation to region
+- Runs the risk of being misleading if raw count is considered
+
+```{python}
+import pandas as pd
+import plotly.express as px
+
+data = {
+    "state": ["AL", "AK", "AZ", "AR", "CA",
+              "CO", "CT", "DE", "FL", "GA"],
+    "population": [4903185, 731545, 7278717, 3017804, 39512223,
+                   5758736, 3565287, 973764, 21477737, 10617423]
+}
+
+
+df = pd.DataFrame(data)
+
+fig = px.choropleth(
+    df,
+    locations="state",
+    locationmode="USA-states",
+    color="population",
+    scope="usa",
+    color_continuous_scale="Viridis",
+    labels={"population": "Population"},
+    title="US State Populations"
+)
+
+fig
+```
+
+## Heat Maps
+- Focuses on the density of variables
+- Includs a variance in hue or intensity of color
+- 2 Dimensional, covers the observations into categories between two variables
+- Unlike choropleth maps, heat maps do not require a geographic map
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+np.random.seed(42)
+
+df = pd.DataFrame({
+    "Income": np.random.normal(60000, 15000, 200),
+    "Education Years": np.random.normal(16, 2, 200),
+    "Age": np.random.normal(40, 10, 200),
+    "Work Hours": np.random.normal(40, 5, 200),
+})
+
+# Create some relationships to make heatmap interesting
+df["Spending"] = df["Income"] * 0.3 + np.random.normal(0, 5000, 200)
+df["Savings"] = df["Income"] * 0.2 + np.random.normal(0, 3000, 200)
+
+# Compute correlation matrix
+corr = df.corr()
+
+# Create heatmap
+fig = px.imshow(
+    corr,
+    text_auto=True,
+    color_continuous_scale="RdBu_r",
+    title="Correlation Heatmap"
+)
+
+fig
+```
+## Proportional Symbol Map
+- Uses symbol sizes as its main form of communication(commonly a circle)
+- Covers over geographical maps, similar to choropleth maps
+- Size of symbol expresses the condition of the variable
+- Comparable details to choropleth, substitutes the symbol for color changes
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# Sample population data (millions scale works best visually)
+data = {
+    "state": ["CA", "TX", "FL", "NY", "PA",
+              "IL", "OH", "GA", "NC", "MI"],
+    "population": [39.5, 29.0, 21.5, 19.8, 12.8,
+                   12.6, 11.7, 10.6, 10.4, 10.0],
+    "lat": [36.77, 31.97, 27.99, 42.95, 40.88,
+            40.63, 40.42, 32.17, 35.78, 44.31],
+    "lon": [-119.42, -99.90, -81.76, -75.53, -77.80,
+            -89.40, -82.91, -82.90, -78.64, -85.60]
+}
+
+df = pd.DataFrame(data)
+
+# Create proportional symbol map
+fig = px.scatter_geo(
+    df,
+    lat="lat",
+    lon="lon",
+    size="population",
+    hover_name="state",
+    size_max=50,
+    scope="usa",
+    title="US State Populations (Proportional Symbol Map)",
+    labels={"population": "Population (millions)"}
+)
+
+fig.update_layout(
+    geo=dict(
+        showland=True,
+        landcolor="rgb(217, 217, 217)"
+    )
+)
+
+fig
+```
+
+## Dot Density Map
+- Covers a region and details occurances
+- The data is technically quantifiable with symbols and a legend
+- Dots can be approximate or accurate
+- Simple color variance allows for more variables
+- Usually covered over a map
+- Some drawbacks of dot density maps are that they could be congested/needs to be counted
+```{python}
+import pandas as pd
+import numpy as np
+import plotly.express as px
+
+# Sample population data (millions)
+data = {
+    "state": ["CA", "TX", "FL", "NY", "PA"],
+    "population_millions": [39, 29, 21, 19, 12],
+    "lat": [36.77, 31.97, 27.99, 42.95, 40.88],
+    "lon": [-119.42, -99.90, -81.76, -75.53, -77.80]
+}
+
+df = pd.DataFrame(data)
+
+# Create dot density dataset
+dots = []
+
+for _, row in df.iterrows():
+    for _ in range(int(row["population_millions"])):  # 1 dot per million
+        dots.append({
+            "state": row["state"],
+            "lat": row["lat"] + np.random.uniform(-1.5, 1.5),
+            "lon": row["lon"] + np.random.uniform(-1.5, 1.5)
+        })
+
+dots_df = pd.DataFrame(dots)
+
+# Create dot density map
+fig = px.scatter_geo(
+    dots_df,
+    lat="lat",
+    lon="lon",
+    scope="usa",
+    title="Dot Density Map (1 Dot = 1 Million People)",
+)
+
+fig.update_traces(marker=dict(size=3))
+fig.update_layout(showlegend=False)
+
+fig
+```
+
+## Cartograms
+- Takes a regional map and distorts regions based on the given variable
+- Cartograms follow one variable
+- Geographical maps are necessary
+- Goofy looking
+```{python}
+import pandas as pd
+import plotly.express as px
+
+# Sample population data (millions)
+data = {
+    "state": ["CA", "TX", "FL", "NY", "PA",
+              "IL", "OH", "GA", "NC", "MI"],
+    "population": [39.5, 29.0, 21.5, 19.8, 12.8,
+                   12.6, 11.7, 10.6, 10.4, 10.0],
+    "lat": [36.77, 31.97, 27.99, 42.95, 40.88,
+            40.63, 40.42, 32.17, 35.78, 44.31],
+    "lon": [-119.42, -99.90, -81.76, -75.53, -77.80,
+            -89.40, -82.91, -82.90, -78.64, -85.60]
+}
+
+df = pd.DataFrame(data)
+
+# Create cartogram-style proportional circle map
+fig = px.scatter_geo(
+    df,
+    lat="lat",
+    lon="lon",
+    size="population",
+    color="population",
+    hover_name="state",
+    size_max=60,
+    scope="usa",
+    color_continuous_scale="Plasma",
+    title="US Population Cartogram (Circle-Based)"
+)
+
+fig.update_layout(
+    geo=dict(
+        showland=True,
+        landcolor="rgb(240,240,240)"
+    )
+)
+
+fig
+```
+
+
+# Significance
+
+## Decision making
+Strictly numerical data cannot determine conclusions influenced by geographical trends. The ability to view data through a map grants new eyes for the viewer. isualizing spatial data allows for new levels of decision making and conclusion-drawing. Some examples of this are:
+- Detecting anomalies in network performance
+- Determining patterns based on seasonal variations
+- General urban planning
+
+## Map Projections
+It's important to understand the relationship between the world and maps. Earth is 3-Dimensional space and capturing and presenting is data can be challenging. While ransferring geographical data into a workspace, some aspects might be distorted for digestion. This includes:
+- Area
+- Shape
+- Distance
+- Direction
+- Mercator Projection(full)
+- Robinson Projection(slight roundedness)
+
+# Design Principles
+It's important to keep visuals basic and easy for the viewer to understand. This includes following some general rules in order to keep information neat and nderstandable. Some of these rules include:
+- Colors(sequential vs diverging)
+- Classification Methods(Equal intervals, even quantiles)
+- Natural breaks(jenks: reduce variance within, maximize variance between)
+- Avoid misinterpretation(Rates vs totals, per capita, color-friendly)
+
+
+---
+
+# Tools and Technologies
+
+## Tableau
+Stand-out data visualization tool. Tableau creates interactive maps and visualizes geographic trends with strategies mentioned previously. It is able to connect ocation data to data sets. Primary tool for dashboards and storytelling. Prioritizes clean visuals over heavy analysis.
+- Shapefiles(GIS, geometric)
+- MapInfo Tables
+- KML Files(Google Earth)
+
+## R
+Statistical programming language that is able to perform some spatial anaylsis. Handles GIS data(shapefiles, GeoJSON). Utilizes packages to create its advanced maps. R is a tool for analyzing spatial data statistically
+- sf: structure, rgdal: enables reading, sp: classes and methods
+- ggplot2: customizable data visualizations
+
+## Python
+All-purpose programming language used for data science. It can focus on spatial data processing and GIS anaylsis. It can involve machine learning with location data and adopts libraries to accomplish its modeling and processing.
+- Geopandas: loads spatial data formats(.shp, geojson)
+- Matplotlib: plotting
+
+## Google Maps
+A familiar mapping platform for the web. It provides basemaps and geographical context to the user. It visualizes spatial data in an interactive manner and embeds maps into apps. It's the perfect platform for displaying and interacting with geographic data.
+- Imports GIS data (shapefiles, converted into KML)
+- Geocoding API(addresses to coordinates)
+
+
+---
+
+# Questions?
+
+Thank you! - Cody Jones
