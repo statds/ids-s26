@@ -807,3 +807,10 @@ print("Probability of best path:", prob)
 - Hidden states may not have clear, real-world meaning, making results harder to interpret
 - With too many hidden states, HMMs can fit the training data very well but generalize poorly.
 
+---
+
+### Further Readings
+
+- [Markov Chains](https://math.libretexts.org/Bookshelves/Applied_Mathematics/Applied_Finite_Mathematics_(Sekhon_and_Bloom)/10%3A_Markov_Chains/10.01%3A_Introduction_to_Markov_Chains)
+- [Hidden Markov Models](https://www.geeksforgeeks.org/machine-learning/hidden-markov-model-in-machine-learning/)
+- [Video on HMMs in Python](https://www.youtube.com/watch?v=H527IGTmsIM)
