@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>7&nbsp; Case study: Community risk for adolescent suicide – Introduction to Data Science</title>
+<title>10&nbsp; Case study: Community risk for adolescent suicide – Introduction to Data Science</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../95-exercises.html" rel="next">
-<link href="../06-topics.html" rel="prev">
+<link href="../09-topics-AMAI.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-case-study/01-case-study.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-case-study/01-case-study.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -184,26 +184,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../06-topics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Various topics</span></span></a>
+  <a href="../06-topics-DAE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Data Acquisition &amp; Engineering</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../07-topics-DWV.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Data Wrangling &amp; Visualization</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../08-topics-SMML.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Statistical Modeling &amp; Machine Learning</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../09-topics-AMAI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Advanced Methods &amp; AI</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../01-case-study/01-case-study.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../95-exercises.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../96-midterm-bike-sharing.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Take-Home Midterm Exam</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -222,28 +240,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">7.1</span> Background</a></li>
-  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">7.2</span> Objective</a></li>
-  <li><a href="#data-resources" id="toc-data-resources" class="nav-link" data-scroll-target="#data-resources"><span class="header-section-number">7.3</span> Data &amp; Resources</a></li>
-  <li><a href="#explore-the-data" id="toc-explore-the-data" class="nav-link" data-scroll-target="#explore-the-data"><span class="header-section-number">7.4</span> 1 Explore the data</a>
+  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">10.1</span> Background</a></li>
+  <li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective"><span class="header-section-number">10.2</span> Objective</a></li>
+  <li><a href="#data-resources" id="toc-data-resources" class="nav-link" data-scroll-target="#data-resources"><span class="header-section-number">10.3</span> Data &amp; Resources</a></li>
+  <li><a href="#explore-the-data" id="toc-explore-the-data" class="nav-link" data-scroll-target="#explore-the-data"><span class="header-section-number">10.4</span> 1 Explore the data</a>
   <ul class="collapse">
-  <li><a href="#what-is-the-outcome-we-want-to-study" id="toc-what-is-the-outcome-we-want-to-study" class="nav-link" data-scroll-target="#what-is-the-outcome-we-want-to-study"><span class="header-section-number">7.4.1</span> 1.1 What is the “outcome” we want to study?</a></li>
-  <li><a href="#what-is-the-unit-of-analysis" id="toc-what-is-the-unit-of-analysis" class="nav-link" data-scroll-target="#what-is-the-unit-of-analysis"><span class="header-section-number">7.4.2</span> 1.2 What is the “unit” of analysis?</a></li>
-  <li><a href="#data-exploration-no-modeling-yet" id="toc-data-exploration-no-modeling-yet" class="nav-link" data-scroll-target="#data-exploration-no-modeling-yet"><span class="header-section-number">7.4.3</span> 1.3 Data exploration (no modeling yet)</a></li>
-  <li><a href="#set-file-paths" id="toc-set-file-paths" class="nav-link" data-scroll-target="#set-file-paths"><span class="header-section-number">7.4.4</span> Set file paths</a></li>
-  <li><a href="#a-refined-working-question" id="toc-a-refined-working-question" class="nav-link" data-scroll-target="#a-refined-working-question"><span class="header-section-number">7.4.5</span> 1.5 A refined working question</a></li>
+  <li><a href="#what-is-the-outcome-we-want-to-study" id="toc-what-is-the-outcome-we-want-to-study" class="nav-link" data-scroll-target="#what-is-the-outcome-we-want-to-study"><span class="header-section-number">10.4.1</span> 1.1 What is the “outcome” we want to study?</a></li>
+  <li><a href="#what-is-the-unit-of-analysis" id="toc-what-is-the-unit-of-analysis" class="nav-link" data-scroll-target="#what-is-the-unit-of-analysis"><span class="header-section-number">10.4.2</span> 1.2 What is the “unit” of analysis?</a></li>
+  <li><a href="#data-exploration-no-modeling-yet" id="toc-data-exploration-no-modeling-yet" class="nav-link" data-scroll-target="#data-exploration-no-modeling-yet"><span class="header-section-number">10.4.3</span> 1.3 Data exploration (no modeling yet)</a></li>
+  <li><a href="#set-file-paths" id="toc-set-file-paths" class="nav-link" data-scroll-target="#set-file-paths"><span class="header-section-number">10.4.4</span> Set file paths</a></li>
+  <li><a href="#a-refined-working-question" id="toc-a-refined-working-question" class="nav-link" data-scroll-target="#a-refined-working-question"><span class="header-section-number">10.4.5</span> 1.5 A refined working question</a></li>
   </ul></li>
-  <li><a href="#preliminary-analysis-and-visualization" id="toc-preliminary-analysis-and-visualization" class="nav-link" data-scroll-target="#preliminary-analysis-and-visualization"><span class="header-section-number">7.5</span> 2 Preliminary Analysis and Visualization</a>
+  <li><a href="#preliminary-analysis-and-visualization" id="toc-preliminary-analysis-and-visualization" class="nav-link" data-scroll-target="#preliminary-analysis-and-visualization"><span class="header-section-number">10.5</span> 2 Preliminary Analysis and Visualization</a>
   <ul class="collapse">
-  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">7.5.1</span> Visualization</a></li>
-  <li><a href="#making-spatial-plot" id="toc-making-spatial-plot" class="nav-link" data-scroll-target="#making-spatial-plot"><span class="header-section-number">7.5.2</span> Making Spatial Plot</a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization"><span class="header-section-number">10.5.1</span> Visualization</a></li>
+  <li><a href="#making-spatial-plot" id="toc-making-spatial-plot" class="nav-link" data-scroll-target="#making-spatial-plot"><span class="header-section-number">10.5.2</span> Making Spatial Plot</a></li>
   </ul></li>
-  <li><a href="#explaining-differences-in-district-rates" id="toc-explaining-differences-in-district-rates" class="nav-link" data-scroll-target="#explaining-differences-in-district-rates"><span class="header-section-number">7.6</span> 3: Explaining differences in district rates</a>
+  <li><a href="#explaining-differences-in-district-rates" id="toc-explaining-differences-in-district-rates" class="nav-link" data-scroll-target="#explaining-differences-in-district-rates"><span class="header-section-number">10.6</span> 3: Explaining differences in district rates</a>
   <ul class="collapse">
-  <li><a href="#a-working-hypothesis-context-matters" id="toc-a-working-hypothesis-context-matters" class="nav-link" data-scroll-target="#a-working-hypothesis-context-matters"><span class="header-section-number">7.6.1</span> A working hypothesis: context matters</a></li>
-  <li><a href="#why-this-step-matters" id="toc-why-this-step-matters" class="nav-link" data-scroll-target="#why-this-step-matters"><span class="header-section-number">7.6.2</span> Why this step matters</a></li>
-  <li><a href="#what-we-do-next" id="toc-what-we-do-next" class="nav-link" data-scroll-target="#what-we-do-next"><span class="header-section-number">7.6.3</span> What we do next</a></li>
-  <li><a href="#exponentiate-fixed-effects-for-rate-ratios" id="toc-exponentiate-fixed-effects-for-rate-ratios" class="nav-link" data-scroll-target="#exponentiate-fixed-effects-for-rate-ratios"><span class="header-section-number">7.6.4</span> 3) Exponentiate fixed effects for rate ratios</a></li>
+  <li><a href="#a-working-hypothesis-context-matters" id="toc-a-working-hypothesis-context-matters" class="nav-link" data-scroll-target="#a-working-hypothesis-context-matters"><span class="header-section-number">10.6.1</span> A working hypothesis: context matters</a></li>
+  <li><a href="#why-this-step-matters" id="toc-why-this-step-matters" class="nav-link" data-scroll-target="#why-this-step-matters"><span class="header-section-number">10.6.2</span> Why this step matters</a></li>
+  <li><a href="#what-we-do-next" id="toc-what-we-do-next" class="nav-link" data-scroll-target="#what-we-do-next"><span class="header-section-number">10.6.3</span> What we do next</a></li>
+  <li><a href="#exponentiate-fixed-effects-for-rate-ratios" id="toc-exponentiate-fixed-effects-for-rate-ratios" class="nav-link" data-scroll-target="#exponentiate-fixed-effects-for-rate-ratios"><span class="header-section-number">10.6.4</span> 3) Exponentiate fixed effects for rate ratios</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -253,7 +271,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-case1" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></span></h1>
+<h1 class="title"><span id="sec-case1" class="quarto-section-identifier"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Case study: Community risk for adolescent suicide</span></span></h1>
 </div>
 
 
@@ -270,27 +288,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="background" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="background"><span class="header-section-number">7.1</span> Background</h2>
+<section id="background" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="background"><span class="header-section-number">10.1</span> Background</h2>
 <p>Suicide is one of the most serious public-health problems affecting adolescents and young adults in the United States. Beyond deaths by suicide, many more youths experience suicidal thoughts or attempts-events that may lead to medical care and hospitalization.</p>
 </section>
-<section id="objective" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="objective"><span class="header-section-number">7.2</span> Objective</h2>
+<section id="objective" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="objective"><span class="header-section-number">10.2</span> Objective</h2>
 <p>The purpose of this study is to use statewide data on inpatient hospitalizations and mortality to identify communities and school districts at risk for adolescent suicide.</p>
 </section>
-<section id="data-resources" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="data-resources"><span class="header-section-number">7.3</span> Data &amp; Resources</h2>
+<section id="data-resources" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="data-resources"><span class="header-section-number">10.3</span> Data &amp; Resources</h2>
 <ul>
 <li>Five years of data (2010-2014) from the Office of the Connecticut Medical Examiner</li>
 <li>The Connecticut Hospital Inpatient Discharge Database (HIDD)</li>
 <li>Other publicly avaliable data (Census data, ACS, open data from state, etc.)</li>
 </ul>
 </section>
-<section id="explore-the-data" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="explore-the-data"><span class="header-section-number">7.4</span> 1 Explore the data</h2>
+<section id="explore-the-data" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="explore-the-data"><span class="header-section-number">10.4</span> 1 Explore the data</h2>
 <p>Before we do <em>any</em> analysis or build <em>any</em> model, we need to be clear about what question we’re actually trying to answer, what our data can (and cannot) measure, and what outcome makes sense (for analysis at the <em>community/school-district</em> level).</p>
-<section id="what-is-the-outcome-we-want-to-study" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="what-is-the-outcome-we-want-to-study"><span class="header-section-number">7.4.1</span> 1.1 What is the “outcome” we want to study?</h3>
+<section id="what-is-the-outcome-we-want-to-study" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="what-is-the-outcome-we-want-to-study"><span class="header-section-number">10.4.1</span> 1.1 What is the “outcome” we want to study?</h3>
 <p>From a public-health perspective, the most direct outcome is <strong>suicide mortality</strong>. But from a data-science perspective, suicide deaths among adolescents are (fortunately) very <strong>rare events</strong>, especially when we break the state into many districts and look year-by-year. That rarity creates several immediate issues:</p>
 <ul>
 <li>Instability
@@ -307,8 +325,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 <p>This is why the dataset includes not only deaths, but also <strong>inpatient hospitalizations for suicide attempts</strong>. These events are more common and can provide additional information about severe suicidal behavior, especially when we are trying to detect differences across communities.</p>
-<section id="option-a-deaths-only-mortality" class="level4" data-number="7.4.1.1">
-<h4 data-number="7.4.1.1" class="anchored" data-anchor-id="option-a-deaths-only-mortality"><span class="header-section-number">7.4.1.1</span> Option A: Deaths only (mortality)</h4>
+<section id="option-a-deaths-only-mortality" class="level4" data-number="10.4.1.1">
+<h4 data-number="10.4.1.1" class="anchored" data-anchor-id="option-a-deaths-only-mortality"><span class="header-section-number">10.4.1.1</span> Option A: Deaths only (mortality)</h4>
 <ul>
 <li><strong>Pros</strong>
 <ul>
@@ -323,8 +341,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ul>
 </section>
-<section id="option-b-deaths-inpatient-suicide-attempt-hospitalizations" class="level4" data-number="7.4.1.2">
-<h4 data-number="7.4.1.2" class="anchored" data-anchor-id="option-b-deaths-inpatient-suicide-attempt-hospitalizations"><span class="header-section-number">7.4.1.2</span> Option B: Deaths + inpatient suicide-attempt hospitalizations**</h4>
+<section id="option-b-deaths-inpatient-suicide-attempt-hospitalizations" class="level4" data-number="10.4.1.2">
+<h4 data-number="10.4.1.2" class="anchored" data-anchor-id="option-b-deaths-inpatient-suicide-attempt-hospitalizations"><span class="header-section-number">10.4.1.2</span> Option B: Deaths + inpatient suicide-attempt hospitalizations**</h4>
 <ul>
 <li><strong>Pros</strong>
 <ul>
@@ -344,16 +362,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 </section>
 </section>
-<section id="what-is-the-unit-of-analysis" class="level3" data-number="7.4.2">
-<h3 data-number="7.4.2" class="anchored" data-anchor-id="what-is-the-unit-of-analysis"><span class="header-section-number">7.4.2</span> 1.2 What is the “unit” of analysis?</h3>
+<section id="what-is-the-unit-of-analysis" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="what-is-the-unit-of-analysis"><span class="header-section-number">10.4.2</span> 1.2 What is the “unit” of analysis?</h3>
 <p>Our goal is to identify <em>communities and school districts</em> with unusually high risk. That means we will not model individual-level outcomes. Instead, we will work with <strong>aggregated counts</strong>:</p>
 <ul>
 <li>counts of deaths by district and year</li>
 <li>counts of hospitalizations by district and year</li>
 <li>or combined counts of both by district and year</li>
 </ul>
-<section id="are-counts-enough" class="level4" data-number="7.4.2.1">
-<h4 data-number="7.4.2.1" class="anchored" data-anchor-id="are-counts-enough"><span class="header-section-number">7.4.2.1</span> Are “counts” enough?</h4>
+<section id="are-counts-enough" class="level4" data-number="10.4.2.1">
+<h4 data-number="10.4.2.1" class="anchored" data-anchor-id="are-counts-enough"><span class="header-section-number">10.4.2.1</span> Are “counts” enough?</h4>
 <p>To compare districts fairly, we also need a denominator: the <strong>population at risk</strong> (e.g., adolescent population in each district). This is what turns counts into <strong>rates</strong>.</p>
 <p>So, at minimum, our analysis dataset should look like:</p>
 <ul>
@@ -364,8 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 </section>
 </section>
-<section id="data-exploration-no-modeling-yet" class="level3" data-number="7.4.3">
-<h3 data-number="7.4.3" class="anchored" data-anchor-id="data-exploration-no-modeling-yet"><span class="header-section-number">7.4.3</span> 1.3 Data exploration (no modeling yet)</h3>
+<section id="data-exploration-no-modeling-yet" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="data-exploration-no-modeling-yet"><span class="header-section-number">10.4.3</span> 1.3 Data exploration (no modeling yet)</h3>
 <p>We’ll use Python to explore the data and answer a few practical questions:</p>
 <ol type="1">
 <li><strong>How many events are we talking about?</strong>
@@ -393,8 +411,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 </ol>
 <p>The point of these steps is not to “discover the answer” yet: it is to make sure we are asking a question the data can reasonably support.</p>
-<section id="load-packages" class="level4" data-number="7.4.3.1">
-<h4 data-number="7.4.3.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">7.4.3.1</span> Load packages</h4>
+<section id="load-packages" class="level4" data-number="10.4.3.1">
+<h4 data-number="10.4.3.1" class="anchored" data-anchor-id="load-packages"><span class="header-section-number">10.4.3.1</span> Load packages</h4>
 <div id="1b4f9945" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -423,8 +441,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="set-file-paths" class="level3" data-number="7.4.4">
-<h3 data-number="7.4.4" class="anchored" data-anchor-id="set-file-paths"><span class="header-section-number">7.4.4</span> Set file paths</h3>
+<section id="set-file-paths" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="set-file-paths"><span class="header-section-number">10.4.4</span> Set file paths</h3>
 <div id="9fd31e44" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -449,8 +467,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 Years: [2010, 2011, 2012, 2013, 2014]</code></pre>
 </div>
 </div>
-<section id="read-the-school-district-admissionsattempt-counts" class="level4" data-number="7.4.4.1">
-<h4 data-number="7.4.4.1" class="anchored" data-anchor-id="read-the-school-district-admissionsattempt-counts"><span class="header-section-number">7.4.4.1</span> Read the school-district admissions/attempt counts</h4>
+<section id="read-the-school-district-admissionsattempt-counts" class="level4" data-number="10.4.4.1">
+<h4 data-number="10.4.4.1" class="anchored" data-anchor-id="read-the-school-district-admissionsattempt-counts"><span class="header-section-number">10.4.4.1</span> Read the school-district admissions/attempt counts</h4>
 <div id="fb051df7" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -713,8 +731,8 @@ sch_data columns (first 25): ['Unnamed: 0', 'school_district', 'E952010', 'E9520
 </div>
 </div>
 </section>
-<section id="create-admcount-keep-school_district-and-all-columns" class="level4" data-number="7.4.4.2">
-<h4 data-number="7.4.4.2" class="anchored" data-anchor-id="create-admcount-keep-school_district-and-all-columns"><span class="header-section-number">7.4.4.2</span> Create admcount: keep school_district and ALL* columns</h4>
+<section id="create-admcount-keep-school_district-and-all-columns" class="level4" data-number="10.4.4.2">
+<h4 data-number="10.4.4.2" class="anchored" data-anchor-id="create-admcount-keep-school_district-and-all-columns"><span class="header-section-number">10.4.4.2</span> Create admcount: keep school_district and ALL* columns</h4>
 <div id="423640ae" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -808,8 +826,8 @@ admcount shape: (119, 6)</code></pre>
 </div>
 </div>
 </section>
-<section id="read-the-death-records" class="level4" data-number="7.4.4.3">
-<h4 data-number="7.4.4.3" class="anchored" data-anchor-id="read-the-death-records"><span class="header-section-number">7.4.4.3</span> Read the death records</h4>
+<section id="read-the-death-records" class="level4" data-number="10.4.4.3">
+<h4 data-number="10.4.4.3" class="anchored" data-anchor-id="read-the-death-records"><span class="header-section-number">10.4.4.3</span> Read the death records</h4>
 <div id="dc1d520d" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -829,8 +847,8 @@ admcount shape: (119, 6)</code></pre>
 </details>
 </div>
 </section>
-<section id="extract-year-from-dateofdeath-keep-20102014" class="level4" data-number="7.4.4.4">
-<h4 data-number="7.4.4.4" class="anchored" data-anchor-id="extract-year-from-dateofdeath-keep-20102014"><span class="header-section-number">7.4.4.4</span> Extract year from dateofdeath + keep 2010–2014</h4>
+<section id="extract-year-from-dateofdeath-keep-20102014" class="level4" data-number="10.4.4.4">
+<h4 data-number="10.4.4.4" class="anchored" data-anchor-id="extract-year-from-dateofdeath-keep-20102014"><span class="header-section-number">10.4.4.4</span> Extract year from dateofdeath + keep 2010–2014</h4>
 <div id="8dd44ece" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -853,8 +871,8 @@ admcount shape: (119, 6)</code></pre>
 </details>
 </div>
 </section>
-<section id="build-deathcount-district-year-table" class="level4" data-number="7.4.4.5">
-<h4 data-number="7.4.4.5" class="anchored" data-anchor-id="build-deathcount-district-year-table"><span class="header-section-number">7.4.4.5</span> Build deathcount: district × year table</h4>
+<section id="build-deathcount-district-year-table" class="level4" data-number="10.4.4.5">
+<h4 data-number="10.4.4.5" class="anchored" data-anchor-id="build-deathcount-district-year-table"><span class="header-section-number">10.4.4.5</span> Build deathcount: district × year table</h4>
 <div id="8751dc4e" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -891,8 +909,8 @@ admcount shape: (119, 6)</code></pre>
 </details>
 </div>
 </section>
-<section id="merge-admcount-deathcount-to-form-allcount" class="level4" data-number="7.4.4.6">
-<h4 data-number="7.4.4.6" class="anchored" data-anchor-id="merge-admcount-deathcount-to-form-allcount"><span class="header-section-number">7.4.4.6</span> Merge admcount + deathcount to form allcount</h4>
+<section id="merge-admcount-deathcount-to-form-allcount" class="level4" data-number="10.4.4.6">
+<h4 data-number="10.4.4.6" class="anchored" data-anchor-id="merge-admcount-deathcount-to-form-allcount"><span class="header-section-number">10.4.4.6</span> Merge admcount + deathcount to form allcount</h4>
 <div id="eb5ac329" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1101,8 +1119,8 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="compute-yearlycount-all-counts-death-counts" class="level4" data-number="7.4.4.7">
-<h4 data-number="7.4.4.7" class="anchored" data-anchor-id="compute-yearlycount-all-counts-death-counts"><span class="header-section-number">7.4.4.7</span> Compute yearlycount = (ALL counts) + (death counts)</h4>
+<section id="compute-yearlycount-all-counts-death-counts" class="level4" data-number="10.4.4.7">
+<h4 data-number="10.4.4.7" class="anchored" data-anchor-id="compute-yearlycount-all-counts-death-counts"><span class="header-section-number">10.4.4.7</span> Compute yearlycount = (ALL counts) + (death counts)</h4>
 <div id="259c688b" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1203,8 +1221,8 @@ Final yearlycount totals (2010–2014): 1878</code></pre>
 </div>
 </section>
 </section>
-<section id="a-refined-working-question" class="level3" data-number="7.4.5">
-<h3 data-number="7.4.5" class="anchored" data-anchor-id="a-refined-working-question"><span class="header-section-number">7.4.5</span> 1.5 A refined working question</h3>
+<section id="a-refined-working-question" class="level3" data-number="10.4.5">
+<h3 data-number="10.4.5" class="anchored" data-anchor-id="a-refined-working-question"><span class="header-section-number">10.4.5</span> 1.5 A refined working question</h3>
 <p>After exploration, we’ll pick one primary outcome. A reasonable working question is:</p>
 <blockquote class="blockquote">
 <p>“Which districts show unusually high rates of severe suicidal behavior among adolescents from 2010–2014, where ‘severe suicidal behavior’ is measured using suicide deaths and/or inpatient hospitalizations for suicide attempts?”</p>
@@ -1216,8 +1234,8 @@ Final yearlycount totals (2010–2014): 1878</code></pre>
 <li>the <strong>geographic unit</strong> (district),</li>
 <li>and leaves open an explicit choice about the <strong>outcome definition</strong> that we will justify using exploration.</li>
 </ul>
-<section id="aggregate-5-years-of-counts-per-district" class="level4" data-number="7.4.5.1">
-<h4 data-number="7.4.5.1" class="anchored" data-anchor-id="aggregate-5-years-of-counts-per-district"><span class="header-section-number">7.4.5.1</span> Aggregate 5 years of counts per district</h4>
+<section id="aggregate-5-years-of-counts-per-district" class="level4" data-number="10.4.5.1">
+<h4 data-number="10.4.5.1" class="anchored" data-anchor-id="aggregate-5-years-of-counts-per-district"><span class="header-section-number">10.4.5.1</span> Aggregate 5 years of counts per district</h4>
 <div id="469909ab" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1251,8 +1269,8 @@ Check (sum of yearlycount without district col): 1878</code></pre>
 </div>
 </div>
 </section>
-<section id="compute-5-year-population-per-district" class="level4" data-number="7.4.5.2">
-<h4 data-number="7.4.5.2" class="anchored" data-anchor-id="compute-5-year-population-per-district"><span class="header-section-number">7.4.5.2</span> Compute 5-year population per district</h4>
+<section id="compute-5-year-population-per-district" class="level4" data-number="10.4.5.2">
+<h4 data-number="10.4.5.2" class="anchored" data-anchor-id="compute-5-year-population-per-district"><span class="header-section-number">10.4.5.2</span> Compute 5-year population per district</h4>
 <div id="8ed0dca6" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1281,8 +1299,8 @@ Any missing population? 0</code></pre>
 </div>
 </div>
 </section>
-<section id="compute-district-rates-and-drop-missing-na-rates" class="level4" data-number="7.4.5.3">
-<h4 data-number="7.4.5.3" class="anchored" data-anchor-id="compute-district-rates-and-drop-missing-na-rates"><span class="header-section-number">7.4.5.3</span> Compute district rates and drop missing (NA) rates</h4>
+<section id="compute-district-rates-and-drop-missing-na-rates" class="level4" data-number="10.4.5.3">
+<h4 data-number="10.4.5.3" class="anchored" data-anchor-id="compute-district-rates-and-drop-missing-na-rates"><span class="header-section-number">10.4.5.3</span> Compute district rates and drop missing (NA) rates</h4>
 <div id="a7b61eb9" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1335,8 +1353,8 @@ After removing NA rates:
 </div>
 </div>
 </section>
-<section id="sort-districts-by-rate-descending-show-top-results" class="level4" data-number="7.4.5.4">
-<h4 data-number="7.4.5.4" class="anchored" data-anchor-id="sort-districts-by-rate-descending-show-top-results"><span class="header-section-number">7.4.5.4</span> Sort districts by rate (descending), show top results</h4>
+<section id="sort-districts-by-rate-descending-show-top-results" class="level4" data-number="10.4.5.4">
+<h4 data-number="10.4.5.4" class="anchored" data-anchor-id="sort-districts-by-rate-descending-show-top-results"><span class="header-section-number">10.4.5.4</span> Sort districts by rate (descending), show top results</h4>
 <div id="d20448bd" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1366,8 +1384,8 @@ After removing NA rates:
 </div>
 </div>
 </section>
-<section id="compute-state-average-rate" class="level4" data-number="7.4.5.5">
-<h4 data-number="7.4.5.5" class="anchored" data-anchor-id="compute-state-average-rate"><span class="header-section-number">7.4.5.5</span> Compute state average rate</h4>
+<section id="compute-state-average-rate" class="level4" data-number="10.4.5.5">
+<h4 data-number="10.4.5.5" class="anchored" data-anchor-id="compute-state-average-rate"><span class="header-section-number">10.4.5.5</span> Compute state average rate</h4>
 <div id="cdcffd87" class="cell" data-execution_count="15">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1381,11 +1399,11 @@ After removing NA rates:
 </section>
 </section>
 </section>
-<section id="preliminary-analysis-and-visualization" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="preliminary-analysis-and-visualization"><span class="header-section-number">7.5</span> 2 Preliminary Analysis and Visualization</h2>
+<section id="preliminary-analysis-and-visualization" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="preliminary-analysis-and-visualization"><span class="header-section-number">10.5</span> 2 Preliminary Analysis and Visualization</h2>
 <p>We can now visualize the data and do some preliminary statistial analysis. It is useful to visualize the counts, the rates, the at-risk population sizes, and the set of “distinctive” school districts on a spatial map of the State of Connecticut.</p>
-<section id="testing-for-above-and-below-state-average" class="level4" data-number="7.5.0.1">
-<h4 data-number="7.5.0.1" class="anchored" data-anchor-id="testing-for-above-and-below-state-average"><span class="header-section-number">7.5.0.1</span> Testing for <strong>above</strong> and <strong>below</strong> state average</h4>
+<section id="testing-for-above-and-below-state-average" class="level4" data-number="10.5.0.1">
+<h4 data-number="10.5.0.1" class="anchored" data-anchor-id="testing-for-above-and-below-state-average"><span class="header-section-number">10.5.0.1</span> Testing for <strong>above</strong> and <strong>below</strong> state average</h4>
 <div id="81a97329" class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1442,8 +1460,8 @@ After removing NA rates:
 </details>
 </div>
 </section>
-<section id="build-district-level-vectors-counts-population-rates" class="level4" data-number="7.5.0.2">
-<h4 data-number="7.5.0.2" class="anchored" data-anchor-id="build-district-level-vectors-counts-population-rates"><span class="header-section-number">7.5.0.2</span> Build district-level vectors (counts, population, rates)</h4>
+<section id="build-district-level-vectors-counts-population-rates" class="level4" data-number="10.5.0.2">
+<h4 data-number="10.5.0.2" class="anchored" data-anchor-id="build-district-level-vectors-counts-population-rates"><span class="header-section-number">10.5.0.2</span> Build district-level vectors (counts, population, rates)</h4>
 <div id="65c294e6" class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1468,8 +1486,8 @@ After removing NA rates:
 </div>
 </div>
 </section>
-<section id="compute-p-values-and-confidence-intervals" class="level4" data-number="7.5.0.3">
-<h4 data-number="7.5.0.3" class="anchored" data-anchor-id="compute-p-values-and-confidence-intervals"><span class="header-section-number">7.5.0.3</span> Compute p-values and confidence intervals</h4>
+<section id="compute-p-values-and-confidence-intervals" class="level4" data-number="10.5.0.3">
+<h4 data-number="10.5.0.3" class="anchored" data-anchor-id="compute-p-values-and-confidence-intervals"><span class="header-section-number">10.5.0.3</span> Compute p-values and confidence intervals</h4>
 <div id="e92118ad" class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1542,8 +1560,8 @@ After removing NA rates:
 </div>
 </div>
 </section>
-<section id="bh-adjustment-benjaminihochberg-on-two-sided-p-values" class="level4" data-number="7.5.0.4">
-<h4 data-number="7.5.0.4" class="anchored" data-anchor-id="bh-adjustment-benjaminihochberg-on-two-sided-p-values"><span class="header-section-number">7.5.0.4</span> BH adjustment (Benjamini–Hochberg) on two-sided p-values</h4>
+<section id="bh-adjustment-benjaminihochberg-on-two-sided-p-values" class="level4" data-number="10.5.0.4">
+<h4 data-number="10.5.0.4" class="anchored" data-anchor-id="bh-adjustment-benjaminihochberg-on-two-sided-p-values"><span class="header-section-number">10.5.0.4</span> BH adjustment (Benjamini–Hochberg) on two-sided p-values</h4>
 <div id="0f4fa273" class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -1562,8 +1580,8 @@ How many significant at FDR &lt;= 0.05? 15</code></pre>
 </div>
 </div>
 </section>
-<section id="assemble-results-table" class="level4" data-number="7.5.0.5">
-<h4 data-number="7.5.0.5" class="anchored" data-anchor-id="assemble-results-table"><span class="header-section-number">7.5.0.5</span> Assemble <code>results</code> table</h4>
+<section id="assemble-results-table" class="level4" data-number="10.5.0.5">
+<h4 data-number="10.5.0.5" class="anchored" data-anchor-id="assemble-results-table"><span class="header-section-number">10.5.0.5</span> Assemble <code>results</code> table</h4>
 <div id="deb7568f" class="cell" data-execution_count="20">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2002,8 +2020,8 @@ How many significant at FDR &lt;= 0.05? 15</code></pre>
 </div>
 </div>
 </section>
-<section id="save-the-full-results-table" class="level4" data-number="7.5.0.6">
-<h4 data-number="7.5.0.6" class="anchored" data-anchor-id="save-the-full-results-table"><span class="header-section-number">7.5.0.6</span> Save the full <code>results</code> table</h4>
+<section id="save-the-full-results-table" class="level4" data-number="10.5.0.6">
+<h4 data-number="10.5.0.6" class="anchored" data-anchor-id="save-the-full-results-table"><span class="header-section-number">10.5.0.6</span> Save the full <code>results</code> table</h4>
 <div id="8f4f931c" class="cell" data-execution_count="21">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2299,10 +2317,10 @@ results shape: (119, 21)</code></pre>
 </div>
 </div>
 </section>
-<section id="visualization" class="level3" data-number="7.5.1">
-<h3 data-number="7.5.1" class="anchored" data-anchor-id="visualization"><span class="header-section-number">7.5.1</span> Visualization</h3>
-<section id="build-the-plotting-dataframe-subset-significant-districts" class="level4" data-number="7.5.1.1">
-<h4 data-number="7.5.1.1" class="anchored" data-anchor-id="build-the-plotting-dataframe-subset-significant-districts"><span class="header-section-number">7.5.1.1</span> Build the plotting dataframe + subset significant districts</h4>
+<section id="visualization" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="visualization"><span class="header-section-number">10.5.1</span> Visualization</h3>
+<section id="build-the-plotting-dataframe-subset-significant-districts" class="level4" data-number="10.5.1.1">
+<h4 data-number="10.5.1.1" class="anchored" data-anchor-id="build-the-plotting-dataframe-subset-significant-districts"><span class="header-section-number">10.5.1.1</span> Build the plotting dataframe + subset significant districts</h4>
 <div id="935f70b9" class="cell" data-execution_count="24">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2415,8 +2433,8 @@ Number of significant districts plotted: 17</code></pre>
 </div>
 </div>
 </section>
-<section id="make-the-plot-of-significant-districts" class="level4" data-number="7.5.1.2">
-<h4 data-number="7.5.1.2" class="anchored" data-anchor-id="make-the-plot-of-significant-districts"><span class="header-section-number">7.5.1.2</span> Make the plot of significant districts</h4>
+<section id="make-the-plot-of-significant-districts" class="level4" data-number="10.5.1.2">
+<h4 data-number="10.5.1.2" class="anchored" data-anchor-id="make-the-plot-of-significant-districts"><span class="header-section-number">10.5.1.2</span> Make the plot of significant districts</h4>
 <div id="f94829be" class="cell" data-execution_count="25">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2504,10 +2522,10 @@ Number of significant districts plotted: 17</code></pre>
 </div>
 </section>
 </section>
-<section id="making-spatial-plot" class="level3" data-number="7.5.2">
-<h3 data-number="7.5.2" class="anchored" data-anchor-id="making-spatial-plot"><span class="header-section-number">7.5.2</span> Making Spatial Plot</h3>
-<section id="combine-results-classify-districts" class="level4" data-number="7.5.2.1">
-<h4 data-number="7.5.2.1" class="anchored" data-anchor-id="combine-results-classify-districts"><span class="header-section-number">7.5.2.1</span> Combine results + classify districts</h4>
+<section id="making-spatial-plot" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="making-spatial-plot"><span class="header-section-number">10.5.2</span> Making Spatial Plot</h3>
+<section id="combine-results-classify-districts" class="level4" data-number="10.5.2.1">
+<h4 data-number="10.5.2.1" class="anchored" data-anchor-id="combine-results-classify-districts"><span class="header-section-number">10.5.2.1</span> Combine results + classify districts</h4>
 <div id="bcbfc62e" class="cell" data-execution_count="27">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2552,8 +2570,8 @@ Significant above: 10 Significant below: 7</code></pre>
 </div>
 </div>
 </section>
-<section id="download-tigerline-school-district-boundaries" class="level4" data-number="7.5.2.2">
-<h4 data-number="7.5.2.2" class="anchored" data-anchor-id="download-tigerline-school-district-boundaries"><span class="header-section-number">7.5.2.2</span> Download TIGER/Line school district boundaries</h4>
+<section id="download-tigerline-school-district-boundaries" class="level4" data-number="10.5.2.2">
+<h4 data-number="10.5.2.2" class="anchored" data-anchor-id="download-tigerline-school-district-boundaries"><span class="header-section-number">10.5.2.2</span> Download TIGER/Line school district boundaries</h4>
 <p>We’ll download <strong>Unified (UNSD)</strong> and <strong>Secondary (SCSD)</strong> for Connecticut and combine them. CT school districts can appear under one type or the other depending on how they’re defined, so combining makes matching easier.</p>
 <div id="5e912a7b" class="cell" data-execution_count="28">
 <details class="code-fold">
@@ -2608,8 +2626,8 @@ SCSD extracted to: data/geoshapes/tl_2024_09_scsd</code></pre>
 </div>
 <p>This uses the Census Bureau’s TIGER/Line distribution and the School District Review Program updates pipeline.</p>
 </section>
-<section id="read-boundaries-with-geopandas-combine" class="level4" data-number="7.5.2.3">
-<h4 data-number="7.5.2.3" class="anchored" data-anchor-id="read-boundaries-with-geopandas-combine"><span class="header-section-number">7.5.2.3</span> Read boundaries with GeoPandas + combine</h4>
+<section id="read-boundaries-with-geopandas-combine" class="level4" data-number="10.5.2.3">
+<h4 data-number="10.5.2.3" class="anchored" data-anchor-id="read-boundaries-with-geopandas-combine"><span class="header-section-number">10.5.2.3</span> Read boundaries with GeoPandas + combine</h4>
 <div id="2e4f11e6" class="cell" data-execution_count="29">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2645,8 +2663,8 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </div>
 </div>
 </section>
-<section id="harmonize-a-few-district-names" class="level4" data-number="7.5.2.4">
-<h4 data-number="7.5.2.4" class="anchored" data-anchor-id="harmonize-a-few-district-names"><span class="header-section-number">7.5.2.4</span> Harmonize a few district names</h4>
+<section id="harmonize-a-few-district-names" class="level4" data-number="10.5.2.4">
+<h4 data-number="10.5.2.4" class="anchored" data-anchor-id="harmonize-a-few-district-names"><span class="header-section-number">10.5.2.4</span> Harmonize a few district names</h4>
 <div id="b87d9320" class="cell" data-execution_count="30">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2692,8 +2710,8 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </div>
 </div>
 </section>
-<section id="some-simple-fix-of-the-mismatches" class="level4" data-number="7.5.2.5">
-<h4 data-number="7.5.2.5" class="anchored" data-anchor-id="some-simple-fix-of-the-mismatches"><span class="header-section-number">7.5.2.5</span> Some simple fix of the mismatches</h4>
+<section id="some-simple-fix-of-the-mismatches" class="level4" data-number="10.5.2.5">
+<h4 data-number="10.5.2.5" class="anchored" data-anchor-id="some-simple-fix-of-the-mismatches"><span class="header-section-number">10.5.2.5</span> Some simple fix of the mismatches</h4>
 <div id="aab8cd40" class="cell" data-execution_count="31">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2722,8 +2740,8 @@ Example district names: ['Ansonia School District', 'Avon School District', 'Ber
 </div>
 </div>
 </section>
-<section id="join-attributes-to-geometry-prepare-centroids-for-labels" class="level4" data-number="7.5.2.6">
-<h4 data-number="7.5.2.6" class="anchored" data-anchor-id="join-attributes-to-geometry-prepare-centroids-for-labels"><span class="header-section-number">7.5.2.6</span> Join attributes to geometry + prepare centroids for labels</h4>
+<section id="join-attributes-to-geometry-prepare-centroids-for-labels" class="level4" data-number="10.5.2.6">
+<h4 data-number="10.5.2.6" class="anchored" data-anchor-id="join-attributes-to-geometry-prepare-centroids-for-labels"><span class="header-section-number">10.5.2.6</span> Join attributes to geometry + prepare centroids for labels</h4>
 <div id="27c8e6fe" class="cell" data-execution_count="32">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2860,8 +2878,8 @@ Significant polygons available for labels: 17</code></pre>
 </div>
 </div>
 </section>
-<section id="map-1-5-year-total-counts-can-be-misleading" class="level4" data-number="7.5.2.7">
-<h4 data-number="7.5.2.7" class="anchored" data-anchor-id="map-1-5-year-total-counts-can-be-misleading"><span class="header-section-number">7.5.2.7</span> Map 1: 5-year total counts (can be misleading)</h4>
+<section id="map-1-5-year-total-counts-can-be-misleading" class="level4" data-number="10.5.2.7">
+<h4 data-number="10.5.2.7" class="anchored" data-anchor-id="map-1-5-year-total-counts-can-be-misleading"><span class="header-section-number">10.5.2.7</span> Map 1: 5-year total counts (can be misleading)</h4>
 <div id="ac9c9a8d" class="cell" data-execution_count="33">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2905,8 +2923,8 @@ Significant polygons available for labels: 17</code></pre>
 </div>
 </div>
 </section>
-<section id="map-2-population-size" class="level4" data-number="7.5.2.8">
-<h4 data-number="7.5.2.8" class="anchored" data-anchor-id="map-2-population-size"><span class="header-section-number">7.5.2.8</span> Map 2: Population size</h4>
+<section id="map-2-population-size" class="level4" data-number="10.5.2.8">
+<h4 data-number="10.5.2.8" class="anchored" data-anchor-id="map-2-population-size"><span class="header-section-number">10.5.2.8</span> Map 2: Population size</h4>
 <div id="2d3dda4d" class="cell" data-execution_count="34">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2944,8 +2962,8 @@ Significant polygons available for labels: 17</code></pre>
 </div>
 </div>
 </section>
-<section id="map-3-rates-per-10000-more-comparable-but-noisier" class="level4" data-number="7.5.2.9">
-<h4 data-number="7.5.2.9" class="anchored" data-anchor-id="map-3-rates-per-10000-more-comparable-but-noisier"><span class="header-section-number">7.5.2.9</span> Map 3: Rates per 10,000 (more comparable, but noisier)</h4>
+<section id="map-3-rates-per-10000-more-comparable-but-noisier" class="level4" data-number="10.5.2.9">
+<h4 data-number="10.5.2.9" class="anchored" data-anchor-id="map-3-rates-per-10000-more-comparable-but-noisier"><span class="header-section-number">10.5.2.9</span> Map 3: Rates per 10,000 (more comparable, but noisier)</h4>
 <div id="c71152ea" class="cell" data-execution_count="35">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -2983,8 +3001,8 @@ Significant polygons available for labels: 17</code></pre>
 </div>
 </div>
 </section>
-<section id="map-4-significant-districts" class="level4" data-number="7.5.2.10">
-<h4 data-number="7.5.2.10" class="anchored" data-anchor-id="map-4-significant-districts"><span class="header-section-number">7.5.2.10</span> Map 4: Significant districts</h4>
+<section id="map-4-significant-districts" class="level4" data-number="10.5.2.10">
+<h4 data-number="10.5.2.10" class="anchored" data-anchor-id="map-4-significant-districts"><span class="header-section-number">10.5.2.10</span> Map 4: Significant districts</h4>
 <div id="83727017" class="cell" data-execution_count="36">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -3123,13 +3141,13 @@ Significant polygons available for labels: 17</code></pre>
 </section>
 </section>
 </section>
-<section id="explaining-differences-in-district-rates" class="level2" data-number="7.6">
-<h2 data-number="7.6" class="anchored" data-anchor-id="explaining-differences-in-district-rates"><span class="header-section-number">7.6</span> 3: Explaining differences in district rates</h2>
+<section id="explaining-differences-in-district-rates" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="explaining-differences-in-district-rates"><span class="header-section-number">10.6</span> 3: Explaining differences in district rates</h2>
 <p>In Parts 1–2, we treated each school district’s 2010–2014 rate as a <em>signal</em> and asked a simple screening question: which districts look unusually high or low compared to the state average? That’s a useful first step for surveillance, but it immediately raises the next question we discussed with our collaborators:</p>
 <p><strong>Why do rates differ across districts?</strong></p>
 <p>A high (or low) rate could reflect many things besides “true underlying risk,”” including differences in population size, random fluctuation, access to care, and the mix of community conditions that shape adolescent mental health. If our goal is not just to flag outliers, but to <strong>understand patterns and guide prevention planning</strong>, we need to move beyond “district A is higher than average” toward “district A is higher than expected <em>given what we know about the district</em>.”</p>
-<section id="a-working-hypothesis-context-matters" class="level3" data-number="7.6.1">
-<h3 data-number="7.6.1" class="anchored" data-anchor-id="a-working-hypothesis-context-matters"><span class="header-section-number">7.6.1</span> A working hypothesis: context matters</h3>
+<section id="a-working-hypothesis-context-matters" class="level3" data-number="10.6.1">
+<h3 data-number="10.6.1" class="anchored" data-anchor-id="a-working-hypothesis-context-matters"><span class="header-section-number">10.6.1</span> A working hypothesis: context matters</h3>
 <p>From both prior public-health research and local knowledge from stakeholders, we hypothesize that differences in severe suicidal behavior across districts may be related to <strong>community context</strong>, especially factors that are plausibly connected to stress, opportunity, support, and school climate.</p>
 <p>Two broad domains came up repeatedly in our conversations:</p>
 <ol type="1">
@@ -3149,8 +3167,8 @@ Significant polygons available for labels: 17</code></pre>
 <p>Do socioeconomic context and academic indicators help explain systematic differences in district rates, beyond what we would expect from random variation?</p>
 </blockquote>
 </section>
-<section id="why-this-step-matters" class="level3" data-number="7.6.2">
-<h3 data-number="7.6.2" class="anchored" data-anchor-id="why-this-step-matters"><span class="header-section-number">7.6.2</span> Why this step matters</h3>
+<section id="why-this-step-matters" class="level3" data-number="10.6.2">
+<h3 data-number="10.6.2" class="anchored" data-anchor-id="why-this-step-matters"><span class="header-section-number">10.6.2</span> Why this step matters</h3>
 <p>This explanatory step is useful, but it comes with responsibilities:</p>
 <ul>
 <li><strong>Avoid blaming communities or schools.</strong> Our goal is to understand patterns, not assign fault.</li>
@@ -3158,8 +3176,8 @@ Significant polygons available for labels: 17</code></pre>
 <li><strong>Recognize measurement limits.</strong> Our outcome combines rare deaths with inpatient hospitalizations, which are influenced by both behavior and the health-care system. Community predictors are also imperfect proxies.</li>
 </ul>
 </section>
-<section id="what-we-do-next" class="level3" data-number="7.6.3">
-<h3 data-number="7.6.3" class="anchored" data-anchor-id="what-we-do-next"><span class="header-section-number">7.6.3</span> What we do next</h3>
+<section id="what-we-do-next" class="level3" data-number="10.6.3">
+<h3 data-number="10.6.3" class="anchored" data-anchor-id="what-we-do-next"><span class="header-section-number">10.6.3</span> What we do next</h3>
 <p>To investigate these hypotheses, we worked with collaborators to obtain district-level measures related to:</p>
 <ul>
 <li><strong>Socioeconomic context</strong> (e.g., income/poverty proxies, family structure, housing, employment-related indicators)</li>
@@ -3171,8 +3189,8 @@ Significant polygons available for labels: 17</code></pre>
 <li><p>Explore correlations and redundancy. Many community indicators move together (e.g., poverty and unemployment). We’ll examine correlation structure to avoid feeding highly redundant variables into a model without thinking.</p></li>
 <li><p>Build a model to estimate the effects of district-level factors. We will fit a model that relates the outcome rate to district-level predictors and interpret estimated associations (direction, magnitude, uncertainty), while being transparent about the limits of observational data.</p></li>
 </ul>
-<section id="load-covariate-datasets-build-one-district-level-analysis-table" class="level4" data-number="7.6.3.1">
-<h4 data-number="7.6.3.1" class="anchored" data-anchor-id="load-covariate-datasets-build-one-district-level-analysis-table"><span class="header-section-number">7.6.3.1</span> Load covariate datasets + build one district-level analysis table</h4>
+<section id="load-covariate-datasets-build-one-district-level-analysis-table" class="level4" data-number="10.6.3.1">
+<h4 data-number="10.6.3.1" class="anchored" data-anchor-id="load-covariate-datasets-build-one-district-level-analysis-table"><span class="header-section-number">10.6.3.1</span> Load covariate datasets + build one district-level analysis table</h4>
 <div id="1ef298bb" class="cell" data-execution_count="38">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -3353,8 +3371,8 @@ Districts with all covariates missing after merge: 0</code></pre>
 </div>
 </div>
 </section>
-<section id="visualization-by-pca-and-k-means" class="level4" data-number="7.6.3.2">
-<h4 data-number="7.6.3.2" class="anchored" data-anchor-id="visualization-by-pca-and-k-means"><span class="header-section-number">7.6.3.2</span> Visualization by PCA and K-means</h4>
+<section id="visualization-by-pca-and-k-means" class="level4" data-number="10.6.3.2">
+<h4 data-number="10.6.3.2" class="anchored" data-anchor-id="visualization-by-pca-and-k-means"><span class="header-section-number">10.6.3.2</span> Visualization by PCA and K-means</h4>
 <div id="f7e5acc7" class="cell" data-execution_count="39">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -3684,8 +3702,8 @@ Chosen k (max silhouette): 2</code></pre>
 </div>
 </div>
 </section>
-<section id="t-sne-k-means-clustering" class="level4" data-number="7.6.3.3">
-<h4 data-number="7.6.3.3" class="anchored" data-anchor-id="t-sne-k-means-clustering"><span class="header-section-number">7.6.3.3</span> t-SNE + k-means clustering</h4>
+<section id="t-sne-k-means-clustering" class="level4" data-number="10.6.3.3">
+<h4 data-number="10.6.3.3" class="anchored" data-anchor-id="t-sne-k-means-clustering"><span class="header-section-number">10.6.3.3</span> t-SNE + k-means clustering</h4>
 <div id="d082492b" class="cell" data-execution_count="44">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -3842,8 +3860,8 @@ Chosen k (t-SNE): 5</code></pre>
 </div>
 </div>
 </section>
-<section id="umap-k-means-clustering-with-fallback" class="level4" data-number="7.6.3.4">
-<h4 data-number="7.6.3.4" class="anchored" data-anchor-id="umap-k-means-clustering-with-fallback"><span class="header-section-number">7.6.3.4</span> UMAP + k-means clustering (with fallback)</h4>
+<section id="umap-k-means-clustering-with-fallback" class="level4" data-number="10.6.3.4">
+<h4 data-number="10.6.3.4" class="anchored" data-anchor-id="umap-k-means-clustering-with-fallback"><span class="header-section-number">10.6.3.4</span> UMAP + k-means clustering (with fallback)</h4>
 <div id="41177aad" class="cell" data-execution_count="47">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -4075,8 +4093,8 @@ Chosen k (UMAP): 3</code></pre>
 </div>
 </div>
 </section>
-<section id="arcsinsqrt-transform-for-rateproportion-covariates" class="level4" data-number="7.6.3.5">
-<h4 data-number="7.6.3.5" class="anchored" data-anchor-id="arcsinsqrt-transform-for-rateproportion-covariates"><span class="header-section-number">7.6.3.5</span> Arcsin–sqrt transform for rate/proportion covariates</h4>
+<section id="arcsinsqrt-transform-for-rateproportion-covariates" class="level4" data-number="10.6.3.5">
+<h4 data-number="10.6.3.5" class="anchored" data-anchor-id="arcsinsqrt-transform-for-rateproportion-covariates"><span class="header-section-number">10.6.3.5</span> Arcsin–sqrt transform for rate/proportion covariates</h4>
 <div id="0f7f7b31" class="cell" data-execution_count="49">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -4245,8 +4263,8 @@ Chosen k (UMAP): 3</code></pre>
 </div>
 </div>
 </section>
-<section id="correlation-structure-of-covariates-after-transform" class="level4" data-number="7.6.3.6">
-<h4 data-number="7.6.3.6" class="anchored" data-anchor-id="correlation-structure-of-covariates-after-transform"><span class="header-section-number">7.6.3.6</span> Correlation structure of covariates (after transform)</h4>
+<section id="correlation-structure-of-covariates-after-transform" class="level4" data-number="10.6.3.6">
+<h4 data-number="10.6.3.6" class="anchored" data-anchor-id="correlation-structure-of-covariates-after-transform"><span class="header-section-number">10.6.3.6</span> Correlation structure of covariates (after transform)</h4>
 <div id="1bf921c1" class="cell" data-execution_count="50">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -4292,8 +4310,8 @@ Chosen k (UMAP): 3</code></pre>
 </div>
 </div>
 </section>
-<section id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1" class="level4" data-number="7.6.3.7">
-<h4 data-number="7.6.3.7" class="anchored" data-anchor-id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1"><span class="header-section-number">7.6.3.7</span> Build a social-economic factor (PC1) and an academic factor (PC1)</h4>
+<section id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1" class="level4" data-number="10.6.3.7">
+<h4 data-number="10.6.3.7" class="anchored" data-anchor-id="build-a-social-economic-factor-pc1-and-an-academic-factor-pc1"><span class="header-section-number">10.6.3.7</span> Build a social-economic factor (PC1) and an academic factor (PC1)</h4>
 <p>We’ll use two groups of covariates and extract a <strong>single latent factor</strong> from each group using PCA on standardized variables.</p>
 <div id="568194fa" class="cell" data-execution_count="51">
 <details class="code-fold">
@@ -4432,8 +4450,8 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 </div>
 </div>
 </div>
-<section id="add-the-two-factor-scores-back-into-district-covariate-table" class="level5" data-number="7.6.3.7.1">
-<h5 data-number="7.6.3.7.1" class="anchored" data-anchor-id="add-the-two-factor-scores-back-into-district-covariate-table"><span class="header-section-number">7.6.3.7.1</span> Add the two factor scores back into district covariate table</h5>
+<section id="add-the-two-factor-scores-back-into-district-covariate-table" class="level5" data-number="10.6.3.7.1">
+<h5 data-number="10.6.3.7.1" class="anchored" data-anchor-id="add-the-two-factor-scores-back-into-district-covariate-table"><span class="header-section-number">10.6.3.7.1</span> Add the two factor scores back into district covariate table</h5>
 <div id="5b4d3beb" class="cell" data-execution_count="52">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -4504,12 +4522,12 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 </ul>
 </section>
 </section>
-<section id="poisson-regression" class="level4" data-number="7.6.3.8">
-<h4 data-number="7.6.3.8" class="anchored" data-anchor-id="poisson-regression"><span class="header-section-number">7.6.3.8</span> Poisson regression</h4>
+<section id="poisson-regression" class="level4" data-number="10.6.3.8">
+<h4 data-number="10.6.3.8" class="anchored" data-anchor-id="poisson-regression"><span class="header-section-number">10.6.3.8</span> Poisson regression</h4>
 <p>Poisson random-intercept model, using <strong>yearly district counts</strong> with a <strong>log(population) offset</strong>, fixed effects for <code>social_factor</code>, <code>acad_factor</code>, and <code>year</code>, and a <strong>district random intercept</strong>.</p>
 <p>In Python, we will use <code>statsmodels.genmod.bayes_mixed_glm.PoissonBayesMixedGLM</code> (a Poisson GLMM fit with variational Bayes).</p>
-<section id="build-dat1-in-long-format-district-year" class="level5" data-number="7.6.3.8.1">
-<h5 data-number="7.6.3.8.1" class="anchored" data-anchor-id="build-dat1-in-long-format-district-year"><span class="header-section-number">7.6.3.8.1</span> 1) Build <code>dat1</code> in long format (district × year)</h5>
+<section id="build-dat1-in-long-format-district-year" class="level5" data-number="10.6.3.8.1">
+<h5 data-number="10.6.3.8.1" class="anchored" data-anchor-id="build-dat1-in-long-format-district-year"><span class="header-section-number">10.6.3.8.1</span> 1) Build <code>dat1</code> in long format (district × year)</h5>
 <div id="121acae0" class="cell" data-execution_count="53">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -4669,8 +4687,8 @@ Social factor (PC1) variance explained: 0.619</code></pre>
 </div>
 </div>
 </section>
-<section id="fit-poisson-regression-model" class="level5" data-number="7.6.3.8.2">
-<h5 data-number="7.6.3.8.2" class="anchored" data-anchor-id="fit-poisson-regression-model"><span class="header-section-number">7.6.3.8.2</span> 2) Fit Poisson regression model</h5>
+<section id="fit-poisson-regression-model" class="level5" data-number="10.6.3.8.2">
+<h5 data-number="10.6.3.8.2" class="anchored" data-anchor-id="fit-poisson-regression-model"><span class="header-section-number">10.6.3.8.2</span> 2) Fit Poisson regression model</h5>
 <p>Model: [ y_{d,t} (<em>{d,t}), (</em>{d,t})=(pop_{d,t})+_0+_1 social+_2 acad+_t]</p>
 <div id="7e1306ac" class="cell" data-execution_count="54">
 <details class="code-fold">
@@ -4822,8 +4840,8 @@ factor_academic     0.0811      0.016      5.045      0.000       0.050       0.
 </section>
 </section>
 </section>
-<section id="exponentiate-fixed-effects-for-rate-ratios" class="level3" data-number="7.6.4">
-<h3 data-number="7.6.4" class="anchored" data-anchor-id="exponentiate-fixed-effects-for-rate-ratios"><span class="header-section-number">7.6.4</span> 3) Exponentiate fixed effects for rate ratios</h3>
+<section id="exponentiate-fixed-effects-for-rate-ratios" class="level3" data-number="10.6.4">
+<h3 data-number="10.6.4" class="anchored" data-anchor-id="exponentiate-fixed-effects-for-rate-ratios"><span class="header-section-number">10.6.4</span> 3) Exponentiate fixed effects for rate ratios</h3>
 <div id="fcbc534e" class="cell" data-execution_count="55">
 <details class="code-fold">
 <summary>Show Python</summary>
@@ -5373,13 +5391,13 @@ Name: loading, dtype: float64</code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../06-topics.html" class="pagination-link" aria-label="Various topics">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Various topics</span></span>
+      <a href="../09-topics-AMAI.html" class="pagination-link" aria-label="Advanced Methods &amp; AI">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Advanced Methods &amp; AI</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../95-exercises.html" class="pagination-link" aria-label="Homework">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Homework</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Homework</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
