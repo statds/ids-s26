@@ -374,9 +374,9 @@ Please use the following table to sign up.
    03/09 | Trnka, Jonathan | LLM Agents
    03/11 | Orsini, Ronnie | Logistic Regression
    03/11 | Patel, Vrajkumar |
-   03/23 | Liu, Kevin | Natural leanguage processing
+   03/23 | Liu, Kevin | Natural language processing
    03/23 | Landolphi, Joseph | Grammar of graphics
-   03/25 | Mohan, Harish | [Large language models (LLM)]{style="color:red;"}
+   03/25 | Mohan, Harish | Large language models (LLM)
    03/30 | Carbone, Vincenzo | Neural networks (used in predicting sports statistics)
    03/30 | Bennett, Emily | Lasso
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
