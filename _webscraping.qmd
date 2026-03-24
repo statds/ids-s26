@@ -1,0 +1,302 @@
+
+
+The presentation was made by Sean Tessman.
+
+### Introduction
+
+#### What is Web Scraping?
+
+-   Web Scraping is essentially using code to automatically pull information from websites, rather than copy-pasting it by hand.
+-   Websites organize their data using HTML, which is just the basic structure behind what you see on a webpage.
+-   Scraping lets us take information from a website and turn it into an organized table of data that we can actually work with and analyze.
+
+------------------------------------------------------------------------
+
+### Why It Matters in Data Science
+
+-   A lot of real-world data isn't properly available as a downloadable CSV file.
+-   Web scraping helps us to:
+    -   Gather information that's publicly available online.
+    -   Create our own datasets from websites
+    -   Save us time by collecting data automatically
+-   It helps turn raw information from the web into something we can analyze and visualize.
+
+------------------------------------------------------------------------
+
+### How Web Pages Work
+
+### HTML Basics
+
+Web pages are structured using HTML tags such as:
+
+-   `<div>` –\> Used to group sections of a page
+-   `<p>` –\> Used for paragraphs of text
+-   `<a>` –\> Used for links
+-   `<table>` –\> Used to display data in rows and columns
+
+When we scrape a website, we look for the specific tag that contains the information we want and pull that content out.
+
+------------------------------------------------------------------------
+
+### Static vs Dynamic Websites
+
+#### Static websites (easier to scrape)
+
+-   The data is already in the HTML you downloaded.
+-   When you request the page, the content you need is usually right there.
+-   Tools like `requests`, `pandas.read_html()`, and BeautifulSoup work well.
+
+#### Dynamic websites (harder to scrape)
+
+-   The page loads, then JavaScript pulls in the data after.
+-   The first HTML you download might be missing the info you want.
+-   You may need Selenium/Playwright, or sometimes an API that the page is calling.
+
+#### Why this matters
+
+If a site is dynamic, your scraper might “work” but return empty results.
+
+------------------------------------------------------------------------
+
+### The Basic Workflow
+
+1.  **Pick a website**\
+    Make sure the data is public and allowed to be collected.
+
+2.  **Download the page**\
+    Send a request to get the website’s HTML.
+
+3.  **Extract the data**\
+    Pull the specific tables, text, or elements you need.
+
+4.  **Clean and analyze**\
+    Organize the data into a usable format and create visuals or summaries.
+
+    ------------------------------------------------------------------------
+
+### Using BeautifulSoup
+
+#### What is BeautifulSoup
+
+BeautifulSoup is a Python tool that helps you look through and pull information from a webpage's HTML code. While `pandas.read_html()` is useful for grabbing whole tables, BeautifulSoup is better when you want specific things like text, links, or section titles. It works by organizing the HTML into a structure that makes it easier to search and extract exactly what you need.
+
+#### Why use BeautifulSoup?
+-   Get text that isn't in a table\
+-   Grab links or other small pieces of information\
+-   Look for specific parts of a page, like `div`, `p`, or `span`\
+-   Work with more complicated pages
+
+It's most helpful when the data isn't neatly organized in a table.
+
+For structured tables –\> use `pandas.read_html()` 
+
+For flexible HTML parsing –\> use BeautifulSoup
+
+------------------------------------------------------------------------
+
+### Python Setup
+
+#### Required Libraries
+
+```{python}
+import requests
+import pandas as pd
+from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
+```
+
+------------------------------------------------------------------------
+
+### Example: Scraping a Public Table (Wikipedia)
+
+#### Step 1: Choose a Page
+
+We’ll scrape a public population table from Wikipedia:
+
+```{python}
+url = "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population"
+url
+```
+
+------------------------------------------------------------------------
+
+#### Step 2: Request the Page
+
+```{python}
+headers = {
+    "User-Agent": "DataSciencePresentaion-WebScraping"
+}
+
+response = requests.get(url, headers=headers, timeout=30)
+response.status_code
+```
+
+##### What The Code Does:
+
+-   Sets up a header for the website to know who is making the request
+
+-   Sends a request to the webpage
+
+-   waits up to 30 seconds for a response
+
+-   Saves the webpage's response in a variable called `response`
+
+-   Prints the status code from the website
+
+------------------------------------------------------------------------
+
+#### Step 3: Extract the Table into a DataFrame
+
+Instead of going through each table row and cell by one, we can use `pandas.read_html()` to automatically grab the whole table from the webpage.
+
+```{python}
+from io import StringIO
+
+tables = pd.read_html(StringIO(response.text))
+len(tables)
+```
+
+Wikipedia pages usually have several tables on them. We'll just pick the main sortable table that has the "State or territory" column in it.
+
+```{python}
+df = None
+for t in tables:
+    cols = [str(c).lower() for c in t.columns]
+    if any("state or territory" in c for c in cols):
+        df = t
+        break
+
+df.head()
+```
+
+------------------------------------------------------------------------
+
+#### Step 4: Clean the Data
+
+This table usually includes a few “summary” rows that aren’t actual states. We’ll remove them and clean the population column.
+
+```{python}
+df.columns = [str(c).strip().lower().replace(" ", "_") for c in df.columns]
+
+state_candidates = [c for c in df.columns if "state" in c and "territory" in c]
+if not state_candidates:
+    state_candidates = [c for c in df.columns if "state" in c]
+
+if not state_candidates:
+    raise ValueError(f"Couldn't find a state column. Columns are: {df.columns.tolist()}")
+
+state_col = state_candidates[0]
+
+pop_candidates = [c for c in df.columns if "population" in c]
+if not pop_candidates:
+    raise ValueError(f"Couldn't find a population column. Columns are: {df.columns.tolist()}")
+
+pop_col = pop_candidates[0]
+
+df["population"] = (
+    df[pop_col].astype(str)
+      .str.replace(",", "", regex=False)
+)
+
+df["population"] = pd.to_numeric(df["population"], errors="coerce")
+
+df["state_clean"] = (
+    df[state_col].astype(str).str.strip().str.lower().str.replace(" ", "_", regex=False)
+)
+
+bad_rows = {"the_50_states_and_d.c.", "the_50_states", "contiguous_united_states"}
+df_clean = df[~df["state_clean"].isin(bad_rows)].copy()
+
+df_clean = df_clean.dropna(subset=["population"])
+
+df_clean[[state_col, "population"]].head()
+```
+
+This section cleans and prepares the data so it's ready to analyze. It standardizes the column names, finds the correct state and population columns, and converts the population values into numbers. It also removes summary rows and any missing values so we are only working with actual states and usable data.
+
+------------------------------------------------------------------------
+
+### Example Visualization
+
+#### Top 10 States by Population
+
+```{python}
+top10 = df_clean.sort_values("population", ascending=False).head(10)
+
+plt.figure(figsize=(10, 6))
+
+plt.barh(top10[state_col].astype(str)[::-1], top10["population"][::-1])
+
+plt.title("Top 10 U.S. States by Population")
+plt.xlabel("Population")
+plt.ylabel("")
+plt.tight_layout()
+plt.show()
+```
+
+------------------------------------------------------------------------
+
+### Saving the Data
+
+#### Export to CSV
+
+```{python}
+df_clean.to_csv("scraped_population_table.csv", index=False)
+"Saved: scraped_population_table.csv"
+```
+
+------------------------------------------------------------------------
+
+### Scraping Text (Not Just Tables)
+
+#### Example: Pull a Few Headings with BeautifulSoup
+
+This here shows how scraping isn't just for tables.
+
+```{python}
+soup = BeautifulSoup(response.text, "html.parser")
+
+headings = [h.get_text(strip=True) for h in soup.find_all(["h2", "h3"])]
+
+headings[:10]
+
+```
+
+------------------------------------------------------------------------
+
+### Scraping Responsibly
+
+-   Look at the website's robots.txt file and read its rules before scraping (Terms of Service)
+-   Don't send too many requests too quickly --\> add pauses if you're looping.
+-   Stick to publicly available information.
+-   Be considerate and make sure your scraping doesn't slow the site down.
+
+------------------------------------------------------------------------
+
+### Limitations
+
+-   Websites can change their layout, which can cause your scraping code to stop working.
+-   Some sites load content using JavaScript, so you might need a tool like Selenium or an API instead
+-   There are legal and ethical rules you have to follow when scraping.
+
+------------------------------------------------------------------------
+
+### Conclusion
+
+-   Web scraping helps you collect public data from websites automatically.
+-   It’s useful when the data isn’t already in a CSV.
+-   Tables can be pulled with `pandas.read_html()`, and text/links can be pulled with BeautifulSoup.
+-   APIs are usually more stable when they exist.
+-   Scraping can break if a website changes, so it needs maintenance.
+
+### References
+
+Wikipedia contributors. (2025). *List of U.S. states and territories by population*. Wikipedia.\
+<https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_population>
+
+CCS Learning Academy. (2024). *What is web scraping?*\
+[https://www.ccslearningacademy.com/what-is-web-scraping/](https://www.ccslearningacademy.com/what-is-web-scraping/?utm_source=chatgpt.com)
+
+Real Python. (2024). *Beautiful Soup: Build a web scraper with Python*.\
+[https://realpython.com/beautiful-soup-web-scraper-python/](https://realpython.com/beautiful-soup-web-scraper-python/?utm_source=chatgpt.com)
+
