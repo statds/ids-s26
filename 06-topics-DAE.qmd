@@ -1,0 +1,13 @@
+# Data Acquisition & Engineering
+
+## Import and Export Data
+
+{{< include _ImportExportData.qmd >}}
+
+## Database Operation with Structured Query Language(SQL)
+
+{{< include _SQL_and_Data_Manipulation.qmd >}}
+
+## Web Scraping
+
+{{< include _webscraping.qmd >}}

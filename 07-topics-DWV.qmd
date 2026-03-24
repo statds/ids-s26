@@ -1,0 +1,9 @@
+# Data Wrangling & Visualization
+
+## Data Manipulation with Pandas
+
+{{< include _pandas.qmd >}}
+
+## Grammar of Graphics
+
+{{< include _grammar_of_graphics.qmd >}}
