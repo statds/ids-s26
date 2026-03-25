@@ -55,7 +55,7 @@ execute:
 
 ## Simple Diagram
 
-![Neural network diagram](simple_diagram.png)
+![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
 # What Happens Inside a Neural Network?
 
@@ -90,7 +90,7 @@ $$
   - If input is negative → output is 0
   - If input is positive → keep it
 
-![Neuron diagram](neuron_diagram.avif)
+![Neuron diagram](neural-network-diagrams/neuron_diagram.png)
 
 ## Why This Matters
 
@@ -271,7 +271,7 @@ y = all_df[["pts","trb","ast"]]
 - Hidden Layer 2 → 32 neurons (ReLU)
 - Output Layer → 3 neurons (PTS, TRB, AST)
 
-![Neural network diagram](simple_diagram.png)
+![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
 ## Why 64 and 32?
 
