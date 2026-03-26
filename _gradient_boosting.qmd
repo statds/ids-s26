@@ -1,6 +1,28 @@
----
-title: "Untitled"
-format: html
----
+# Gradient Boosting
+This presentation was prepared by Violet LaCasse.
 
-test
+## Introduction
+
+This presentation will:
+
+* Define Gradient Boosting (and boosting)
+
+* Provide examples of Gradient Boosting in regression and Gradient Boosting in classification
+
+* Discuss the advantages and disadvantages of Gradient Boosting
+
+
+## What is Boosting?
+
+**Boosting**: an iterative *ensemble learning* technique that takes multiple weaker predictive models to create a single stronger model
+
+* **Ensemble learning**: combining multiple models to create a new (better) one
+
+* Models are also referred to as "learners"
+
+    + A "weak learner" is only slightly better than random guessing
+
+Boosting improves predictive accuracy by having each new model correct the mistakes of the previous one.
+
+## What is Gradient Boosting?
+
