@@ -54,3 +54,26 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
 ## What is Gradient Boosting?
 
+**Gradient Boosting**: a type of boosting that uses *gradient descent* to minimize the *loss function*
+
+* **Loss function**: a quantifiable measure of how good or bad a model is at predicting a value compared to the actual value
+
+    + Commonly MSE (mean squared error) for regression
+
+    + Commonly cross-entropy (difference between predicted probability distribution and actual probability distribution) for classification
+
+    + Smaller loss means more accurate predictions
+
+* **Gradient descent**: an optimization algorithm that minimizes prediction error by adjusting the model's parameters (in this case, weights of the data points)
+
+    + **Gradient**: the slope of the loss function that tells the algorithm which way to "step" to minimize the loss function...
+
+        - ...and therefore how to adjust the model's parameters (weights)
+    
+    + **Learning rate**: the size of each iterative "step" the algorithm takes to minimize the loss function
+
+        - Too small: waste of computational resources
+        
+        - Too big: might miss the minimum of the function entirely
+        
+**Essentially**, the goal is to use iteration to weight the data points in the training set in a way that minimizes the loss function (error) and therefore optimizes predictive accuracy.
