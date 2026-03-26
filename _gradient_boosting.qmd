@@ -24,5 +24,33 @@ This presentation will:
 
 Boosting improves predictive accuracy by having each new model correct the mistakes of the previous one.
 
+### Generally four major steps in boosting:
+
+1. Selecting initial weights
+
+All data points in the training set are given **equal** initial weights.
+
+2. Sequential training
+
+The first model (for example, a simple decision tree model) is trained using the previously weighted data. The performance of this model is usually weak (a "weak learner").
+
+So, we take the data points that the model misclassified and give them **higher weights** than points that were identified correctly, assigning them more importance in the next model.
+
+3. Iterating
+
+Having addressed the mistakes from the previous model, this next model's performance is evaluated. Misclassified data points have their weights increased.
+
+This process is **repeated multiple times** until there is an ensemble of weak models with varying predictive accuracies.
+
+4. Aggregating
+
+The predictions of all the weak models in the ensemble are aggregated to **create a final predictive model**.
+
+Models that have higher predictive accuracy relative to the others in the ensemble have more influence on the final model.
+
+Finally, the resulting model can be used with the test set to evaluate the model's overall performance.
+
+Boosting can be contrasted with Bagging (see Random Forests).
+
 ## What is Gradient Boosting?
 
