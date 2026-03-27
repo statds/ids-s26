@@ -1,6 +1,4 @@
-## Decision Trees
-**by Riley Sawyer**
-
+This presentation was prepared by Riley Sawyer.
 
 ### Introduction
 Decision trees (DTs) are non-paremtreic supervised learning method used for classification and regression. This presentation will cover:

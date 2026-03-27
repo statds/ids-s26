@@ -24,8 +24,14 @@ book:
     - 03-quarto.qmd
     - 04-python.qmd
     - 05-ethics_communiacation.qmd
-    - 06-topics.qmd
+    - 06-topics-DAE.qmd
+    - 07-topics-DWV.qmd
+    - 08-topics-SMML.qmd
+    - 09-topics-AMAI.qmd
     - 01-case-study/01-case-study.qmd
+    - 04-case-study/04_case_study_simpsons_paradox.qmd
+    - 02-case-study/02-case-study-protein-clustering.qmd
+    - 03-case-study/03-case-study-multiple-testing.qmd
    # - 05-visualization.qmd
    # - 06-manipulation.qmd
    # - 07-exploration.qmd

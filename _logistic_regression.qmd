@@ -1,8 +1,7 @@
-## Logistic Regression
-**by Ronnie Orsini**
+This presentation was prepared by Ronnie Orsini.
 
 
-## Regression idea
+### Regression idea
 
 Before talking about logistic regression, it helps to briefly understand
 what regression means in statistics.
@@ -38,7 +37,7 @@ Here:
 Linear regression works well when the response variable is a continuous
 number, such as price, temperature, or revenue.
 
-## Classification problem
+### Classification problem
 
 In many real-world situations, we are not trying to predict a numerical
 value. Instead, we want to predict **which category an observation
@@ -73,7 +72,7 @@ $$
 which means the probability that the outcome is 1 given the predictor
 variables \(X\).
 
-### Example: Insider trading project
+#### Example: Insider trading project
 
 As an example, in a data science project I worked on last semester,
 we looked at whether politicians were outperforming the stock market
@@ -106,7 +105,7 @@ This is exactly the type of situation where **logistic regression is
 more appropriate than linear regression**.
 
 
-## Why linear regression fails for classification
+### Why linear regression fails for classification
 
 At first, it might seem like we could still use linear regression for
 classification problems.
@@ -190,7 +189,7 @@ Because of these issues, we need a model that:
 
 This is where **logistic regression** comes in.
 
-## Logistic regression solution
+### Logistic regression solution
 
 To solve the problems with linear regression, we need a model that
 predicts **probabilities between 0 and 1**.
@@ -239,7 +238,7 @@ Because of this transformation, logistic regression avoids the main
 problem of linear regression. Predictions are always valid
 probabilities.
 
-## Interpreting logistic regression predictions
+### Interpreting logistic regression predictions
 
 Logistic regression produces a **predicted probability** that an
 observation belongs to class 1.
@@ -265,7 +264,7 @@ A common rule is to use a **threshold of 0.5**:
 The threshold does not always have to be 0.5. In some applications it
 may be adjusted depending on the cost of incorrect predictions.
 
-## Logistic regression in Python
+### Logistic regression in Python
 
 Up to this point we have discussed how logistic regression works conceptually. Now we will look at a simple example of how it can be implemented in Python.
 
@@ -280,7 +279,7 @@ The response variable is binary:
 
 This makes it a **binary classification problem**, which is exactly the type of situation where logistic regression is commonly used.
 
-### Step 1: Import libraries
+#### Step 1: Import libraries
 
 First we import the libraries needed to run logistic regression.
 ```{python}
@@ -298,7 +297,7 @@ These modules allow us to:
 - split the data into training and testing sets
 - evaluate model performance
 
-### Step 2: Load the dataset
+#### Step 2: Load the dataset
 
 Next we load the dataset and separate the predictor variables and the response variable.
 ```{python}
@@ -316,7 +315,7 @@ Here:
 - `X` contains the predictor variables
 - `y` contains the response variable (0 or 1)
 
-### Step 3: Split the data
+#### Step 3: Split the data
 
 Before training the model, we split the data into training and testing sets so we can evaluate how well the model performs on new data.
 ```{python}
@@ -330,7 +329,7 @@ In this case:
 - 80% of the data is used for training
 - 20% of the data is used for testing
 
-### Step 4: Train the model
+#### Step 4: Train the model
 
 Now we create the logistic regression model and train it using the training data.
 ```{python}
@@ -353,7 +352,7 @@ $$
 The .fit() function allows the model to learn the relationship between the predictor variables and the response variable.
 
 
-### Step 5: Make predictions
+#### Step 5: Make predictions
 
 Once the model has been trained, we can use it to predict outcomes for the testing data.
 ```{python}
@@ -365,7 +364,7 @@ These predictions are class labels:
 - 0 → predicted cancerous
 - 1 → predicted not cancerous
 
-### Step 6: Predict probabilities
+#### Step 6: Predict probabilities
 
 Logistic regression can also estimate the probability that an observation belongs to each class.
 ```{python}
@@ -388,7 +387,7 @@ This means the model estimates:
 • 12.17% probability the tumor is cancerous  
 • 87.83% probability the tumor is not cancerous
 
-### Step 7: Evaluate model performance
+#### Step 7: Evaluate model performance
 
 Finally, we evaluate how well the model performs using several common metrics.
 ```{python}
@@ -419,11 +418,11 @@ tumors that are not cancerous.
 Overall, these results suggest that the logistic regression model performs very well on this classification 
 task and is able to correctly classify most tumors in the dataset.
 
-## Advantages and limitations of logistic regression
+### Advantages and limitations of logistic regression
 
 Like any statistical model, logistic regression has both strengths and limitations. Understanding these helps us decide when it is a good model to use and when another method might be better.
 
-### Advantages
+#### Advantages
 
 • Easy to interpret  
 
@@ -445,7 +444,7 @@ Logistic regression is also relatively fast to train and does not require extrem
 
 Because of this, it is often used as a **baseline model** when starting a new classification problem.
 
-### Limitations
+#### Limitations
 
 • Assumes a linear relationship in the log-odds  
 
@@ -465,7 +464,7 @@ If predictor variables are highly correlated with each other, the estimated coef
 
 This can sometimes make it difficult to understand the true effect of each predictor on the outcome.
 
-### When logistic regression works well
+#### When logistic regression works well
 
 In practice, logistic regression tends to work well when
 
@@ -475,7 +474,7 @@ In practice, logistic regression tends to work well when
 
 Because of these properties, logistic regression is widely used in areas such as medicine, finance, and risk analysis.
 
-### Works Cited
+#### Works Cited
 
 [Scikit-learn Logistic Regression Documentation](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)
 
@@ -483,4 +482,3 @@ Because of these properties, logistic regression is widely used in areas such as
 
 [Logistic Regression Explained](https://towardsdatascience.com/logistic-regression-detailed-overview-46c4da4303bc)
 
-## Thank You

@@ -189,7 +189,10 @@ Markdown.
     - Use git better in a collobrative environment and more complex commands
     - Apply data analysis to translate data to real-world results
     - Understand the use of Quarto in data analysis
-+ Mccabe, Scott
++ McCabe, Scott
+    - Become more comfortable with using Python
+    - Gain an understand of using GitHub for collaborative work
+    - Learn different strategies for analyzing data sets
 + Mohan, Harish
     - Enhance my skills in python
     - Gain expertise in working with raw data and translating it to real world results
@@ -368,19 +371,19 @@ Please use the following table to sign up.
    03/04 | Jones, Cody | Visualizing Spatial Data
    03/04 | Davis, Reid | Markov Chains in Python
    03/09 | Lawrence, Claire | Accessing US Census Data
-   03/09 | Trnka, Jonathan | LLM Agents 
+   03/09 | Trnka, Jonathan | LLM Agents
    03/11 | Orsini, Ronnie | Logistic Regression
    03/11 | Patel, Vrajkumar |
-   03/23 | Liu, Kevin | Natural leanguage processing
-  03/23 | Landolphi, Joseph | Grammar of graphics
-   03/25 | Burns, Kyle | Support vector machine
-   03/25 | Mohan, Harish | [Large language models (LLM)]{style="color:red;"}
+   03/23 | Liu, Kevin | Natural language processing
+   03/23 | Landolphi, Joseph | Grammar of graphics
+   03/25 | Mohan, Harish | Large language models (LLM)
    03/30 | Carbone, Vincenzo | Neural networks (used in predicting sports statistics)
    03/30 | Bennett, Emily | Lasso
    04/01 | Budnick, Kayleigh | Statistical analysis for proportions and rates
    04/01 | Ibrahim, Omar | Deep learning 
    04/06 | Patel, Reesha | Intro to PowerBi & Tableau for Data Visualization
-   04/06 | Zhang, Jianan |
+   04/06 | Burns, Kyle | Support vector machine
+   04/06 | Whitlow, Mallory | 
    04/08 | Mccabe, Scott |
    04/08 | Lacasse, Violet | Gradient boosting machine
    04/13 | Wolven, Alexander | [Neural Networks Basics]{style="color:red;"} 
@@ -395,14 +398,36 @@ is available under the `templates` directory in
 the classnotes source tree, thank to Zachary Blanchard, which can
 be used as a template to start with.
 
-   Date  | Presenter
-  ------ | ---------------------- 
-   04/15 |  
-   04/20 |  
-   04/22 |  
-   04/27 |    
-   04/29 | 
-   Scheduled Final Exam Time| 
+  Date  | Location | Presenter
+  ------ | -------- | ----------------------
+  04/15 | AUST 313 | Desai, Alysha
+  04/15 | AUST 313 | Kwak, Jinha
+  04/15 | AUST 313 | Sudarsanam, Shreya
+  04/15 | AUST 313 | Sawyer, Riley
+  04/20 | AUST 313 | Faisal, Zaynab
+  04/20 | AUST 313 | Tessman, Sean
+  04/20 | AUST 313 | Watanabe, Sara
+  04/20 | AUST 313 | Jiang, Ryan
+  04/22 | AUST 313 | Jones, Cody
+  04/22 | AUST 313 | Davis, Reid
+  04/22 | AUST 313 | Lawrence, Claire
+  04/22 | AUST 313 | Trnka, Jonathan
+  04/27 | AUST 313 | Orsini, Ronnie
+  04/27 | AUST 313 | Patel, Vrajkumar
+  04/27 | AUST 313 | Liu, Kevin
+  04/27 | AUST 313 | Landolphi, Joseph
+  04/29 | AUST 313 | Mohan, Harish
+  04/29 | AUST 313 | Carbone, Vincenzo
+  04/29 | AUST 313 | Bennett, Emily
+  04/29 | AUST 313 | Budnick, Kayleigh
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Ibrahim, Omar
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Patel, Reesha
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Burns, Kyle
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Whitlow, Mallory
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Mccabe, Scott
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Lacasse, Violet
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Wolven, Alexander
+  05/08, 8:00 AM to 10:00 AM | AUST 313 | Zharyy, Sofia
 
   
 ### Contributing to the Class Notes

@@ -1,0 +1,17 @@
+# Statistical Modeling & Machine Learning
+
+## K-Means Clustering
+
+{{< include _kmeans.qmd >}}
+
+## Logistic Regression
+
+{{< include _logistic_regression.qmd >}}
+
+## Decision Trees
+
+{{< include _decision_trees.qmd >}}
+
+## Random Forests
+
+{{< include _random_forests.qmd >}}
