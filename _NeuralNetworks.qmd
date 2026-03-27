@@ -281,8 +281,6 @@ y = all_df[["pts","trb","ast"]]
 - Second layer (32):
   - Refines and simplifies those patterns
 
-(insert code)
-
 ## Training the Model
 
 - The model learns by adjusting:
@@ -300,7 +298,7 @@ X_scaled = scaler.fit_transform(X)
 ```
 
 - Random training/testing split, rows are shuffled before splitting so the model sees different players and different seasons
-- **random_state=42** sets the random seed just saw the data splits the same time every run.  
+- **random_state=42** sets the random seed just so the data splits the same time every run.  
 
 ```{python}
 # Train/test split
