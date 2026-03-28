@@ -32,7 +32,7 @@ All data points in the training set are given **equal** initial weights.
 
 2. Sequential training
 
-The first model (for example, a simple decision tree model) is trained using the previously weighted data. The performance of this model is usually weak (a "weak learner").
+The first model is trained using the previously weighted data. The performance of this model is usually weak (a "weak learner").
 
 So, we take the data points that the model misclassified and give them **higher weights** than points that were identified correctly, assigning them more importance in the next model.
 
@@ -77,3 +77,56 @@ Boosting can be contrasted with Bagging (see Random Forests).
         - Too big: might miss the minimum of the function entirely
         
 **Essentially**, the goal is to use iteration to weight the data points in the training set in a way that minimizes the loss function (error) and therefore optimizes predictive accuracy.
+
+## Gradient Boosting: Regression
+
+For an example of Gradient Boosting in regression, we will be using the sklearn California housing dataset.
+
+```{python}
+import sklearn
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import fetch_california_housing
+
+# load data as dataframe
+housing = fetch_california_housing(as_frame = True)
+```
+
+Basic info about the dataset:
+
+```{python}
+housing.frame.head()
+# housing.frame.shape
+# housing.frame.isnull().sum()
+```
+
+```{python}
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import r2_score
+from sklearn.model_selection import train_test_split
+
+X = housing.data
+y = housing.target # MedHouseVal
+
+train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.2, random_state = 3255)
+
+gb_reg = GradientBoostingRegressor(loss = 'squared_error',
+learning_rate = 0.1,
+n_estimators = 500,
+random_state = 3255)
+
+gb_reg.fit(train_X, train_y)
+
+pred_y = gb_reg.predict(test_X)
+
+mse_reg = mean_squared_error(test_y, pred_y)
+r2_reg = r2_score(test_y, pred_y)
+
+print(f'MSE: {mse_reg}')
+print(f'RMSE: {mse_reg ** (1/2)}')
+print(f'R2: {r2_reg}')
+```
+
+In the context of the problem (predicting housing prices), this MSE is quite low, and the RMSE tells us that 
