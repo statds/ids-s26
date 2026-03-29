@@ -26,23 +26,23 @@ Boosting improves predictive accuracy by having each new model correct the mista
 
 ### Generally four major steps in boosting:
 
-1. Selecting initial weights
+1. **Selecting initial weights**
 
 All data points in the training set are given **equal** initial weights.
 
-2. Sequential training
+2. **Sequential training**
 
 The first model is trained using the previously weighted data. The performance of this model is usually weak (a "weak learner").
 
 So, we take the data points that the model misclassified and give them **higher weights** than points that were identified correctly, assigning them more importance in the next model.
 
-3. Iterating
+3. **Iterating**
 
 Having addressed the mistakes from the previous model, this next model's performance is evaluated. Misclassified data points have their weights increased.
 
 This process is **repeated multiple times** until there is an ensemble of weak models with varying predictive accuracies.
 
-4. Aggregating
+4. **Aggregating**
 
 The predictions of all the weak models in the ensemble are aggregated to **create a final predictive model**.
 
@@ -89,16 +89,16 @@ import pandas as pd
 
 from sklearn.datasets import fetch_california_housing
 
-# load data as dataframe
 housing = fetch_california_housing(as_frame = True)
 ```
 
 Basic info about the dataset:
 
 ```{python}
+# block group + individual house data
 housing.frame.head()
-# housing.frame.shape
-# housing.frame.isnull().sum()
+housing.frame.shape
+housing.frame.isnull().sum()
 ```
 
 ```{python}
@@ -124,9 +124,8 @@ pred_y = gb_reg.predict(test_X)
 mse_reg = mean_squared_error(test_y, pred_y)
 r2_reg = r2_score(test_y, pred_y)
 
-print(f'MSE: {mse_reg}')
-print(f'RMSE: {mse_reg ** (1/2)}')
-print(f'R2: {r2_reg}')
+print(f'RMSE: {(mse_reg ** (1/2)):.2f}')
+print(f'R2: {r2_reg:.2f}')
 ```
 
-In the context of the problem (predicting housing prices), this MSE is quite low, and the RMSE tells us that 
+R-squared is decent and given the context of the problem and the values of the target variable (`MedHouseVal`), the RMSE isn't so bad either.
