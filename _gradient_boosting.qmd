@@ -24,7 +24,7 @@ This presentation will:
 
 Boosting improves predictive accuracy by having each new model correct the mistakes of the previous one.
 
-### Generally four major steps in boosting:
+### Generally four major steps in (adaptive) boosting:
 
 1. **Selecting initial weights**
 
@@ -34,7 +34,7 @@ All data points in the training set are given **equal** initial weights.
 
 The first model is trained using the previously weighted data. The performance of this model is usually weak (a "weak learner").
 
-So, we take the data points that the model misclassified and give them **higher weights** than points that were identified correctly, assigning them more importance in the next model.
+So, we take the data points that the model didn't handle well and give them **higher weights** than points that were identified correctly, assigning them more importance in the next model.
 
 3. **Iterating**
 
@@ -64,11 +64,9 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
     + Smaller loss means more accurate predictions
 
-* **Gradient descent**: an optimization algorithm that minimizes prediction error by adjusting the model's parameters (in this case, weights of the data points)
+* **Gradient descent**: an optimization algorithm that minimizes the loss function (prediction error) by *fitting each new model to the previous model's residuals* (i.e. target is the residuals, data is )
 
-    + **Gradient**: the slope of the loss function that tells the algorithm which way to "step" to minimize the loss function...
-
-        - ...and therefore how to adjust the model's parameters (weights)
+    + **Gradient**: the slope of the loss function that tells the algorithm which way to "step" to minimize the loss function
     
     + **Learning rate**: the size of each iterative "step" the algorithm takes to minimize the loss function
 
@@ -76,7 +74,25 @@ Boosting can be contrasted with Bagging (see Random Forests).
         
         - Too big: might miss the minimum of the function entirely
         
-**Essentially**, the goal is to use iteration to weight the data points in the training set in a way that minimizes the loss function (error) and therefore optimizes predictive accuracy.
+### Major steps in Gradient Boosting:
+
+1. **Creating an initial prediction**
+
+We create a model using a training set where the initial **prediction** of the target variable is usually the variable's mean.
+
+2. **Calculating residuals**
+
+Then, we **calculate the residuals** for each data point in the dataset (the difference between the predicted value [the mean] and the actual recorded value). 
+
+3. **Creating a new model**
+
+The **residuals of the previous model become the target variable** in the new model, keeping features the same. Usually, this model is a decision tree.
+
+4. **Iterating**
+
+
+
+
 
 ## Gradient Boosting: Regression
 
@@ -114,7 +130,7 @@ train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.2, rando
 
 gb_reg = GradientBoostingRegressor(loss = 'squared_error',
 learning_rate = 0.1,
-n_estimators = 500,
+n_estimators = 500, # number of iterations/models (trees in this case)
 random_state = 3255)
 
 gb_reg.fit(train_X, train_y)
@@ -129,3 +145,11 @@ print(f'R2: {r2_reg:.2f}')
 ```
 
 R-squared is decent and given the context of the problem and the values of the target variable (`MedHouseVal`), the RMSE isn't so bad either.
+
+## Gradient Boosting in Classification
+
+
+
+## Advantages and Disadvantages
+
+* Prone to overfitting with too many decision trees
