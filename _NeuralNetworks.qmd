@@ -55,7 +55,7 @@ execute:
 
 ## Simple Diagram
 
-![Neural network diagram](neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
 
 # What Happens Inside a Neural Network?
 
@@ -90,7 +90,7 @@ $$
   - If input is negative → output is 0
   - If input is positive → keep it
 
-![Neuron diagram](neural-network-diagrams/neuron_diagram.png)
+![Neuron diagram](nba-player-data/neural-network-diagrams/neuron_diagram.png)
 
 ## Why This Matters
 
@@ -271,7 +271,7 @@ y = all_df[["pts","trb","ast"]]
 - Hidden Layer 2 → 32 neurons (ReLU)
 - Output Layer → 3 neurons (PTS, TRB, AST)
 
-![Neural network diagram](neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
 
 ## Why 64 and 32?
 
@@ -324,6 +324,23 @@ print(y_test.shape)
   - Each epoch looks through the data 32 rows at a time (batch_size)
 - **Train Loss** = error on the data the model is learning from (learning)
 - **Validation Loss** = error on the data the model has NOT trained on (generalization)
+
+
+## Back Propagation
+- **What to change**
+- Determines how much each weight contributes to the prediction error  
+- Works **backwards through the network** (output → input)  
+- Computes gradients (how each weight should change)  
+- Happens automatically during `model.fit()`  
+- Provides the information needed to update the weights  
+
+## Stochastic Gradient Descent
+- **How to change it**
+- Uses the gradients from backpropagation to update weights  
+- Adjusts weights to reduce prediction error  
+- Runs repeatedly during training  
+- Uses **small batches of data (32 rows)** instead of all data at once  
+- The optimizer = "adam" is an advanced form of gradient descent that improves efficiency 
 
 - Mean Squared Error (MSE/Train Loss) as the loss function to train the model, and Mean Absolute Error (MAE) as a metric to interpret how far off our predictions were
 
@@ -396,6 +413,9 @@ print("Model RMSE:",rmse)
 
 ```{python}
 #| echo: false
+
+import warnings
+warnings.filterwarnings("ignore")
 
 players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
 
