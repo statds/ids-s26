@@ -84,32 +84,41 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
 1. **Creating an initial prediction**
 
-Using a training set, we create a model where the initial **prediction** of the target variable for all data points is a constant (usually the target mean).
+Using a training set, we create a model where the **initial prediction** of the target variable for all data points is a constant (usually the target mean).
 
 2. **Calculating residuals**
 
 Then, we **calculate the residuals** for each data point in the dataset (the difference between the predicted value [the mean] and the actual recorded value). 
 
-The residuals (also called pseudo-residuals in this process) are what drive Gradient Boosting, unlike changes in weights in adaptive boosting.
+The residuals (also called **pseudo-residuals** in this process) are what drive Gradient Boosting, unlike changes in weights in adaptive boosting.
 
 3. **Creating a new model (and regularizing it)**
 
-The **residuals of the previous model, called the negative gradient, become the target variable** in the new model. Following the negative gradient This is how each new model learns to fix the errors of the previous model. 
+The **pseudo-residuals of the previous model, which are the negative gradients (when the loss function is MSE), become the target variable** in the new model. The goal of this model is to **predict the errors of the previous model.**
+
+"Following" the negative gradients down the loss function by using them as targets to be predicted leads to the minimization of loss as the number of models grows. This is how each new model learns to fix the errors of the previous model. 
 
 Usually, this model is a decision tree because they're fairly versatile.
 
-To help with overfitting (which is something Gradient Boosting is prone to), each model is adjusted according to the learning rate, which is what weights each model's contribution to the final prediction later on.
+To help with overfitting (which is something Gradient Boosting is prone to), each model's predictions are scaled according to the learning rate (a process called shrinkage), which is what weights each model's contribution to the final prediction.
 
 4. **Iterating**
 
-Each model's residuals are calculated, and each new model is created with the goal of predicting the residuals of the previous model.
-
-This process continues until we want it to stop (i.e. after a certain number of iterations, or until loss stops decreasing).
+This process is repeated and continues until we want it to stop (i.e. after a certain number of iterations, or until loss stops decreasing).
 
 5. **Aggregating**
 
-Finally, the ensemble of models is combined to create a final prediction.
+Finally, the predictions of all models in the ensemble are combined. This is what the final prediction of the initial target variable looks like:
 
+$$
+y_{pred} = initial prediction + \eta \times r_{1} + \eta \times r_{2} + ... \eta \times r_{n}
+$$
+
+where:
+
+* $\eta$ is the learning rate
+
+* $r_{n}$ is the residuals of the nth model.
 
 
 ## Gradient Boosting: Regression
@@ -166,6 +175,11 @@ R-squared is decent and given the context of the problem and the values of the t
 
 ## Gradient Boosting in Classification
 
+For an example of Gradient Boosting in regression, we will be using the sklearn Wisconsin breast cancer dataset.
+
+```{python}
+
+```
 
 
 ## Advantages and Disadvantages
