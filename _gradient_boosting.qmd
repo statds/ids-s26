@@ -70,7 +70,7 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
     + **Gradient**: the slope of the loss function that tells the algorithm which way to "step" to minimize the loss function
 
-        - Determined by residuals in Gradient Boosting (at least when using MSE as the loss function)
+        - Determined by pseudo-residuals in Gradient Boosting
     
     + **Learning rate**: the size of each iterative "step" the algorithm takes to minimize the loss function
 
@@ -84,23 +84,47 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
 1. **Creating an initial prediction**
 
-Using a training set, we create a model where the **initial prediction** of the target variable for all data points is a constant (usually the target mean).
+Using a training set, we create a model where the **initial prediction** of the target variable for all data points is a constant, so:
 
-2. **Calculating residuals**
+$$
+F_{0}(x) = \bar{y}
+$$
 
-Then, we **calculate the residuals** for each data point in the dataset (the difference between the predicted value [the mean] and the actual recorded value). 
+2. **Calculating (pseudo-) residuals**
 
-The residuals (also called **pseudo-residuals** in this process) are what drive Gradient Boosting, unlike changes in weights in adaptive boosting.
+Then, we **calculate the residuals** (or **pseudo-residuals** as they're referred to in gradient boosting) for each data point in the dataset. *When using MSE as the loss function*, the pseudo-residual is:
+
+$$
+r_{im} = y_{i} - F_{m-1}(x_{i})
+
+or
+
+r_{im} = y_{i} - \hat{y}_{i} (actual - predicted)
+$$
+
+where:
+
+* i = 1, ..., n (n is the number of observations in the sample)
+
+* m = 1, ..., M (M is the total number of iterations/models)
+
+So for this first iteration/model, because the predicted value is $\bar{y}$:
+
+$$
+r_{i1} = y_{i} - \bar{y}
+$$
 
 3. **Creating a new model (and regularizing it)**
 
-The **pseudo-residuals of the previous model, which are the negative gradients (when the loss function is MSE), become the target variable** in the new model. The goal of this model is to **predict the errors of the previous model.**
-
-"Following" the negative gradients down the loss function by using them as targets to be predicted leads to the minimization of loss as the number of models grows. This is how each new model learns to fix the errors of the previous model. 
-
 Usually, this model is a decision tree because they're fairly versatile.
 
-To help with overfitting (which is something Gradient Boosting is prone to), each model's predictions are scaled according to the learning rate (a process called shrinkage), which is what weights each model's contribution to the final prediction.
+Gradient Boosting minimizes the loss function by sequentially having each new model fix the errors of the previous model. So, the **pseudo-residuals ($r_{im}) of the previous model become the target variable**. The features stay the same.
+
+Over time, as the models get better at predicting the pseudo-residuals, error decreases, because we are "following" the pseudo-residuals (also referred to as the **negative gradient** for this reason) down the loss function.
+
+This is how each new model learns to fix the errors of the previous model and how the loss function gets minimized.
+
+Gradient Boosting is prone to overfitting. To help combat this, before adding a model to the ensemble, the model's predictions are scaled according to the learning rate (a process called **shrinkage**). This process weights each model's contribution to the final prediction.
 
 4. **Iterating**
 
@@ -108,7 +132,7 @@ This process is repeated and continues until we want it to stop (i.e. after a ce
 
 5. **Aggregating**
 
-Finally, the predictions of all models in the ensemble are combined. This is what the final prediction of the initial target variable looks like:
+Ultimately, the predictions of all models in the ensemble are combined. This is what the final prediction of the initial target variable looks like:
 
 $$
 y_{pred} = initial prediction + \eta \times r_{1} + \eta \times r_{2} + ... \eta \times r_{n}
@@ -118,8 +142,9 @@ where:
 
 * $\eta$ is the learning rate
 
-* $r_{n}$ is the residuals of the nth model.
+* $r_{n}$ is the residuals of the nth model (tree, if you're using decision trees).
 
+ESSENTIALLY, Gradient Boosting is an algorithm that uses residuals to minimize overall error by sequentially fixing previous errors.
 
 ## Gradient Boosting: Regression
 
@@ -157,7 +182,8 @@ train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.2, rando
 
 gb_reg = GradientBoostingRegressor(loss = 'squared_error',
 learning_rate = 0.1, # "step size"
-n_estimators = 500, # number of iterations/models (trees in this case)
+n_estimators = 400, # number of iterations/models (trees in this case)
+max_depth = 5,
 random_state = 3255)
 
 gb_reg.fit(train_X, train_y)
@@ -178,7 +204,7 @@ R-squared is decent and given the context of the problem and the values of the t
 For an example of Gradient Boosting in regression, we will be using the sklearn Wisconsin breast cancer dataset.
 
 ```{python}
-
+sklearn.datasets.load_breast_cancer()
 ```
 
 
