@@ -168,7 +168,7 @@ print("Confidence interval: (", ci_low, ci_high, ")")
   - Design A: 200 clicks out of 2,000 visitors
   - Design B: 260 clicks out of 2,100 visitors
   - Null hypothesis: The number of clicks per visitor for both designs are the same ($p_A = p_B$)
-  - Alternative hypothesis: Design B has a higher conversion rate than Design A ($p_B > p_A$)
+  - Alternative hypothesis: Design B has higher clicks per visitor than Design A ($p_B > p_A$)
 
 ### Two-sample z-test for proportions:
 
@@ -243,7 +243,7 @@ print("Test statistic:", result.statistic)
 print("P-value:", result.pvalue)
 ```
 
-**Output:** (2.30, 0.02) → The test statistic is 2.30 with a p-value of 0.02, indicating a statistically significant difference in rates at the 5% level, with the after-program rate being lower.
+**Output:** (2.30, 0.02) → The test statistic is 2.30 with a p-value of 0.02 < 0.05, indicating a significant difference in accident rates with the after-program rate being lower.
 
 ### Rate ratio and confidence interval:
 
@@ -270,7 +270,7 @@ print("Confidence interval: (", ci_low, ci_high, ")")
 
 **Output:** (0.186, 0.898) → The 95% confidence interval for the rate ratio ranges from 0.186 to 0.898. This interval does not include 1, supporting the above conclusion that there does exist a significant difference in accident rates before and after the program was implemented. 
 
-In other words, with 95% the accident rate after the program is between 18.6% and 89.8% of the accident rate before the program.
+In other words, with 95% confidence the accident rate after the program is between 18.6% and 89.8% of the accident rate before the program.
 
 ### Visualization of accident rates:
 
