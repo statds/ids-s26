@@ -54,9 +54,9 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
 ## What is Gradient Boosting?
 
-**Gradient Boosting**: a type of boosting that uses *gradient descent* to minimize the *loss function*
+**Gradient Boosting**: a type of boosting that uses *descent* to minimize the *loss function*
 
-* **Loss function**: a quantifiable measure of how good or bad a model is at predicting a value compared to the actual value
+* **Loss function**: a measure of how good or bad a model is at predicting a value compared to the actual value
 
     + Commonly MSE (mean squared error) for regression
 
@@ -64,33 +64,51 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
     + Smaller loss means more accurate predictions
 
-* **Gradient descent**: an optimization algorithm that minimizes the loss function (prediction error) by *fitting each new model to the previous model's residuals* (i.e. target is the residuals, data is )
+* **Gradient descent**: an optimization algorithm that minimizes the loss function (prediction error)
+
+    + Typically minimizes loss by changing parameters (weight/bias), but this is not the case in Gradient Boosting
 
     + **Gradient**: the slope of the loss function that tells the algorithm which way to "step" to minimize the loss function
+
+        - Determined by residuals in Gradient Boosting (at least when using MSE as the loss function)
     
     + **Learning rate**: the size of each iterative "step" the algorithm takes to minimize the loss function
 
         - Too small: waste of computational resources
         
         - Too big: might miss the minimum of the function entirely
-        
+
+        - Also used to prevent overfitting
+
 ### Major steps in Gradient Boosting:
 
 1. **Creating an initial prediction**
 
-We create a model using a training set where the initial **prediction** of the target variable is usually the variable's mean.
+Using a training set, we create a model where the initial **prediction** of the target variable for all data points is a constant (usually the target mean).
 
 2. **Calculating residuals**
 
 Then, we **calculate the residuals** for each data point in the dataset (the difference between the predicted value [the mean] and the actual recorded value). 
 
-3. **Creating a new model**
+The residuals (also called pseudo-residuals in this process) are what drive Gradient Boosting, unlike changes in weights in adaptive boosting.
 
-The **residuals of the previous model become the target variable** in the new model, keeping features the same. Usually, this model is a decision tree.
+3. **Creating a new model (and regularizing it)**
+
+The **residuals of the previous model, called the negative gradient, become the target variable** in the new model. Following the negative gradient This is how each new model learns to fix the errors of the previous model. 
+
+Usually, this model is a decision tree because they're fairly versatile.
+
+To help with overfitting (which is something Gradient Boosting is prone to), each model is adjusted according to the learning rate, which is what weights each model's contribution to the final prediction later on.
 
 4. **Iterating**
 
+Each model's residuals are calculated, and each new model is created with the goal of predicting the residuals of the previous model.
 
+This process continues until we want it to stop (i.e. after a certain number of iterations, or until loss stops decreasing).
+
+5. **Aggregating**
+
+Finally, the ensemble of models is combined to create a final prediction.
 
 
 
@@ -129,7 +147,7 @@ y = housing.target # MedHouseVal
 train_X, test_X, train_y, test_y = train_test_split(X, y, test_size = 0.2, random_state = 3255)
 
 gb_reg = GradientBoostingRegressor(loss = 'squared_error',
-learning_rate = 0.1,
+learning_rate = 0.1, # "step size"
 n_estimators = 500, # number of iterations/models (trees in this case)
 random_state = 3255)
 
