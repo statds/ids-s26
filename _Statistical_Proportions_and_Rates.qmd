@@ -68,6 +68,17 @@ format:
   - Tests whether P1 and P2 are significantly different.
   - Use paired-sample test for before/after of the same subject. Use two-sample test for independent samples.
 
+## Logistic Regression for Proportions
+- Regression model for binary outcomes
+- Predicts probability of success
+- Part of GLM family
+  -  $\log\!\left(\frac{p}{1 - p}\right) = \beta_0 + \beta_1 X_1 + \dots$
+
+Why use logit link?
+
+- Keeps predicted probabilities between 0 and 1
+- Converts probabilities into a scale where linear models work
+
 ## Python Example: Proportion Confidence Interval
 
 Suppose we have a sample of 100 emails, and 56 were marked as spam. We want to calculate a 95% confidence interval for the true proportion of spam emails.
@@ -109,7 +120,43 @@ Examples:
 - Rate ratio: $\text{RR} = \frac{\hat{\lambda}_1}{\hat{\lambda}_2}$
 - Confidence interval for the rate ratio can be calculated using the logarithm of the rate ratio and its standard error:
   - $\text{SE}(\log(\text{RR})) = \sqrt{\frac{1}{x_1} + \frac{1}{x_2}}$
-- Overdispersion check may be necessary if the variance exceeds the mean, suggesting a negative binomial model may be more appropriate.
+- Overdispersion check may be necessary if the variance exceeds the mean, suggesting a negative binomial model may be more appropriate
+
+## Poisson Regression for Rates
+
+- Poisson regression is the regression model for count data
+- Predicts the rate at which events occur
+- Part of the GLM family
+  - $\log(\lambda) = \beta_0 + \beta_1 X_1 + \dots$
+
+Why use log?
+
+  - Ensures predicted rates are positive
+  - Makes effect multiplicative 
+  - Coefficients exponentiate to rate ratios
+
+Poisson regression is to counts what logistic regression is to binary outcomes.
+
+## Overdispersion in Count Data
+
+- Poisson assumes that the variance equals the mean
+- In real data, the variance is often actually **larger** than the mean 
+
+Why does this matter?
+
+  - Our standard errors will be too small
+  - Our CIs will be too narrow
+  - P-values will appear more significant than they are
+- Detect overdispersion by comapring residual deviance to degrees of freedom
+  - If deviance > df, then overdispersion is likely
+
+How to fix it?
+
+- Negative binomial regression
+  - Adds a dispersion parameter
+  - Naturally handles extra variability
+- Check for missing predictors
+  - Overdispersion can mean you are missing variables somewhere
 
 ## Python Example: Rate Confidence Interval 
 
@@ -131,7 +178,7 @@ print("Confidence interval: (", ci_low, ci_high, ")")
 
 **Output:** (1.74, 4.41) → We are 95% confident that the true rate of new cases per day is between 1.74 and 4.41.
 
-## GLM Perspective
+# GLM Perspective
 
 - Proportions can be modeled using a binomial family with a logit link function (logistic regression).
 - Rates can be modeled using a Poisson family with a log link function (Poisson regression).
@@ -139,7 +186,7 @@ print("Confidence interval: (", ci_low, ci_high, ")")
   - Allows us to model the relationship between predictors and the outcome (proportion or rate) while accounting for the distribution of the data.
 - Example: Logistic regression for predicting the probability of an email being spam based on features like word count, presence of certain keywords, etc. Poisson regression for modeling the number of website visits per day based on factors like advertising spend, day of the week, etc.
 
-## Key Python Packages
+# Key Python Packages
 
 - **statsmodels**: 
   - `proportion_confint` for confidence intervals for proportions
@@ -202,6 +249,38 @@ print("Confidence interval: (", ci_low, ci_high, ")")
 ```
 
 **Output:** (0.011, 0.018) → The 95% confidence interval for the difference in engagement between design B and design A is between 1.1% and 1.8%, suggesting that design B's engagement is likely higher than design A's by this margin. Because the interval does not include 0, it supports the conclusion that there is a significant difference in engagement between the two designs.
+
+### Logistic regression model for engagement: 
+
+```{python}
+import pandas as pd
+import statsmodels.api as sm
+
+# Data for logistic regression
+# 1 row per design (A, B)
+data = pd.DataFrame({
+    "clicks": [200, 260],
+    "visitors": [2000, 2100],
+    "design_B": [0, 1]   # 0 = Design A, 1 = Design B
+})
+
+# Response: successes (clicks) and failures (non-clicks)
+data["failures"] = data["visitors"] - data["clicks"]
+
+# Logistic regression requires a 2-column array: [successes, failures]
+y = data[["clicks", "failures"]]
+
+# Predictor matrix (intercept + indicator for Design B)
+X = sm.add_constant(data["design_B"])
+
+# Fit logistic regression (binomial family)
+model = sm.GLM(y, X, family=sm.families.Binomial()).fit()
+
+print(model.summary())
+
+```
+
+**Output:** Our key coefficient `design_B` = 0.2404, with p-value = 0.016. The coefficient is positive, meaning Design B has higher engagement. The p-value < 0.05 so this increase is statistically significant. 
 
 ### Visualization of engagement:
 
@@ -271,6 +350,48 @@ print("Confidence interval: (", ci_low, ci_high, ")")
 **Output:** (0.186, 0.898) → The 95% confidence interval for the rate ratio ranges from 0.186 to 0.898. This interval does not include 1, supporting the above conclusion that there does exist a significant difference in accident rates before and after the program was implemented. 
 
 In other words, with 95% confidence the accident rate after the program is between 18.6% and 89.8% of the accident rate before the program.
+
+### Poisson regression model for accident rates:
+
+```{python}
+
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+count = [20, 9]
+exposure = [50000, 55000]
+
+# create dataframe
+
+data = pd.DataFrame({
+  "accidents": count,
+  "exposure": exposure,
+  "after_program": [0,1] # 0 = before, 1 =after
+})
+
+# Design matrix (intercept + indicator for after-program)
+X = sm.add_constant(data["after_program"])
+
+# Offset = log(exposure time), so model estimates accident *rates*
+offset = np.log(data["exposure"])
+
+# Fit Poisson regression model
+model = sm.GLM(
+  data["accidents"],
+  X,
+  family = sm.families.Poisson(),
+  offset=offset
+).fit()
+
+print(model.summary())
+
+```
+
+**Output:** Our key coefficient `after_program` = -0.8938 with p-value = 0.026. Because our coefficient is negative, the accident rate decreased after the program. Because the p-value  < 0.05, this decrease is significant. 
+
+This model shows our rate ratio = 0.409, which aligns closely with the manually computed one in the confidence interval problem. The accident rate after the program is estimated to be about 41% of the rate before.
+
 
 ### Visualization of accident rates:
 
