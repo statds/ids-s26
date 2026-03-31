@@ -304,3 +304,9 @@ Things to avoid:
 - Proportions → Binomial distribution, confidence intervals, hypothesis testing
 - Rates → Poisson distribution, confidence intervals, rate ratios
 - Applications: A/B testing, public health, quality control, etc.
+
+# Further readings
+
+* Buis, M. L., (2020). Analysis of Proportions, In P. Atkinson, S. Delamont, A. Cernat, J.W. Sakshaug, & R.A. Williams (Eds.), SAGE Research Methods Foundations. https://doi.org/10.4135/9781526421036852590
+* Miettinen, O. and Nurminen, M. (1985), Comparative analysis of two rates. Statist. Med., 4: 213-226. https://doi.org/10.1002/sim.4780040211
+* Buddhi, K., (2025). Basics of probability and statistics using Python. Intelligent Computing Techniques in Biomedical Imaging, Academic Press. https://doi.org/10.1016/B978-0-443-15999-2.00017-7 
