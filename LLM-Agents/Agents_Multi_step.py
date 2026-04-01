@@ -135,7 +135,7 @@ def log_non_agentic(query, answer, total_time):
         "task_type": task_type,
         "api_difficulty": api_difficulty,
         "task_complexity": task_complexity,
-        "tool_count": 0,
+        "semacount": 0,
         "model": MODEL,
         "agentic": False
     }
@@ -798,6 +798,23 @@ benchmark_queries = [
     "Define gravity and compute 9 × 9.",
     "What is the weather in the largest city in Canada?"
 ]
+
+def run_full_benchmark_and_save_csv():
+    """Run agentic + baseline benchmarks and save CSV files automatically."""
+    print("Running agentic benchmark...")
+    agentic_stats = benchmark_agentic(benchmark_queries)
+
+    print("Running baseline benchmark...")
+    baseline_stats = benchmark_non_agentic(benchmark_queries)
+
+    print("Saving CSV files...")
+    save_agentic_csv(agentic_stats, "agentic_results.csv")
+    save_baseline_csv(baseline_stats, "baseline_results.csv")
+
+    print("Saved agentic_results.csv and baseline_results.csv")
+
+    return agentic_stats, baseline_stats
+
 # ---------------- MAIN ----------------
 if __name__ == "__main__":
 
@@ -818,6 +835,12 @@ if __name__ == "__main__":
     # 3. Compare both
     if "--compare" in sys.argv:
         print("Running both benchmarks...")
+
+        # 7. Full benchmark + CSV
+    if "--full" in sys.argv:
+        run_full_benchmark_and_save_csv()
+        sys.exit(0)
+
         agentic_stats = benchmark_agentic(benchmark_queries)
         baseline_stats = benchmark_non_agentic(benchmark_queries)
         print("\nAgentic:", json.dumps(agentic_stats, indent=2))

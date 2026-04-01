@@ -1,0 +1,865 @@
+# Case Study: Detecting Proteins of Concordant Change
+
+## Background
+
+In many biomedical studies, we do not compare just one treatment group to one control group. Sometimes we have *multiple related disease-producing strains* and want to find proteins that move *consistently in the same direction* across all of them.
+
+That is the setting in this case study. We have proteomics data from four disease-producing strains of *Clostridium perfringens* and one baseline nondisease-producing strain. For each protein, the data record *log intensity ratios* comparing each disease-producing strain to the baseline, with *three experimental replications*.
+
+Our data science goal is simple to state but not trivial to solve:
+
+- find proteins that are *upregulated across all four strains*,
+- find proteins that are *downregulated across all four strains*, and
+- avoid being misled by proteins with *discordant* or unusual patterns.
+
+This case study follows the same general flow as the first case study:
+
+1. understand the scientific question,
+2. inspect the structure of the data,
+3. do exploratory analysis,
+4. fit a simple baseline model,
+5. fit a more tailored model,
+6. interpret the results.
+
+## Why this is an interesting data science problem
+
+If we analyzed each strain separately, we would miss the fact that the real scientific target is *concordant change across strains*. On the other hand, if we just average everything together, discordant proteins can blur the signal.
+
+So this is a good example of a broader lesson in data science: the model should reflect the scientific structure of the problem.
+
+## Data files
+
+This case study uses two Python files directly:
+
+- `protein_logratio_py.npz`: the Python-ready data file converted from the original R data file
+- `mixture_source_py.py`: a Python translation of the tailored penalized mixture method
+
+## Load packages and data
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+#| warning: false
+#| message: false
+
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from scipy import stats
+from sklearn.mixture import GaussianMixture
+
+from mixture_source_py_checked import (
+    MixtureControl,
+    initial_values,
+    mixture_penalized,
+    mixture_penalized_path,
+)
+
+pd.set_option("display.max_columns", 200)
+pd.set_option("display.width", 140)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+loaded = np.load("protein_logratio_py.npz", allow_pickle=True)
+Y = loaded["Y"].astype(float)
+protein_names = loaded["protein_names"].astype(str)
+
+P, M, S = Y.shape
+
+print("Array shape:", Y.shape)
+print("Number of proteins   =", P)
+print("Number of strains    =", M)
+print("Number of replicates =", S)
+```
+
+## Understand the data structure
+
+Each protein has repeated measurements.
+
+- `P`: number of proteins
+- `M`: number of strains being compared to the baseline
+- `S`: number of replicated experiments
+
+So this is not an ordinary rectangular data set where each row is independent and identically structured. The unit of analysis is the *protein*, and each protein contributes a small multivariate profile observed over replicates.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+missing_replicate = np.isnan(Y).all(axis=1)
+summary_df = pd.DataFrame(
+    {
+        "n_proteins": [P],
+        "n_strains": [M],
+        "n_replications": [S],
+        "pct_missing_replicates": [100 * missing_replicate.mean()],
+    }
+)
+summary_df
+```
+
+## Build a protein-level summary for exploration
+
+Before fitting the tailored method, it is helpful to create a simple protein-level summary.
+
+We first estimate a crude replicate effect by averaging over proteins and strains within each replicate. Then we subtract that effect and average across replications.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+alpha_simple = np.nanmean(Y, axis=(0, 1))
+# Ensure any fully-missing replicates don't propagate NaNs in the subtraction
+alpha_simple = np.nan_to_num(alpha_simple, nan=0.0)
+with np.errstate(invalid="ignore"):
+    Y_adj = Y - alpha_simple.reshape(1, 1, S)
+Y_avg = np.nanmean(Y_adj, axis=2)
+
+strain_cols = [f"strain_{j}" for j in range(1, M + 1)]
+Y_avg_df = pd.DataFrame(Y_avg, columns=strain_cols)
+Y_avg_df["protein"] = protein_names
+Y_avg_df.head()
+```
+
+## Exploratory analysis
+
+### Correlation across strains
+
+If proteins tend to move together across strains, we should see positive dependence.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+corr = Y_avg_df[strain_cols].corr()
+fig = px.imshow(
+    corr,
+    text_auto=".2f",
+    aspect="auto",
+    title="Correlation among adjusted protein log-ratios",
+)
+fig.show()
+```
+
+### Scatter-matrix
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_matrix(
+    Y_avg_df,
+    dimensions=strain_cols,
+    opacity=0.35,
+    title="Scatter-matrix of protein-level adjusted log-ratios",
+)
+fig.update_traces(diagonal_visible=False, showupperhalf=False)
+fig.show()
+```
+
+### Interactive 3D view
+
+A static 3D figure is hard to read. With Plotly, we can rotate the cloud and inspect the geometry directly.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_3d(
+    Y_avg_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_3",
+    hover_name="protein",
+    opacity=0.45,
+    title="Protein cloud in the first three strains",
+)
+fig.show()
+```
+
+### QQ plots by strain
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+def make_qq_df(x, name):
+    x = np.asarray(x)
+    x = x[np.isfinite(x)]
+    osm, osr = stats.probplot(x, dist="norm", fit=False)
+    slope, intercept, r = stats.probplot(x, dist="norm")[-1]
+    return pd.DataFrame(
+        {
+            "theoretical": osm,
+            "sample": osr,
+            "line": slope * np.asarray(osm) + intercept,
+            "strain": name,
+        }
+    )
+
+qq_df = pd.concat(
+    [make_qq_df(Y_avg[:, j], f"strain_{j+1}") for j in range(M)],
+    ignore_index=True,
+)
+
+fig = px.scatter(
+    qq_df,
+    x="theoretical",
+    y="sample",
+    facet_col="strain",
+    facet_col_wrap=2,
+    opacity=0.45,
+    title="QQ plots by strain",
+)
+
+strains = sorted(qq_df["strain"].unique())
+for i, strain in enumerate(strains):
+    d = qq_df[qq_df["strain"] == strain]
+    col = (i % 2) + 1
+    row = (i // 2) + 1
+    fig.add_trace(
+        go.Scatter(
+            x=d["theoretical"],
+            y=d["line"],
+            mode="lines",
+            showlegend=False,
+        ),
+        row=row,
+        col=col,
+    )
+
+fig.show()
+```
+
+### Sign-pattern diagnostic
+
+A protein with all positive strain summaries is a crude candidate for concordant upregulation. A protein with all negative values is a crude candidate for concordant downregulation. Proteins with mixed signs are harder to classify.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+all_positive = (Y_avg > 0).all(axis=1)
+all_negative = (Y_avg < 0).all(axis=1)
+mixed_sign = (Y_avg > 0).any(axis=1) & (Y_avg < 0).any(axis=1)
+
+sign_summary = pd.DataFrame(
+    {
+        "pattern": ["all positive", "all negative", "mixed sign"],
+        "count": [all_positive.sum(), all_negative.sum(), mixed_sign.sum()],
+    }
+)
+
+fig = px.bar(
+    sign_summary,
+    x="pattern",
+    y="count",
+    title="Concordant vs discordant sign patterns",
+)
+fig.show()
+```
+
+Already, the exploratory work tells us something important: not every protein follows a clean concordant pattern.
+
+## A first model: K-means clustering
+
+K-means is a simple and widely-used clustering method. We start with three clusters to match the expected structure: a reference cluster (near zero), a downregulated cluster, and an upregulated cluster.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+from sklearn.cluster import KMeans
+
+means_init = np.vstack(
+    [
+        np.zeros(M),
+        -2 * np.ones(M),
+        2 * np.ones(M),
+    ]
+)
+
+kmeans = KMeans(
+    n_clusters=3,
+    init=means_init,
+    n_init=10,
+    random_state=1,
+)
+kmeans_class = kmeans.fit_predict(Y_avg)
+
+Y_avg_df["kmeans_class"] = kmeans_class.astype(str)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_3d(
+    Y_avg_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_3",
+    color="kmeans_class",
+    hover_name="protein",
+    opacity=0.55,
+    title="K-means clustering (k=3)",
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+
+## A second model: Ordinary Gaussian mixture
+
+As a baseline, we fit a three-component Gaussian mixture to the protein-level averages.
+
+This is not yet the paper’s method. It is just a useful first attempt.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+means_init = np.vstack(
+    [
+        np.zeros(M),
+        -2 * np.ones(M),
+        2 * np.ones(M),
+    ]
+)
+
+gmm = GaussianMixture(
+    n_components=3,
+    covariance_type="full",
+    means_init=means_init,
+    random_state=1,
+    n_init=10,
+)
+gmm.fit(Y_avg)
+
+post = gmm.predict_proba(Y_avg)
+gmm_class = post.argmax(axis=1)
+Y_avg_df["gmm_class"] = gmm_class.astype(str)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_3d(
+    Y_avg_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_3",
+    color="gmm_class",
+    hover_name="protein",
+    opacity=0.55,
+    title="3-component Gaussian mixture",
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+This baseline is useful, but it has a weakness: proteins with odd or discordant patterns can distort the three main components.
+
+
+## The tailored penalized mixture method
+
+Now we fit the translated Python version of the tailored method from the project.
+
+Conceptually, the model has three main components:
+
+- a reference component near zero,
+- a concordantly decreased component,
+- a concordantly increased component.
+
+Before fitting the model, it helps to picture the geometry we are trying to capture. The figure below is a conceptual sketch rather than a plot of the real data: the middle ellipsoid represents the reference distribution, the nearby orange points represent discordant proteins that do not follow a clean all-up or all-down pattern, and the two corner clusters represent concordantly decreased and increased proteins.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show conceptual geometry"
+rng = np.random.default_rng(3255)
+
+# Central reference cloud
+ref = rng.multivariate_normal(
+    mean=[0.0, 0.0, 0.0],
+    cov=np.diag([0.35, 0.20, 0.12]),
+    size=450,
+)
+
+# Discordant proteins: close enough to the center to overlap with the reference,
+# but shifted in irregular directions rather than along a clean concordant diagonal.
+dirs = rng.normal(size=(65, 3))
+dirs = dirs / np.linalg.norm(dirs, axis=1, keepdims=True)
+radii = rng.uniform(1.2, 2.0, size=65)
+discordant = dirs * radii[:, None] * np.array([1.2, 1.0, 0.9])
+discordant += rng.normal(scale=0.06, size=discordant.shape)
+
+# Concordant corner clusters
+down = rng.multivariate_normal(
+    mean=[-2.8, -2.5, -2.6],
+    cov=np.diag([0.12, 0.10, 0.10]),
+    size=120,
+)
+up = rng.multivariate_normal(
+    mean=[2.8, 2.5, 2.6],
+    cov=np.diag([0.12, 0.10, 0.10]),
+    size=120,
+)
+
+# A translucent ellipsoid helps visualize the reference component.
+u = np.linspace(0, 2 * np.pi, 40)
+v = np.linspace(0, np.pi, 24)
+rx, ry, rz = 1.4, 1.05, 0.8
+x = rx * np.outer(np.cos(u), np.sin(v))
+y = ry * np.outer(np.sin(u), np.sin(v))
+z = rz * np.outer(np.ones_like(u), np.cos(v))
+
+fig = go.Figure()
+
+fig.add_trace(
+    go.Surface(
+        x=x,
+        y=y,
+        z=z,
+        opacity=0.16,
+        showscale=False,
+        colorscale=[[0, "#9ecae1"], [1, "#9ecae1"]],
+        hoverinfo="skip",
+        name="Reference envelope",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=ref[:, 0],
+        y=ref[:, 1],
+        z=ref[:, 2],
+        mode="markers",
+        name="Reference proteins",
+        marker=dict(size=3, color="#6baed6", opacity=0.45),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=discordant[:, 0],
+        y=discordant[:, 1],
+        z=discordant[:, 2],
+        mode="markers",
+        name="Discordant proteins",
+        marker=dict(size=5, color="#f28e2b", symbol="diamond", opacity=0.9),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=down[:, 0],
+        y=down[:, 1],
+        z=down[:, 2],
+        mode="markers",
+        name="Concordant down",
+        marker=dict(size=4, color="#d62728", opacity=0.85),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=up[:, 0],
+        y=up[:, 1],
+        z=up[:, 2],
+        mode="markers",
+        name="Concordant up",
+        marker=dict(size=4, color="#2ca02c", opacity=0.85),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=[0, -3.15, 3.15, 1.9],
+        y=[0, -2.75, 2.75, 0.6],
+        z=[1.35, -2.85, 2.85, 1.25],
+        mode="text",
+        text=[
+            "Reference component",
+            "Concordant down",
+            "Concordant up",
+            "Discordant proteins",
+        ],
+        textfont=dict(size=12, color="black"),
+        showlegend=False,
+        hoverinfo="skip",
+    )
+)
+
+fig.update_layout(
+    title="Conceptual geometry for the tailored penalized mixture",
+    scene=dict(
+        xaxis_title="Strain 1 summary",
+        yaxis_title="Strain 2 summary",
+        zaxis_title="Strain 3 summary",
+        camera=dict(eye=dict(x=1.5, y=1.4, z=1.15)),
+    ),
+    legend=dict(x=0.02, y=0.98),
+    margin=dict(l=0, r=0, b=0, t=40),
+)
+fig.show()
+```
+
+A conventional method such as K-means or a plain Gaussian mixture tries to explain all of these points using only three global clusters. That can force the discordant proteins into the wrong component and pull the central reference cluster away from the clean near-zero pattern. The tailored method keeps the three main concordant components but adds a sparse mean-shift mechanism, which gives the model a principled way to absorb those discordant proteins without letting them distort the main scientific signal.
+
+The key extra idea is a *protein-specific mean-shift vector* for the reference component. If a protein has a nonzero shift, the model is saying that this protein does not really behave like a clean member of the main concordant groups. That gives the method a built-in way to handle discordant proteins.
+
+In this case study, we use a Python translation of the *hard-thresholded sparse mean-shift* version with *diagonal covariance matrices*.
+
+
+
+
+
+## Fit the translated method
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+ini = initial_values(Y)
+
+control = MixtureControl(
+    tol=1e-5,
+    maxit=400,
+    iter_inner=10,
+    sign_cons=True,
+    mu_cons=True,
+    sigma_type="diag",
+    warm_start=False,
+    trace=False,
+)
+
+fit = mixture_penalized(
+    Y,
+    lam=2.5,
+    ini=ini,
+    method="ghard",
+    control=control,
+)
+
+print("Estimated mixture proportions:", fit.Pi)
+print("Estimated number of mean-shift proteins:", fit.nout)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+mu_df = pd.DataFrame(
+    fit.Mu,
+    index=strain_cols,
+    columns=["component_1", "component_2", "component_3"],
+)
+mu_df
+```
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+class_labels = np.argmax(fit.Pik, axis=1) + 1
+is_shifted = np.linalg.norm(fit.Gamma, axis=1) > 0
+
+result_df = Y_avg_df.copy()
+result_df["component"] = class_labels.astype(str)
+result_df["mean_shift"] = np.where(is_shifted, "yes", "no")
+result_df["gamma_norm"] = np.linalg.norm(fit.Gamma, axis=1)
+
+fig = px.scatter_3d(
+    result_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_3",
+    color="component",
+    symbol="mean_shift",
+    hover_name="protein",
+    hover_data={"component": True, "gamma_norm": ":.4f"},
+    opacity=0.65,
+    title="Tailored penalized mixture: fitted components + mean-shift (lambda=2.5)",
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+## Tune the penalty along a path
+
+The penalty parameter controls how willing the model is to assign proteins to the mean-shift set.
+
+- smaller `lambda`: easier to flag proteins as discordant
+- larger `lambda`: harder to flag proteins as discordant
+
+So it is natural to inspect a path of fitted models.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+lambda_grid = np.linspace(1, 10.0, 200)
+
+path_fits = mixture_penalized_path(
+    Y,
+    lambdas=lambda_grid,
+    ini=ini,
+    method="ghard",
+    control=MixtureControl(
+        tol=1e-5,
+        maxit=300,
+        iter_inner=10,
+        sign_cons=True,
+        sigma_type="diag",
+        warm_start=True,
+        trace=False,
+    ),
+)
+
+path_df = pd.DataFrame(
+    {
+        "lambda": lambda_grid,
+        "aic": [f.aic for f in path_fits],
+        "bic": [f.bic for f in path_fits],
+        "nout": [f.nout for f in path_fits],
+        "loglike": [f.loglike[-1] for f in path_fits],
+    }
+)
+path_df
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.line(
+    path_df,
+    x="lambda",
+    y=["aic", "bic"],
+    markers=True,
+    title="Model selection over the penalty path",
+)
+fig.show()
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.line(
+    path_df,
+    x="lambda",
+    y="nout",
+    markers=True,
+    title="Number of mean-shift proteins over the penalty path",
+)
+fig.show()
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+best_idx = path_df["aic"].idxmin()
+best_lambda = path_df.loc[best_idx, "lambda"]
+best_fit = path_fits[int(best_idx)]
+
+print("Best lambda by AIC:", best_lambda)
+print("Estimated discordant proteins:", best_fit.nout)
+```
+
+## Interpret the fitted model
+
+### Posterior classification and mean-shift flag
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+class_labels = np.argmax(best_fit.Pik, axis=1) + 1
+is_shifted = np.linalg.norm(best_fit.Gamma, axis=1) > 0
+
+result_df = Y_avg_df.copy()
+result_df["component"] = class_labels.astype(str)
+result_df["mean_shift"] = np.where(is_shifted, "yes", "no")
+result_df["gamma_norm"] = np.linalg.norm(best_fit.Gamma, axis=1)
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+# Create a combined category for component and shift status
+# Only component 1 can have mean-shift proteins
+result_df["category"] = result_df.apply(
+    lambda row: (
+        "Component " + row["component"] + " (shifted)" 
+        if row["component"] == "1" and row["mean_shift"] == "yes"
+        else "Component " + row["component"]
+    ),
+    axis=1
+)
+
+color_map = {
+    "Component 1": "lightblue",
+    "Component 1 (shifted)": "darkblue",
+    "Component 2": "red",
+    "Component 3": "green",
+}
+
+fig = px.scatter_3d(
+    result_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_3",
+    color="category",
+    symbol="mean_shift",
+    hover_name="protein",
+    hover_data={"component": True, "gamma_norm": ":.4f", "category": False},
+    opacity=0.65,
+    title="Tailored penalized mixture: fitted components and mean-shift proteins",
+    color_discrete_map=color_map,
+    symbol_map={"no": "circle", "yes": "diamond"},
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_3d(
+    result_df,
+    x="strain_1",
+    y="strain_2",
+    z="strain_4",
+    color="category",
+    symbol="mean_shift",
+    hover_name="protein",
+    hover_data={"component": True, "gamma_norm": ":.4f", "category": False},
+    opacity=0.65,
+    title="Tailored penalized mixture: fitted components and mean-shift proteins",
+    color_discrete_map=color_map,
+    symbol_map={"no": "circle", "yes": "diamond"},
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+fig = px.scatter_3d(
+    result_df,
+    x="strain_2",
+    y="strain_3",
+    z="strain_4",
+    color="category",
+    symbol="mean_shift",
+    hover_name="protein",
+    hover_data={"component": True, "gamma_norm": ":.4f", "category": False},
+    opacity=0.65,
+    title="Tailored penalized mixture: fitted components and mean-shift proteins",
+    color_discrete_map=color_map,
+    symbol_map={"no": "circle", "yes": "diamond"},
+)
+fig.update_traces(marker=dict(size=4))
+fig.show()
+```
+
+### Compare with the Gaussian mixture
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+comparison_df = pd.crosstab(
+    result_df["component"],
+    result_df["gmm_class"],
+    rownames=["tailored"],
+    colnames=["gmm"],
+)
+comparison_df
+```
+
+### Top flagged discordant proteins
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+top_shifted = (
+    result_df.loc[
+        result_df["mean_shift"] == "yes",
+        ["protein", *strain_cols, "gamma_norm"],
+    ]
+    .sort_values("gamma_norm", ascending=False)
+    .head(20)
+)
+
+top_shifted
+```
+
+### Concordant candidates
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+component_means = result_df.groupby("component")[strain_cols].mean().round(3)
+component_means
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+concordant_up = result_df[
+    (result_df["component"] == "3") & (result_df["mean_shift"] == "no")
+]
+concordant_down = result_df[
+    (result_df["component"] == "2") & (result_df["mean_shift"] == "no")
+]
+
+print("Concordant up candidates  :", concordant_up.shape[0])
+print("Concordant down candidates:", concordant_down.shape[0])
+```
+
+### Top concordant upregulated proteins
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+# Calculate average expression across strains for ranking
+concordant_up["avg_expression"] = concordant_up[strain_cols].mean(axis=1)
+top_up = concordant_up.nlargest(10, "avg_expression")[["protein", "avg_expression", *strain_cols]]
+top_up
+```
+
+### Top concordant downregulated proteins
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+# Calculate average expression across strains for ranking
+concordant_down["avg_expression"] = concordant_down[strain_cols].mean(axis=1)
+top_down = concordant_down.nsmallest(10, "avg_expression")[["protein", "avg_expression", *strain_cols]]
+top_down
+```
+
+## What did the tailored method buy us?
+
+This is the key modeling lesson.
+
+A plain Gaussian mixture tries to explain everything with only three global components. That sounds reasonable, but it can be too rigid. Proteins with mixed or discordant behavior can pull those components away from the clean scientific patterns we actually care about.
+
+The penalized mixture adds a sparse mean-shift layer. That gives the model a way to say:
+
+> most proteins should be explained by the main concordant structure, but a smaller set may need protein-specific adjustments.
+
+That is a good example of how domain knowledge and statistical modeling work together.
+
+## Discussion questions
+
+1. Why is it not enough to fit four separate one-dimensional models, one for each strain?
+2. Why is a sparse mean-shift model a reasonable way to model concordant and discordant proteins?
+3. What does the penalty parameter do conceptually?
+4. How would you validate whether the identified proteins are biologically meaningful?
+
+
+## Exercises
+
+1. Compare the tailored method with K-means and a plain Gaussian mixture.
+
+2. Check whether proteins flagged as discordant also tend to have mixed signs across strains.
+
+3. Modify the case study so that users can click a selected protein and inspect its replicate-level profile.

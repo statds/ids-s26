@@ -1,13 +1,6 @@
----
-title: "Markov Chains and Hidden Markov Models"
-author: "Reid Davis"
-date: "2026-02-27"
-format: "html"
----
+This presentation is prepared by Reid Davis. 
 
-# Markov Chains and Hidden Markov Models
-
-## What is a Markov Chain?
+### What is a Markov Chain?
 
 - A **Markov Chain** is a mathematical system (stochastic model) that models a sequence of events where the probability of transitioning to the next state depends solely on the current state, not on previous history
 - Utilizes the memoryless property, meaning only the present state matters for predicting the future
@@ -68,7 +61,7 @@ Stationary distributions are important because they describe the long-term
 behavior of a Markov chain regardless of the initial state.
 
 
-## Stationary Distribution Calculation
+### Stationary Distribution Calculation
 
 Consider the transition matrix
 
@@ -184,15 +177,15 @@ $$
 
 
 
-## Multistep Transition Probabilities in Markov Chains
+### Multistep Transition Probabilities in Markov Chains
 
 Let P be the one-step transition matrix of a Markov chain.
 
 The **n-step transition probability** from state i to state j is defined as
 
-\$$
+$$
 p_{ij}^{(n)} = \Pr(X_n = j | X_0 = i).
-$$\
+$$
 
 ---
 
@@ -231,7 +224,7 @@ This means:
 - The chain “forgets” its initial state.
 
 
-## Matrix Power Function
+### Matrix Power Function
 
 ```{python}
 import numpy as np
@@ -325,15 +318,15 @@ print(P_inf)
 
 ---
 
-# Hidden Markov Models
+### Hidden Markov Models
 
-## What is a Hidden Markov Model?
+#### What is a Hidden Markov Model?
 
 - A Hidden Markov Model (HMM) is a Markov model where the observations are dependent on a hidden (latent) Markov process
 - An HMM requires that there be an observable process \displaystyle Y whose outcomes depend on the outcomes of \displaystyle X
 - Since \displaystyle X cannot be observed directly, the goal is to learn about state of  \displaystyle X by observing Y
 
-### Requirements/Assumptions of HMMs
+#### Requirements/Assumptions of HMMs
 1. the outcome of $Y$ at time $t=t_{0}$ must be "influenced" exclusively by the outcome of $X$ at $t=t_{0}$
 
 2. the outcomes of $X$ and $Y$ at $t<t{0}$ must be conditionally independent of $Y$ at 
@@ -343,14 +336,14 @@ $t=t_{0}$ given $X$ at time $t=t_0$
 
 ---
 
-### Weather Example cont.
+#### Weather Example cont.
 
 Let us continue with another example involving the weather.
 
 - Suppose that we cannot go outside and cannot tell what the weather is
 - Our only indicator of possible weather is what our roommate is doing
 
-### Hidden States
+#### Hidden States
 
 Let the hidden states represent the true weather:
 
@@ -368,7 +361,7 @@ This means tomorrow’s weather depends only on today’s weather.
 
 ---
 
-### Observations
+#### Observations
 
 Suppose we do not directly observe the weather.
 
@@ -391,7 +384,7 @@ For example:
 
 ---
 
-### Matrices 
+#### Matrices 
 
 - Remember we have a transition matrix describing how weather changes
 - Now we need a matrix to describe how the weather effects the activity, which is called an **emission matrix**
@@ -403,7 +396,7 @@ For example:
 
 ---
 
-## Forward Algorithm
+#### Forward Algorithm
 
 The **forward algorithm** is used in Hidden Markov Models (HMMs) to compute the probability of an observed sequence. Instead of listing every possible hidden state sequence (which grows exponentially), it uses dynamic programming to build the answer step by step.
 
@@ -468,9 +461,9 @@ print("Total probability:", prob)
 
 ---
 
-### Hidden Markov Model: Weather Example
+#### Hidden Markov Model: Weather Example
 
-#### Model Setup
+##### Model Setup
 
 Initial probabilities:
 
@@ -510,7 +503,7 @@ $$
 
 ---
 
-### Forward Algorithm
+#### Forward Algorithm
 
 We compute:
 
@@ -520,7 +513,7 @@ $$
 
 ---
 
-#### Step 0 (Initialization)
+##### Step 0 (Initialization)
 
 $$
 \alpha_0(j) = \pi_j B_{j,O_0}
@@ -549,7 +542,7 @@ $$
 
 ---
 
-#### Step 1 (Observation = shop)
+##### Step 1 (Observation = shop)
 
 $$
 \alpha_1(j) =
@@ -559,7 +552,7 @@ $$
 B_{j,O_1}
 $$
 
-### Rainy
+##### Rainy
 
 $$
 \alpha_1(R) =
@@ -578,7 +571,7 @@ $$
 = 0.0552
 $$
 
-### Sunny
+##### Sunny
 
 $$
 \alpha_1(S) =
@@ -608,9 +601,9 @@ $$
 
 ---
 
-#### Step 2 (Observation = clean)
+##### Step 2 (Observation = clean)
 
-### Rainy
+##### Rainy
 
 $$
 \alpha_2(R) =
@@ -629,7 +622,7 @@ $$
 = 0.02904
 $$
 
-### Sunny
+##### Sunny
 
 $$
 \alpha_2(S) =
@@ -659,7 +652,7 @@ $$
 
 ---
 
-#### Termination Step
+##### Termination Step
 
 $$
 P(O) = \sum_j \alpha_2(j)
@@ -675,7 +668,7 @@ $$
 
 ---
 
-### Final Result
+#### Final Result
 
 $$
 P(\text{walk, shop, clean}) = 0.033612
@@ -685,7 +678,7 @@ This matches the full sum over all 8 possible hidden state paths.
 
 ---
 
-### Viterbi Algorithm
+#### Viterbi Algorithm
 
 The **Viterbi Algorithm** finds the most likely sequence of hidden states that could have generated a given observation sequence
 
@@ -737,23 +730,23 @@ print("Probability of best path:", prob)
 ----
 
 
-### Other Algorithms
+#### Other Algorithms
 
-#### Forward-Backward Algorithm
+##### Forward-Backward Algorithm
 - The Forward-Backward algorithm computes the probability of each hidden state at every time step given the full observation sequence.
 - It uses a forward pass to calculate the probability of observations up to each time step and a backward pass to calculate the probability
 - of the remaining observations. Multiplying these forward and backward probabilities and normalizing gives the posterior probability of being in each state at each time.
 
 
 
-#### Baum-Welch Algorithm
+##### Baum-Welch Algorithm
 - The Baum-Welch algorithm is an Expectation-Maximization (EM) method used to learn the HMM parameters from observation sequences when hidden states are unknown.
 - It alternates between computing expected counts of state visits and transitions (E-step) and updating the initial, transition, and emission probabilities to maximize likelihood (M-step). 
 - Repeating these steps iteratively improves the model to better fit the observed data.
 
 ---
 
-### Applications of HMMS
+#### Applications of HMMS
 
 - Financial Time Series Data
     + Algorithmic trading strategies
@@ -770,10 +763,10 @@ print("Probability of best path:", prob)
 
 ---
 
-### Advantages and Limitations
+#### Advantages and Limitations
 
 
-#### Markov Chains
+##### Markov Chains
 **Advantages**
 
 - Simple and easy to understand; only requires transition probabilities between states
@@ -791,7 +784,7 @@ print("Probability of best path:", prob)
 
 ---
 
-#### Hidden Markov Models
+##### Hidden Markov Models
 
 **Advantages**
 
@@ -807,3 +800,10 @@ print("Probability of best path:", prob)
 - Hidden states may not have clear, real-world meaning, making results harder to interpret
 - With too many hidden states, HMMs can fit the training data very well but generalize poorly.
 
+---
+
+#### Further Readings
+
+- [Markov Chains](https://math.libretexts.org/Bookshelves/Applied_Mathematics/Applied_Finite_Mathematics_(Sekhon_and_Bloom)/10%3A_Markov_Chains/10.01%3A_Introduction_to_Markov_Chains)
+- [Hidden Markov Models](https://www.geeksforgeeks.org/machine-learning/hidden-markov-model-in-machine-learning/)
+- [Video on HMMs in Python](https://www.youtube.com/watch?v=H527IGTmsIM)

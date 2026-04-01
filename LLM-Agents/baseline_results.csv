@@ -1,0 +1,37 @@
+query,answer,total_time,tool_usage_weather,tool_usage_calculator,tool_usage_search,success_count,failure_count,errors,agentic
+What is the weather in Paris?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.5073375701904297,0,0,0,0,0,,False
+Weather in Tokyo right now?,{'error': '404 Client Error: Not Found for url: https://api.openweathermap.org/data/2.5/weather?q=Weather+in+Tokyo+right+now%3F&appid=1ee012f7c40e33cdfc9ddf52e1599cf7&units=metric'},0.24430108070373535,0,0,0,0,0,,False
+Is it raining in London?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2440502643585205,0,0,0,0,0,,False
+What is the temperature in New York today?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.5297720432281494,0,0,0,0,0,,False
+Weather forecast for Berlin?,{'error': '404 Client Error: Not Found for url: https://api.openweathermap.org/data/2.5/weather?q=Weather+forecast+for+Berlin%3F&appid=1ee012f7c40e33cdfc9ddf52e1599cf7&units=metric'},0.18379926681518555,0,0,0,0,0,,False
+What is the humidity in Madrid?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.4834933280944824,0,0,0,0,0,,False
+What is 15 × 19?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24515128135681152,0,0,0,0,0,,False
+Compute (12 + 4) × 3.,"{'error': ""invalid character '×' (U+00D7) (<unknown>, line 1)""}",8.726119995117188e-05,0,0,0,0,0,,False
+What is 100 / 4?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.26673102378845215,0,0,0,0,0,,False
+What is 5² + 3?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2619948387145996,0,0,0,0,0,,False
+Evaluate 40 ÷ (2 × 5).,"{'error': ""invalid character '÷' (U+00F7) (<unknown>, line 1)""}",6.556510925292969e-05,0,0,0,0,0,,False
+What is 7 × 8 + 12?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2681124210357666,0,0,0,0,0,,False
+Who discovered penicillin?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2503690719604492,0,0,0,0,0,,False
+Define machine learning.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2551438808441162,0,0,0,0,0,,False
+What is the tallest mountain in the world?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24007344245910645,0,0,0,0,0,,False
+Who wrote Pride and Prejudice?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.25002241134643555,0,0,0,0,0,,False
+What is the capital of Argentina?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24840855598449707,0,0,0,0,0,,False
+What is photosynthesis?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2582406997680664,0,0,0,0,0,,False
+What is the weather in Paris and convert the temperature to Fahrenheit?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.49166131019592285,0,0,0,0,0,,False
+Find the population of Tokyo and compute its square root.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.269578218460083,0,0,0,0,0,,False
+Search for the tallest mountain and multiply its height in meters by 3.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.23043560981750488,0,0,0,0,0,,False
+What is the weather in Rome and what is 5 × the temperature?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.5041241645812988,0,0,0,0,0,,False
+Define artificial intelligence and compute the number of letters in the definition.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.2588827610015869,0,0,0,0,0,,False
+What is the weather in Sydney and what is 10 plus the temperature?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.43935132026672363,0,0,0,0,0,,False
+What is the weather in Berlin?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.4010603427886963,0,0,0,0,0,,False
+Compute 5 + (3 × 2,"{'error': ""invalid character '×' (U+00D7) (<unknown>, line 1)""}",5.1021575927734375e-05,0,0,0,0,0,,False
+Search for the capital of the country Zorblax.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.23534822463989258,0,0,0,0,0,,False
+What is the weather in a city named Qwertyopolis?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.38648176193237305,0,0,0,0,0,,False
+Compute 10 / (5 − 5).,"{'error': ""invalid character '−' (U+2212) (<unknown>, line 1)""}",5.5789947509765625e-05,0,0,0,0,0,,False
+Search for the current president of the fictional nation Eldoria.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.28632497787475586,0,0,0,0,0,,False
+How hot is it in the city where the Eiffel Tower is located?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24889254570007324,0,0,0,0,0,,False
+What is the square root of the number of letters in the word hippopotamus?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24487805366516113,0,0,0,0,0,,False
+Who invented the telephone and what is 12 × 7?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.25177669525146484,0,0,0,0,0,,False
+What is the weather in the capital of Japan?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.4423043727874756,0,0,0,0,0,,False
+Define gravity and compute 9 × 9.,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.24307465553283691,0,0,0,0,0,,False
+What is the weather in the largest city in Canada?,{'error': '432 Client Error:  for url: https://api.tavily.com/search'},0.5076782703399658,0,0,0,0,0,,False

@@ -1,59 +1,34 @@
----
-title: LLM Agents!
-author: Jon Trnka
-date: March 9, 2026
-format:
-  html:
-    toc: true
-  pdf:
-    colorlinks: true
-    linkcolor: blue
-    number-sections: true
-    geometry: margin=1in
-    fontsize: 11pt 
-    toc: true
-    toc-depth: 2
-cite-method: citeproc
-link-citations: true
-suppress-bibliography: false
-bibliography: LLM-Agentsref.bib 
-csl: apa.csl
----
+This presentation was prepared by Jon Trnka.
 
-# Introduction
+### Introduction
 Hello! My name is Jonathan Trnka and this is my presentation on LLM Agents!
 
-# Objective: 
+### Objective
 - Quickly explain what an LLM is
 - Explain what makes an LLM-Agent different
 - Compare them
 - Explain my process 
-- Use statistical tools to explain my dat
+- Use statistical tools to explain my Data
 - Conclusion
  
 
-## What exactly is an LLM Agent?
+#### What exactly is an LLM Agent?
 - To put it simply, an LLM Agent is the next step in evolution of LLMs.
 - What is an LLM aka Large Language Model?
-    - As @zhu2025evolutionary states, "LLM chatbots are designed as reactive
-conversational systems that receive textual prompts from users,
-process these inputs using pretrained knowledge, and generate
-coherent textual responses. Typical use cases include open
-domain dialogue, customer support, question answering (Zhu et al.,). Despite LLMs being very powerful in their own way, they are very limited by what they can do. Some common issues is outdated information and hallucinated responses.
+    - LLM chatbots are reactive conversational systems that receive user prompts, process them using pretrained knowledge, and generate text responses. Typical use cases include open-domain dialogue, customer support, and question answering. Despite being very powerful in their own way, they are still limited by outdated information and hallucinated responses.
 - What's a hallucinated response you say? 
     - A hallucinated response in regards to LLMs is when it creates incorrect, or fabricates content that  believes is correct when it is not. For example, you could ask for a 5 step plan and it gives you 4 believe it to be correct. It's all based on the prompt given to it by the user.
 - What does the 'agent' part mean?
     - The 'agent' part corresponds with the autonomous part of an LLM-Agent. This allows the LLM-Agent to resolve tasks on its own, without further input from a user. It can access APIs to access certain cotent, anything on the web, and solve errors it runs into. 
 - What is RAG? 
-    - RAG which stands for Retrieval Augmented Generation, is the solution to the limitations of standard LLMs.This is done by drawing real time data
-    from the sources such as APIs. @ferrag2025agents
+    - RAG, which stands for Retrieval Augmented Generation, is one approach to the limitations of standard LLMs. This is done by drawing real-time data from external sources such as APIs.
     - Limitations such as outdated information, single prompt answers, no recovery plans and so on.
 
 
 
-## LLM-Agent vs. Non‑LLM-Agent AI comparisons + examples
+### LLM-Agent vs. Non‑LLM-Agent AI comparisons + examples
 
-### Table side-by-side Comparison
+#### Table side-by-side Comparison
 
 
 | Aspect | LLM-Agent | Non‑LLM-Agent |
@@ -68,7 +43,7 @@ domain dialogue, customer support, question answering (Zhu et al.,). Despite LLM
 | Cost | Higher | Low |
 | Best For | Complex tasks | Simple tasks |
 
-### Types of LLMs and LLM-Agents.
+#### Types of LLMs and LLM-Agents
 | Category                | Model / System                     | Description                                                                 | Agentic? |
 |-------------------------|-------------------------------------|-----------------------------------------------------------------------------|----------|
 | Standard LLM            | GPT‑4o / GPT‑4 Turbo                | General-purpose chat models; strong reasoning but no built‑in planning.     | No       |
@@ -85,22 +60,22 @@ domain dialogue, customer support, question answering (Zhu et al.,). Despite LLM
 
 
 
-# Specific Aims
+### Specific Aims
 My goal is to evaluate how effective a LLM-Agent system is compared to a baseline LLM. To do this, I will construct two models: an LLM-Agent capable of multi‑step planning, tool use, API integration, 
 and limited error recovery, and a baseline LLM that processes only one prompt at a time without tool use or autonomous decision‑making. I will benchmark both systems on the same set of tasks 
 and use linear regression techniques to analyze differences in performance, error rates, and execution time.
 
-# Data
-## My data will be from 1 non-api and 3 different API sources. 
+### Data
+#### My data will be from 1 non-api and 3 different API sources
 - Tavily (web search base)
 - OpenWeather
 - Calculator
 - Groq (the brain)
 
-## Main research question: 
+#### Main research question
 "How well can an LLM-agent perform multi‑step tasks,self-recovery, accesseing API keys, replanning actions, compared to a baseline LLM that does not?"
 
-### Sub-research questions:
+#### Sub-research questions
 
 - 'Does the complexity(# of tool calls required to complete a task) of the task predict total_latency?
     - Y = total_latency
@@ -114,25 +89,25 @@ and use linear regression techniques to analyze differences in performance, erro
 
 
 
-# Methods and Research Design
-## Experimental Framework
-### The study uses a between‑systems comparative design. Two AI systems are constructed:
+### Methods and Research Design
+#### Experimental Framework
+The study uses a between‑systems comparative design. Two AI systems are constructed:
 - LLM-Agent — a system capable of multi‑step planning, tool use, API calls, and limited error recovery. It can autonomously break down tasks, select tools, and retry operations when failures occur.
 - Baseline AI — a non‑agentic model restricted to single‑prompt, single‑response interactions. It cannot use tools, plan, or recover from errors. It behaves like a standard chat assistant.
 - Both systems are evaluated on identical tasks to isolate the effect of agentic capabilities.
 
-## Task Selection
-### Tasks are chosen to require reasoning, multi-step execution, or external information retrieval. Each task is designed so that:
+#### Task Selection
+Tasks are chosen to require reasoning, multi-step execution, or external information retrieval. Each task is designed so that:
 - The LLM-Agent system can leverage planning and tools.
 - The baseline system must attempt the same task without those capabilities.
 - Success, failure, and time-to-completion can be measured consistently.
 
-### Examples include:
+#### Examples include
 - Multi-step problem solving (e.g., weather + calculation + summarization).
 - API-dependent tasks (e.g., retrieving structured data).
 - Error-prone tasks where retries matter (e.g., handling missing parameters).
 
-## Research Planning:
+#### Research Planning
 - Identify what my main research question would be and create my sub-research questions. All of which evaluate the performance of an LLM-Agent vs non-LLM-Agent (baseline)
 - Select and test my choosen variables. 
     - task_complexity 
@@ -141,13 +116,13 @@ and use linear regression techniques to analyze differences in performance, erro
     - tool_count 
     - error count
 
-## Tool and Document design:
+#### Tool and Document Design
 - Chose tools that would be show multi-step agentic behavior. This would be weather retrieval, calculator functions, and web search. 
 - Gather the required API keys and create a .ENV file. This would allow seamless access when executing code without hard-coding the credentials. 
 - Create my 'Agents_Multi_step' python file. This holds all core functionality such as calling API keys, tool definitions, LLM-Agent and baseline LLM decision making, log functions, and more.
 - Create my 'LLM_Agent_pipeline' python file. This one holds code for running statiscal analysis, creating summary tables, the plots, the legends and more.
 
-## How it all comes together:    
+#### How it all comes together
   1. Benchmark Queries
      (36 total)
         │
@@ -175,8 +150,6 @@ and use linear regression techniques to analyze differences in performance, erro
      - extract final answers
      - normalize errors
      - count tool usage
-     - compute num_tools
-     - assign tool_pattern
      - produce 1 row per query
         │
         ▼
@@ -196,7 +169,7 @@ and use linear regression techniques to analyze differences in performance, erro
       comparisons, summaries)
 
 
-## Before Diving in:
+#### Before Diving in
 - 6 questions for each type of query listed:
     - Math
     - weather
@@ -216,12 +189,14 @@ and use linear regression techniques to analyze differences in performance, erro
     - Lastly, it will just use the baseline LLM. This option is used last. 
 
 
-### Finally, Some Code:
-This is the first step which wipes any old .JSONL or .CSV files. This is to ensure that if I make any changes to my code, that new files are generated. The new files will then be ready 
-to be called when plotting takes place.  The next step, which calls my 'Agents_Multi_step.py' file, runs the directed amount of queries. (36 in this case)
+#### Finally, Some Code
+The original benchmark step wipes old `.JSONL` and `.CSV` files and reruns all 36 queries through the live Groq, OpenWeather, and Tavily APIs.
+
+For this shared course repository, the render below is shown but not executed. The report uses the saved benchmark artifacts already included in the `LLM-Agents/` folder so that it can be rendered without requiring API keys during normal course use.
 
 
 ```{python}
+#| eval: false
 import os
 
 def reset_logs():
@@ -243,54 +218,63 @@ def reset_logs():
 # Start fresh
 reset_logs()
 
-# Run agentic + baseline benchmarks
-from Agents_Multi_step import benchmark, benchmark_queries
+from Agents_Multi_step import run_full_benchmark_and_save_csv
 
-agentic_stats = benchmark("agentic", benchmark_queries)
-baseline_stats = benchmark("baseline", benchmark_queries)
-
+agentic_stats, baseline_stats = run_full_benchmark_and_save_csv()
 ```
 
-## 'Does the complexity(# of tool calls required to complete a task) of the task predict total_latency?
+*Remark:* To rerun this benchmark from scratch, set `GROQ_API_KEY`, `OPENWEATHER_API_KEY`, and `TAVILY_API_KEY`, then re-enable evaluation for the code chunk above.
+
+#### Does the complexity (# of tool calls required to complete a task) predict total latency?
 
 ```{python}
+import sys
+from pathlib import Path
+
+topic_dir = Path("LLM-Agents")
+if str(topic_dir.resolve()) not in sys.path:
+    sys.path.insert(0, str(topic_dir.resolve()))
+
 from LLM_Agent_pipeline import run_regression_comparison
 run_regression_comparison(
+    agent_file="LLM-Agents/agent_runs.jsonl",
+    baseline_file="LLM-Agents/baseline_runs.jsonl",
     predictor="task_complexity",
     outcome="total_latency"
 );
 ```
 
-## 'Does the number of tools(actual # of tool calls the agent executed) used predict total task latency?
+#### Does the number of tools (actual # of tool calls the agent executed) predict total task latency?
 ```{python}
 run_regression_comparison(
+    agent_file="LLM-Agents/agent_runs.jsonl",
+    baseline_file="LLM-Agents/baseline_runs.jsonl",
     predictor="tool_count",
     outcome="total_latency"
 );
 ```
 
-## Does API difficulty(Calculator:1, Web search: 2, Weather: 3) predict total_latency?
+#### Does API difficulty (calculator: 1, web search: 2, weather: 3) predict total latency?
 ```{python}
 run_regression_comparison(
+    agent_file="LLM-Agents/agent_runs.jsonl",
+    baseline_file="LLM-Agents/baseline_runs.jsonl",
     predictor="api_difficulty",
     outcome="total_latency"
 );
 ```
-# Conclsuion:
+### Conclusion
 The comparison between LLM-Agents and a baseline LLM is clear. This data shows how multi-step reasoning, tool use, recovery actions, and API use can change how effective
 a LLM can be. You can cleary see how the LLM-Agent is able to handle errors, self recover, access API keys and do multi-step reasoning and use all of that to predict total latency. I hope I
 showed just how effective an LLM-Agent can be. Which one would you choose? 
 
-# For those wanting more!
+### For those wanting more
 - https://www.vellum.ai/llm-leaderboard?utm_source=bing&utm_medium=organic (compares top LLM models and LLM-Agents)
 
 - https://www.thinkstack.ai/blog/what-are-llm-agents/
 
 
 
-# Disclaimer: 
+### Disclaimer
 Remember to use any AI tool responsibily. AI is a wonderful tool but can be very easy to rely on it! Do not blindly trust the AI! Use those critical problem solving skills on hand!
 
-# Questions, comments, suggestions?
-
-# References:

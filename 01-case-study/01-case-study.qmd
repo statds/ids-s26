@@ -119,6 +119,8 @@ The point of these steps is not to "discover the answer" yet: it is to make sure
 
 #### Load packages 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -131,6 +133,8 @@ print("Libraries loaded.")
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import os
 print("CWD:", os.getcwd())
 
@@ -1389,6 +1393,8 @@ being transparent about the limits of observational data.
 
 #### Load covariate datasets + build one district-level analysis table
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import pandas as pd
 
 # Path (project-relative)
@@ -1430,6 +1436,8 @@ cov_matched.head()
 #### Visualization by PCA and K-means
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -1453,6 +1461,8 @@ print("Total missing values:", int(X.isna().sum().sum()))
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # --- Impute + standardize ---
 imputer = SimpleImputer(strategy="median")
 scaler = StandardScaler()
@@ -1465,6 +1475,8 @@ print("Any NaN after impute/scale?", np.isnan(X_std).any())
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # --- PCA (2D for visualization) ---
 pca = PCA(n_components=2, random_state=0)
 PC = pca.fit_transform(X_std)
@@ -1481,6 +1493,8 @@ display(pc_df.head())
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # --- Choose k for k-means using silhouette on PC scores ---
 # We'll cluster using the first 2 PCs (what students see). You can switch to more PCs later.
 k_range = range(2, 9)
@@ -1507,6 +1521,8 @@ plt.show()
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # --- Fit k-means with chosen k and plot PC1 vs PC2 colored by cluster ---
 kmeans = KMeans(n_clusters=best_k, n_init=25, random_state=0)
 pc_df["cluster"] = kmeans.fit_predict(PC)
@@ -1537,6 +1553,8 @@ plt.show()
 
 #### t-SNE + k-means clustering
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 ##import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -1569,6 +1587,8 @@ display(tsne_df.head())
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # Choose k using silhouette on the 2D embedding
 k_range = range(2, 9)
 sil = []
@@ -1593,6 +1613,8 @@ plt.show()
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # Fit k-means with chosen k and plot t-SNE colored by cluster
 kmeans_tsne = KMeans(n_clusters=best_k_tsne, n_init=25, random_state=0)
 tsne_df["cluster"] = kmeans_tsne.fit_predict(Z_tsne)
@@ -1619,6 +1641,8 @@ plt.show()
 #### UMAP + k-means clustering (with fallback)
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 ##import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -1657,6 +1681,8 @@ except Exception as e:
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 # Only run clustering/plot if UMAP worked
 if Z_umap is not None:
     k_range = range(2, 9)
@@ -1708,6 +1734,8 @@ if Z_umap is not None:
 
 #### Arcsin–sqrt transform for rate/proportion covariates
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import numpy as np
 import pandas as pd
 
@@ -1739,6 +1767,8 @@ display(cov.head())
 #### Correlation structure of covariates (after transform)
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import matplotlib.pyplot as plt
 from sklearn.impute import SimpleImputer
 
@@ -1776,6 +1806,8 @@ plt.show()
 We'll use two groups of covariates and extract a **single latent factor** from each group using PCA on standardized variables.
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
@@ -1830,6 +1862,8 @@ display(acad_loadings.to_frame())
 
 ##### Add the two factor scores back into district covariate table
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 cov_with_factors = (
     cov.merge(social_factor_df, on="school_district", how="left")
        .merge(acad_factor_df, on="school_district", how="left")
@@ -1859,6 +1893,8 @@ In Python, we will use `statsmodels.genmod.bayes_mixed_glm.PoissonBayesMixedGLM`
 
 ##### 1) Build `dat1` in long format (district × year)
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 import numpy as np
 import pandas as pd
 
@@ -1932,6 +1968,8 @@ y_{d,t} \sim \text{Poisson}(\mu_{d,t}), \quad \log(\mu_{d,t})=\log(pop_{d,t})+\b
 ]
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 ##import numpy as np
 ##import pandas as pd
 import statsmodels.api as sm
@@ -1962,6 +2000,8 @@ print(glm_pois.summary())
 ### 3) Exponentiate fixed effects for rate ratios
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 ##import numpy as np
 coef = glm_pois.params
 se = glm_pois.bse
@@ -1981,6 +2021,8 @@ display(rr_table)
 ```
 
 ```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
 print("Social loadings:\n", social_loadings.sort_values())
 print("Academic loadings:\n", acad_loadings.sort_values())
 ```
