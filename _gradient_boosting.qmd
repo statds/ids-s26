@@ -206,7 +206,9 @@ print(f'R2: {r2_reg:.2f}')
 print(f'RMSE: {(mse_reg ** (1/2)):.2f}')
 ```
 
-R-squared is decent and given the context of the problem and the values of the target variable (`MedHouseVal`), the RMSE isn't so bad either.
+R-squared (amount of variation in `MedHouseVal` explained by the features) is decent, and given the context of the problem and the values of the target variable, the RMSE isn't so bad either.
+
+**To see improvement**, you may want to try the `GridSearchCV` function in order to find which combinations of hyperparameters yield the best results (however this is very computationally expensive).
 
 ## Gradient Boosting in Classification
 
@@ -273,11 +275,11 @@ The accuracy score is fairly high, so we can say that this Gradient Boosting mod
 
     + This is why tuning hyperparameters is important
 
-* Can be computationally expensive
+* Can be very computationally expensive
 
 ## Conclusion
 
-**ESSENTIALLY**, Gradient Boosting is an algorithm that uses residuals to minimize overall error by sequentially fixing previous errors.
+**ESSENTIALLY**, Gradient Boosting is an algorithm that uses residuals to minimize overall error by sequentially fixing previous errors. With the right tuning, it can be a very powerful predictive tool.
 
 ## References
 
