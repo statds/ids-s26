@@ -82,6 +82,10 @@ Boosting can be contrasted with Bagging (see Random Forests).
 
         - Also used to prevent overfitting
 
+![Gradient Descent Visual Representation](https://datamites.com/blog/uploads/images/202403/image_750x_660501cb801fd.jpg)
+
+![Learning Rate Visual Representation](https://datahacker.rs/wp-content/uploads/2021/10/116-1920x549.jpg)
+
 ### Major Steps in Gradient Boosting:
 
 1. **Creating an initial prediction**
@@ -104,10 +108,10 @@ $$
 
 or
 $$
-r_{im} = y_{i} - \hat{y}_{i} (actual - predicted)
+r_{im} = y_{i} - \hat{y}_{i}
 $$
 
-where:
+**which is just the usual residual calculation (actual - predicted)** where:
 
 * i = 1, ..., n (n is the number of observations in the sample)
 
@@ -153,6 +157,8 @@ Both functions for Gradient Boosting Regression and Classification can be found 
 
 For an example of Gradient Boosting in regression, we will be using the sklearn California housing dataset.
 
+We want to create a model that is able to predict the median house values for California districts.
+
 ```{python}
 import sklearn
 import numpy as np
@@ -191,6 +197,7 @@ gb_reg = GradientBoostingRegressor(loss = 'squared_error',
     n_estimators = 400, # number of iterations/models (trees in this case)
     max_depth = 5,
     random_state = 3255,
+    verbose = 1,
     n_iter_no_change = 50)
 
 gb_reg.fit(train_X, train_y)
@@ -208,11 +215,13 @@ print(f'RMSE: {(mse_reg ** (1/2)):.2f}')
 
 R-squared (amount of variation in `MedHouseVal` explained by the features) is decent, and given the context of the problem and the values of the target variable, the RMSE isn't so bad either.
 
-**To see improvement**, you may want to try the `GridSearchCV` function in order to find which combinations of hyperparameters yield the best results (however this is very computationally expensive).
+**To see improvement**, you may want to try the `GridSearchCV` function in order to find which combinations of hyperparameters yield the best results (however this is very computationally expensive, especially considering how many hyperparameters Gradient Boosting has).
 
 ## Gradient Boosting in Classification
 
 For an example of Gradient Boosting in regression, we will be using the sklearn Wisconsin breast cancer dataset.
+
+We want to create a model that is able to predict whether a patient's tumor is malignant or benign.
 
 ```{python}
 from sklearn.datasets import load_breast_cancer
@@ -244,6 +253,7 @@ gb_clf = GradientBoostingClassifier(loss = 'log_loss',
     n_estimators = 400, # number of iterations/models (trees in this case)
     max_depth = 5,
     random_state = 3255,
+    verbose = 1,
     n_iter_no_change = 50)
 
 gb_clf.fit(train_X, train_y)
@@ -254,7 +264,7 @@ pred_y = gb_clf.predict(test_X)
 
 gb_acc = accuracy_score(test_y, pred_y)
 
-print(f'Accuracy score: {gb_acc}')
+print(f'Accuracy score: {gb_acc:.2f}')
 ```
 
 The accuracy score is fairly high, so we can say that this Gradient Boosting model is quite good at predicting whether a patient has breast cancer or not with the given features.
