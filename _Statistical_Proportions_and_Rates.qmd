@@ -305,7 +305,7 @@ plt.show()
 import numpy as np
 import pandas as pd
 
-# Original long-format dataframe
+# Create data frame with 10 road segments, before and after the safety program
 data = pd.DataFrame({
     "segment": np.repeat(np.arange(1, 11), 2),
     "after_program": [0, 1] * 10,
@@ -335,7 +335,7 @@ data = pd.DataFrame({
     ]
 })
 
-# Pivot to a clean wide table
+# Pivot data to get total accidents and exposure before and after for each segment
 wide = data.pivot(index="segment", columns="after_program", values=["accidents", "exposure"])
 
 # Rename columns for clarity
@@ -344,7 +344,7 @@ wide.columns = ["accidents_before", "accidents_after", "exposure_before", "expos
 # Reorder columns
 wide = wide[["accidents_before", "exposure_before", "accidents_after", "exposure_after"]]
 
-# Print nicely
+# Print 
 print(wide.to_string())
 
 ```
@@ -414,36 +414,6 @@ According to the rate ratio of 0.442, the accident rate after the program is est
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
-
-# Example data: 10 road segments, before and after
-data = pd.DataFrame({
-    "segment": np.repeat(np.arange(1, 11), 2),
-    "after_program": [0, 1] * 10,
-    "exposure": [
-        5000, 5200,   # segment 1
-        4800, 5100,   # segment 2
-        5100, 5300,   # segment 3
-        4950, 5050,   # segment 4
-        5050, 5150,   # segment 5
-        4900, 5000,   # segment 6
-        5200, 5400,   # segment 7
-        5000, 5200,   # segment 8
-        5100, 5300,   # segment 9
-        4950, 5150    # segment 10
-    ],
-    "accidents": [
-        2, 1,   # segment 1
-        3, 1,   # segment 2
-        2, 1,   # segment 3
-        2, 1,   # segment 4
-        3, 2,   # segment 5
-        2, 1,   # segment 6
-        3, 1,   # segment 7
-        2, 1,   # segment 8
-        2, 1,   # segment 9
-        3, 1    # segment 10
-    ]
-})
 
 # Design matrix: intercept + indicator for after_program
 X = sm.add_constant(data["after_program"])
