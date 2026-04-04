@@ -364,9 +364,152 @@ Conceptually, the model has three main components:
 - a concordantly decreased component,
 - a concordantly increased component.
 
+Before fitting the model, it helps to picture the geometry we are trying to capture. The figure below is a conceptual sketch rather than a plot of the real data: the middle ellipsoid represents the reference distribution, the nearby orange points represent discordant proteins that do not follow a clean all-up or all-down pattern, and the two corner clusters represent concordantly decreased and increased proteins.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show conceptual geometry"
+rng = np.random.default_rng(3255)
+
+# Central reference cloud
+ref = rng.multivariate_normal(
+    mean=[0.0, 0.0, 0.0],
+    cov=np.diag([0.35, 0.20, 0.12]),
+    size=450,
+)
+
+# Discordant proteins: close enough to the center to overlap with the reference,
+# but shifted in irregular directions rather than along a clean concordant diagonal.
+dirs = rng.normal(size=(65, 3))
+dirs = dirs / np.linalg.norm(dirs, axis=1, keepdims=True)
+radii = rng.uniform(1.2, 2.0, size=65)
+discordant = dirs * radii[:, None] * np.array([1.2, 1.0, 0.9])
+discordant += rng.normal(scale=0.06, size=discordant.shape)
+
+# Concordant corner clusters
+down = rng.multivariate_normal(
+    mean=[-2.8, -2.5, -2.6],
+    cov=np.diag([0.12, 0.10, 0.10]),
+    size=120,
+)
+up = rng.multivariate_normal(
+    mean=[2.8, 2.5, 2.6],
+    cov=np.diag([0.12, 0.10, 0.10]),
+    size=120,
+)
+
+# A translucent ellipsoid helps visualize the reference component.
+u = np.linspace(0, 2 * np.pi, 40)
+v = np.linspace(0, np.pi, 24)
+rx, ry, rz = 1.4, 1.05, 0.8
+x = rx * np.outer(np.cos(u), np.sin(v))
+y = ry * np.outer(np.sin(u), np.sin(v))
+z = rz * np.outer(np.ones_like(u), np.cos(v))
+
+fig = go.Figure()
+
+fig.add_trace(
+    go.Surface(
+        x=x,
+        y=y,
+        z=z,
+        opacity=0.16,
+        showscale=False,
+        colorscale=[[0, "#9ecae1"], [1, "#9ecae1"]],
+        hoverinfo="skip",
+        name="Reference envelope",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=ref[:, 0],
+        y=ref[:, 1],
+        z=ref[:, 2],
+        mode="markers",
+        name="Reference proteins",
+        marker=dict(size=3, color="#6baed6", opacity=0.45),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=discordant[:, 0],
+        y=discordant[:, 1],
+        z=discordant[:, 2],
+        mode="markers",
+        name="Discordant proteins",
+        marker=dict(size=5, color="#f28e2b", symbol="diamond", opacity=0.9),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=down[:, 0],
+        y=down[:, 1],
+        z=down[:, 2],
+        mode="markers",
+        name="Concordant down",
+        marker=dict(size=4, color="#d62728", opacity=0.85),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=up[:, 0],
+        y=up[:, 1],
+        z=up[:, 2],
+        mode="markers",
+        name="Concordant up",
+        marker=dict(size=4, color="#2ca02c", opacity=0.85),
+        hoverinfo="skip",
+    )
+)
+
+fig.add_trace(
+    go.Scatter3d(
+        x=[0, -3.15, 3.15, 1.9],
+        y=[0, -2.75, 2.75, 0.6],
+        z=[1.35, -2.85, 2.85, 1.25],
+        mode="text",
+        text=[
+            "Reference component",
+            "Concordant down",
+            "Concordant up",
+            "Discordant proteins",
+        ],
+        textfont=dict(size=12, color="black"),
+        showlegend=False,
+        hoverinfo="skip",
+    )
+)
+
+fig.update_layout(
+    title="Conceptual geometry for the tailored penalized mixture",
+    scene=dict(
+        xaxis_title="Strain 1 summary",
+        yaxis_title="Strain 2 summary",
+        zaxis_title="Strain 3 summary",
+        camera=dict(eye=dict(x=1.5, y=1.4, z=1.15)),
+    ),
+    legend=dict(x=0.02, y=0.98),
+    margin=dict(l=0, r=0, b=0, t=40),
+)
+fig.show()
+```
+
+A conventional method such as K-means or a plain Gaussian mixture tries to explain all of these points using only three global clusters. That can force the discordant proteins into the wrong component and pull the central reference cluster away from the clean near-zero pattern. The tailored method keeps the three main concordant components but adds a sparse mean-shift mechanism, which gives the model a principled way to absorb those discordant proteins without letting them distort the main scientific signal.
+
 The key extra idea is a *protein-specific mean-shift vector* for the reference component. If a protein has a nonzero shift, the model is saying that this protein does not really behave like a clean member of the main concordant groups. That gives the method a built-in way to handle discordant proteins.
 
 In this case study, we use a Python translation of the *hard-thresholded sparse mean-shift* version with *diagonal covariance matrices*.
+
+
+
+
 
 ## Fit the translated method
 
