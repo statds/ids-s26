@@ -37,7 +37,7 @@ $$\text{Feature Engineering} \longleftrightarrow \text{Model Building} \longrigh
 ## Data Acquisition
 The process of gathering raw text data. This can involve web scraping, using APIs, and/or utilizing datasets like the Common Crawl.
 
-```{python}
+```{python eval=FALSE}
 from datasets import load_dataset
 
 base_url = "https://huggingface.co/datasets/hf-internal-testing/dataset_with_data_files/resolve/"
@@ -81,10 +81,11 @@ Other Forms of Tokenization : Word, Sentence, Tweet, Phrase, Semantic, N-gram, e
 
 ```{python}
 import nltk
-from nltk.corpus import stopwords
+#from nltk.corpus import stopwords
 
-nltk.download('stopwords')
-stopword_list = stopwords.words("english")
+#nltk.download('stopwords')
+#stopword_list = stopwords.words("english")
+stopword_list = ["the", "are", "over", "at"] # example stopword list
 words = example_text.split()
 filtered_words = [word for word in words if word.lower() not in stopword_list]
 print(filtered_words)
@@ -108,7 +109,7 @@ print(stemmed_words)
 ```
 
 **Lemmatization** - a approach that uses vocabulary and morphological analysis to return a word to its base dictonary form (e.g. "sorrow $\rightarrow$ sad")
-```{python}
+```{python eval=FALSE}
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 
@@ -200,8 +201,15 @@ print("Similarity (cat, fox):", model.similarity('cat', 'fox'))
 print("Similarity (cat, car):", model.similarity('cat', 'car'))
 ```
 
+### Positional Encoding
+Positional encoding adds information about the position of each token in the sequence to the input embedding which helps transformers understand the relative/absolute position of token. 
+
+**Sinusoidal Positional Formula**
+$$PE_{pos, 2i} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+$$PE_{pos, 2i+1} = \cos\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right) $$
+
 **BERT** - A bi-directional neural network that looks at the words before and after a target word to understand its specific context
-```{python}
+```{python eval=FALSE}
 import torch
 from transformers import BertTokenizer, BertModel
 from torch.nn.functional import cosine_similarity
@@ -224,7 +232,6 @@ print(f"Sentence 1: {sentences[0]}")
 print(f"Sentence 2: {sentences[1]}")
 print(f"Semantic Similarity Score: {similarity.item():.4f}")
 ```
-
 # Evolution of NLP Models & Algorithms
 
 ## Phase 1: Rule-Based Systems (Heuristics)
