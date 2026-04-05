@@ -289,6 +289,19 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
   <li><a href="#modern-baseball-analytics-application" id="toc-modern-baseball-analytics-application" class="nav-link" data-scroll-target="#modern-baseball-analytics-application"><span class="header-section-number">7.2.10</span> Modern Baseball Analytics Application</a></li>
   <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">7.2.11</span> Conclusion</a></li>
   </ul></li>
+  <li><a href="#visualizing-spatial-data" id="toc-visualizing-spatial-data" class="nav-link" data-scroll-target="#visualizing-spatial-data"><span class="header-section-number">7.3</span> Visualizing Spatial Data</a></li>
+  <li><a href="#introduction-to-powerbi-and-tableau" id="toc-introduction-to-powerbi-and-tableau" class="nav-link" data-scroll-target="#introduction-to-powerbi-and-tableau"><span class="header-section-number">7.4</span> Introduction to PowerBI and Tableau</a>
+  <ul class="collapse">
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">7.4.1</span> Introduction</a></li>
+  <li><a href="#what-is-powerbi" id="toc-what-is-powerbi" class="nav-link" data-scroll-target="#what-is-powerbi"><span class="header-section-number">7.4.2</span> What is PowerBI?</a></li>
+  <li><a href="#what-is-tableau" id="toc-what-is-tableau" class="nav-link" data-scroll-target="#what-is-tableau"><span class="header-section-number">7.4.3</span> What is Tableau?</a></li>
+  <li><a href="#powerbi-vs-tableau" id="toc-powerbi-vs-tableau" class="nav-link" data-scroll-target="#powerbi-vs-tableau"><span class="header-section-number">7.4.4</span> PowerBI VS Tableau</a></li>
+  <li><a href="#powerbi" id="toc-powerbi" class="nav-link" data-scroll-target="#powerbi"><span class="header-section-number">7.4.5</span> PowerBI</a></li>
+  <li><a href="#tableau" id="toc-tableau" class="nav-link" data-scroll-target="#tableau"><span class="header-section-number">7.4.6</span> Tableau</a></li>
+  <li><a href="#integration-with-python" id="toc-integration-with-python" class="nav-link" data-scroll-target="#integration-with-python"><span class="header-section-number">7.4.7</span> Integration With Python</a></li>
+  <li><a href="#conclusion-2" id="toc-conclusion-2" class="nav-link" data-scroll-target="#conclusion-2"><span class="header-section-number">7.4.8</span> Conclusion</a></li>
+  <li><a href="#further-readings" id="toc-further-readings" class="nav-link" data-scroll-target="#further-readings"><span class="header-section-number">7.4.9</span> Further Readings</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -561,7 +574,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li>Integration into dashboards and automated workflows</li>
 </ul>
 <p>Many modern visualization libraries are influenced by this framework.</p>
-<div id="3be7abb0" class="cell" data-execution_count="1">
+<div id="0e4c22c7" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -638,7 +651,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li>Player identity</li>
 </ul>
 <p>These variables form the foundation of visual analysis.</p>
-<div id="94aa4d75" class="cell" data-execution_count="2">
+<div id="aa9cf2c3" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(data[<span class="st">"exit_velocity"</span>], data[<span class="st">"launch_angle"</span>])</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Exit Velocity (mph)"</span>)</span>
@@ -668,7 +681,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li>Launch angle is mapped to the y-axis</li>
 </ul>
 <p>Each point represents a batted ball.</p>
-<div id="2129892a" class="cell" data-execution_count="3">
+<div id="7b0dd31c" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">"exit_velocity"</span>],</span>
@@ -693,7 +706,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <h3 data-number="7.2.6" class="anchored" data-anchor-id="component-3-scales"><span class="header-section-number">7.2.6</span> Component 3: Scales</h3>
 <p>Scales determine how data values are translated into visual values.</p>
 <p>Here, hit distance is represented using a color gradient. This allows multiple variables to be displayed simultaneously, increasing information density.</p>
-<div id="766e3281" class="cell" data-execution_count="4">
+<div id="433fbeda" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>plt.figure()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(data[<span class="st">"launch_angle"</span>], data[<span class="st">"hit_distance"</span>])</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Launch Angle (degrees)"</span>)</span>
@@ -719,7 +732,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li>Lines for trends</li>
 </ul>
 <p>This example adds a trend line to the raw observations.</p>
-<div id="bbde56b5" class="cell" data-execution_count="5">
+<div id="b2015cbe" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> data[<span class="st">"exit_velocity"</span>]</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">"launch_angle"</span>]</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -750,7 +763,7 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <li>Statistical summaries</li>
 </ul>
 <p>This allows deeper insight into relationships between variables.</p>
-<div id="2e96bcd1" class="cell" data-execution_count="6">
+<div id="38b9d444" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> px.scatter_3d(</span>
@@ -765,9 +778,9 @@ if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.M
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
-        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.0.min.js" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" crossorigin="anonymous"></script>                <div id="440c9f89-2c4d-497d-a706-0c53787b69df" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("440c9f89-2c4d-497d-a706-0c53787b69df")) {                    Plotly.newPlot(                        "440c9f89-2c4d-497d-a706-0c53787b69df",                        [{"hovertemplate":"exit_velocity=%{x}\u003cbr\u003elaunch_angle=%{y}\u003cbr\u003ehit_distance=%{z}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","opacity":0.8,"symbol":"circle"},"mode":"markers","name":"","scene":"scene","showlegend":false,"x":{"dtype":"f8","bdata":"8k3L0vIeV0DzVHFjwVNWQLBrIaVCT1dASyEYm15nWEDgpNEnEjVWQNzlH4ATNVZAEQklHVl5WEBvaMVAlHVXQOefhqjE6VVAxyXOhJ4tV0B3OpbStOtVQFCNKGv36lVAcA2ejG3NVkDNYxUVwBtUQC9WLbsGWFRApLPVZxHMVUCjPeff5DtVQJ9wOCSP5FZA2JHwqm5dVUB0bq4UELxUQAltePIBVVhAgn\u002fMZ8A3VkCDXRjpm5VWQOz46qAUuFRAOhLOKszRVUBI\u002fU7HfqNWQNrUK5uuD1VAVnWBLjn4VkCqm7Oty79VQOM8sXKoIlZAF1y\u002fMXS\u002fVUA\u002f8\u002f2gutBYQGt0rk6ue1ZAC2QZUogtVUDONxPhNodXQHZO+nxU+VRAiFYPG9bCVkAxvM3S5wxUQOQ4tv\u002f61lRAkmJY3\u002f6+VkAp1qYuT2xXQHMaVn3WtlZAQqG7F\u002f5aVkCRbNOVpR9WQKAxgnrfplRAgmnJXKaZVUCWUs14mOxVQDDb6HNH0ldASAHVNfXtVkBW+h7A00tUQLkicvW051ZAtC1BD8YEVkDDbbuMYqdVQEJjhoW8Q1dAwSMbe+vJV0AZxqR3AqpXQCtp7Uxzc1VAL8B5Ug0dVkB\u002fTK0ZAepWQBD0JKgsuFdAADbjC6rmVUBtxg7RlkRWQGRH9wn5HVVAyeTbwDYBVUBZ7IgdAoRXQBhM4i7\u002fMVhAE4pL7vRoVkAIIj1qIcFXQDXLITm581ZAlfUpyo+xVUCQOCuHpfNWQIJHnfQrbFhA0BiBIYl0VkDQhLibr3RYQBmZJ3uuOVNAd\u002f3OQAKHV0CaHlXl2ptWQFubXlFRIFZALdj1Cl2dVkC+jcFa+gNUQPBbnHq0OVZAsYpvqUbyVkDAZYQU7VhYQKaHwE0n2lVAia88NEh9VUBeFSAQcN9VQELG0b3tpFdA3KN4SjPpVkByn0oLetZVQJgnPd4+JFdANojElxCfVkBbt8pl97VXQCstgM9Xn1VAI0i96iUXVkDGQAaAhgJWQO+0\u002ftqsq1RA8RdQLMLeVkCFk9ylidNWQKVP9eSigVZAPJ09n+40VkAI+SzUFLtUQGBiM7xk+VVA\u002fJCp01QSVkAR9jNyRX9VQF\u002faeHljTFZAjeyf2EsBV0Aq2FlZlNtYQGPmF2rdt1ZAaogrh2rSVkBVFP1jLWhWQAU7FUP+GVRAuhG7+4N3VkDvaA0PRpNWQF0ROss8lFlALwwuynFCVkDy5R7CfuBWQIFpbWnkdFZAnBYp5QUKVUCz1IILtO1XQPk2olqecFdAJk1MViF9V0B01M36\u002flxVQFSb8ujkQFhALk5mXGi\u002fVEBJn0dVyztXQMg99x\u002fyPFlAYJSlQwdDVUBBctbjyMpVQASRmHDjn1ZAZAxARuPeVUCzldemyY9UQK0izK3wlVZAp+hrFBAsVUCagyGxjBdXQByFSMTIWVVAlJ5foPpvWEAXKurjW4VVQN2+eLjwGFZAaSuYVFOEV0Dj4F6YH\u002fZUQANYkYTJyFZA2A5qIkkiWEAyXTL5mn1UQMYpqDQVu1ZA05w3mSnTVkB57\u002f3tLnpXQLOEbf8s9FRAKMW6MXTZVEA8b\u002ftzBSdXQO6vA\u002fwI31ZAjiXSXyjQVkAg740J3e5WQKRv819kplVAHRoOOVLKVkA3ODx\u002fyN1WQCso81Rom1VArdh5PwzVWED42pNkoBdXQFjh4WrIAlVA\u002fHAi3xhSV0Ap9NsTGkhVQN1Sgvjde1dAo2hbJsDyV0Cp11i0YXlVQHUQw8VHtFdAiwF3AxcEV0CtJhYrD4dXQOu5+Ef53lhA\u002f6w3znkxVkATV\u002fTuzY5VQEBMWfpaY1VAkOpK0vB6VUA8gPXTU2dWQA6Bdisr7VZAfcihgorYVkDMAg3asohXQI6Abx0phFZA6UP4giFRWECeue1PTytWQMycFEJ05llAPghMqzZIV0BLlymntW1VQKYej3xQKVVAUd3nI2QaV0DFcLrtfThWQBVRpOt6ZFdAovlOoG8XV0BbawDbsWhWQCUMm6gGcVVAHGwhtz+bVEAVn8B+HfFVQAJxcTAMkldAk6U8j4LEVkBfl0kUXfFUQPwGQPtqt1ZADKUiM037VkC2fBlmKmVVQEJDIikxsVZApZVNdaCSVkDKJYrfPxJVQMaFyPB98lZAahHpd3MzV0CWqc6Ok9pXQDtvz3Y30VdAdedLUyXHVEBKPmtf5VNVQE0vaLDPJFdA52NYWGkkV0DItNq00CRXQAnKgsPfUFtApUfDWa82V0DVy4iJYetXQHspENNHsVdA25Kn+HFQV0A7C7skHRtWQIvcL8LecldA04uOKLKIVUCQNdrRNzRWQBxBpgSv5FVAxdAmITOaVkARlmzUsGRZQPoSq6J5KlRAsMFOb5pbV0AYYNpQ7ntUQB4ecFf76FVACys51XbcV0BowLTRkZRWQNWy1SUfJ1VAtIb0URqbVUAXo8ileFlXQEVbk11IllVAuP2jSUTFVkC9gcA+lY5WQKc2R+Z8r1VAhyFZ5g8uWUDPdXSl2kpXQP61vVH091NAfSpkVqq7VkD7GutzOqxVQGa2ulbHkFdAiMl7s2SCVUDhTGzKSFtWQHgl0o6YIVdA5qBeqgqVV0CGvOS35\u002f9UQEt9pKj1FFZADHjoegToVUALuO5E765VQGO96ALytFhAvRENGpgBV0CLGe9ihOxUQM8NLkC3pVdAXPcgCRcnWUB0Z9yNY8pXQOwgXzbNmVRAyMl0iwvlVUAv3oBcaRVYQKf8pbeLnVVAl4UDsAUOV0AET4sF4ndXQAKiE9thV1VALgrOrvNsVkBWAydhy3JSQKaNFyoyOFVAqjH2nS0vVkDkMwuatfBUQEUCTyJfilhA3kB90Vq2VEBuED+OL\u002fNVQEGhoUTWqVZA8WubGzVNWEBv5i0shrRUQG0\u002f5F829FdAeQXYSkaDVkCNwrHP6kVVQDGpQITfE1dAugxj+LK\u002fVkCinsE77r9VQOtH0i9WllZA4HcyHLMEVkCDukZXU6RWQNLurr7hU1dAG1Bhf4Z7WEAqkoIn5vNUQA\u002fIExiSKllArqmr91QPVECdANjDbU9WQBvoD\u002fJCPFdAdfSS2urZVkBo65B0vLhVQJZuEKBmPVZAue0JXT3iVUAUYzY9Z8NVQN2lXmffj1dAVntntT7yVkCwlpDYRKJVQOCWxzjfn1dASE0M+lXiVkCXti6qHYRXQLDZ2TF7SVdA"},"y":{"dtype":"f8","bdata":"kbONURfXGkCKS8qB38siQLskSVYSeTZALuDUQYwaNUBUy93c+5QtQGBdhqxbLDBA2JVSd9LGO0AnBJqMJysiQIyGXr2ReDRAPxnuC8b0KUADtK\u002fkeKUpQD\u002fe0GXe\u002fDlAhN\u002fE2xBBN0A8CdCslSI3QEZ9T5cGDjxArw\u002fCJ4prLkAOOAOzzNE1QPzmIyhvyydAwQMoqd09MkDvyFHlqmUrQPPAHY2e8C9AolyyG5rzNEDzDniSa0UbQI0tZnZB9kFAigyiy2HCE0AuFkjOat0GQHM\u002fxIrDlDpANlcoEKjqNkC+Ps4pvz01QBXJUIOQSDVAuNHu6EvBLUBDAxuAHRwYQH6Y7owehC9AuAr7me50IECCIu93TsA4QCVC7PIQDytAoHXhoOj6GkAmD04mgZInQAcJBMIaITNAFBhD9Lq5IkAOhfWQdhwbQKsc1tnWbzFAkkDDSh1zMUAZA\u002fFwc9wjQPseDKxIlCRAI+Y3PwxSMUDULEZF7pzgP+hZb06RnO0\u002f8NKklCFDH0Afd5+MJrspQFs512HsGzJAb3xJc+nAPUAIhofPm5M3QDy8uF4dzSpAwUdzE6OeLUDACSBsGeYTQGFTX3Y2oS1AS5pKWRE6KECapPDVKDoyQFwkILcn6RpAB5N77oYxNEDQhibGz1M+QNJk8eUl0ytAE1lQy2EEM0AeTTPExOY1QP1Kl03A+SVAWo22P609MUD7t44ceUAuQLNcEQQa9C9AFhxyO2EUHUB4OsH5fX0uQIKh\u002fyjg+jNAo8qMee2CPUC9bYS6u5c4QEyq4tMSREJAkTidZ1xOHUB\u002faW8NJLk3QOtKUgRb1TBAHEYKoPJyQkBOePeKBqsbQCTe85I\u002faRpAnBlfEhwDIkB+\u002fiA1sfQYwJt3w2AifCNApg6URnuiHUCDXmgSAoEwQDPBPzLlajJAnrQcqX\u002fhQECUej\u002fEFYE4QCC+J9dAdiJAE30M2DsQGEBl9fIlUOszQMqAeHI\u002fw\u002fw\u002fuZWMaESoQEDY4aTgXcs6QMyd2hbSnSRAmH6Hwv4MAcC2+5PM6Yk8QKkFg1WOtStAQtBXTM9gO0DQFvOIgzfuv2Z8fyszAyJAKv6nBdkaLkAXU2NnivAuQK7Bai+q\u002fyRAs3uB7n46NUBEaQIakUsRQJQ+hFwEJytA7Ir48fQzMEA6v2Ci9iQ0QFljL+27HTZAHhs0eFQHDkCQYRkHRNXVv\u002fYcMUjaxjtAioyWT7lSMkBUux90fw8eQEbza\u002fXygj5AWKVAhyAoMEC2MNozAMs6QNqj7tKxWS9ACldJ4cHNQUAdIlYW1kZAQCoeGLZNBSlA\u002f+wIvTi3OEB57hKVKXQ1QPO\u002fpmCyrzxAvJwiCy9nFUDaqVCvStw1QK4LWxKRlTlAX7AdFPyyBMCY8+6b3VYJQDk40cy8kRXAtNXuEqOcKEDQaiV+6Cw2QJGsuLcIBj5ADCW2gl17L0Dl2+N7QUk\u002fQCrSYFULL\u002fM\u002fLeNAuUVFAMBaayWFmOMsQMgt8yE11zJAwLL7VppYLUAQyzFrm7IWwKd88ZS0NyxAHFrw4+1I\u002fz8vigKaXLI1QLmRmdN9qjJABhpuiKFnFkDw2aZaALkjQCo9IE6noRFA5GDtQBW\u002fLECgyDcSKo04QDjwJlAqkhRAdh6m7FsKNEDatQS8FGUjQIDaTXH7SBxAQlKmKgHcK0Cy8sZdHpcSQF2dUchQ7SJAD1xa9HUrCECWhq0h2VJBQPovkaSMtC5AruU7yGcBIEB6C9LfySMxQKYW82DhwCtAUOT7uaKUKUCcyd1JRCQ1QNQ1u0A4kzZAQnIqidVjI0Ac0f+Dz3siQOR8UD28fyhA+jDqG9YJIMDQ4auoznHDv5EuTLgyqzxAnaNsCh5zP0CQmXN77wQpQFQODl\u002f8wzRA82S65swcMkCH\u002fM6p9+RGQAZWLJ0cMjpA8SPA2g9xK0AwoUARRMcVQAi7LZEKCPG\u002f8L+r7d0IMUCY8vvm974dQDRCVOL54Og\u002fhvU5\u002fYsRIUAh4ijN8rwQQPqQVyQV3z9ARoNdbv\u002fQN0DWpX0ZLtctQDxl3DCozD1AJd4tMCCML0BZWK0kc4wZQMo7ZJgyOz5Aix0TFpxjNEDgpPJwmYISQDNXsUl3MSpA5UUtSav5GEAKfp7khcDyP\u002fxgsbcDQzhAeUkOpQ0MQUCaHcATrDrwP55m2oQzoTRABrqUxbX8IEBnlVkE60EkQCzmhG\u002fxJiJAQSxnCbxwGUAqb6dEbvguQLpJeCASwxpANQvZlV60MUDQD7rnx\u002f4sQFxQGQSWOClAzrtTUIyyF0CpxRZI7nYiQNoRmjHNjTZAl4KMFlkCNEApRz6U1eUUQJ4Y4daU\u002fC9AayyvEI2DNkCowd0e1xr7v24zIokAbzRAAYBjyV2\u002fIEDUfB+Lu7Q0QAUYq+o5eB1A7jCXRPxjCMCwpblkI2j0v5HPuuYx9i5AakodveOYMUAe5u05zNMXQOM1K\u002fTLYjVA\u002fuOum9zX+b+Tq+Xiq60sQBOG92JjHgdAhMF0YJn2IECZju9irvIuQJ6Q2vxdlRlAlb9oWxNPJkCIwjEOHBA5QEJl7UlQdiJAE3O8Ll9bN0DIR56Gmp8NQJVNTndMTDRAtqdGaWpqPUATsxPh0W4jwGOryObKHxxAWLxA\u002fU3FNEBC1QJaaPApQFTA2SgitjJA8L07iZjrIUAfRlv3VrsvQL4v6bvu4ipA4dfkpoWtOkCY\u002fm0+UYsxQCqO1kdDYDJA6ZB6nzDDJUDfph3FdD8kQD30AVVNWSVA64TxJ8zxMkCSEac4j5QlQFO7p9nS5TFASF9tVYPgQUCnxB9JFLY3QB5BmG\u002fCeidAufBXjhsDO0CDY3Nyp9YlQDiQdi5lhhXAFpSaODKtE0BKKgKM0akNwI7KBj9A+CZA\u002fkmFVk1eLkAvKvz0rcM\u002fQKzXqB\u002fvRDJAqpcMjjSeKUCTB989R0s3QPHJYIsGchzAuWBXWyxbMUA1saU2arU2QBACTebbaMs\u002fUmpWpgJwOkAdBXABjWIyQJ1wU9O5sSVAkEh87OtTNUA+p7mifNpCQOk4cd6T0TBA9Ynr13F7MUAsRVR7EtAkQPBb4vmXARpAx4x34ahNN0BseYuds8EZQPQZZ0xrbi9ALA\u002fV1GRyJEDOPvY3MMozQDM4HcwsVjJAPNCILRpgOUBE50FOt8wjQNsYWoY9mihAXCQYpXXZFEAuzCrwNx0lQFPsr6bjxTJA"},"z":{"dtype":"f8","bdata":"UOHewloreUDl6DBTXAV2QKod6yxpYXlAofmzx7RKekDyMYPhcoZ4QDDjYKvcRHtABbmAyJRMdkAln37UkGp1QByrFts2anRALobM7BmOekDNn6xzGPp4QLmGccFRpXdA2Cd4i2JGeECx9ubnw6N1QCJX1QD2VXxAWkDnsgb+d0C3Nq9ugvR3QCUT5zNeHHlA+NcVauKmeEBbdHDedit4QLXiuH+SRHZABB8fCE6ieEDybo0rX0d7QNoIHDfNRXpAknPOxbq8ekBDfFPRncp2QDZsFFz95HVAk1OiTZ+Dd0AoOSt6v9p3QMlc+EA2zXlASsJA8p2TdEBzYawkL556QOjMSv0ndHdASe2n2hjzdkAnOUedMNp1QC0xUDarpXRA6SWMMx9LeUAIqNJPMeN3QNqsyZrRVHVAm\u002fRxuFxSdUDR2LHG0h53QDtycl0h4XpAD7EsamVDd0CKZT7Lfe50QGH\u002fnxcLSndA\u002fMhNuhc9d0Btpr6RfrFyQFlvLj\u002fwpXdAklHSwyZRd0CGQ47WLQ55QHYelrl\u002fN3tA85uST8DceUBRISz17j53QF5VqRjerHVAlx\u002ffczaTfEAIJtzCbNx3QNLKoqGvxndAtDdhgmu0d0BIgMinFB94QMznGf60endA\u002f8ufaaSsdkC4Nir5gbl2QOo4NUdHsHdAN8XQ9ie7dkDUFJ6C1Wl2QGoUeSUW83dAIClHZpxFd0B0VI+o6pF6QPFAd9SIx3JAG7CpXOzLeUBy483yHhZ6QFvt6M7F3HNAZIZmjIIbd0ATyKxYtQ13QLkXhPZkHHVAynar4qVKdkBs\u002fqpw7Kp1QOd4+f0WCXtAPwQ0KSCBeUDNnaiwWCJ6QDXRLxBnGnlA8V5MHg6idUDMMh7zOsR2QMTwmFjmqnhA8ORR72B1dUAU60E\u002fPRZ5QBC2qNCkTHdAzTboBBYMd0Cd38nCQhV5QLIVYhM\u002flXhAYVVAerwSd0A6nTxyeux5QK+5NPAWuXVAaYDZKqbneECFG1dIsNx4QIVJ\u002fO5qK3dAQkTMOYtceEDkdOopd2d1QLm2q3CIe3lAFKi4OT9nd0AbwpTLF8V2QG2S8ECGt3lA9HNPP+ptdkCkkaFG8Bt1QFt3O2jR1HRAb+a4gOLieEA0m1bXZFl1QEjQ7BtNCntANgytg6zYc0BkLvyOTO56QJn5jNNJJXhAsWqP5JORd0DnerVXcLp2QHDdgdiVf3hAe8ugcu+td0CVJDq8ldF5QCyxIEvU9ndAyESYFCUIeEBVN9RUdxF3QH7gkYWqpHdAU7Rtrr5TeEC3aQaCHot0QMNVr\u002fneOHVA8Ti4SsQkeUCW9O3xAxJ4QANLrCCwZ3dANdlkKdnId0DRRwfX1mZ4QICSmlTqvHZA6ONT6mlKdkA8ugZ3AR54QHEWl41h6nVA200\u002fGfaDeEB7jNaGwo50QK8DDKX+rXlAQuFUx9iieEAzZwrv5Dp4QJ95bxGxl3lAdavuf23fekA\u002frSjL5aZ5QBg33F9hTHRAiWoTlc1ZdUCjXg1LFpR2QHDTeBGGzHdAQV3A8Hm4eEAiT6mZpGN2QDikZ+alGXhAO\u002fmWi2pVdkBZDT+xeJp2QBLnAnzNHHVAZpNFGdkEdkAssuP+MDd1QDAq1rGU63VAF\u002f4Dgb+5eUDfg1LdSfh1QLQ5rhuLr3xAGUdW58qseECrerKpuBh4QC369\u002f78I3ZAHZ32EyYQeUDAsLifsat2QJHs5pCQ+ndArNwkMNeMfEBIbNYo5JF3QNFN0rSm53lAvS9OrnludkD99UGdNK93QHRba\u002fv7EXtAdF+2SQ6TdkAARsat+SV7QL\u002fdzY64E3lA1NYjFQSydkDEVlJDju94QIUco33TknlA7pcWAnjqeEDfz1LJSs50QKv8QmL5YnZAwur56DBJd0BciceeRZx3QIv59S\u002fs6XhA5oMk5ksVeEAslJziCD91QHImQbZ+dnhA8t7AxhTleED3pNwMs8x4QAoC51XGxnlAwb62WkhQeUAynVIMaJx4QJR4kQlSnndASmfYHr2idEBOw5x8N454QMZGuqmwI3hAHxOGm1tCeEDakY8iKVt1QGpptsUXuXVA4KkwbIO5eUDDHnN2A613QPrnQc4eB3lA9EoWw5fNd0DtOjZvSM53QP5vZ1BggnlA7O99bEzIdkBErTFSI+53QC9ezpwb4nZAj8SDGnHvdkBQoPHtmCt3QONxQMyfKnhAIwiPXjPadkAsyw1Qwxp6QCKimqeWEnZAEJVdNk1md0DvpPnY7ex2QJZAdqSMdnpAG9ujplgeeECBM5gOSa95QN9yY1fu9nRAW878Ii9AeEA42AjVBWt5QLx6fQ5\u002f53dACjF+Om6\u002feUDIaWKYs8d2QDkPC518ZHpAnVb3mXgPfEBLOM9l1hF3QByPcaYo6nZAmsBx4p95ekBCuUTTMbZ6QLObufUGxXZAOG6kcU\u002f2dkBtzahOvjh3QE0I1OupOnVA8TR\u002fDAwHdkBdqb0uA951QBXeAgl1T3ZAACTJ61mvd0Ao6WtObDB4QM6AJIA9qHpAxr5mQcrgdUAPlUyJeZh5QHOkAg1JWXdA51E85kGod0BE7LbR6QN5QKRrAesXpXVAcN91go53eECWaril5Q94QKdaTGlgrHhAH6b\u002fCs1KeEAhN\u002fxHi1p8QL6Kv4LijXZA+XsbGB\u002fBdkDXHPt95JR2QJmeuvhetXZABP2q3g2OdkDylPFZuvp5QNfF3o\u002fXaXpAvU8HsgqudkCFY60leDB2QIVSJ4tHonhAhdcS1e62dkC5e2mpzu94QLENSS5nIXhAkFf3XHHodEA0cWtwzaZ6QK\u002ftznIFHntAOyWVhtyZdkAMAHk75wV3QG5qoyM3SXhAUvnjDIpgeEAA75PrGfx4QKyCCO\u002flhHtAsP2EuRBrd0DOKQ480UB2QCbA1UDtKXVACLkSUSdhdkDz64lbGbB3QH9aMEVjHXtAy19v7IvHdkBkXUEQayt4QLkdXPQduHdACfbzw236eUD+ndx07Xx8QP\u002fyXdguwXZApuVprhHVdkCvMxN9MrV5QI3PhNNOB3lAi3lsZWs2e0AR+mwYSdh4QOUrGTCKE3dA\u002fHZkqoPbeECcrfh+LdR5QNh8tdnUSXlAprc71X2zeEAOG2H8AMB5QCqaygpD8XlAs7Vism9XekDkmpJ4Yfd4QAchwYfIb3dAOpODLWwGeEBlyGHSHwN6QIYT2\u002fHeN3ZA"},"type":"scatter3d"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"scene":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"xaxis":{"title":{"text":"exit_velocity"}},"yaxis":{"title":{"text":"launch_angle"}},"zaxis":{"title":{"text":"hit_distance"}}},"legend":{"tracegroupgap":0},"title":{"text":"Interactive 3D Scatter Plot"}},                        {"responsive": true}                    ).then(function(){
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.0.min.js" integrity="sha256-bO3dS6yCpk9aK4gUpNELtCiDeSYvGYnK7jFI58NQnHI=" crossorigin="anonymous"></script>                <div id="9131dbb6-50e5-4014-9113-ee240b0de04d" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("9131dbb6-50e5-4014-9113-ee240b0de04d")) {                    Plotly.newPlot(                        "9131dbb6-50e5-4014-9113-ee240b0de04d",                        [{"hovertemplate":"exit_velocity=%{x}\u003cbr\u003elaunch_angle=%{y}\u003cbr\u003ehit_distance=%{z}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"","marker":{"color":"#636efa","opacity":0.8,"symbol":"circle"},"mode":"markers","name":"","scene":"scene","showlegend":false,"x":{"dtype":"f8","bdata":"8k3L0vIeV0DzVHFjwVNWQLBrIaVCT1dASyEYm15nWEDgpNEnEjVWQNzlH4ATNVZAEQklHVl5WEBvaMVAlHVXQOefhqjE6VVAxyXOhJ4tV0B3OpbStOtVQFCNKGv36lVAcA2ejG3NVkDNYxUVwBtUQC9WLbsGWFRApLPVZxHMVUCjPeff5DtVQJ9wOCSP5FZA2JHwqm5dVUB0bq4UELxUQAltePIBVVhAgn\u002fMZ8A3VkCDXRjpm5VWQOz46qAUuFRAOhLOKszRVUBI\u002fU7HfqNWQNrUK5uuD1VAVnWBLjn4VkCqm7Oty79VQOM8sXKoIlZAF1y\u002fMXS\u002fVUA\u002f8\u002f2gutBYQGt0rk6ue1ZAC2QZUogtVUDONxPhNodXQHZO+nxU+VRAiFYPG9bCVkAxvM3S5wxUQOQ4tv\u002f61lRAkmJY3\u002f6+VkAp1qYuT2xXQHMaVn3WtlZAQqG7F\u002f5aVkCRbNOVpR9WQKAxgnrfplRAgmnJXKaZVUCWUs14mOxVQDDb6HNH0ldASAHVNfXtVkBW+h7A00tUQLkicvW051ZAtC1BD8YEVkDDbbuMYqdVQEJjhoW8Q1dAwSMbe+vJV0AZxqR3AqpXQCtp7Uxzc1VAL8B5Ug0dVkB\u002fTK0ZAepWQBD0JKgsuFdAADbjC6rmVUBtxg7RlkRWQGRH9wn5HVVAyeTbwDYBVUBZ7IgdAoRXQBhM4i7\u002fMVhAE4pL7vRoVkAIIj1qIcFXQDXLITm581ZAlfUpyo+xVUCQOCuHpfNWQIJHnfQrbFhA0BiBIYl0VkDQhLibr3RYQBmZJ3uuOVNAd\u002f3OQAKHV0CaHlXl2ptWQFubXlFRIFZALdj1Cl2dVkC+jcFa+gNUQPBbnHq0OVZAsYpvqUbyVkDAZYQU7VhYQKaHwE0n2lVAia88NEh9VUBeFSAQcN9VQELG0b3tpFdA3KN4SjPpVkByn0oLetZVQJgnPd4+JFdANojElxCfVkBbt8pl97VXQCstgM9Xn1VAI0i96iUXVkDGQAaAhgJWQO+0\u002ftqsq1RA8RdQLMLeVkCFk9ylidNWQKVP9eSigVZAPJ09n+40VkAI+SzUFLtUQGBiM7xk+VVA\u002fJCp01QSVkAR9jNyRX9VQF\u002faeHljTFZAjeyf2EsBV0Aq2FlZlNtYQGPmF2rdt1ZAaogrh2rSVkBVFP1jLWhWQAU7FUP+GVRAuhG7+4N3VkDvaA0PRpNWQF0ROss8lFlALwwuynFCVkDy5R7CfuBWQIFpbWnkdFZAnBYp5QUKVUCz1IILtO1XQPk2olqecFdAJk1MViF9V0B01M36\u002flxVQFSb8ujkQFhALk5mXGi\u002fVEBJn0dVyztXQMg99x\u002fyPFlAYJSlQwdDVUBBctbjyMpVQASRmHDjn1ZAZAxARuPeVUCzldemyY9UQK0izK3wlVZAp+hrFBAsVUCagyGxjBdXQByFSMTIWVVAlJ5foPpvWEAXKurjW4VVQN2+eLjwGFZAaSuYVFOEV0Dj4F6YH\u002fZUQANYkYTJyFZA2A5qIkkiWEAyXTL5mn1UQMYpqDQVu1ZA05w3mSnTVkB57\u002f3tLnpXQLOEbf8s9FRAKMW6MXTZVEA8b\u002ftzBSdXQO6vA\u002fwI31ZAjiXSXyjQVkAg740J3e5WQKRv819kplVAHRoOOVLKVkA3ODx\u002fyN1WQCso81Rom1VArdh5PwzVWED42pNkoBdXQFjh4WrIAlVA\u002fHAi3xhSV0Ap9NsTGkhVQN1Sgvjde1dAo2hbJsDyV0Cp11i0YXlVQHUQw8VHtFdAiwF3AxcEV0CtJhYrD4dXQOu5+Ef53lhA\u002f6w3znkxVkATV\u002fTuzY5VQEBMWfpaY1VAkOpK0vB6VUA8gPXTU2dWQA6Bdisr7VZAfcihgorYVkDMAg3asohXQI6Abx0phFZA6UP4giFRWECeue1PTytWQMycFEJ05llAPghMqzZIV0BLlymntW1VQKYej3xQKVVAUd3nI2QaV0DFcLrtfThWQBVRpOt6ZFdAovlOoG8XV0BbawDbsWhWQCUMm6gGcVVAHGwhtz+bVEAVn8B+HfFVQAJxcTAMkldAk6U8j4LEVkBfl0kUXfFUQPwGQPtqt1ZADKUiM037VkC2fBlmKmVVQEJDIikxsVZApZVNdaCSVkDKJYrfPxJVQMaFyPB98lZAahHpd3MzV0CWqc6Ok9pXQDtvz3Y30VdAdedLUyXHVEBKPmtf5VNVQE0vaLDPJFdA52NYWGkkV0DItNq00CRXQAnKgsPfUFtApUfDWa82V0DVy4iJYetXQHspENNHsVdA25Kn+HFQV0A7C7skHRtWQIvcL8LecldA04uOKLKIVUCQNdrRNzRWQBxBpgSv5FVAxdAmITOaVkARlmzUsGRZQPoSq6J5KlRAsMFOb5pbV0AYYNpQ7ntUQB4ecFf76FVACys51XbcV0BowLTRkZRWQNWy1SUfJ1VAtIb0URqbVUAXo8ileFlXQEVbk11IllVAuP2jSUTFVkC9gcA+lY5WQKc2R+Z8r1VAhyFZ5g8uWUDPdXSl2kpXQP61vVH091NAfSpkVqq7VkD7GutzOqxVQGa2ulbHkFdAiMl7s2SCVUDhTGzKSFtWQHgl0o6YIVdA5qBeqgqVV0CGvOS35\u002f9UQEt9pKj1FFZADHjoegToVUALuO5E765VQGO96ALytFhAvRENGpgBV0CLGe9ihOxUQM8NLkC3pVdAXPcgCRcnWUB0Z9yNY8pXQOwgXzbNmVRAyMl0iwvlVUAv3oBcaRVYQKf8pbeLnVVAl4UDsAUOV0AET4sF4ndXQAKiE9thV1VALgrOrvNsVkBWAydhy3JSQKaNFyoyOFVAqjH2nS0vVkDkMwuatfBUQEUCTyJfilhA3kB90Vq2VEBuED+OL\u002fNVQEGhoUTWqVZA8WubGzVNWEBv5i0shrRUQG0\u002f5F829FdAeQXYSkaDVkCNwrHP6kVVQDGpQITfE1dAugxj+LK\u002fVkCinsE77r9VQOtH0i9WllZA4HcyHLMEVkCDukZXU6RWQNLurr7hU1dAG1Bhf4Z7WEAqkoIn5vNUQA\u002fIExiSKllArqmr91QPVECdANjDbU9WQBvoD\u002fJCPFdAdfSS2urZVkBo65B0vLhVQJZuEKBmPVZAue0JXT3iVUAUYzY9Z8NVQN2lXmffj1dAVntntT7yVkCwlpDYRKJVQOCWxzjfn1dASE0M+lXiVkCXti6qHYRXQLDZ2TF7SVdA"},"y":{"dtype":"f8","bdata":"kbONURfXGkCKS8qB38siQLskSVYSeTZALuDUQYwaNUBUy93c+5QtQGBdhqxbLDBA2JVSd9LGO0AnBJqMJysiQIyGXr2ReDRAPxnuC8b0KUADtK\u002fkeKUpQD\u002fe0GXe\u002fDlAhN\u002fE2xBBN0A8CdCslSI3QEZ9T5cGDjxArw\u002fCJ4prLkAOOAOzzNE1QPzmIyhvyydAwQMoqd09MkDvyFHlqmUrQPPAHY2e8C9AolyyG5rzNEDzDniSa0UbQI0tZnZB9kFAigyiy2HCE0AuFkjOat0GQHM\u002fxIrDlDpANlcoEKjqNkC+Ps4pvz01QBXJUIOQSDVAuNHu6EvBLUBDAxuAHRwYQH6Y7owehC9AuAr7me50IECCIu93TsA4QCVC7PIQDytAoHXhoOj6GkAmD04mgZInQAcJBMIaITNAFBhD9Lq5IkAOhfWQdhwbQKsc1tnWbzFAkkDDSh1zMUAZA\u002fFwc9wjQPseDKxIlCRAI+Y3PwxSMUDULEZF7pzgP+hZb06RnO0\u002f8NKklCFDH0Afd5+MJrspQFs512HsGzJAb3xJc+nAPUAIhofPm5M3QDy8uF4dzSpAwUdzE6OeLUDACSBsGeYTQGFTX3Y2oS1AS5pKWRE6KECapPDVKDoyQFwkILcn6RpAB5N77oYxNEDQhibGz1M+QNJk8eUl0ytAE1lQy2EEM0AeTTPExOY1QP1Kl03A+SVAWo22P609MUD7t44ceUAuQLNcEQQa9C9AFhxyO2EUHUB4OsH5fX0uQIKh\u002fyjg+jNAo8qMee2CPUC9bYS6u5c4QEyq4tMSREJAkTidZ1xOHUB\u002faW8NJLk3QOtKUgRb1TBAHEYKoPJyQkBOePeKBqsbQCTe85I\u002faRpAnBlfEhwDIkB+\u002fiA1sfQYwJt3w2AifCNApg6URnuiHUCDXmgSAoEwQDPBPzLlajJAnrQcqX\u002fhQECUej\u002fEFYE4QCC+J9dAdiJAE30M2DsQGEBl9fIlUOszQMqAeHI\u002fw\u002fw\u002fuZWMaESoQEDY4aTgXcs6QMyd2hbSnSRAmH6Hwv4MAcC2+5PM6Yk8QKkFg1WOtStAQtBXTM9gO0DQFvOIgzfuv2Z8fyszAyJAKv6nBdkaLkAXU2NnivAuQK7Bai+q\u002fyRAs3uB7n46NUBEaQIakUsRQJQ+hFwEJytA7Ir48fQzMEA6v2Ci9iQ0QFljL+27HTZAHhs0eFQHDkCQYRkHRNXVv\u002fYcMUjaxjtAioyWT7lSMkBUux90fw8eQEbza\u002fXygj5AWKVAhyAoMEC2MNozAMs6QNqj7tKxWS9ACldJ4cHNQUAdIlYW1kZAQCoeGLZNBSlA\u002f+wIvTi3OEB57hKVKXQ1QPO\u002fpmCyrzxAvJwiCy9nFUDaqVCvStw1QK4LWxKRlTlAX7AdFPyyBMCY8+6b3VYJQDk40cy8kRXAtNXuEqOcKEDQaiV+6Cw2QJGsuLcIBj5ADCW2gl17L0Dl2+N7QUk\u002fQCrSYFULL\u002fM\u002fLeNAuUVFAMBaayWFmOMsQMgt8yE11zJAwLL7VppYLUAQyzFrm7IWwKd88ZS0NyxAHFrw4+1I\u002fz8vigKaXLI1QLmRmdN9qjJABhpuiKFnFkDw2aZaALkjQCo9IE6noRFA5GDtQBW\u002fLECgyDcSKo04QDjwJlAqkhRAdh6m7FsKNEDatQS8FGUjQIDaTXH7SBxAQlKmKgHcK0Cy8sZdHpcSQF2dUchQ7SJAD1xa9HUrCECWhq0h2VJBQPovkaSMtC5AruU7yGcBIEB6C9LfySMxQKYW82DhwCtAUOT7uaKUKUCcyd1JRCQ1QNQ1u0A4kzZAQnIqidVjI0Ac0f+Dz3siQOR8UD28fyhA+jDqG9YJIMDQ4auoznHDv5EuTLgyqzxAnaNsCh5zP0CQmXN77wQpQFQODl\u002f8wzRA82S65swcMkCH\u002fM6p9+RGQAZWLJ0cMjpA8SPA2g9xK0AwoUARRMcVQAi7LZEKCPG\u002f8L+r7d0IMUCY8vvm974dQDRCVOL54Og\u002fhvU5\u002fYsRIUAh4ijN8rwQQPqQVyQV3z9ARoNdbv\u002fQN0DWpX0ZLtctQDxl3DCozD1AJd4tMCCML0BZWK0kc4wZQMo7ZJgyOz5Aix0TFpxjNEDgpPJwmYISQDNXsUl3MSpA5UUtSav5GEAKfp7khcDyP\u002fxgsbcDQzhAeUkOpQ0MQUCaHcATrDrwP55m2oQzoTRABrqUxbX8IEBnlVkE60EkQCzmhG\u002fxJiJAQSxnCbxwGUAqb6dEbvguQLpJeCASwxpANQvZlV60MUDQD7rnx\u002f4sQFxQGQSWOClAzrtTUIyyF0CpxRZI7nYiQNoRmjHNjTZAl4KMFlkCNEApRz6U1eUUQJ4Y4daU\u002fC9AayyvEI2DNkCowd0e1xr7v24zIokAbzRAAYBjyV2\u002fIEDUfB+Lu7Q0QAUYq+o5eB1A7jCXRPxjCMCwpblkI2j0v5HPuuYx9i5AakodveOYMUAe5u05zNMXQOM1K\u002fTLYjVA\u002fuOum9zX+b+Tq+Xiq60sQBOG92JjHgdAhMF0YJn2IECZju9irvIuQJ6Q2vxdlRlAlb9oWxNPJkCIwjEOHBA5QEJl7UlQdiJAE3O8Ll9bN0DIR56Gmp8NQJVNTndMTDRAtqdGaWpqPUATsxPh0W4jwGOryObKHxxAWLxA\u002fU3FNEBC1QJaaPApQFTA2SgitjJA8L07iZjrIUAfRlv3VrsvQL4v6bvu4ipA4dfkpoWtOkCY\u002fm0+UYsxQCqO1kdDYDJA6ZB6nzDDJUDfph3FdD8kQD30AVVNWSVA64TxJ8zxMkCSEac4j5QlQFO7p9nS5TFASF9tVYPgQUCnxB9JFLY3QB5BmG\u002fCeidAufBXjhsDO0CDY3Nyp9YlQDiQdi5lhhXAFpSaODKtE0BKKgKM0akNwI7KBj9A+CZA\u002fkmFVk1eLkAvKvz0rcM\u002fQKzXqB\u002fvRDJAqpcMjjSeKUCTB989R0s3QPHJYIsGchzAuWBXWyxbMUA1saU2arU2QBACTebbaMs\u002fUmpWpgJwOkAdBXABjWIyQJ1wU9O5sSVAkEh87OtTNUA+p7mifNpCQOk4cd6T0TBA9Ynr13F7MUAsRVR7EtAkQPBb4vmXARpAx4x34ahNN0BseYuds8EZQPQZZ0xrbi9ALA\u002fV1GRyJEDOPvY3MMozQDM4HcwsVjJAPNCILRpgOUBE50FOt8wjQNsYWoY9mihAXCQYpXXZFEAuzCrwNx0lQFPsr6bjxTJA"},"z":{"dtype":"f8","bdata":"UOHewloreUDl6DBTXAV2QKod6yxpYXlAofmzx7RKekDyMYPhcoZ4QDDjYKvcRHtABbmAyJRMdkAln37UkGp1QByrFts2anRALobM7BmOekDNn6xzGPp4QLmGccFRpXdA2Cd4i2JGeECx9ubnw6N1QCJX1QD2VXxAWkDnsgb+d0C3Nq9ugvR3QCUT5zNeHHlA+NcVauKmeEBbdHDedit4QLXiuH+SRHZABB8fCE6ieEDybo0rX0d7QNoIHDfNRXpAknPOxbq8ekBDfFPRncp2QDZsFFz95HVAk1OiTZ+Dd0AoOSt6v9p3QMlc+EA2zXlASsJA8p2TdEBzYawkL556QOjMSv0ndHdASe2n2hjzdkAnOUedMNp1QC0xUDarpXRA6SWMMx9LeUAIqNJPMeN3QNqsyZrRVHVAm\u002fRxuFxSdUDR2LHG0h53QDtycl0h4XpAD7EsamVDd0CKZT7Lfe50QGH\u002fnxcLSndA\u002fMhNuhc9d0Btpr6RfrFyQFlvLj\u002fwpXdAklHSwyZRd0CGQ47WLQ55QHYelrl\u002fN3tA85uST8DceUBRISz17j53QF5VqRjerHVAlx\u002ffczaTfEAIJtzCbNx3QNLKoqGvxndAtDdhgmu0d0BIgMinFB94QMznGf60endA\u002f8ufaaSsdkC4Nir5gbl2QOo4NUdHsHdAN8XQ9ie7dkDUFJ6C1Wl2QGoUeSUW83dAIClHZpxFd0B0VI+o6pF6QPFAd9SIx3JAG7CpXOzLeUBy483yHhZ6QFvt6M7F3HNAZIZmjIIbd0ATyKxYtQ13QLkXhPZkHHVAynar4qVKdkBs\u002fqpw7Kp1QOd4+f0WCXtAPwQ0KSCBeUDNnaiwWCJ6QDXRLxBnGnlA8V5MHg6idUDMMh7zOsR2QMTwmFjmqnhA8ORR72B1dUAU60E\u002fPRZ5QBC2qNCkTHdAzTboBBYMd0Cd38nCQhV5QLIVYhM\u002flXhAYVVAerwSd0A6nTxyeux5QK+5NPAWuXVAaYDZKqbneECFG1dIsNx4QIVJ\u002fO5qK3dAQkTMOYtceEDkdOopd2d1QLm2q3CIe3lAFKi4OT9nd0AbwpTLF8V2QG2S8ECGt3lA9HNPP+ptdkCkkaFG8Bt1QFt3O2jR1HRAb+a4gOLieEA0m1bXZFl1QEjQ7BtNCntANgytg6zYc0BkLvyOTO56QJn5jNNJJXhAsWqP5JORd0DnerVXcLp2QHDdgdiVf3hAe8ugcu+td0CVJDq8ldF5QCyxIEvU9ndAyESYFCUIeEBVN9RUdxF3QH7gkYWqpHdAU7Rtrr5TeEC3aQaCHot0QMNVr\u002fneOHVA8Ti4SsQkeUCW9O3xAxJ4QANLrCCwZ3dANdlkKdnId0DRRwfX1mZ4QICSmlTqvHZA6ONT6mlKdkA8ugZ3AR54QHEWl41h6nVA200\u002fGfaDeEB7jNaGwo50QK8DDKX+rXlAQuFUx9iieEAzZwrv5Dp4QJ95bxGxl3lAdavuf23fekA\u002frSjL5aZ5QBg33F9hTHRAiWoTlc1ZdUCjXg1LFpR2QHDTeBGGzHdAQV3A8Hm4eEAiT6mZpGN2QDikZ+alGXhAO\u002fmWi2pVdkBZDT+xeJp2QBLnAnzNHHVAZpNFGdkEdkAssuP+MDd1QDAq1rGU63VAF\u002f4Dgb+5eUDfg1LdSfh1QLQ5rhuLr3xAGUdW58qseECrerKpuBh4QC369\u002f78I3ZAHZ32EyYQeUDAsLifsat2QJHs5pCQ+ndArNwkMNeMfEBIbNYo5JF3QNFN0rSm53lAvS9OrnludkD99UGdNK93QHRba\u002fv7EXtAdF+2SQ6TdkAARsat+SV7QL\u002fdzY64E3lA1NYjFQSydkDEVlJDju94QIUco33TknlA7pcWAnjqeEDfz1LJSs50QKv8QmL5YnZAwur56DBJd0BciceeRZx3QIv59S\u002fs6XhA5oMk5ksVeEAslJziCD91QHImQbZ+dnhA8t7AxhTleED3pNwMs8x4QAoC51XGxnlAwb62WkhQeUAynVIMaJx4QJR4kQlSnndASmfYHr2idEBOw5x8N454QMZGuqmwI3hAHxOGm1tCeEDakY8iKVt1QGpptsUXuXVA4KkwbIO5eUDDHnN2A613QPrnQc4eB3lA9EoWw5fNd0DtOjZvSM53QP5vZ1BggnlA7O99bEzIdkBErTFSI+53QC9ezpwb4nZAj8SDGnHvdkBQoPHtmCt3QONxQMyfKnhAIwiPXjPadkAsyw1Qwxp6QCKimqeWEnZAEJVdNk1md0DvpPnY7ex2QJZAdqSMdnpAG9ujplgeeECBM5gOSa95QN9yY1fu9nRAW878Ii9AeEA42AjVBWt5QLx6fQ5\u002f53dACjF+Om6\u002feUDIaWKYs8d2QDkPC518ZHpAnVb3mXgPfEBLOM9l1hF3QByPcaYo6nZAmsBx4p95ekBCuUTTMbZ6QLObufUGxXZAOG6kcU\u002f2dkBtzahOvjh3QE0I1OupOnVA8TR\u002fDAwHdkBdqb0uA951QBXeAgl1T3ZAACTJ61mvd0Ao6WtObDB4QM6AJIA9qHpAxr5mQcrgdUAPlUyJeZh5QHOkAg1JWXdA51E85kGod0BE7LbR6QN5QKRrAesXpXVAcN91go53eECWaril5Q94QKdaTGlgrHhAH6b\u002fCs1KeEAhN\u002fxHi1p8QL6Kv4LijXZA+XsbGB\u002fBdkDXHPt95JR2QJmeuvhetXZABP2q3g2OdkDylPFZuvp5QNfF3o\u002fXaXpAvU8HsgqudkCFY60leDB2QIVSJ4tHonhAhdcS1e62dkC5e2mpzu94QLENSS5nIXhAkFf3XHHodEA0cWtwzaZ6QK\u002ftznIFHntAOyWVhtyZdkAMAHk75wV3QG5qoyM3SXhAUvnjDIpgeEAA75PrGfx4QKyCCO\u002flhHtAsP2EuRBrd0DOKQ480UB2QCbA1UDtKXVACLkSUSdhdkDz64lbGbB3QH9aMEVjHXtAy19v7IvHdkBkXUEQayt4QLkdXPQduHdACfbzw236eUD+ndx07Xx8QP\u002fyXdguwXZApuVprhHVdkCvMxN9MrV5QI3PhNNOB3lAi3lsZWs2e0AR+mwYSdh4QOUrGTCKE3dA\u002fHZkqoPbeECcrfh+LdR5QNh8tdnUSXlAprc71X2zeEAOG2H8AMB5QCqaygpD8XlAs7Vism9XekDkmpJ4Yfd4QAchwYfIb3dAOpODLWwGeEBlyGHSHwN6QIYT2\u002fHeN3ZA"},"type":"scatter3d"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"scene":{"domain":{"x":[0.0,1.0],"y":[0.0,1.0]},"xaxis":{"title":{"text":"exit_velocity"}},"yaxis":{"title":{"text":"launch_angle"}},"zaxis":{"title":{"text":"hit_distance"}}},"legend":{"tracegroupgap":0},"title":{"text":"Interactive 3D Scatter Plot"}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('440c9f89-2c4d-497d-a706-0c53787b69df');
+var gd = document.getElementById('9131dbb6-50e5-4014-9113-ee240b0de04d');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -792,7 +805,7 @@ if (outputEl) {{
                         })                };            </script>        </div>
 </div>
 </div>
-<div id="2789cf51" class="cell" data-execution_count="7">
+<div id="0cfae3f0" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">45</span>, <span class="dv">45</span>, <span class="dv">300</span>)</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>distance <span class="op">=</span> np.random.normal(<span class="dv">350</span>, <span class="dv">40</span>, <span class="dv">300</span>)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -822,7 +835,7 @@ if (outputEl) {{
 <li>Defensive positioning</li>
 <li>Player development</li>
 </ul>
-<div id="bbc19a63" class="cell" data-execution_count="8">
+<div id="1313a4f9" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>pitch_x <span class="op">=</span> np.random.normal(<span class="dv">0</span>, <span class="fl">0.8</span>, <span class="dv">500</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>pitch_y <span class="op">=</span> np.random.normal(<span class="fl">2.5</span>, <span class="fl">0.7</span>, <span class="dv">500</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -863,9 +876,306 @@ if (outputEl) {{
 <li>This framework is widely used in modern data science and sports analytics</li>
 </ul>
 <p>By using these principles, analysts can transform complex datasets into actionable insights.</p>
-
-
 </section>
+</section>
+</section>
+<section id="visualizing-spatial-data" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="visualizing-spatial-data"><span class="header-section-number">7.3</span> Visualizing Spatial Data</h2>
+{{&lt; _visualizing_spatial_data.qmd &gt;}}
+</section>
+<section id="introduction-to-powerbi-and-tableau" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="introduction-to-powerbi-and-tableau"><span class="header-section-number">7.4</span> Introduction to PowerBI and Tableau</h2>
+<p>This presentation was prepared by Reesha Patel.</p>
+<section id="introduction-1" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">7.4.1</span> Introduction</h3>
+<p>Data visualization is an important data science tool for communicating complex relationships and conclusions in a more simple, comprehendable way. Transforming large datasets with numerous features into digestible visuals like charts or maps makes it easier to identify patterns and trends within the data. Further, data visualization plays a key role in exploratory data analysis (EDA) by just using visuals alone to investigate the data and answer overarching research questions.</p>
+<p>Though python supplies various visualization packages, including <code>matplotlib</code> and <code>seaborn</code>, these tools often require advanced coding knowledge and can be time-consuming for creating complex, polished visuals. In contrast, tools like PowerBI and Tableau provide more functional and interactive displays for users to intuitively build visualizations using data.</p>
+</section>
+<section id="what-is-powerbi" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="what-is-powerbi"><span class="header-section-number">7.4.2</span> What is PowerBI?</h3>
+<ul>
+<li><p>Visualization tool by Microsoft used for business intelligence and analysis.</p></li>
+<li><p>Integrated with other Microsoft products (Excel, PowerPoint, Azure).</p></li>
+<li><p>Connect data from a variety of sources, including from the cloud, databases, or Excel spreadsheets.</p></li>
+<li><p>Use Power Query for data filtering and transformations, like merging or joining tables.</p></li>
+<li><p>Use DAX (Data Analysis Expressions) for advanced data calculations.</p></li>
+<li><p>Integration with Python or R for more advanced analytics.</p></li>
+</ul>
+</section>
+<section id="what-is-tableau" class="level3" data-number="7.4.3">
+<h3 data-number="7.4.3" class="anchored" data-anchor-id="what-is-tableau"><span class="header-section-number">7.4.3</span> What is Tableau?</h3>
+<ul>
+<li><p>Data visualization tool used to create interactive dashboards for analysis or storytelling.</p></li>
+<li><p>Supports a wide variety of data files and can connect to databases (like SQL)</p></li>
+<li><p>No programming knowledge required.</p></li>
+<li><p>Utilizes the “Drag-and-Drop” method.</p></li>
+<li><p>Perfect for exploratory data analysis and visual storytelling.</p></li>
+<li><p>Provides free access to the software through Tableau Public</p></li>
+</ul>
+</section>
+<section id="powerbi-vs-tableau" class="level3" data-number="7.4.4">
+<h3 data-number="7.4.4" class="anchored" data-anchor-id="powerbi-vs-tableau"><span class="header-section-number">7.4.4</span> PowerBI VS Tableau</h3>
+<p>PowerBI:</p>
+<ul>
+<li>Commonly used for business reporting, KPI dashboards, and operational analytics.</li>
+<li>Use when already working with other Microsoft tools like Excel or PowerPoint.</li>
+<li>Provides structured data workflows for organizing and analyzing business data.</li>
+</ul>
+<p>Tableau:</p>
+<ul>
+<li>Designed for highly customizable and interactive visualizations.</li>
+<li>Best for advanced analytics, exploring complex datasets, and creating stories through visuals.</li>
+<li>Preferred in fields like research, consulting, and when needing flexibility in design.</li>
+</ul>
+</section>
+<section id="powerbi" class="level3" data-number="7.4.5">
+<h3 data-number="7.4.5" class="anchored" data-anchor-id="powerbi"><span class="header-section-number">7.4.5</span> PowerBI</h3>
+<p>To start creating visualizations in PowerBI, the first step is finding a dataset to explore. In this example, we will use the dataset <a href="https://public.tableau.com/app/sample-data/netflix_titles.xlsx">Netflix Movies and TV Shows</a>, which contains information about the titles and their countries, genres, release dates, etc. until 2019. Using this dataset, we will aim to answer three questions:</p>
+<ol type="1">
+<li><p>What is the distribution of content types on Netflix?</p></li>
+<li><p>Which countries produce the most Netflix content?</p></li>
+<li><p>What are the most common genres on Netflix?</p></li>
+</ol>
+<section id="import-data" class="level4" data-number="7.4.5.1">
+<h4 data-number="7.4.5.1" class="anchored" data-anchor-id="import-data"><span class="header-section-number">7.4.5.1</span> Import Data</h4>
+<p>First, navigate to your Microsoft profile, open PowerBI, and click the “New Report” button.​ In this window, select the type of data source to import (e.g.&nbsp;Excel workbook, CSV file) or click “Get data” to see a wider variety of options. Then, load the data file (like .xlsx) to establish a connection between the source and the PowerBI workspace.​ At this point, the data tables are loaded in Power Query where they can be viewed, cleaned, and transformed before building visualizations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/import_data.png" class="img-fluid figure-img"></p>
+<figcaption>Import Data</figcaption>
+</figure>
+</div>
+</section>
+<section id="examine-clean-or-transform-data" class="level4" data-number="7.4.5.2">
+<h4 data-number="7.4.5.2" class="anchored" data-anchor-id="examine-clean-or-transform-data"><span class="header-section-number">7.4.5.2</span> Examine, Clean, or Transform Data</h4>
+<p>Now, we can click each table to see its contents. This allows for general overview of the data to help identify any missing values, wrong data types, or other anomalies. Here, we can also select which tables we actually want to include in our report. In this example, will will choose <code>netflix_titles</code>, <code>netflix_titles_category</code>, and <code>netflix_titles_countries</code>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/inspect_data.png" class="img-fluid figure-img"></p>
+<figcaption>Inspect Data</figcaption>
+</figure>
+</div>
+<p>By selecting the tables we want to include, we can then use Power Query to perform any transformations by clicking the “Transform Data” button. Here, the data can be cleaned and transformed through filtering rows/columns, changing data types, or restructuring columns. This prepares the data for analysis without having to change the original file or go back after already creating initial visualizations.</p>
+<p>In this case, we want to filter out the two rows with null/wrong <code>type</code> values in the <code>netflix_titles</code> table since this will hurt our visualization of the distribution of content types. In the initial examination of the data, there were two rows with incorrect values in the <code>type</code> column (<code>null</code> and <code>1944</code>). We want to filter these rows from the dataset. Additionally, in the <code>netflix_titles_countries</code> table, we want to make sure the data type for the <code>country</code> column is set to Country/Region. This way we can display titles by country on a spatial map.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/transform_data.png" class="img-fluid figure-img"></p>
+<figcaption>Transform Data</figcaption>
+</figure>
+</div>
+<p>These transformations are applied within Power Query and are a part of Power BI’s semantic model, which defines how the data is structured and used for analysis. An important feature of the semantic model is that the transformations can be revisited, modified, or added at any time without affecting the original dataset. The semantic model also allows for relationships between tables to be created. In this example, we connect the tables through their shared <code>show_id</code> column.</p>
+</section>
+<section id="using-dax" class="level4" data-number="7.4.5.3">
+<h4 data-number="7.4.5.3" class="anchored" data-anchor-id="using-dax"><span class="header-section-number">7.4.5.3</span> Using DAX</h4>
+<p>Another important feature of PowerBI is DAX, which is a language similar to Excel formulas used to create calculated columns, tables, measures, and other numerics for data analysis. DAX lets users define new relationships within the data and perform specific computations for unique visualizations. A major example of DAX, especially within the business application of PowerBI, is calculating profit based on Cost and Revenue columns: <code>Profit = SUM(Sales[Revenue]) - SUM(Sales[Cost])</code></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/DAX.png" class="img-fluid figure-img"></p>
+<figcaption>DAX</figcaption>
+</figure>
+</div>
+</section>
+<section id="visualizations" class="level4" data-number="7.4.5.4">
+<h4 data-number="7.4.5.4" class="anchored" data-anchor-id="visualizations"><span class="header-section-number">7.4.5.4</span> Visualizations</h4>
+<p>Now, after the data has been preprocessed and structured, visualizations can be built to explore various relationships. The are a variety of different visuals available in PowerBI, including bar charts, line graphs, pie charts, matrices, KPIs, interactive maps, etc. Each visualization has customizable aspects, ranging from basic formatting changes like titles or axis names to more complex changes like filters or adding advanced analytics.</p>
+<p>The visualization page automatically creates an empty dashboard where you can add multiple visualizations on one page. Multiple pages can be created for various different dashboards. This page also consists of a “Data” tab, where the data tables are populated, and a “Visualizations” tab, where all the different options are available.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/visualization_page.png" class="img-fluid figure-img"></p>
+<figcaption>Visualization Page</figcaption>
+</figure>
+</div>
+<p>To create a visualization, start by clicking a specific type of visualization from the tab. Now, various field options appear below where columns can be dragged and dropped to define a relationship.</p>
+<p>For example, to create a pie chart for the type of content, we can drag the <code>type</code> column from the <code>netflix_titles</code> table into the <strong>Legend</strong> field, which separates the categories into <em>Movie</em> or <em>TV Show</em>. The same column can also be dragged into the <strong>Values</strong> field, where it is automatically aggregated as a count. This creates a pie chart divided into two sections based on the number of titles that fall into each <code>type</code> category. This same drag-and-drop approach can be used to create other visualizations, allowing different relationships within the data to be explored.</p>
+<section id="final-dashboard" class="level5" data-number="7.4.5.4.1">
+<h5 data-number="7.4.5.4.1" class="anchored" data-anchor-id="final-dashboard"><span class="header-section-number">7.4.5.4.1</span> Final Dashboard</h5>
+<p>After creating visualizations based on our three guiding questions, we can now gain insights by examining the whole dashboard. The visualizations reveal patterns in the distribution of content types, highlight which countries contribute the most content, and show the most common genres on Netflix up until 2019. Together, these insights provide a clearer understanding of the dataset and show how visualizations can be effectively used to explore and communicate data.</p>
+<iframe title="intro_powerbi_final" width="800" height="500" src="https://app.powerbi.com/view?r=eyJrIjoiNTk0M2IzYmQtOGQ0Ni00ZWQ1LWFhODktZDJkYjBmNjY3NGIzIiwidCI6IjE3ZjFhODdlLTJhMjUtNGVhYS1iOWRmLTlkNDM5MDM0YjA4MCIsImMiOjF9" frameborder="0" allowfullscreen="true">
+</iframe>
+</section>
+</section>
+</section>
+<section id="tableau" class="level3" data-number="7.4.6">
+<h3 data-number="7.4.6" class="anchored" data-anchor-id="tableau"><span class="header-section-number">7.4.6</span> Tableau</h3>
+<p>To start creating visualizations in Tableau, the first step is also to find a dataset to explore. We will use the same dataset <a href="https://public.tableau.com/app/sample-data/netflix_titles.xlsx">Netflix Movies and TV Shows</a> and aim to answer the same three questions, now with a different visualization tool:</p>
+<ol type="1">
+<li><p>What is the distribution of content types on Netflix?</p></li>
+<li><p>Which countries produce the most Netflix content?</p></li>
+<li><p>What are the most common genres on Netflix?</p></li>
+</ol>
+<section id="import-data-1" class="level4" data-number="7.4.6.1">
+<h4 data-number="7.4.6.1" class="anchored" data-anchor-id="import-data-1"><span class="header-section-number">7.4.6.1</span> Import Data</h4>
+<p>First, navigate to your Tableau profile (this example uses Tableau Public, which is the free online version of the Tableau software) and click the “Create Viz” button. In the popup window, select the data source by either uploading a file or connecting to an external source (e.g.&nbsp;Google Drive). Once loaded, the data appears in the <strong>Data Source</strong> tab, where tables can be viewed, inspected, and joined if necessary.</p>
+<p>The <strong>Data Source</strong> tab allows for different tables to be connected together by creating a relationship based on a common column (the <code>show_id</code> column in this case). Once all the data tables of interest are added to the page, click <em>Create extract</em> to load the data into Tableau’s in-memory engine for improved performance and faster analysis.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/data_source_tab.png" class="img-fluid figure-img"></p>
+<figcaption>Data Source Tab</figcaption>
+</figure>
+</div>
+</section>
+<section id="examine-or-transform-data" class="level4" data-number="7.4.6.2">
+<h4 data-number="7.4.6.2" class="anchored" data-anchor-id="examine-or-transform-data"><span class="header-section-number">7.4.6.2</span> Examine or Transform Data</h4>
+<p>Additionally, in the <strong>Data Source</strong> tab, the tables can be examined to better understand their structures. Here, data cleaning and basic transformations can also be performed, like renaming fields, changing data types, or adjusting table connections. This helps prepare the data for easier visualization.</p>
+<p>For example, to visualize titles by country on a map, the <code>country</code> column in the <code>netflix_titles_countries</code> table must be assigned a geographic role. By changing its data type to Country/Region, Tableau recognizes the values as geographic data and can automatically generate map-based visualizations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/transforming_country_data.png" class="img-fluid figure-img"></p>
+<figcaption>Transforming Country Data</figcaption>
+</figure>
+</div>
+</section>
+<section id="visualizations-1" class="level4" data-number="7.4.6.3">
+<h4 data-number="7.4.6.3" class="anchored" data-anchor-id="visualizations-1"><span class="header-section-number">7.4.6.3</span> Visualizations</h4>
+<p>Once the data has been processed and extracted, it is ready for visualization. To start creating a visualization, first create a new empty sheet. In Tableau, each visualization is created on a separate sheet, which can later be combined into a dashboard.</p>
+<p>Each sheet consists of three main components. First is the Data and Analytics panel, where the data tables and their fields are populated and can be selected for use in visualizations. The analytics tab provides additional options for further analysis, including trend lines, reference lines, and summaries.</p>
+<p>The second component deals with customization of the appearance of the visualization. Here, various aspects of the visuals can be changed, including colors/graphics, size, labels, filters, marks, and other general formatting options.</p>
+<p>Finally, the main blank canvas is where the visualization is displayed and updated as data is added. To build a visualization:</p>
+<ol type="1">
+<li>Drag data columns into view fields based on a relationship structure.<br>
+</li>
+<li>Select or adjust the visualization type using the <em>Marks</em> dropdown menu.<br>
+</li>
+<li>(Optionally) Click the <strong>Show Me</strong> button in the top-right corner and select the type of visualization.</li>
+</ol>
+<p>For example, to create a pie chart for the distribution of content types, we can drag the <code>Type</code> column from the <code>netflix_titles</code> table into the <em>Marks</em> field. Then, drag the same <code>Type</code> column again, but change it to a count measure using the drop-down arrow. Then, we can change the <em>Marks</em> type to “Pie”, set the <code>Type</code> column as the color legend, and set the CNT(Type) as a “slice” or angle of the pie.</p>
+<p>Optionally, another way to create this same visualization is through the <strong>Show Me</strong> tab. We can drag the <code>Type</code> column from the <code>netflix_titles</code> table into the <em>Columns</em> field. Then, drag the same <code>Type</code> column into the <em>Rows</em> field, but change it to a count measure using the drop-down arrow. Select the Pie Chart visualization from the <strong>Show Me</strong> tab to visualize the distribution of content types.</p>
+<p>Lastly, we can edit the visualization in the <em>Marks</em> section. First, we can change the color of each pie section to follow a consistent format. We can also add a filter to the <code>type</code> column so we exclude the inconsistent/null values in the data set, and only show titles with a content type of <em>Movie</em> or <em>TV Show</em>. Adding filters helps refine the data and create clearer, more focused visualizations.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="intro-powerbi-tableau/powerbi_tableau_files/pie_chart_viz.png" class="img-fluid figure-img"></p>
+<figcaption>Pie Chart Viz</figcaption>
+</figure>
+</div>
+<section id="final-dashboard-1" class="level5" data-number="7.4.6.3.1">
+<h5 data-number="7.4.6.3.1" class="anchored" data-anchor-id="final-dashboard-1"><span class="header-section-number">7.4.6.3.1</span> Final Dashboard</h5>
+<p>Once all visualizations are created independently, a new dashboard can be created to combine and summarize the results. Each individual visualization can be dragged onto the dashboard and arranged to create a comprehensive and clear layout.</p>
+<p>This dashboard provides an overview of the data, allowing for multiple relationships to be analyzed at once and for dynamic visualization through filters and selections. This makes it easier to identify overall patterns and draw conclusions from the dataset.</p>
+<iframe src="https://public.tableau.com/views/introtableau_17711815156400/Dashboard1?:language=en-US&amp;:sid=&amp;:redirect=auth&amp;:display_count=n&amp;:origin=viz_share_link?:showVizHome=no&amp;:embed=true" height="800" width="1000" frameborder="0" allowfullscreen="true">
+</iframe>
+</section>
+</section>
+<section id="storylines" class="level4" data-number="7.4.6.4">
+<h4 data-number="7.4.6.4" class="anchored" data-anchor-id="storylines"><span class="header-section-number">7.4.6.4</span> Storylines</h4>
+<p>One final aspect of Tableau is its <a href="https://help.tableau.com/current/pro/desktop/en-us/story_create.htm">Story</a> feature, which allows for data to be presented through a sequence of visualizations. Each story contains multiple “story points,” with each point displaying a certain graphic along with some descriptive caption.</p>
+<p>This feature is especially helpful for presentations, especially when guiding a non-technical audience through the data analysis process. Rather than showing all the visualizations at once, a story follows a narrative and highlights key graphics or conclusions along the way. For example, it could start with an overview of the data, then move into each research question and the specific visualization to explain/support it.</p>
+<p>Overall, structuring visualizations through storytelling helps communicate the results of data exploration more effectively.</p>
+</section>
+</section>
+<section id="integration-with-python" class="level3" data-number="7.4.7">
+<h3 data-number="7.4.7" class="anchored" data-anchor-id="integration-with-python"><span class="header-section-number">7.4.7</span> Integration With Python</h3>
+<p>An advantage of both PowerBI and Tableau is their ability to integrate python for extended capabilities, specifically for preprocessing data or for more advanced analytics. Though the tools provide a strong interface for building visualizations, python allows for more flexible data manipulation, complex computations, dataset merging, statistical modeling, and machine learning, which can all be integrated into the dynamic visualizations. Combining python with these tools helps easily create more accurate and meaningful visualization and data workflows.</p>
+<section id="preprocess-using-python" class="level4" data-number="7.4.7.1">
+<h4 data-number="7.4.7.1" class="anchored" data-anchor-id="preprocess-using-python"><span class="header-section-number">7.4.7.1</span> Preprocess Using Python</h4>
+<p>This method involves importing and preprocessing the dataset using python first, and then uploading the new, cleaned dataset into either visualization platform. For users who are more comfortable with programming, this approach might be more flexible than cleaning the data in PowerBI or Tableau.</p>
+<p>Preprocessing in python can include tasks like examining the dataset, handling missing values or null rows, or creating new columns through calculations. For example, we can import the dataset and check for missing or incorrect values in the <code>type</code> column:</p>
+<div id="d9dbf947" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># load the dataset</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_excel(<span class="st">"intro-powerbi-tableau/powerbi_tableau_files/netflix_titles.xlsx"</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="co"># check for incorrect/null values - not Movie or TV Show</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>incorrect <span class="op">=</span> df[<span class="op">~</span>df[<span class="st">'type'</span>].isin([<span class="st">'Movie'</span>, <span class="st">'TV Show'</span>])]</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"number of incorrect rows: "</span>, incorrect.shape[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>number of incorrect rows:  2</code></pre>
+</div>
+</div>
+<p>From here, we can further examine the rows with incorrect values and determine to drop them from the dataset:</p>
+<div id="6450725d" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print out the incorrect rows</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(incorrect)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># remove invalid rows</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[df[<span class="st">'type'</span>].isin([<span class="st">'Movie'</span>, <span class="st">'TV Show'</span>])]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          duration_minutes     duration_seasons  type  title  \
+2018      Flying Fortress"  2017-03-31 00:00:00  1944  TV-PG   
+4525   and probably will."             80188902   NaN    NaN   
+
+                                             date_added  release_year rating  \
+2018  This documentary centers on the crew of the B-...    80119194.0    NaN   
+4525                                                NaN           NaN    NaN   
+
+     description  show_id  
+2018         NaN      NaN  
+4525         NaN      NaN  </code></pre>
+</div>
+</div>
+<p>Lastly, we can now export our cleaned data as a CSV file:</p>
+<div id="dd2d26ce" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">"intro-powerbi-tableau/powerbi_tableau_files/netflix_titles_cleaned.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The cleaned dataset can then be loaded into Power BI or Tableau for visualization.</p>
+</section>
+<section id="running-python-in-powerbi" class="level4" data-number="7.4.7.2">
+<h4 data-number="7.4.7.2" class="anchored" data-anchor-id="running-python-in-powerbi"><span class="header-section-number">7.4.7.2</span> Running Python in PowerBI</h4>
+<p>Running python in PowerBI requires a local python setup. Currently, python can only be integrated on Windows (PowerBI Desktop) where the python scripting option must be enabled. There are three main ways to use python in PowerBi:</p>
+<ul>
+<li><strong>Import Data with a Python Script</strong>
+<ul>
+<li>Use python scripts to create dataframes or load data from APIs/external sources</li>
+<li>Script must return a Pandas DataFrame</li>
+<li>During the data import process, click “Get Data,” set the source to “Python script,” and then type/paste your code</li>
+</ul></li>
+<li><strong>Transform Data in Power Query</strong>
+<ul>
+<li>Use python scripts for advanced data cleaning or analysis</li>
+<li>Uses an existing dataset as variable input</li>
+<li>When examining the data tables after import, click “Transform Data” and then “Run Python Script”</li>
+</ul></li>
+<li><strong>Create Custom Visuals</strong>
+<ul>
+<li>Use python libraries like matplotlib or seaborn to program visuals</li>
+<li>Note: these visualizations are static (non-interactive and will not update with data changes)</li>
+<li>In the visualization tab, select the python visual icon to enable it and use plt.show() to display the visual</li>
+</ul></li>
+</ul>
+</section>
+<section id="tabpy" class="level4" data-number="7.4.7.3">
+<h4 data-number="7.4.7.3" class="anchored" data-anchor-id="tabpy"><span class="header-section-number">7.4.7.3</span> TabPy</h4>
+<p>To integrate python with Tableau, a package called TabPy (Tableau Python Server) can be used. TabPy lets Tableau remotely execute python code and return results as calculated values within the visuals.</p>
+<p>To set up TabPy in Tableau:</p>
+<ol type="1">
+<li>Install <code>tabpy</code> in terminal.</li>
+<li>Set up a connection in Tableau using a local host server.</li>
+<li>Test the connection to make sure the link is active.</li>
+</ol>
+<p>Once connected, python can be used within Tableau to perform advanced calculations and analytics.</p>
+<p>Some common uses of TabPy include:</p>
+<p><strong>Calculated Fields</strong><br>
+Tableau provides built-in SCRIPT functions that allow python code to be executed within a workbook:</p>
+<ul>
+<li><code>SCRIPT_REAL</code> will return numeric values</li>
+<li><code>SCRIPT_STR</code> will return string values</li>
+<li><code>SCRIPT_INT</code> will return integers</li>
+<li><code>SCRIPT_BOOL</code> will return booleans</li>
+</ul>
+<p>For example: <code>SCRIPT_REAL("return [x * 2 for x in _arg1]", SUM([Sales]))</code>. This line will use the input values from the SUM([Sales]) field, multiply each value by 2, and then return the result as a numeric output. This creates a calculated field used only within the visualization (it will not modify the original dataset or create a new column).</p>
+<p><strong>Tableau Prep Builder</strong><br>
+Python can also be for data preparation by adding a Script step in Tableau Prep. This requires a script file (.py) that takes a Pandas DataFrame as input and will then return a transformed DataFrame.</p>
+</section>
+</section>
+<section id="conclusion-2" class="level3" data-number="7.4.8">
+<h3 data-number="7.4.8" class="anchored" data-anchor-id="conclusion-2"><span class="header-section-number">7.4.8</span> Conclusion</h3>
+<ul>
+<li>Data visualization is a useful tool for investigating complex datasets and discovering patterns or trends within the data.</li>
+<li>Both PowerBI and Tableau provide interactive platforms for creating dynamic visualizations without requiring advanced coding knowledge.</li>
+<li>PowerBI is more commonly used for business analytics and reporting, especially within the Microsoft ecosystem. Tableau pertains more to data exploration, customization, and visual storytelling.</li>
+<li>Integrating python with data visualization tools allows for more advanced data preprocessing and analytics outside of the built-in features.</li>
+</ul>
+</section>
+<section id="further-readings" class="level3" data-number="7.4.9">
+<h3 data-number="7.4.9" class="anchored" data-anchor-id="further-readings"><span class="header-section-number">7.4.9</span> Further Readings</h3>
+<ul>
+<li><p><a href="https://www.datacamp.com/tutorial/tutorial-power-bi-for-beginners">Power BI Tutorial for Beginners</a></p></li>
+<li><p><a href="https://www.geeksforgeeks.org/tableau/introduction-to-tableau/">Introduction to Tableau</a></p></li>
+<li><p><a href="https://learn.microsoft.com/en-us/power-bi/connect-data/desktop-python-scripts">Run Python scripts in Power BI Desktop</a></p></li>
+<li><p><a href="https://github.com/tableau/tabpy?tab=readme-ov-file">TabPy</a></p></li>
+</ul>
+
+
 </section>
 </section>
 
