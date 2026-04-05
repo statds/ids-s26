@@ -297,10 +297,58 @@ plt.show()
 
 # Applied Example 2 - Comparing Accident Rates 
 
-- Scenario: A city wants to compare the rate of traffic accidents before and after implementing a new traffic safety program.
+- Scenario: A city wants to compare the rate of traffic accidents before and after implementing a new traffic safety program. The city collects data on 10 road segments, each observed before and after the safety program.
 - Data:
-  - Before: 20 accidents over 50,000 hours
-  - After: 9 accidents over 55,000 hours
+
+```{python}
+
+import numpy as np
+import pandas as pd
+
+# Create data frame with 10 road segments, before and after the safety program
+data = pd.DataFrame({
+    "segment": np.repeat(np.arange(1, 11), 2),
+    "after_program": [0, 1] * 10,
+    "exposure": [
+        5000, 5200,   # segment 1
+        4800, 5100,   # segment 2
+        5100, 5300,   # segment 3
+        4950, 5050,   # segment 4
+        5050, 5150,   # segment 5
+        4900, 5000,   # segment 6
+        5200, 5400,   # segment 7
+        5000, 5200,   # segment 8
+        5100, 5300,   # segment 9
+        4950, 5150    # segment 10
+    ],
+    "accidents": [
+        2, 1,   # segment 1
+        3, 1,   # segment 2
+        2, 1,   # segment 3
+        2, 1,   # segment 4
+        3, 2,   # segment 5
+        2, 1,   # segment 6
+        3, 1,   # segment 7
+        2, 1,   # segment 8
+        2, 1,   # segment 9
+        3, 1    # segment 10
+    ]
+})
+
+# Pivot data to get total accidents and exposure before and after for each segment
+wide = data.pivot(index="segment", columns="after_program", values=["accidents", "exposure"])
+
+# Rename columns for clarity
+wide.columns = ["accidents_before", "accidents_after", "exposure_before", "exposure_after"]
+
+# Reorder columns
+wide = wide[["accidents_before", "exposure_before", "accidents_after", "exposure_after"]]
+
+# Print 
+print(wide.to_string())
+
+```
+
 - Null hypothesis: The accident rates before and after the program are the same ($\lambda_{before} = \lambda_{after}$)
 - Alternative hypothesis: The accident rate after the program is lower than before ($\lambda_{after} < \lambda_{before}$)
 
@@ -309,16 +357,24 @@ plt.show()
 ```{python}
 from statsmodels.stats.rates import test_poisson_2indep
 
-count1, count2 = 20, 9
-exposure1, exposure2 = 50000, 55000
+# Aggregate totals
+count_before = data.loc[data.after_program == 0, "accidents"].sum()
+count_after  = data.loc[data.after_program == 1, "accidents"].sum()
 
+exposure_before = data.loc[data.after_program == 0, "exposure"].sum()
+exposure_after  = data.loc[data.after_program == 1, "exposure"].sum()
+
+print("Before totals:", count_before, "accidents,", exposure_before, "hours")
+print("After totals:", count_after, "accidents,", exposure_after, "hours")
+
+# Poisson test
 result = test_poisson_2indep(
-    count1, exposure1,
-    count2, exposure2,
-    method="score"   
+    count_before, exposure_before,
+    count_after, exposure_after,
+    method="score"
 )
 
-print("Test statistic:", result.statistic)
+print("\nTest statistic:", result.statistic)
 print("P-value:", result.pvalue)
 ```
 
@@ -330,26 +386,26 @@ print("P-value:", result.pvalue)
 import numpy as np
 import statsmodels.api as sm
 
-count = [20, 9]
-exposure = [50000, 55000]
+# Rate ratio (after / before)
+rate_ratio = (count_after / exposure_after) / (count_before / exposure_before)
 
-# Rate ratio
-rate_ratio = (count[1] / exposure[1]) / (count[0] / exposure[0])
+# Standard error of log(rate ratio)
+se_log_rr = np.sqrt((1 / count_before) + (1 / count_after))
 
-# Standard error of log(rate ratio), transforming to normal distribution
-se_log_rr = np.sqrt((1 / count[0]) + (1 / count[1]))
-
-# 95% CI for the rate ratio, z-test because we forced it to adhere to normal distribution by transforming above (common approach)
+# 95% CI on log scale
 z = 1.96
 ci_low = np.exp(np.log(rate_ratio) - z * se_log_rr)
 ci_high = np.exp(np.log(rate_ratio) + z * se_log_rr)
 
-print("Confidence interval: (", ci_low, ci_high, ")")
+print("Rate ratio:", rate_ratio)
+print("95% CI: (", ci_low, ",", ci_high, ")")
 ```
 
-**Output:** (0.186, 0.898) → The 95% confidence interval for the rate ratio ranges from 0.186 to 0.898. This interval does not include 1, supporting the above conclusion that there does exist a significant difference in accident rates before and after the program was implemented. 
+**Output:** (0.217, 0.903) → The 95% confidence interval for the rate ratio ranges from 0.217 to 0.903. This interval does not include 1, supporting the above conclusion that there does exist a significant difference in accident rates before and after the program was implemented. 
 
-In other words, with 95% confidence the accident rate after the program is between 18.6% and 89.8% of the accident rate before the program.
+In other words, with 95% confidence the accident rate after the program is between 21.7% and 90.3% of the accident rate before the program.
+
+According to the rate ratio of 0.442, the accident rate after the program is estimated to be about 44.2% of the rate before, which indicates a substantial decrease in accidents following the implementation of the safety program.
 
 ### Poisson regression model for accident rates:
 
@@ -359,36 +415,24 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-count = [20, 9]
-exposure = [50000, 55000]
-
-# create dataframe
-
-data = pd.DataFrame({
-  "accidents": count,
-  "exposure": exposure,
-  "after_program": [0,1] # 0 = before, 1 =after
-})
-
-# Design matrix (intercept + indicator for after-program)
+# Design matrix: intercept + indicator for after_program
 X = sm.add_constant(data["after_program"])
 
-# Offset = log(exposure time), so model estimates accident *rates*
+# Offset = log(exposure) so we model accident *rates*
 offset = np.log(data["exposure"])
 
-# Fit Poisson regression model
 model = sm.GLM(
-  data["accidents"],
-  X,
-  family = sm.families.Poisson(),
-  offset=offset
+    data["accidents"],
+    X,
+    family=sm.families.Poisson(),
+    offset=offset
 ).fit()
 
 print(model.summary())
 
 ```
 
-**Output:** Our key coefficient `after_program` = -0.8938 with p-value = 0.026. Because our coefficient is negative, the accident rate decreased after the program. Because the p-value  < 0.05, this decrease is significant. 
+**Output:** Our key coefficient `after_program` = -0.8155 with p-value = 0.025. Because our coefficient is negative, the accident rate decreased after the program. Because the p-value  < 0.05, this decrease is significant. 
 
 This model shows our rate ratio = 0.409, which aligns closely with the manually computed one in the confidence interval problem. The accident rate after the program is estimated to be about 41% of the rate before.
 
@@ -396,14 +440,21 @@ This model shows our rate ratio = 0.409, which aligns closely with the manually 
 ### Visualization of accident rates:
 
 ```{python}
+import matplotlib.pyplot as plt
 
-count = [20, 9]
-exposure = [50000, 55000]
-rates = [count[0] / exposure[0], count[1] / exposure[1]]
-plt.bar(["Before", "After"], rates)
-plt.title("Accident Rates")
+segments = data["segment"].unique()
+
+for seg in segments:
+    seg_data = data[data.segment == seg]
+    before_rate = seg_data.loc[seg_data.after_program == 0, "accidents"].values[0] / \
+                  seg_data.loc[seg_data.after_program == 0, "exposure"].values[0]
+    after_rate = seg_data.loc[seg_data.after_program == 1, "accidents"].values[0] / \
+                 seg_data.loc[seg_data.after_program == 1, "exposure"].values[0]
+    
+    plt.plot(["Before", "After"], [before_rate, after_rate], marker="o", alpha=0.6)
+
+plt.title("Accident Rates by Road Segment")
 plt.ylabel("Accidents per Hour")
-plt.ylim(0, max(rates)*1.2)
 plt.show()
 
 ```
