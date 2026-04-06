@@ -15,3 +15,7 @@
 ## Random Forests
 
 {{< include _random_forests.qmd >}}
+
+## False Discovery Rate (FDR) Control
+
+{{< include _fdr_control.qmd >}}
