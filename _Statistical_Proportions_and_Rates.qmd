@@ -1,0 +1,484 @@
+This presentation was prepared by Kayleigh Budnick.
+
+---
+title: "Statistical Analysis for Proportions and Rates"
+subtitle: "Introduction to Data Science | Spring 2026"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
+    theme: cosmo
+---
+
+# Introduction 
+
+## What are proportions and rates? 
+
+- **Proportions** measure the fraction of units with a certain characteristic
+  - Examples: % of emails marked spam, % of voters supporting a candidate
+- **Rates** measure how often events occur relative to time
+  - Examples: # of new COVID-19 cases per day, # of website visits per hour
+
+- Both are important for summarizing data and making comparisons across groups or time periods. They are commonly used in fields like:
+  - Public health
+  - Marketing
+  - Social science
+  - Quality control
+
+## Why do they matter in data science?
+
+- Many real-world outcomes are binary (e.g., success/failure, yes/no) or count-based (e.g., number of clicks, number of defects).
+- Proportions and rates allow:
+  - Estimation
+  - Uncertainty quantification
+  - Hypothesis testing
+  - Comparison across groups
+- They connect directly to generalized linear models (GLMs) and machine learning algorithms that handle classification and count data.
+
+# Proportions
+
+## Modeling Proportions with the Binomial Distribution 
+
+- Binary outcomes follow a Bernoulli distribution (success/failure).
+- Repeated trials → Binomial distribution
+- Sample proportion: $\hat{p} = \frac{x}{n}$ where $x$ is the number of successes and $n$ is the total trials.
+- Sampling distribution of $\hat{p}$ is approximately normal for large $n$ (Central Limit Theorem):
+  - Mean: $p$
+  - Standard error: $\sqrt{\frac{p(1-p)}{n}}$
+
+## Confidence Intervals for Proportions 
+
+- Wald interval (simple, but often inaccurate)
+  - $\hat{p} \pm z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}$
+- Wilson score interval (more accurate, especially for small samples)
+  - $\frac{\hat{p} + \frac{z^2}{2n} \pm z \sqrt{\frac{\hat{p}(1-\hat{p})}{n} + \frac{z^2}{4n^2}}}{1 + \frac{z^2}{n}}$
+
+- Interpretation: We are 95% confident that the true population proportion lies within this interval.
+
+## Hypothesis Testing for Proportions 
+
+- One-sample z-test:
+  - Compare $z$ to critical values from the standard normal distribution
+  - Calculate p-value for the observed $z$ and compare to significance level $\alpha$
+  - Tests whether the observed proportion is significantly different from a hypothesized value.
+- Two-sample z-test for comparing two proportions:
+  - $z = \frac{\hat{p}_1 - \hat{p}_2}{\sqrt{\hat{p}(1-\hat{p})(\frac{1}{n_1} + \frac{1}{n_2})}}$ where $\hat{p}$ is the pooled proportion
+  - Used in A/B testing, clinical trials, etc.
+  - Tests whether P1 and P2 are significantly different.
+  - Use paired-sample test for before/after of the same subject. Use two-sample test for independent samples.
+
+## Logistic Regression for Proportions
+- Regression model for binary outcomes
+- Predicts probability of success
+- Part of GLM family
+  -  $\log\!\left(\frac{p}{1 - p}\right) = \beta_0 + \beta_1 X_1 + \dots$
+
+Why use logit link?
+
+- Keeps predicted probabilities between 0 and 1
+- Converts probabilities into a scale where linear models work
+
+## Python Example: Proportion Confidence Interval
+
+Suppose we have a sample of 100 emails, and 56 were marked as spam. We want to calculate a 95% confidence interval for the true proportion of spam emails.
+
+```{python}
+import statsmodels.stats.proportion as smp
+
+count = 56
+nobs = 100
+
+ci_low, ci_high = smp.proportion_confint(count, nobs, method="wilson")
+print("Confidence interval: (", ci_low, ci_high, ")")
+```
+
+**Output:** (0.465, 0.651) → We are 95% confident that the true proportion is between 46.5% and 65.1%.
+
+# Rates
+
+## Modeling Rates with the Poisson Distribution 
+
+- Count data often follows a Poisson distribution, especially for rare events.
+- Rate parameter $\lambda$ represents the average number of events per unit time.
+- The variance of a Poisson distribution is equal to its mean ($\lambda$).
+
+Examples:
+
+- Calls to a help desk per hour
+- Defects in a manufacturing process per day
+- Disease cases per 100,000 people
+
+## Confidence Intervals for Rates 
+- For a Poisson count $x$ observed over time $t$, the rate is $\hat{\lambda} = \frac{x}{t}$.
+- Confidence intervals can be calculated using the chi-squared distribution:
+- Lower bound: $\frac{1}{2t} \chi^2_{\alpha/2, 2x}$
+- Upper bound: $\frac{1}{2t} \chi^2_{1-\alpha/2, 2(x+1)}$
+
+## Comparing Rates 
+
+- Rate ratio: $\text{RR} = \frac{\hat{\lambda}_1}{\hat{\lambda}_2}$
+- Confidence interval for the rate ratio can be calculated using the logarithm of the rate ratio and its standard error:
+  - $\text{SE}(\log(\text{RR})) = \sqrt{\frac{1}{x_1} + \frac{1}{x_2}}$
+- Overdispersion check may be necessary if the variance exceeds the mean, suggesting a negative binomial model may be more appropriate
+
+## Poisson Regression for Rates
+
+- Poisson regression is the regression model for count data
+- Predicts the rate at which events occur
+- Part of the GLM family
+  - $\log(\lambda) = \beta_0 + \beta_1 X_1 + \dots$
+
+Why use log?
+
+  - Ensures predicted rates are positive
+  - Makes effect multiplicative 
+  - Coefficients exponentiate to rate ratios
+
+Poisson regression is to counts what logistic regression is to binary outcomes.
+
+## Overdispersion in Count Data
+
+- Poisson assumes that the variance equals the mean
+- In real data, the variance is often actually **larger** than the mean 
+
+Why does this matter?
+
+  - Our standard errors will be too small
+  - Our CIs will be too narrow
+  - P-values will appear more significant than they are
+- Detect overdispersion by comapring residual deviance to degrees of freedom
+  - If deviance > df, then overdispersion is likely
+
+How to fix it?
+
+- Negative binomial regression
+  - Adds a dispersion parameter
+  - Naturally handles extra variability
+- Check for missing predictors
+  - Overdispersion can mean you are missing variables somewhere
+
+## Python Example: Rate Confidence Interval 
+
+Suppose we observed 20 new COVID-19 cases in a city over a week (7 days). We want to calculate a 95% confidence interval for the true rate of new cases per day.
+
+The chi‑square distribution can be used to compute exact Poisson confidence intervals for a single rate. This works because a transformed Poisson count follows a chi‑square distribution and is a common method for calculating confidence intervals for rates, especially when the count is small.
+
+```{python}
+import scipy.stats as stats
+x = 20  # number of cases
+t = 7   # time in days
+
+alpha = 0.05
+ci_low = (1/(2*t)) * stats.chi2.ppf(alpha/2, 2*x)
+ci_high = (1/(2*t)) * stats.chi2.ppf(1 - alpha/2, 2*(x + 1))
+print("Confidence interval: (", ci_low, ci_high, ")")
+
+```
+
+**Output:** (1.74, 4.41) → We are 95% confident that the true rate of new cases per day is between 1.74 and 4.41.
+
+# GLM Perspective
+
+- Proportions can be modeled using a binomial family with a logit link function (logistic regression).
+- Rates can be modeled using a Poisson family with a log link function (Poisson regression).
+- Why this matters:
+  - Allows us to model the relationship between predictors and the outcome (proportion or rate) while accounting for the distribution of the data.
+- Example: Logistic regression for predicting the probability of an email being spam based on features like word count, presence of certain keywords, etc. Poisson regression for modeling the number of website visits per day based on factors like advertising spend, day of the week, etc.
+
+# Key Python Packages
+
+- **statsmodels**: 
+  - `proportion_confint` for confidence intervals for proportions
+  - `proportions_ztest` for hypothesis testing of proportions
+  - `rate_ratio` and `poisson` for modeling rates and calculating rate ratios
+  - `poisson_confint` for confidence intervals for rates
+  - `poisson_test` for hypothesis testing of rates
+  - `Poisson` and `NegativeBinomial` classes for modeling count data
+
+- **scipy.stats**:
+  - `chi2` to test independence in proportions
+  - `binom` for binomial distribution functions
+  - `shapiro` or `normaltest` to check normality assumption
+
+
+- **matplotlib/seaborn**:
+  - Visualization of proportions and rates with bar charts, error bars, etc.
+
+- **pandas**:
+  - Data manipulation and summarization for calculating proportions and rates from raw data
+
+# Applied Example 1 - A/B Testing for Proportions 
+
+- Scenario: An marketing company wants to test if a new website design (B) leads to higher engagement (number of clicks per visitors) than the current design (A).
+- Data:
+  - Design A: 200 clicks out of 2,000 visitors
+  - Design B: 260 clicks out of 2,100 visitors
+  - Null hypothesis: The number of clicks per visitor for both designs are the same ($p_A = p_B$)
+  - Alternative hypothesis: Design B has higher clicks per visitor than Design A ($p_B > p_A$)
+
+### Two-sample z-test for proportions:
+
+```{python}
+
+import statsmodels.api as sm
+
+count = [200, 260] # A # B
+nobs = [2000, 2100] # A # B
+
+# Alternative = smaller because we are testing if design A engagement is significantly less than design B engagement
+
+stat, pval = sm.stats.proportions_ztest(count, nobs, alternative='smaller')
+print("Test statistic:", stat)
+print("P-value:", pval)
+```
+
+**Output:** The p-value is much less than 0.05, indicating that Design A has significantly less engagement than Design B. Additionally, the absolute value of the test statistic is very large (> 1.96), which also supports that there is a significant difference between engagement in the two websites.
+
+### Confidence interval for the difference in proportions:
+
+```{python}
+import statsmodels.stats.proportion as smp
+
+ci_low, ci_high = smp.proportion_confint(
+  count[1] - count[0], 
+  nobs[1] + nobs[0], 
+  method="wilson")
+
+print("Confidence interval: (", ci_low, ci_high, ")")
+```
+
+**Output:** (0.011, 0.018) → The 95% confidence interval for the difference in engagement between design B and design A is between 1.1% and 1.8%, suggesting that design B's engagement is likely higher than design A's by this margin. Because the interval does not include 0, it supports the conclusion that there is a significant difference in engagement between the two designs.
+
+### Logistic regression model for engagement: 
+
+```{python}
+import pandas as pd
+import statsmodels.api as sm
+
+# Data for logistic regression
+# 1 row per design (A, B)
+data = pd.DataFrame({
+    "clicks": [200, 260],
+    "visitors": [2000, 2100],
+    "design_B": [0, 1]   # 0 = Design A, 1 = Design B
+})
+
+# Response: successes (clicks) and failures (non-clicks)
+data["failures"] = data["visitors"] - data["clicks"]
+
+# Logistic regression requires a 2-column array: [successes, failures]
+y = data[["clicks", "failures"]]
+
+# Predictor matrix (intercept + indicator for Design B)
+X = sm.add_constant(data["design_B"])
+
+# Fit logistic regression (binomial family)
+model = sm.GLM(y, X, family=sm.families.Binomial()).fit()
+
+print(model.summary())
+
+```
+
+**Output:** Our key coefficient `design_B` = 0.2404, with p-value = 0.016. The coefficient is positive, meaning Design B has higher engagement. The p-value < 0.05 so this increase is statistically significant. 
+
+### Visualization of engagement:
+
+```{python}
+import matplotlib.pyplot as plt
+
+props = [200/2000, 260/2100]
+plt.bar(["A","B"], props)
+plt.title("Number of clicks per visitor")
+plt.ylim(0, max(props)*1.2)
+plt.show()
+
+```
+
+# Applied Example 2 - Comparing Accident Rates 
+
+- Scenario: A city wants to compare the rate of traffic accidents before and after implementing a new traffic safety program. The city collects data on 10 road segments, each observed before and after the safety program.
+- Data:
+
+```{python}
+
+import numpy as np
+import pandas as pd
+
+# Create data frame with 10 road segments, before and after the safety program
+data = pd.DataFrame({
+    "segment": np.repeat(np.arange(1, 11), 2),
+    "after_program": [0, 1] * 10,
+    "exposure": [
+        5000, 5200,   # segment 1
+        4800, 5100,   # segment 2
+        5100, 5300,   # segment 3
+        4950, 5050,   # segment 4
+        5050, 5150,   # segment 5
+        4900, 5000,   # segment 6
+        5200, 5400,   # segment 7
+        5000, 5200,   # segment 8
+        5100, 5300,   # segment 9
+        4950, 5150    # segment 10
+    ],
+    "accidents": [
+        2, 1,   # segment 1
+        3, 1,   # segment 2
+        2, 1,   # segment 3
+        2, 1,   # segment 4
+        3, 2,   # segment 5
+        2, 1,   # segment 6
+        3, 1,   # segment 7
+        2, 1,   # segment 8
+        2, 1,   # segment 9
+        3, 1    # segment 10
+    ]
+})
+
+# Pivot data to get total accidents and exposure before and after for each segment
+wide = data.pivot(index="segment", columns="after_program", values=["accidents", "exposure"])
+
+# Rename columns for clarity
+wide.columns = ["accidents_before", "accidents_after", "exposure_before", "exposure_after"]
+
+# Reorder columns
+wide = wide[["accidents_before", "exposure_before", "accidents_after", "exposure_after"]]
+
+# Print 
+print(wide.to_string())
+
+```
+
+- Null hypothesis: The accident rates before and after the program are the same ($\lambda_{before} = \lambda_{after}$)
+- Alternative hypothesis: The accident rate after the program is lower than before ($\lambda_{after} < \lambda_{before}$)
+
+### Poisson test for comparing two rates:
+
+```{python}
+from statsmodels.stats.rates import test_poisson_2indep
+
+# Aggregate totals
+count_before = data.loc[data.after_program == 0, "accidents"].sum()
+count_after  = data.loc[data.after_program == 1, "accidents"].sum()
+
+exposure_before = data.loc[data.after_program == 0, "exposure"].sum()
+exposure_after  = data.loc[data.after_program == 1, "exposure"].sum()
+
+print("Before totals:", count_before, "accidents,", exposure_before, "hours")
+print("After totals:", count_after, "accidents,", exposure_after, "hours")
+
+# Poisson test
+result = test_poisson_2indep(
+    count_before, exposure_before,
+    count_after, exposure_after,
+    method="score"
+)
+
+print("\nTest statistic:", result.statistic)
+print("P-value:", result.pvalue)
+```
+
+**Output:** (2.30, 0.02) → The test statistic is 2.30 with a p-value of 0.02 < 0.05, indicating a significant difference in accident rates with the after-program rate being lower.
+
+### Rate ratio and confidence interval:
+
+```{python}
+import numpy as np
+import statsmodels.api as sm
+
+# Rate ratio (after / before)
+rate_ratio = (count_after / exposure_after) / (count_before / exposure_before)
+
+# Standard error of log(rate ratio)
+se_log_rr = np.sqrt((1 / count_before) + (1 / count_after))
+
+# 95% CI on log scale
+z = 1.96
+ci_low = np.exp(np.log(rate_ratio) - z * se_log_rr)
+ci_high = np.exp(np.log(rate_ratio) + z * se_log_rr)
+
+print("Rate ratio:", rate_ratio)
+print("95% CI: (", ci_low, ",", ci_high, ")")
+```
+
+**Output:** (0.217, 0.903) → The 95% confidence interval for the rate ratio ranges from 0.217 to 0.903. This interval does not include 1, supporting the above conclusion that there does exist a significant difference in accident rates before and after the program was implemented. 
+
+In other words, with 95% confidence the accident rate after the program is between 21.7% and 90.3% of the accident rate before the program.
+
+According to the rate ratio of 0.442, the accident rate after the program is estimated to be about 44.2% of the rate before, which indicates a substantial decrease in accidents following the implementation of the safety program.
+
+### Poisson regression model for accident rates:
+
+```{python}
+
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+# Design matrix: intercept + indicator for after_program
+X = sm.add_constant(data["after_program"])
+
+# Offset = log(exposure) so we model accident *rates*
+offset = np.log(data["exposure"])
+
+model = sm.GLM(
+    data["accidents"],
+    X,
+    family=sm.families.Poisson(),
+    offset=offset
+).fit()
+
+print(model.summary())
+
+```
+
+**Output:** Our key coefficient `after_program` = -0.8155 with p-value = 0.025. Because our coefficient is negative, the accident rate decreased after the program. Because the p-value  < 0.05, this decrease is significant. 
+
+This model shows our rate ratio = 0.409, which aligns closely with the manually computed one in the confidence interval problem. The accident rate after the program is estimated to be about 41% of the rate before.
+
+
+### Visualization of accident rates:
+
+```{python}
+import matplotlib.pyplot as plt
+
+segments = data["segment"].unique()
+
+for seg in segments:
+    seg_data = data[data.segment == seg]
+    before_rate = seg_data.loc[seg_data.after_program == 0, "accidents"].values[0] / \
+                  seg_data.loc[seg_data.after_program == 0, "exposure"].values[0]
+    after_rate = seg_data.loc[seg_data.after_program == 1, "accidents"].values[0] / \
+                 seg_data.loc[seg_data.after_program == 1, "exposure"].values[0]
+    
+    plt.plot(["Before", "After"], [before_rate, after_rate], marker="o", alpha=0.6)
+
+plt.title("Accident Rates by Road Segment")
+plt.ylabel("Accidents per Hour")
+plt.show()
+
+```
+
+
+# Common Mistakes
+
+Things to avoid:
+
+- Using Wald intervals for small sample sizes
+- Ignoring different exposure times when modeling rates
+- Treating counts as proportions
+- Not checking assumptions (independence, overdispersion, normality)
+- Overinterpreting tiny differences with huge sample sizes
+
+# Conclusion 
+
+- Proportions and rates are fundamental for summarizing and analyzing binary and count data
+- Proportions → Binomial distribution, confidence intervals, hypothesis testing
+- Rates → Poisson distribution, confidence intervals, rate ratios
+- Applications: A/B testing, public health, quality control, etc.
+
+# Further readings
+
+* Buis, M. L., (2020). Analysis of Proportions, In P. Atkinson, S. Delamont, A. Cernat, J.W. Sakshaug, & R.A. Williams (Eds.), SAGE Research Methods Foundations. https://doi.org/10.4135/9781526421036852590
+* Miettinen, O. and Nurminen, M. (1985), Comparative analysis of two rates. Statist. Med., 4: 213-226. https://doi.org/10.1002/sim.4780040211
+* Buddhi, K., (2025). Basics of probability and statistics using Python. Intelligent Computing Techniques in Biomedical Imaging, Academic Press. https://doi.org/10.1016/B978-0-443-15999-2.00017-7 
