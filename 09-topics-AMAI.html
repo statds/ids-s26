@@ -374,7 +374,7 @@ window.Quarto = {
 <li>All rows must sum to 1</li>
 <li>We can create our transition matrix using a numpy array</li>
 </ul>
-<div id="f2ef576e" class="cell" data-execution_count="1">
+<div id="42d23bba" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 3x3 matrix</span></span>
@@ -535,7 +535,7 @@ P^{(n)} = P^n
 </section>
 <section id="matrix-power-function" class="level3" data-number="9.1.10">
 <h3 data-number="9.1.10" class="anchored" data-anchor-id="matrix-power-function"><span class="header-section-number">9.1.10</span> Matrix Power Function</h3>
-<div id="4222d01a" class="cell" data-execution_count="2">
+<div id="907f15c5" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> matrix_power(matrix, power):</span>
@@ -553,7 +553,7 @@ P^{(n)} = P^n
        [0.2, 0.5, 0.3]])</code></pre>
 </div>
 </div>
-<div id="5a7ee748" class="cell" data-execution_count="3">
+<div id="13f8a6ab" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">17</span>, <span class="dv">3</span>):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Step Transition Matrix at the nth power </span><span class="sc">{</span>i<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>,</span>
@@ -610,7 +610,7 @@ Step Transition Matrix at the nth power 16
 <li>Transition probabilities were created using indexed pitching stats for each pitcher (normalized zone%, zoneswing%, oswing%, fair/foul%, compared to league average)</li>
 <li>Based off these probabilities, we can find the stationary distribution that gives us expected K% and BB%</li>
 </ul>
-<div id="dac5528a" class="cell" data-execution_count="4">
+<div id="eb3b7e32" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>Single Pitch Transition Matrix:
 
@@ -771,7 +771,7 @@ P(Y_t \mid X_t)
 <li>the likelihood of the current observation</li>
 </ul>
 <p>By moving forward through time and updating these values recursively, the algorithm efficiently computes the total probability of the full observation sequence.</p>
-<div id="7b0275b4" class="cell" data-execution_count="5">
+<div id="96850a76" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 = Rainy,  1 = Sunny</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 = walk, 1 = shop, 2 = clean</span></span>
@@ -1017,7 +1017,7 @@ P(\text{walk, shop, clean}) = 0.033612
 <li>Termination: Find the maximum probability among the final states.</li>
 <li>Path Backtracking: Follow the backpointers from the final, most likely state back to the beginning to reconstruct the optimal sequence.</li>
 </ol>
-<div id="1c5292c5" class="cell" data-execution_count="6">
+<div id="881e57ac" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> viterbi_np(obs, pi, A, B):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="bu">len</span>(obs)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(pi)</span>
@@ -1483,7 +1483,7 @@ Probability of best path: 0.01344</code></pre>
 <h4 data-number="9.2.6.8" class="anchored" data-anchor-id="finally-some-code"><span class="header-section-number">9.2.6.8</span> Finally, Some Code</h4>
 <p>The original benchmark step wipes old <code>.JSONL</code> and <code>.CSV</code> files and reruns all 36 queries through the live Groq, OpenWeather, and Tavily APIs.</p>
 <p>For this shared course repository, the render below is shown but not executed. The report uses the saved benchmark artifacts already included in the <code>LLM-Agents/</code> folder so that it can be rendered without requiring API keys during normal course use.</p>
-<div id="5169805d" class="cell" data-execution_count="7">
+<div id="5ebb4785" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reset_logs():</span>
@@ -1513,7 +1513,7 @@ Probability of best path: 0.01344</code></pre>
 </section>
 <section id="does-the-complexity-of-tool-calls-required-to-complete-a-task-predict-total-latency" class="level4" data-number="9.2.6.9">
 <h4 data-number="9.2.6.9" class="anchored" data-anchor-id="does-the-complexity-of-tool-calls-required-to-complete-a-task-predict-total-latency"><span class="header-section-number">9.2.6.9</span> Does the complexity (# of tool calls required to complete a task) predict total latency?</h4>
-<div id="86c34f85" class="cell" data-execution_count="8">
+<div id="c8145d2f" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1565,7 +1565,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="does-the-number-of-tools-actual-of-tool-calls-the-agent-executed-predict-total-task-latency" class="level4" data-number="9.2.6.10">
 <h4 data-number="9.2.6.10" class="anchored" data-anchor-id="does-the-number-of-tools-actual-of-tool-calls-the-agent-executed-predict-total-task-latency"><span class="header-section-number">9.2.6.10</span> Does the number of tools (actual # of tool calls the agent executed) predict total task latency?</h4>
-<div id="c01a6db9" class="cell" data-execution_count="9">
+<div id="1c4145a1" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>run_regression_comparison(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    agent_file<span class="op">=</span><span class="st">"LLM-Agents/agent_runs.jsonl"</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    baseline_file<span class="op">=</span><span class="st">"LLM-Agents/baseline_runs.jsonl"</span>,</span>
@@ -1609,7 +1609,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="does-api-difficulty-calculator-1-web-search-2-weather-3-predict-total-latency" class="level4" data-number="9.2.6.11">
 <h4 data-number="9.2.6.11" class="anchored" data-anchor-id="does-api-difficulty-calculator-1-web-search-2-weather-3-predict-total-latency"><span class="header-section-number">9.2.6.11</span> Does API difficulty (calculator: 1, web search: 2, weather: 3) predict total latency?</h4>
-<div id="7a058436" class="cell" data-execution_count="10">
+<div id="deb50ce5" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>run_regression_comparison(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    agent_file<span class="op">=</span><span class="st">"LLM-Agents/agent_runs.jsonl"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    baseline_file<span class="op">=</span><span class="st">"LLM-Agents/baseline_runs.jsonl"</span>,</span>
