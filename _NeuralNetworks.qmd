@@ -2,13 +2,12 @@
 title: "Neural Network Basics in Sports Statistics"
 author: "Vinnie Carbone"
 format:
-  html:
-    toc: true
-    toc-depth: 2
-    number-sections: true
+  revealjs:
+    slide-number: true
+    preview-links: true
     theme: default
 execute:
-  echo: true
+  enabled: false
 ---
 
 # Neural Networks in Sports Analytics
@@ -133,7 +132,6 @@ $$
 
 
 ```{python}
-#| echo: false
 #| include: false
 import pandas as pd
 import numpy as np
@@ -224,7 +222,7 @@ lebron_df = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df
 ```
-
+</details>
 ## Model Structure
 
 - Input features:
@@ -242,11 +240,13 @@ lebron_df_2 = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df_2
 ```
+</details>
 
 ## Inputs & Targets
 
 - We started with stats from 2018 - 2024. We dropped the first year, because this year has no 'previous season'. 
 ```{python}
+#| include: false
 # Assigning previous season stats as features / inputs
 X = all_df[[
     "prev_age",
@@ -296,6 +296,7 @@ from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 ```
+</details>
 
 - Random training/testing split, rows are shuffled before splitting so the model sees different players and different seasons
 - **random_state=42** sets the random seed just so the data splits the same time every run.  
@@ -344,9 +345,10 @@ print(y_test.shape)
 
 - Mean Squared Error (MSE/Train Loss) as the loss function to train the model, and Mean Absolute Error (MAE) as a metric to interpret how far off our predictions were
 
-<details>
-<summary>Click to expand code</summary>
+
 ```{python}
+
+#| include: false
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -417,7 +419,7 @@ print("Model RMSE:",rmse)
 import warnings
 warnings.filterwarnings("ignore")
 
-players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
+players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
 
 for player in players:
     row = all_df[all_df["player"] == player].sort_values("season").iloc[-1]
@@ -440,9 +442,10 @@ for player in players:
 #| echo: false
 #| fig-height: 4
 #| fig-width: 7
+#| cache: true
 
 
-players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
+players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
 
 stats = ["PTS", "TRB", "AST"]
 
@@ -503,6 +506,6 @@ for player in players:
 
 # Further Reading
 
-- [Other applications of neural networks] (https://www.ibm.com/think/topics/neural-networks)
+- [Other applications of neural networks](https://www.ibm.com/think/topics/neural-networks)
 - https://course.elementsofai.com/en-ie/5/1
-- [Creating your own neural network in python] (https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)
+- [Creating your own neural network in python](https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)
