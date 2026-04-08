@@ -457,7 +457,10 @@ print(eval_by_group(partial, Xte_int, yte, gte).round(3))
 
 ## Homework 4
 
-This homework asks you to carefully study the case studies from our notes.
+This homework asks you to carefully study two case studies from our notes:
+
++ [Case study: Community risk for adolescent suicide](01-case-study/01-case-study.qmd)
++ [Case study: When the data seem to cheat — Simpson's paradox](04-case-study/04_case_study_simpsons_paradox.qmd)
 
 
 **Submission**
@@ -470,7 +473,7 @@ This homework asks you to carefully study the case studies from our notes.
 
 ### Part 1. Community-level suicide risk case study
 
-Answer the following questions based on [01-case-study/01-case-study.qmd](01-case-study/01-case-study.qmd) and [04-case-study/04-case-study-multiple-testing.qmd](04-case-study/04-case-study-multiple-testing.qmd).
+Answer the following questions based on [01-case-study/01-case-study.qmd](01-case-study/01-case-study.qmd).
 
 This part focuses on two ideas from the case study:
 
@@ -575,8 +578,19 @@ def add_poisson_tests(df, rate0=15 / 10000, alpha=0.05):
 #| code-summary: "Show code for Question 1"
 df1 = simulate_districts(seed=3255)
 
-# TODO: make a scatterplot of rate_per_10k vs population, identify top 10 districts, and report their population and count.
+plt.figure(figsize=(7, 4))
+plt.scatter(df1["population"], df1["rate_per_10k"], alpha=0.7)
+plt.xlabel("Population")
+plt.ylabel("Observed rate per 10,000")
+plt.title("Rare-event rates vs district population")
+plt.show()
 
+top10 = (
+  df1.sort_values("rate_per_10k", ascending=False)
+  .head(10)[["district", "population", "count", "rate_per_10k"]]
+)
+
+top10
 ```
 
 
@@ -611,7 +625,28 @@ for s in range(300):
 
 rep = pd.DataFrame(records)
 
-# TODO: summarize results in a small table and one plot, and explain the instability pattern.  
+summary_q2 = pd.DataFrame(
+  {
+    "quantity": [
+      "mean max rate per 10k",
+      "median population of top district",
+      "share top district pop < 3000",
+    ],
+    "value": [
+      rep["max_rate_per_10k"].mean(),
+      rep["top_population"].median(),
+      rep["top_pop_below_3000"].mean(),
+    ],
+  }
+)
+summary_q2
+
+plt.figure(figsize=(7, 4))
+plt.hist(rep["top_population"], bins=20, edgecolor="white")
+plt.xlabel("Population of top-ranked district")
+plt.ylabel("Frequency across simulations")
+plt.title("Who becomes the top-ranked district?")
+plt.show()
 
 ```
 
@@ -636,7 +671,54 @@ pvalue_table = tested[
 ].sort_values("p_raw")
 pvalue_table.head(10)
 
-# TODO: count how many districts satisfy p < 0.05, and explain why raw p-values can produce "discoveries" even when all districts have the same true rate.
+# Count discoveries under each method.
+tested[["sig_raw", "sig_bh", "sig_bonf"]].sum()
+
+```
+
+
+4. Add a few truly elevated districts
+
+   Modify the simulation so that most districts still have true rate 15 per 10,000, but 5 districts have true rate 30 per 10,000.
+
+   + Compare raw p-values.
+   + Compute how many of the 5 elevated districts are detected with p-value threshold 0.05 or 0.01.
+   + Compute how many non-elevated districts are incorrectly flagged.
+
+   Based on your simulation, what tradeoff do you see between sensitivity and false discoveries?
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 4"
+rng_q4 = np.random.default_rng(3255)
+elevated_idx = rng_q4.choice(120, size=5, replace=False)
+
+df4 = simulate_districts(
+  seed=2026,
+  elevated_idx=elevated_idx,
+  elevated_rate=30 / 10000,
+)
+tested4 = add_poisson_tests(df4, rate0=15 / 10000, alpha=0.05)
+
+comparison_q4 = pd.DataFrame(
+  {
+    "method": ["raw", "BH/FDR", "Bonferroni"],
+    "detected_elevated": [
+      (tested4["is_elevated"] & tested4["sig_raw"]).sum(),
+      (tested4["is_elevated"] & tested4["sig_bh"]).sum(),
+      (tested4["is_elevated"] & tested4["sig_bonf"]).sum(),
+    ],
+    "false_flags": [
+      ((~tested4["is_elevated"]) & tested4["sig_raw"]).sum(),
+      ((~tested4["is_elevated"]) & tested4["sig_bh"]).sum(),
+      ((~tested4["is_elevated"]) & tested4["sig_bonf"]).sum(),
+    ],
+  }
+)
+comparison_q4
+
+# Optional: inspect which districts were truly elevated.
+tested4.loc[tested4["is_elevated"], ["district", "population", "count", "p_raw", "p_bh", "p_bonf"]]
 
 ```
 
@@ -644,7 +726,7 @@ pvalue_table.head(10)
 
 ### Part 2. Simpson's paradox case study
 
-Answer the following questions based on [02-case-study/02_case_study_simpsons_paradox.qmd](02-case-study/02_case_study_simpsons_paradox.qmd).
+Answer the following questions based on [04-case-study/04_case_study_simpsons_paradox.qmd](04-case-study/04_case_study_simpsons_paradox.qmd).
 
 
 You may use the starter code below and extend it as needed.
@@ -683,8 +765,20 @@ simpson_df
 ```{python}
 #| code-fold: true
 #| code-summary: "Show code for Question 1"
+within_rates = simpson_df[["group", "difficulty", "successes", "n", "success_rate"]].copy()
 
-# TODO: compute overall success rates, compute within-difficulty success rates, and show the paradox in a clean table.
+overall_rates = (
+  simpson_df.groupby("group", as_index=False)
+  .agg(successes=("successes", "sum"), n=("n", "sum"))
+)
+overall_rates["difficulty"] = "Overall"
+overall_rates["success_rate"] = overall_rates["successes"] / overall_rates["n"]
+
+result_table = pd.concat(
+  [within_rates, overall_rates[within_rates.columns]],
+  ignore_index=True,
+)
+result_table.sort_values(["difficulty", "group"])
 
 # TODO: point out where A > B and where A < B.
 ```
@@ -702,8 +796,21 @@ simpson_df
 ```{python}
 #| code-fold: true
 #| code-summary: "Show code for Question 2"
+fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
 
-# TODO: create one plot for within-difficulty comparison and one plot for overall comparison, and explain the potential misinterpretation from the overall plot alone.
+within_plot = simpson_df.pivot(index="difficulty", columns="group", values="success_rate")
+within_plot.plot(kind="bar", ax=axes[0], rot=0)
+axes[0].set_title("Within difficulty")
+axes[0].set_ylabel("Success rate")
+axes[0].legend(title="Group")
+
+overall_plot = overall_rates.set_index("group")["success_rate"]
+overall_plot.plot(kind="bar", ax=axes[1], rot=0, color=["C0", "C1"])
+axes[1].set_title("Overall")
+axes[1].set_ylabel("Success rate")
+
+plt.tight_layout()
+plt.show()
 
 ```
 

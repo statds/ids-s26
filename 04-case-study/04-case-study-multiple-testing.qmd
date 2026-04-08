@@ -6,7 +6,7 @@ In a microarray study, we do not test one hypothesis. We test thousands of them 
 
 That changes the statistical problem in an important way. If we test a single gene at level $0.05$, then a false positive is relatively rare. But if we test thousands of genes, then even when *no* genes truly differ, we should still expect many small p-values just by chance.
 
-This case study uses a classic microarray example from Callow et al. (2000), where the goal is to identify genes with altered expression in HDL-deficient mice. It is a useful teaching example because it combines scientific interpretation with a core statistical difficulty: how to detect genuine signals while controlling false discoveries across thousands of simultaneous tests.
+This case study uses a classic microarray example from Callow et al. (2000), where the goal is to identify genes with altered expression in HDL-deficient mice. It combines scientific interpretation with a core statistical difficulty: how to detect genuine signals while controlling false discoveries across thousands of simultaneous tests.
 
 ## Objective
 
@@ -33,20 +33,119 @@ The main workflow is:
 
 ## Why this case study matters
 
-This is a very good data-science example because the challenge is not just computing p-values. The real challenge is *decision-making under many simultaneous comparisons*.
+This is a nice data-science example because the challenge is not just computing p-values. The real challenge is *decision-making under many simultaneous comparisons*.
 
 At the level of one gene:
 
-- A **Type I error** means calling a gene differentially expressed when it is not.
-- A **Type II error** means missing a gene that truly is differentially expressed.
+- A *Type I error* means calling a gene differentially expressed when it is not.
+- A *Type II error* means missing a gene that truly is differentially expressed.
 
 At the level of thousands of genes:
 
-- Controlling the chance of **any** false positive can become too strict.
+- Controlling the chance of *any* false positive can become too strict.
 - Ignoring multiplicity can produce too many false discoveries.
-- The **false discovery rate** provides a useful compromise: among the genes we call significant, what fraction do we expect to be false positives?
+- The *false discovery rate* provides a useful compromise: among the genes we call significant, what fraction do we expect to be false positives?
 
 That is exactly the issue this case study is designed to illustrate.
+
+## Key setup: what can happen in a hypothesis test?
+
+Before we compute anything, it helps to be clear about what a hypothesis test is trying to do.
+
+For each gene, we make a decision:
+
+- either *reject* the null hypothesis and call the gene differentially expressed,
+- or *do not reject* the null hypothesis and decide that the evidence is not strong enough.
+
+But the gene itself also has a hidden truth:
+
+- either the null hypothesis is really true, meaning the gene is *not* differentially expressed,
+- or the null hypothesis is false, meaning the gene *is* differentially expressed.
+
+That gives four possible outcomes.
+
+```{mermaid}
+flowchart TD
+    A[One gene] --> B{What is true?}
+    B --> C[Null true;no real difference]
+    B --> D[Null false;real difference]
+    C --> E{Our decision}
+    D --> F{Our decision}
+    E --> G[Reject null;false positive;Type I error]
+    E --> H[Do not reject;true negative]
+    F --> I[Reject null;true positive]
+    F --> J[Do not reject;false negative;Type II error]
+```
+
+| Reality | Our decision | Name |
+|---|---|---|
+| Gene is not differentially expressed | Reject the null | *False positive* = *Type I error* |
+| Gene is not differentially expressed | Do not reject the null | *True negative* |
+| Gene is differentially expressed | Reject the null | *True positive* |
+| Gene is differentially expressed | Do not reject the null | *False negative* = *Type II error* |
+
+For a *single* hypothesis test:
+
+- A *Type I error* means we claim a signal that is not really there.
+- A *Type II error* means we miss a real signal.
+
+So in plain language:
+
+- Type I error = a *false alarm*.
+- Type II error = a *missed detection*.
+
+## Key setup: what changes in multiple testing?
+
+In a microarray study, we do not make this decision once. We make it thousands of times, once for each gene.
+
+That means we should keep track not only of individual mistakes, but also of how the *entire collection* of testing results breaks down.
+
+Suppose we test many genes at once. Then the outcomes can be summarized like this:
+
+```{mermaid}
+flowchart LR
+    A[All tested genes] --> B[Called significant; R = V + S]
+    A --> C[Not called significant; m - R = U + T]
+    B --> D[True positives;S]
+    B --> E[False positives;V]
+    C --> F[True negatives;U]
+    C --> G[False negatives;T]
+```
+
+| Truth about the gene | Called significant | Not called significant |
+|---|---|---|
+| Null true | *False positive* | *True negative* |
+| Null false | *True positive* | *False negative* |
+
+Sometimes statisticians label these counts with letters:
+
+- $V$: number of *false positives*,
+- $S$: number of *true positives*,
+- $U$: number of *true negatives*,
+- $T$: number of *false negatives*.
+
+From these pieces, a few important totals are built:
+
+- $R = V + S$: total number of genes we call significant,
+- $m - R = U + T$: total number of genes we do not call significant.
+
+This notation matters because different statistical goals focus on different parts of the table:
+
+- *Family-wise error rate (FWER)* asks whether we make *any* false positive at all.
+- *False discovery rate (FDR)* asks: among the genes we call significant, what fraction are false positives?
+- *Power* asks how often we successfully detect truly differentially expressed genes.
+
+The key practical tension is this:
+
+- If we use a very loose threshold, we may get many discoveries, but also many false positives.
+- If we use a very strict threshold, we reduce false positives, but we may miss real genes and increase false negatives.
+
+This case study is about learning how to manage that tradeoff in a realistic high-dimensional setting.
+
+
+
+
+
 
 ## Load packages and data
 
@@ -90,9 +189,9 @@ The 16 arrays are divided into two groups of 8:
 
 For each array, the data contain two fluorescence channels, one green and one red. The code constructs
 
-- a **log-ratio**
+- a *log-ratio*
   $$M = \log_2(R/G),$$
-- and a **log-intensity**
+- and a *log-intensity*
   $$A = \frac{1}{2}\log_2(RG).$$
 
 The spot-location file provides the printing-pin blocks used for block-wise normalization.
@@ -346,7 +445,7 @@ fig.show()
 
 ### t-statistics versus intensity
 
-The paper also argues that large t-statistics do not simply correspond to low-intensity artifacts. This plot helps students see that issue directly.
+The paper also argues that large t-statistics do not simply correspond to low-intensity artifacts. This plot helps us see that issue directly.
 
 ```{python}
 fig = px.scatter(
@@ -362,7 +461,7 @@ fig.show()
 
 ## Why multiple testing changes the problem
 
-Suppose, for a moment, that **all 6384 genes were null**.
+Suppose, for a moment, that *all 6384 genes were null*.
 
 Then even under complete null truth, we would expect approximately
 
@@ -370,7 +469,7 @@ Then even under complete null truth, we would expect approximately
 - $6384 \times 0.01 \approx 64$ p-values below 0.01,
 - $6384 \times 0.001 \approx 6.4$ p-values below 0.001.
 
-That simple calculation is often the first moment students realize that "p < 0.05" is not remotely enough in a high-dimensional setting.
+That simple calculation is often the first moment we realize that "p < 0.05" is not remotely enough in a high-dimensional setting.
 
 ```{python}
 alpha_grid = np.array([0.05, 0.01, 0.001, 0.0001])
@@ -464,8 +563,8 @@ That is one reason FDR-based thinking is so useful.
 
 Before moving to permutation-based FDR estimation, it is useful to compare two standard multiplicity adjustments available in many software packages:
 
-- **Bonferroni**, which is very strict,
-- **Benjamini-Hochberg (BH)**, which controls the false discovery rate under standard assumptions.
+- *Bonferroni*, which is very strict,
+- *Benjamini-Hochberg (BH)*, which controls the false discovery rate under standard assumptions.
 
 ```{python}
 reject_bonf, p_bonf, _, _ = multipletests(p_value, alpha=0.05, method="bonferroni")
@@ -491,7 +590,7 @@ results.nsmallest(10, "p_value")[["gene_id", "mean_diff", "t_stat", "p_value", "
 
 ## Permutation-based FDR estimation
 
-Now we turn to the main teaching goal of this case study: estimating how many of our apparent discoveries may be false.
+Now we turn to the main goal of this case study: estimating how many of our apparent discoveries may be false.
 
 One intuitive approach is to estimate FDR by permutation:
 
@@ -575,7 +674,7 @@ In this dataset, the estimated FDR is much lower at the most stringent threshold
 
 ## Identify a small high-confidence gene set
 
-A common teaching question at this point is: after all of this adjustment and checking, what genes would we actually carry forward for follow-up?
+The remaining question at this point is: after all of this adjustment and checking, what genes would we actually carry forward for follow-up?
 
 One simple answer is to focus on the genes with raw p-values below `0.0001`, which is a very stringent cutoff in this example.
 
@@ -585,7 +684,6 @@ selected = selected.sort_values("p_value")
 selected
 ```
 
-This is not the only possible decision rule, but it is a useful one for classroom discussion because it produces a short list that students can inspect directly and compare against the broader BH and permutation-based summaries.
 
 ## What should we report?
 
@@ -627,15 +725,15 @@ final_summary
 ## Discussion questions
 
 1. Why is `p < 0.05` not a sensible default rule when testing 6384 genes?
-2. Why does permutation help in a microarray problem where the null distribution and dependence structure may be complicated?
+2. Why does permutation help in this problem where the null distribution and dependence structure may be complicated?
 3. Why can a method that reduces Type I errors too aggressively also be scientifically unsatisfying?
 4. What is the conceptual difference between controlling the family-wise error rate and controlling the false discovery rate?
-5. The paper discusses adjusted p-values, but the supplied teaching code estimates FDR at a few thresholds. What are the strengths and weaknesses of each strategy?
+
 
 ## Exercises
 
 1. Increase the number of permutations from 50 to 200 and see how stable the FDR estimates become.
 2. Add a histogram of the p-values and explain what shape you would expect under a complete null.
-3. Compare Welch’s t-test with the equal-variance two-sample t-test and check whether the top-ranked genes change.
+3. Compare Welch's t-test with the equal-variance two-sample t-test and check whether the top-ranked genes change.
 4. Use a grid of thresholds from `1e-5` to `1e-2` and plot the entire estimated FDR curve.
 5. Repeat the Type I / Type II simulation with a smaller true effect and explain what happens to power.

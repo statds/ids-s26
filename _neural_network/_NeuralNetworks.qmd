@@ -2,27 +2,23 @@
 title: "Neural Network Basics in Sports Statistics"
 author: "Vinnie Carbone"
 format:
-  revealjs:
-    slide-number: true
-    preview-links: true
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: true
     theme: default
 execute:
-  enabled: false
+  echo: true
 ---
 
 # Neural Networks in Sports Analytics
 ## What is a Neural Network?
-This presentation is prepared by Vincenzo Carbone.
-
-### Neural Networks in Sports Analytics
-
-#### What is a Neural Network?
 
  - A neural network is a statistically trained model that draws inspiration from the human brain
  - In learns from data in order to make predictions
  - It is not explicitly programmed, the key here is that it **learns** 
 
-#### Why Use Neural Networks? 
+## Why Use Neural Networks? 
 
 - Able to see **complex relationships** in data
     - Works best with nonlinear patterns
@@ -31,15 +27,15 @@ This presentation is prepared by Vincenzo Carbone.
     - Speech recogniition
     - Sports analytics
 
-#### Today's Goal
+## Today's Goal
 
 - Build a simple neural network to predict NBA player performance. We will predict:
     - Points, rebounds, and assists.
 - Compare predicted vs actual stats to see how well the neural network predicts
 
-### How Neural Networks Work
+# How Neural Networks Work
 
-#### Basic Structure 
+## Basic Structure 
 
 - Neural networks are made up of layers of neurons (the human brain has billions of neurons)
   - Input layer
@@ -50,20 +46,20 @@ This presentation is prepared by Vincenzo Carbone.
   - Applies a transformation
   - Passes the result forward
 
-#### Flow of Information
+## Flow of Information
 
 - Data moves **forward** through the network
     
 - Each layer transforms the data slightly
 - Final layer produces a prediction
 
-#### Simple Diagram
+## Simple Diagram
 
-![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
-### What Happens Inside a Neural Network?
+# What Happens Inside a Neural Network?
 
-#### Neurons (Nodes)
+## Neurons (Nodes)
 
 - Each circle in the network is called a **neuron/node**
 - A neuron:
@@ -71,7 +67,7 @@ This presentation is prepared by Vincenzo Carbone.
   - Processes them
   - Passes an output forward
  
-#### Weights and Bias
+## Weights and Bias
 
 - **Weights**:
   - Control how important each input is
@@ -81,7 +77,7 @@ This presentation is prepared by Vincenzo Carbone.
   - A constant added to help shift predictions
   - Allows the model to be more flexible
 
-#### Activation Function (ReLU)
+## Activation Function (ReLU)
 
 - After combining inputs, neurons apply an **activation function**
 - We used **ReLU (Rectified Linear Unit)**:
@@ -94,17 +90,17 @@ $$
   - If input is negative → output is 0
   - If input is positive → keep it
 
-![Neuron diagram](nba-player-data/neural-network-diagrams/neuron_diagram.png)
+![Neuron diagram](neural-network-diagrams/neuron_diagram.png)
 
-#### Why This Matters
+## Why This Matters
 
 - ReLU helps the model learn **nonlinear patterns**
 - This is important because:
   - Player performance is not perfectly linear
 
-### Other Activation Functions
+# Other Activation Functions
 
-#### Sigmoid
+## Sigmoid
 
 - Outputs values between **0 and 1**
 - Often used for probabilities
@@ -116,7 +112,7 @@ $$
 - Limitation:
   - Can slow down learning in deeper networks
 
-#### Tanh (Hyperbolic Tangent)
+## Tanh (Hyperbolic Tangent)
 
 - Outputs values between **-1 and 1**
 - Centered at 0 (helps learning compared to sigmoid)
@@ -127,16 +123,17 @@ $$
 
 - Still can have issues with slow learning in deep networks
 
-#### Key Takeaway
+## Key Takeaway
 
 - Different activation functions change how the model learns patterns
 - ReLU is most common, but others are useful in specific situations
 
 
-### Example of a Neural Network in Sports Statistics
+# Example of a Neural Network in Sports Statistics
 
 
 ```{python}
+#| echo: false
 #| include: false
 import pandas as pd
 import numpy as np
@@ -153,7 +150,7 @@ seasons = [
     "2024.csv"
 ]
 
-csv_files = glob.glob("data/nba-player-data/*.csv")
+csv_files = glob.glob("nba-player-data/*.csv")
 
 all_df = pd.concat((pd.read_csv(f) for f in csv_files), ignore_index=True)
 
@@ -214,7 +211,7 @@ all_df = all_df.dropna(subset=["efg"])
 print(all_df.isna().sum())
 ```
 
-#### Data
+## Data
  - Using Basketball-Reference.com, I imported these eight stats from players in the NBA since the 2019 season
  - Data cleaning: 0 and NA are not the same thing in this context
 
@@ -227,10 +224,8 @@ lebron_df = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df
 ```
-</details>
-## Model Structure
 
-#### Model Structure
+## Model Structure
 
 - Input features:
   - Previous season stats:
@@ -247,13 +242,11 @@ lebron_df_2 = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df_2
 ```
-</details>
 
-#### Inputs & Targets
+## Inputs & Targets
 
 - We started with stats from 2018 - 2024. We dropped the first year, because this year has no 'previous season'. 
 ```{python}
-#| include: false
 # Assigning previous season stats as features / inputs
 X = all_df[[
     "prev_age",
@@ -271,16 +264,16 @@ y = all_df[["pts","trb","ast"]]
 
 ```
 
-#### Architecture
+## Architecture
 
 - Input layer → 8 features
 - Hidden Layer 1 → 64 neurons (ReLU)
 - Hidden Layer 2 → 32 neurons (ReLU)
 - Output Layer → 3 neurons (PTS, TRB, AST)
 
-![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
-#### Why 64 and 32?
+## Why 64 and 32?
 
 - More neurons = more ability to learn patterns
 - First layer (64):
@@ -288,10 +281,9 @@ y = all_df[["pts","trb","ast"]]
 - Second layer (32):
   - Refines and simplifies those patterns
 
-## Training the Model
 (insert code)
 
-#### Training the Model
+## Training the Model
 
 - The model learns by adjusting:
   - Weights
@@ -306,10 +298,9 @@ from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 ```
-</details>
 
 - Random training/testing split, rows are shuffled before splitting so the model sees different players and different seasons
-- **random_state=42** sets the random seed just so the data splits the same time every run.  
+- **random_state=42** sets the random seed just saw the data splits the same time every run.  
 
 ```{python}
 # Train/test split
@@ -328,7 +319,7 @@ print(y_train.shape)
 print(y_test.shape)
 ```
 
-#### Epochs
+## Epochs
 - Used TensorFlow library which has tools to create, train, and optimize neural networks
 - We trained for 50 **epochs**
   - Each epoch = one full pass through the training data 
@@ -336,29 +327,11 @@ print(y_test.shape)
 - **Train Loss** = error on the data the model is learning from (learning)
 - **Validation Loss** = error on the data the model has NOT trained on (generalization)
 
-
-## Back Propagation
-- **What to change**
-- Determines how much each weight contributes to the prediction error  
-- Works **backwards through the network** (output → input)  
-- Computes gradients (how each weight should change)  
-- Happens automatically during `model.fit()`  
-- Provides the information needed to update the weights  
-
-## Stochastic Gradient Descent
-- **How to change it**
-- Uses the gradients from backpropagation to update weights  
-- Adjusts weights to reduce prediction error  
-- Runs repeatedly during training  
-- Uses **small batches of data (32 rows)** instead of all data at once  
-- The optimizer = "adam" is an advanced form of gradient descent that improves efficiency 
-
 - Mean Squared Error (MSE/Train Loss) as the loss function to train the model, and Mean Absolute Error (MAE) as a metric to interpret how far off our predictions were
 
-
+<details>
+<summary>Click to expand code</summary>
 ```{python}
-
-#| include: false
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -398,16 +371,16 @@ plt.show()
 ```
 
 
-#### Key Idea
+## Key Idea
 
 - The network learns patterns like:
   - “Higher minutes + higher usage → more points”
   - “Aging + lower minutes → possible decline”
 
 
-### Results and Model Performance
+# Results and Model Performance
 
-#### Overall Accuracy
+## Overall Accuracy
 
 - MAE = [pts error + trb error + ast error] / 3
   - The model is off by about 1.4 stats per game on average
@@ -426,10 +399,7 @@ print("Model RMSE:",rmse)
 ```{python}
 #| echo: false
 
-import warnings
-warnings.filterwarnings("ignore")
-
-players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
+players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
 
 for player in players:
     row = all_df[all_df["player"] == player].sort_values("season").iloc[-1]
@@ -452,10 +422,9 @@ for player in players:
 #| echo: false
 #| fig-height: 4
 #| fig-width: 7
-#| cache: true
 
 
-players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
+players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
 
 stats = ["PTS", "TRB", "AST"]
 
@@ -485,7 +454,7 @@ for player in players:
     plt.show()
 ```
 
-### Limitations of This Specfic Model
+# Limitations of This Specfic Model
 
 - Only used basic statistics:
   - Age, minutes, shooting, previous stats, etc
@@ -502,7 +471,7 @@ for player in players:
   - Teammates
   - Coaching changes
 
-### Limitations of Neural Networks in General
+# Limitations of Neural Networks in General
 
 - Neural networks require **large amounts of data**
   - Performance suffers with limited or noisy data
@@ -514,8 +483,8 @@ for player in players:
   - Time-consuming
   - Resource-intensive
 
-### Further Reading
+# Further Reading
 
-- [Other applications of neural networks](https://www.ibm.com/think/topics/neural-networks)
+- [Other applications of neural networks] (https://www.ibm.com/think/topics/neural-networks)
 - https://course.elementsofai.com/en-ie/5/1
-- [Creating your own neural network in python](https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)
+- [Creating your own neural network in python] (https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)
