@@ -105,6 +105,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+</head><body class="nav-sidebar floating quarto-light">\usepackage{fvextra}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -136,9 +138,9 @@ window.Quarto = {
 };
 </script>
 
-</head>
 
-<body class="nav-sidebar floating quarto-light">
+
+
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -240,19 +242,19 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04-case-study/04_case_study_simpsons_paradox.html" class="sidebar-item-text sidebar-link">
+  <a href="./02-case-study/02_case_study_simpsons_paradox.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Case study: When the data seem to cheat — Simpson’s paradox</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./02-case-study/02-case-study-protein-clustering.html" class="sidebar-item-text sidebar-link">
+  <a href="./03-case-study/03-case-study-protein-clustering.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Case Study: Detecting Proteins of Concordant Change</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-case-study/03-case-study-multiple-testing.html" class="sidebar-item-text sidebar-link">
+  <a href="./04-case-study/04-case-study-multiple-testing.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Case study: Multiple testing for differential gene expression</span></span></a>
   </div>
 </li>
@@ -311,6 +313,22 @@ window.Quarto = {
   <li><a href="#for-those-wanting-more" id="toc-for-those-wanting-more" class="nav-link" data-scroll-target="#for-those-wanting-more"><span class="header-section-number">9.2.8</span> For those wanting more</a></li>
   <li><a href="#disclaimer" id="toc-disclaimer" class="nav-link" data-scroll-target="#disclaimer"><span class="header-section-number">9.2.9</span> Disclaimer</a></li>
   </ul></li>
+  <li><a href="#animation" id="toc-animation" class="nav-link" data-scroll-target="#animation"><span class="header-section-number">9.3</span> Animation</a></li>
+  <li><a href="#data-science-in-animation" id="toc-data-science-in-animation" class="nav-link" data-scroll-target="#data-science-in-animation"><span class="header-section-number">9.4</span> Data Science in Animation</a>
+  <ul class="collapse">
+  <li><a href="#statistical-methods-behind-animation" id="toc-statistical-methods-behind-animation" class="nav-link" data-scroll-target="#statistical-methods-behind-animation"><span class="header-section-number">9.4.1</span> Statistical Methods Behind Animation</a></li>
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">9.4.2</span> Introduction</a></li>
+  <li><a href="#mathematical-foundation" id="toc-mathematical-foundation" class="nav-link" data-scroll-target="#mathematical-foundation"><span class="header-section-number">9.4.3</span> Mathematical Foundation</a></li>
+  <li><a href="#computational-challenge" id="toc-computational-challenge" class="nav-link" data-scroll-target="#computational-challenge"><span class="header-section-number">9.4.4</span> Computational Challenge</a></li>
+  <li><a href="#statistical-solution" id="toc-statistical-solution" class="nav-link" data-scroll-target="#statistical-solution"><span class="header-section-number">9.4.5</span> Statistical Solution</a></li>
+  <li><a href="#physics-based-simulation" id="toc-physics-based-simulation" class="nav-link" data-scroll-target="#physics-based-simulation"><span class="header-section-number">9.4.6</span> Physics-Based Simulation</a></li>
+  <li><a href="#optimization-at-scale" id="toc-optimization-at-scale" class="nav-link" data-scroll-target="#optimization-at-scale"><span class="header-section-number">9.4.7</span> Optimization at Scale</a></li>
+  <li><a href="#machine-learning-in-animation" id="toc-machine-learning-in-animation" class="nav-link" data-scroll-target="#machine-learning-in-animation"><span class="header-section-number">9.4.8</span> Machine Learning in Animation</a></li>
+  <li><a href="#generative-ai" id="toc-generative-ai" class="nav-link" data-scroll-target="#generative-ai"><span class="header-section-number">9.4.9</span> Generative AI</a></li>
+  <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1"><span class="header-section-number">9.4.10</span> Conclusion</a></li>
+  <li><a href="#works-cited" id="toc-works-cited" class="nav-link" data-scroll-target="#works-cited"><span class="header-section-number">9.4.11</span> Works Cited</a></li>
+  </ul></li>
+  <li><a href="#natural-language-processing" id="toc-natural-language-processing" class="nav-link" data-scroll-target="#natural-language-processing"><span class="header-section-number">9.5</span> Natural Language Processing</a></li>
   </ul>
 </nav>
     </div>
@@ -374,7 +392,7 @@ window.Quarto = {
 <li>All rows must sum to 1</li>
 <li>We can create our transition matrix using a numpy array</li>
 </ul>
-<div id="42d23bba" class="cell" data-execution_count="1">
+<div id="0c940fec" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 3x3 matrix</span></span>
@@ -535,7 +553,7 @@ P^{(n)} = P^n
 </section>
 <section id="matrix-power-function" class="level3" data-number="9.1.10">
 <h3 data-number="9.1.10" class="anchored" data-anchor-id="matrix-power-function"><span class="header-section-number">9.1.10</span> Matrix Power Function</h3>
-<div id="907f15c5" class="cell" data-execution_count="2">
+<div id="1b0cb332" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> matrix_power(matrix, power):</span>
@@ -553,7 +571,7 @@ P^{(n)} = P^n
        [0.2, 0.5, 0.3]])</code></pre>
 </div>
 </div>
-<div id="13f8a6ab" class="cell" data-execution_count="3">
+<div id="67e241a6" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">17</span>, <span class="dv">3</span>):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="ch">\n</span><span class="ss">Step Transition Matrix at the nth power </span><span class="sc">{</span>i<span class="sc">}</span><span class="ch">\n</span><span class="ss">"</span>,</span>
@@ -610,7 +628,7 @@ Step Transition Matrix at the nth power 16
 <li>Transition probabilities were created using indexed pitching stats for each pitcher (normalized zone%, zoneswing%, oswing%, fair/foul%, compared to league average)</li>
 <li>Based off these probabilities, we can find the stationary distribution that gives us expected K% and BB%</li>
 </ul>
-<div id="eb3b7e32" class="cell" data-execution_count="4">
+<div id="d83ab23b" class="cell" data-execution_count="4">
 <div class="cell-output cell-output-stdout">
 <pre><code>Single Pitch Transition Matrix:
 
@@ -771,7 +789,7 @@ P(Y_t \mid X_t)
 <li>the likelihood of the current observation</li>
 </ul>
 <p>By moving forward through time and updating these values recursively, the algorithm efficiently computes the total probability of the full observation sequence.</p>
-<div id="96850a76" class="cell" data-execution_count="5">
+<div id="721d3e12" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 = Rainy,  1 = Sunny</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 0 = walk, 1 = shop, 2 = clean</span></span>
@@ -1017,7 +1035,7 @@ P(\text{walk, shop, clean}) = 0.033612
 <li>Termination: Find the maximum probability among the final states.</li>
 <li>Path Backtracking: Follow the backpointers from the final, most likely state back to the beginning to reconstruct the optimal sequence.</li>
 </ol>
-<div id="881e57ac" class="cell" data-execution_count="6">
+<div id="91dc4d36" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> viterbi_np(obs, pi, A, B):</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> <span class="bu">len</span>(obs)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    N <span class="op">=</span> <span class="bu">len</span>(pi)</span>
@@ -1483,7 +1501,7 @@ Probability of best path: 0.01344</code></pre>
 <h4 data-number="9.2.6.8" class="anchored" data-anchor-id="finally-some-code"><span class="header-section-number">9.2.6.8</span> Finally, Some Code</h4>
 <p>The original benchmark step wipes old <code>.JSONL</code> and <code>.CSV</code> files and reruns all 36 queries through the live Groq, OpenWeather, and Tavily APIs.</p>
 <p>For this shared course repository, the render below is shown but not executed. The report uses the saved benchmark artifacts already included in the <code>LLM-Agents/</code> folder so that it can be rendered without requiring API keys during normal course use.</p>
-<div id="5ebb4785" class="cell" data-execution_count="7">
+<div id="2cd79e23" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reset_logs():</span>
@@ -1513,7 +1531,7 @@ Probability of best path: 0.01344</code></pre>
 </section>
 <section id="does-the-complexity-of-tool-calls-required-to-complete-a-task-predict-total-latency" class="level4" data-number="9.2.6.9">
 <h4 data-number="9.2.6.9" class="anchored" data-anchor-id="does-the-complexity-of-tool-calls-required-to-complete-a-task-predict-total-latency"><span class="header-section-number">9.2.6.9</span> Does the complexity (# of tool calls required to complete a task) predict total latency?</h4>
-<div id="c8145d2f" class="cell" data-execution_count="8">
+<div id="46309941" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1565,7 +1583,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="does-the-number-of-tools-actual-of-tool-calls-the-agent-executed-predict-total-task-latency" class="level4" data-number="9.2.6.10">
 <h4 data-number="9.2.6.10" class="anchored" data-anchor-id="does-the-number-of-tools-actual-of-tool-calls-the-agent-executed-predict-total-task-latency"><span class="header-section-number">9.2.6.10</span> Does the number of tools (actual # of tool calls the agent executed) predict total task latency?</h4>
-<div id="1c4145a1" class="cell" data-execution_count="9">
+<div id="a00f5c8e" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>run_regression_comparison(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    agent_file<span class="op">=</span><span class="st">"LLM-Agents/agent_runs.jsonl"</span>,</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    baseline_file<span class="op">=</span><span class="st">"LLM-Agents/baseline_runs.jsonl"</span>,</span>
@@ -1609,7 +1627,7 @@ Name: count, dtype: int64</code></pre>
 </section>
 <section id="does-api-difficulty-calculator-1-web-search-2-weather-3-predict-total-latency" class="level4" data-number="9.2.6.11">
 <h4 data-number="9.2.6.11" class="anchored" data-anchor-id="does-api-difficulty-calculator-1-web-search-2-weather-3-predict-total-latency"><span class="header-section-number">9.2.6.11</span> Does API difficulty (calculator: 1, web search: 2, weather: 3) predict total latency?</h4>
-<div id="deb50ce5" class="cell" data-execution_count="10">
+<div id="c38aebb8" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>run_regression_comparison(</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    agent_file<span class="op">=</span><span class="st">"LLM-Agents/agent_runs.jsonl"</span>,</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    baseline_file<span class="op">=</span><span class="st">"LLM-Agents/baseline_runs.jsonl"</span>,</span>
@@ -1666,9 +1684,229 @@ Name: count, dtype: int64</code></pre>
 <section id="disclaimer" class="level3" data-number="9.2.9">
 <h3 data-number="9.2.9" class="anchored" data-anchor-id="disclaimer"><span class="header-section-number">9.2.9</span> Disclaimer</h3>
 <p>Remember to use any AI tool responsibily. AI is a wonderful tool but can be very easy to rely on it! Do not blindly trust the AI! Use those critical problem solving skills on hand!</p>
-
-
 </section>
+</section>
+<section id="animation" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="animation"><span class="header-section-number">9.3</span> Animation</h2>
+</section>
+<section id="data-science-in-animation" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="data-science-in-animation"><span class="header-section-number">9.4</span> Data Science in Animation</h2>
+<section id="statistical-methods-behind-animation" class="level3" data-number="9.4.1">
+<h3 data-number="9.4.1" class="anchored" data-anchor-id="statistical-methods-behind-animation"><span class="header-section-number">9.4.1</span> Statistical Methods Behind Animation</h3>
+<p>This presentation was prepared by Ryan Jiang.</p>
+<hr>
+</section>
+<section id="introduction-1" class="level3" data-number="9.4.2">
+<h3 data-number="9.4.2" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">9.4.2</span> Introduction</h3>
+<section id="why-study-animation-through-statistics" class="level4" data-number="9.4.2.1">
+<h4 data-number="9.4.2.1" class="anchored" data-anchor-id="why-study-animation-through-statistics"><span class="header-section-number">9.4.2.1</span> Why Study Animation Through Statistics?</h4>
+<ul>
+<li><p>Modern animation is not simply digital drawing; it is the result of large-scale statistical estimation and computational modeling.</p></li>
+<li><p>Behind every realistic animated film are mathematical models that simulate light transport, physical motion, and learned patterns from data.</p></li>
+<li><p>Although audiences see characters and stories, what powers those visuals are integrals, optimization problems, and probabilistic algorithms.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="mathematical-foundation" class="level3" data-number="9.4.3">
+<h3 data-number="9.4.3" class="anchored" data-anchor-id="mathematical-foundation"><span class="header-section-number">9.4.3</span> Mathematical Foundation</h3>
+<section id="the-rendering-equation" class="level4" data-number="9.4.3.1">
+<h4 data-number="9.4.3.1" class="anchored" data-anchor-id="the-rendering-equation"><span class="header-section-number">9.4.3.1</span> The Rendering Equation</h4>
+<ul>
+<li>The rendering equation models how light leaves a surface by combining emitted light and reflected incoming light.</li>
+</ul>
+<p><span class="math display">\[
+L_o(x, \omega_o) =
+L_e(x, \omega_o)
++
+\int_{\Omega}
+f_r(x, \omega_i, \omega_o)
+L_i(x, \omega_i)
+(\omega_i \cdot n)
+d\omega_i
+\]</span></p>
+<ul>
+<li><p>This equation conceptually says that outgoing light equals emitted light plus reflected incoming light.</p></li>
+<li><p>The integral term means we are summing contributions from all possible incoming directions.</p></li>
+<li><p>Because it is recursive and high-dimensional, it cannot be solved analytically for complex scenes since light bounces multiple times.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="computational-challenge" class="level3" data-number="9.4.4">
+<h3 data-number="9.4.4" class="anchored" data-anchor-id="computational-challenge"><span class="header-section-number">9.4.4</span> Computational Challenge</h3>
+<section id="why-exact-solutions-are-infeasible" class="level4" data-number="9.4.4.1">
+<h4 data-number="9.4.4.1" class="anchored" data-anchor-id="why-exact-solutions-are-infeasible"><span class="header-section-number">9.4.4.1</span> Why exact solutions are infeasible</h4>
+<ul>
+<li><p>Real scenes involve many light bounces, and each bounce adds more complexity because light transport is recursive.</p></li>
+<li><p>Because of this recursion and the dimensionality of the integral, exact analytical solutions are impossible for complex environments.</p></li>
+<li><p>Because of this, studios rarely compute exact solutions and instead rely on estimation.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="statistical-solution" class="level3" data-number="9.4.5">
+<h3 data-number="9.4.5" class="anchored" data-anchor-id="statistical-solution"><span class="header-section-number">9.4.5</span> Statistical Solution</h3>
+<section id="monte-carlo-estimation-in-rendering" class="level4" data-number="9.4.5.1">
+<h4 data-number="9.4.5.1" class="anchored" data-anchor-id="monte-carlo-estimation-in-rendering"><span class="header-section-number">9.4.5.1</span> Monte Carlo estimation in rendering</h4>
+<ul>
+<li><p>Monte Carlo methods approximate integrals by sampling random directions and averaging the results.</p></li>
+<li><p>In rendering, this becomes an estimator of outgoing radiance based on randomly sampled light paths.</p></li>
+<li><p>By the Law of Large Numbers, this estimator converges as sample size increases. However, finite sampling introduces variance — and in animation, that variance appears visually as noise..</p></li>
+</ul>
+</section>
+<section id="monte-carlo-convergence-integral-estimation" class="level4" data-number="9.4.5.2">
+<h4 data-number="9.4.5.2" class="anchored" data-anchor-id="monte-carlo-convergence-integral-estimation"><span class="header-section-number">9.4.5.2</span> Monte Carlo convergence (integral estimation)</h4>
+<p>This demo estimates <span class="math inline">\(\int_0^1 x^2\,dx = 1/3\)</span>, illustrating how random sampling approximates an integral.</p>
+<div id="859e4100" class="cell" data-fig-height="4.2" data-fig-width="7" data-execution_count="11">
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09-topics-AMAI_files/figure-html/cell-12-output-1.png" width="608" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>As shown, when the sample size is smalll, the estimate fluctuates but as the sample size increases, the estimate stabilizes around the true value.</p></li>
+<li><p>This is exactly what happens in rendering: more samples per pixel reduce variability and produce smoother images.</p></li>
+</ul>
+<hr>
+</section>
+<section id="variance-reduction-and-noise-analogy" class="level4" data-number="9.4.5.3">
+<h4 data-number="9.4.5.3" class="anchored" data-anchor-id="variance-reduction-and-noise-analogy"><span class="header-section-number">9.4.5.3</span> Variance reduction and noise analogy</h4>
+<p>This boxplot shows how estimator variability shrinks as sample size increases.</p>
+<div id="037e77bd" class="cell" data-fig-height="4.2" data-fig-width="7" data-execution_count="12">
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/w9/lfdf18vd055ds72yz1x94d400000gp/T/ipykernel_4071/830686255.py:18: MatplotlibDeprecationWarning:
+
+The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="09-topics-AMAI_files/figure-html/cell-13-output-2.png" width="597" height="449" class="figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>As shown on the plot, with only 20 samples, the estimates vary widely, but as samples increase, the distribution tightens around the true value of 1/3.</p></li>
+<li><p>This shrinking spread represents decreasing variance, which in animation, corresponds to less visual noise.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="physics-based-simulation" class="level3" data-number="9.4.6">
+<h3 data-number="9.4.6" class="anchored" data-anchor-id="physics-based-simulation"><span class="header-section-number">9.4.6</span> Physics-Based Simulation</h3>
+<section id="modeling-motion-and-natural-phenomena" class="level4" data-number="9.4.6.1">
+<h4 data-number="9.4.6.1" class="anchored" data-anchor-id="modeling-motion-and-natural-phenomena"><span class="header-section-number">9.4.6.1</span> Modeling motion and natural phenomena</h4>
+<ul>
+<li>To animate cloth, hair, water, and smoke realistically, studios solve systems of differential equations numerically, like Newton’s second law:</li>
+</ul>
+<p>[ F = m a ]</p>
+<ul>
+<li><p>Acceleration is computed from forces such as gravity, tension, collision, and air resistance.</p></li>
+<li><p>These continuous equations are approximated numerically using time-stepping algorithms.</p></li>
+<li><p>If velocity changes over time, we approximate position updates using:</p></li>
+</ul>
+<p>[ x_{t+1} = x_t + v_t t ]</p>
+<ul>
+<li><p>Small time steps increase accuracy but increase computational cost.</p></li>
+<li><p>Large time steps reduce cost but increase numerical error.</p></li>
+<li><p>Numerical methods introduce discretization error, so step size and computational cost must be balanced.</p></li>
+<li><p>Some systems incorporate randomness to simulate chaotic effects such as:</p>
+<ul>
+<li>Smoke</li>
+<li>Fire</li>
+<li>Debris</li>
+<li>Particle systems</li>
+</ul></li>
+<li><p>Random forces are often drawn from probability distributions to mimic natural variation.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="optimization-at-scale" class="level3" data-number="9.4.7">
+<h3 data-number="9.4.7" class="anchored" data-anchor-id="optimization-at-scale"><span class="header-section-number">9.4.7</span> Optimization at Scale</h3>
+<section id="efficiency-as-a-constrained-problem" class="level4" data-number="9.4.7.1">
+<h4 data-number="9.4.7.1" class="anchored" data-anchor-id="efficiency-as-a-constrained-problem"><span class="header-section-number">9.4.7.1</span> Efficiency as a constrained problem</h4>
+<ul>
+<li><p>Rendering a single film may require millions of CPU hours.</p></li>
+<li><p>Studios frame rendering as an optimization problem, minimizing variance subject to time and hardware constraints.</p></li>
+<li><p>Techniques such as importance sampling and adaptive sampling allocate computational effort efficiently.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="machine-learning-in-animation" class="level3" data-number="9.4.8">
+<h3 data-number="9.4.8" class="anchored" data-anchor-id="machine-learning-in-animation"><span class="header-section-number">9.4.8</span> Machine Learning in Animation</h3>
+<section id="learning-motion-from-data" class="level4" data-number="9.4.8.1">
+<h4 data-number="9.4.8.1" class="anchored" data-anchor-id="learning-motion-from-data"><span class="header-section-number">9.4.8.1</span> Learning motion from data</h4>
+<ul>
+<li><p>Motion capture produces high-dimensional time series data that often contain noise and missing measurements.</p>
+<ul>
+<li><p>Each frame of motion capture contains dozens of joint positions.</p></li>
+<li><p>Over time, this produces high-dimensional time series data.</p></li>
+<li><p>Noise, missing markers, and sensor errors require statistical smoothing.</p></li>
+</ul></li>
+<li><p>Neural networks are trained to smooth motion and predict realistic joint trajectories.</p></li>
+<li><p>Machine learning models predict future joint positions using regression:</p></li>
+</ul>
+<p>[ = f_(x) ]</p>
+<ul>
+<li><p>Where parameters ( ) are learned by minimizing a loss function.</p></li>
+<li><p>Training involves minimizing a loss function through gradient-based optimization.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="generative-ai" class="level3" data-number="9.4.9">
+<h3 data-number="9.4.9" class="anchored" data-anchor-id="generative-ai"><span class="header-section-number">9.4.9</span> Generative AI</h3>
+<section id="diffusion-models" class="level4" data-number="9.4.9.1">
+<h4 data-number="9.4.9.1" class="anchored" data-anchor-id="diffusion-models"><span class="header-section-number">9.4.9.1</span> Diffusion models</h4>
+<ul>
+<li><p>Diffusion models generate images by learning to reverse a gradual noising process.</p></li>
+<li><p>These systems approximate high-dimensional probability distributions over images.</p></li>
+<li><p>They enable AI-assisted animation tools, frame interpolation, and visual synthesis.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="conclusion-1" class="level3" data-number="9.4.10">
+<h3 data-number="9.4.10" class="anchored" data-anchor-id="conclusion-1"><span class="header-section-number">9.4.10</span> Conclusion</h3>
+<section id="animation-as-applied-data-science" class="level4" data-number="9.4.10.1">
+<h4 data-number="9.4.10.1" class="anchored" data-anchor-id="animation-as-applied-data-science"><span class="header-section-number">9.4.10.1</span> Animation as Applied Data Science</h4>
+<ul>
+<li><p>Modern animation represents a collaboration between artists, engineers, statisticians, and data scientists.</p></li>
+<li><p>What appears on screen is the result of probabilistic modeling, optimization, and computational simulation.</p></li>
+<li><p>In this sense, digital storytelling is fundamentally powered by statistical methods.</p></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="works-cited" class="level3" data-number="9.4.11">
+<h3 data-number="9.4.11" class="anchored" data-anchor-id="works-cited"><span class="header-section-number">9.4.11</span> Works Cited</h3>
+<p><strong>Kajiya, J. (1986).</strong> <em>The Rendering Equation.</em> SIGGRAPH.<br>
+https://dl.acm.org/doi/10.1145/15922.15902<br>
+This foundational paper introduced the rendering equation, which models light transport in computer graphics.</p>
+<p><strong>Pharr, M., Jakob, W., &amp; Humphreys, G. (2023).</strong> <em>Physically Based Rendering: From Theory to Implementation.</em> MIT Press.<br>
+https://pbr-book.org/<br>
+This book provides a comprehensive explanation of Monte Carlo rendering techniques used in modern animation.</p>
+<p><strong>Akenine-Möller, T., Haines, E., &amp; Hoffman, N. (2018).</strong> <em>Real-Time Rendering, Fourth Edition.</em> AK Peters/CRC Press. https://www.realtimerendering.com/ This resource offers in-depth coverage of rendering algorithms, sampling techniques, and performance-oriented graphics methods relevant to animation.</p>
+<p><strong>Goodfellow, I., Bengio, Y., &amp; Courville, A. (2016).</strong> <em>Deep Learning.</em> MIT Press.<br>
+https://www.deeplearningbook.org/<br>
+This foundational book explains neural networks and optimization methods used in motion modeling and AI-driven animation.</p>
+<p><strong>Rombach, R., et al.&nbsp;(2022).</strong> <em>High-Resolution Image Synthesis with Latent Diffusion Models.</em> CVPR.<br>
+https://arxiv.org/abs/2112.10752<br>
+This paper introduces diffusion-based generative models used in modern AI-assisted animation tools.</p>
+</section>
+</section>
+<section id="natural-language-processing" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="natural-language-processing"><span class="header-section-number">9.5</span> Natural Language Processing</h2>
+
+
 </section>
 
 </main> <!-- /main -->
