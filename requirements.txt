@@ -27,6 +27,8 @@ debugpy==1.8.17
 decorator==5.2.1
 defusedxml==0.7.1
 deprecation==2.1.0
+datasets==4.4.1
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 esda==2.8.0
 executing==2.2.1
 fastjsonschema==2.21.2
@@ -34,10 +36,12 @@ fiona==1.10.1
 folium==0.20.0
 fonttools==4.61.0
 fqdn==1.5.1
+gensim==4.4.0
 geodatasets==2024.8.0
 geographiclib==2.1
 geopandas==1.1.1
 geopy==2.4.1
+groq==0.33.0
 giddy==2.3.6
 gmplot==1.4.1
 h11==0.16.0
@@ -93,12 +97,14 @@ nbconvert==7.16.6
 nbformat==5.10.4
 nest-asyncio==1.6.0
 networkx==3.6
+nltk==3.9.2
 notebook==7.5.0
 notebook_shim==0.2.4
 numba==0.62.1
-numpy==2.3.5
+numpy==1.26.4
 nycflights13==0.0.3
 openml==0.15.1
+openai==2.7.1
 outcome==1.3.0.post0
 overrides==7.7.0
 packaging==25.0
@@ -127,6 +133,7 @@ PyKrige==1.7.3
 pynndescent==0.5.13
 pyogrio==0.12.1
 pyparsing==3.2.5
+python-dotenv==1.2.1
 pyproj==3.7.2
 pysal==25.7
 PySocks==1.7.1
@@ -140,6 +147,7 @@ quarto-cli==1.8.27
 rasterio==1.4.3
 rasterstats==0.20.0
 referencing==0.37.0
+rouge-score==0.1.2
 requests==2.32.5
 rfc3339-validator==0.1.4
 rfc3986-validator==0.1.1
@@ -163,6 +171,7 @@ slicer==0.0.8
 sniffio==1.3.1
 sortedcontainers==2.4.0
 soupsieve==2.8
+spacy==3.8.7
 spaghetti==1.7.6
 spglm==1.1.0
 spint==1.0.7
@@ -172,13 +181,16 @@ spreg==1.8.4
 stack-data==0.6.3
 statsmodels==0.14.5
 sympy==1.14.0
+tensorflow==2.20.0
 terminado==0.18.1
 threadpoolctl==3.6.0
 tinycss2==1.4.0
 tobler==0.12.1
+torch==2.2.2
 tornado==6.5.2
 tqdm==4.67.1
 traitlets==5.14.3
+transformers==4.57.1
 trio==0.32.0
 trio-websocket==0.12.2
 typing_extensions==4.15.0

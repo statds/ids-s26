@@ -1,0 +1,227 @@
+This presentation was prepared by Joseph Landolphi.
+
+This presentation explains what the Grammar of Graphics is, why it is important in modern data science, and how it is used in sports analytics such as baseball.
+
+### Introduction
+
+Data visualization is a fundamental part of modern data science. Analysts must interpret large datasets and communicate insights clearly.
+Instead of thinking about visualization as simply choosing a chart type, the **Grammar of Graphics** provides a structured framework for building visualizations from components.
+
+### What is the Grammar of Graphics?
+
+The Grammar of Graphics was introduced by Leland Wilkinson and describes visualization as a layered system.
+Rather than asking “what chart should I use?”, analysts ask:
+
+- What data am I using?
+- What variables should be mapped to visual properties?
+- What geometric shapes should represent observations?
+- What scales and coordinate systems improve interpretation?
+
+This approach makes visualization systematic and reproducible.
+
+### Why the Grammar of Graphics Matters in Modern Data Science
+
+Key benefits include:
+
+- Structured thinking about visualization
+- Reproducibility
+- Ability to layer information
+- Scalability for large datasets
+- Integration into dashboards and automated workflows
+
+Many modern visualization libraries are influenced by this framework.
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+data = pd.DataFrame({
+    "exit_velocity": np.random.normal(90, 5, 300),
+    "launch_angle": np.random.normal(15, 10, 300),
+    "hit_distance": np.random.normal(380, 30, 300),
+})
+
+data.head()
+```
+
+### Component 1: Data
+
+Every visualization begins with a dataset.
+
+Modern baseball tracking systems collect variables such as:
+
+- Exit velocity
+- Launch angle
+- Hit distance
+- Pitch location
+- Player identity
+
+These variables form the foundation of visual analysis.
+
+```{python}
+plt.figure()
+plt.scatter(data["exit_velocity"], data["launch_angle"])
+plt.xlabel("Exit Velocity (mph)")
+plt.ylabel("Launch Angle (degrees)")
+plt.title("Baseball Contact Profile")
+plt.show()
+```
+
+### Component 2: Aesthetic Mappings
+
+Aesthetic mappings connect data variables to visual properties such as:
+
+- Position
+- Color
+- Size
+
+In this example:
+
+- Exit velocity is mapped to the x-axis
+- Launch angle is mapped to the y-axis
+
+Each point represents a batted ball.
+
+```{python}
+plt.figure()
+plt.scatter(
+    data["exit_velocity"],
+    data["launch_angle"],
+    c=data["hit_distance"],
+)
+plt.xlabel("Exit Velocity")
+plt.ylabel("Launch Angle")
+plt.title("Contact Profile Colored by Hit Distance")
+plt.colorbar(label="Hit Distance (ft)")
+plt.show()
+```
+
+### Component 3: Scales
+
+Scales determine how data values are translated into visual values.
+
+Here, hit distance is represented using a color gradient. This allows multiple variables to be displayed simultaneously, increasing information density.
+
+```{python}
+plt.figure()
+plt.scatter(data["launch_angle"], data["hit_distance"])
+plt.xlabel("Launch Angle (degrees)")
+plt.ylabel("Hit Distance (feet)")
+plt.title("Relationship Between Launch Angle and Hit Distance")
+plt.show()
+```
+
+### Component 4: More Plot Objects
+
+Geometric objects define the shapes used to represent data.
+
+Examples include:
+
+- Points for scatter plots
+- Bars for comparisons
+- Lines for trends
+
+This example adds a trend line to the raw observations.
+
+```{python}
+x = data["exit_velocity"]
+y = data["launch_angle"]
+
+plt.figure()
+plt.scatter(x, y)
+
+z = np.polyfit(x, y, 1)
+p = np.poly1d(z)
+
+plt.plot(x, p(x))
+plt.title("Layered Visualization with Trend Line")
+plt.show()
+```
+
+### Component 5: Layering
+
+One of the most powerful ideas in the Grammar of Graphics is layering.
+
+Visualizations can combine:
+
+- Raw observations
+- Statistical summaries
+
+This allows deeper insight into relationships between variables.
+
+```{python}
+import plotly.express as px
+
+fig = px.scatter_3d(
+    data,
+    x="exit_velocity",
+    y="launch_angle",
+    z="hit_distance",
+    title="Interactive 3D Scatter Plot",
+    opacity=0.8,
+)
+
+fig.show()
+```
+
+```{python}
+angle = np.random.uniform(-45, 45, 300)
+distance = np.random.normal(350, 40, 300)
+
+x = distance * np.cos(np.radians(angle))
+y = distance * np.sin(np.radians(angle))
+
+plt.figure()
+plt.scatter(x, y)
+plt.title("Baseball Spray Chart")
+plt.axis("equal")
+plt.show()
+```
+
+### Component 6: Coordinate Systems
+
+Coordinate systems determine how data are positioned in space.
+
+In baseball analytics, spray charts help analysts study:
+
+- Hitting tendencies
+- Defensive positioning
+- Player development
+
+```{python}
+pitch_x = np.random.normal(0, 0.8, 500)
+pitch_y = np.random.normal(2.5, 0.7, 500)
+
+plt.figure()
+plt.hist2d(pitch_x, pitch_y, bins=30)
+plt.colorbar(label="Pitch Density")
+plt.title("Pitch Location Heatmap")
+plt.show()
+```
+
+### Modern Baseball Analytics Application
+
+Heatmaps like this are used to analyze:
+
+- Pitch tendencies
+- Strike zone control
+- Batter weaknesses
+
+Grammar of Graphics principles allow teams to build consistent visual tools for decision-making.
+
+### Conclusion
+
+The Grammar of Graphics provides a structured framework for building visualizations.
+
+#### Key Takeaways
+
+- Visualizations are built from modular components
+- Data variables are mapped into visual aesthetics
+- Geometric objects represent observations
+- Layering increases analytical depth
+- This framework is widely used in modern data science and sports analytics
+
+By using these principles, analysts can transform complex datasets into actionable insights.

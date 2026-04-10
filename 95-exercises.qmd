@@ -454,3 +454,256 @@ print(eval_by_group(partial, Xte_int, yte, gte).round(3))
 + What's the ethical/real-world lesson here about how to handle small groups in modeling?
 
 
+
+## Homework 4
+
+This homework asks you to carefully study the case studies from our notes.
+
+
+**Submission**
+
++ `hw4.qmd`
++ `hw4.html`
++ `hw4.pdf`
+
+---
+
+### Part 1. Community-level suicide risk case study
+
+Answer the following questions based on [01-case-study/01-case-study.qmd](01-case-study/01-case-study.qmd) and [04-case-study/04-case-study-multiple-testing.qmd](04-case-study/04-case-study-multiple-testing.qmd).
+
+This part focuses on two ideas from the case study:
+
++ rare-event rates can be unstable, especially for small populations;
++ when many districts are tested at once, multiple-testing adjustment matters.
+
+You may use the starter code below and extend it as needed.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show starter code"
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from scipy.stats import poisson
+from statsmodels.stats.multitest import multipletests
+
+def simulate_districts(
+  n_districts=120,
+  base_rate=15 / 10000,
+  pop_low=800,
+  pop_high=20000,
+  elevated_idx=None,
+  elevated_rate=30 / 10000,
+  seed=3255,
+):
+  """
+  Generate district-level counts from a Poisson model.
+
+  Parameters
+  ----------
+  elevated_idx : list-like of integer row positions or None
+    Districts with truly elevated rates (used in Q4).
+  """
+  rng = np.random.default_rng(seed)
+  pop = rng.integers(pop_low, pop_high, size=n_districts)
+
+  true_rate = np.full(n_districts, base_rate, dtype=float)
+  if elevated_idx is not None and len(elevated_idx) > 0:
+    true_rate[np.array(elevated_idx, dtype=int)] = elevated_rate
+
+  lam = pop * true_rate
+  count = rng.poisson(lam)
+
+  out = pd.DataFrame(
+    {
+      "district": [f"D{i:03d}" for i in range(n_districts)],
+      "population": pop,
+      "count": count,
+      "true_rate": true_rate,
+      "expected_count": lam,
+    }
+  )
+  out["rate"] = out["count"] / out["population"]
+  out["rate_per_10k"] = out["rate"] * 10000
+  out["is_elevated"] = out["true_rate"] > base_rate
+  return out
+
+
+def poisson_two_sided_pvalue(count, pop, rate0):
+  """Two-sided exact p-value against H0: count ~ Poisson(pop * rate0)."""
+  mu = pop * rate0
+  p_lo = poisson.cdf(count, mu)
+  p_hi = poisson.sf(count - 1, mu)
+  return min(1.0, 2 * min(p_lo, p_hi))
+
+
+def add_poisson_tests(df, rate0=15 / 10000, alpha=0.05):
+  """Add raw and adjusted p-values (BH/FDR and Bonferroni) to a copy of df."""
+  out = df.copy()
+
+  # Extract one p-value per district.
+  out["p_raw"] = [
+    poisson_two_sided_pvalue(c, p, rate0)
+    for c, p in zip(out["count"], out["population"])
+  ]
+
+  # Multiple-testing adjustments.
+  out["p_bh"] = multipletests(out["p_raw"], method="fdr_bh")[1]
+  out["p_bonf"] = multipletests(out["p_raw"], method="bonferroni")[1]
+
+  # Decision columns at alpha.
+  out["sig_raw"] = out["p_raw"] < alpha
+  out["sig_bh"] = out["p_bh"] < alpha
+  out["sig_bonf"] = out["p_bonf"] < alpha
+  return out
+```
+
+1. Rare-event instability
+
+   Simulate one dataset under a common true rate of 15 per 10,000 for all districts.
+
+   + Make a scatterplot of `rate_per_10k` versus `population`.
+   + Identify the 10 districts with the highest observed rates.
+   + For those 10 districts, report population and count.
+
+   Then answer briefly: what pattern do you see, and why should this make us cautious about ranking districts only by raw observed rate?
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 1"
+df1 = simulate_districts(seed=3255)
+
+# TODO: make a scatterplot of rate_per_10k vs population, identify top 10 districts, and report their population and count.
+
+```
+
+
+2. Repeat the simulation many times
+
+   Repeat the simulation in Question 1 at least 300 times.
+
+   For each simulated dataset, record:
+
+   + the maximum observed rate;
+   + the population of the district with the maximum observed rate;
+   + whether the top-ranked district had population below 3000.
+
+   Summarize your results in a small table and one plot. Then explain what this says about instability in rare-event settings.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 2"
+records = []
+
+for s in range(300):
+  d = simulate_districts(seed=9000 + s)
+  i = d["rate_per_10k"].idxmax()
+  records.append(
+    {
+      "sim": s,
+      "max_rate_per_10k": d.loc[i, "rate_per_10k"],
+      "top_population": d.loc[i, "population"],
+      "top_pop_below_3000": d.loc[i, "population"] < 3000,
+    }
+  )
+
+rep = pd.DataFrame(records)
+
+# TODO: summarize results in a small table and one plot, and explain the instability pattern.  
+
+```
+
+3. Screening districts against a statewide benchmark
+
+   For one simulated dataset, test each district against the true rate using a two-sided Poisson test.
+
+   + Compute all raw p-values.
+   + Count how many districts satisfy `p < 0.05`.
+
+
+   In this simulation, all districts truly have the same rate. Explain why raw p-values can still produce “discoveries.”
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 3"
+tested = add_poisson_tests(df1, rate0=15 / 10000, alpha=0.05)
+
+# Extract district-level p-values.
+pvalue_table = tested[
+  ["district", "population", "count", "p_raw", "p_bh", "p_bonf"]
+].sort_values("p_raw")
+pvalue_table.head(10)
+
+# TODO: count how many districts satisfy p < 0.05, and explain why raw p-values can produce "discoveries" even when all districts have the same true rate.
+
+```
+
+---
+
+### Part 2. Simpson's paradox case study
+
+Answer the following questions based on [02-case-study/02_case_study_simpsons_paradox.qmd](02-case-study/02_case_study_simpsons_paradox.qmd).
+
+
+You may use the starter code below and extend it as needed.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show starter code"
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+simpson_df = pd.DataFrame(
+    {
+        "group": ["A", "A", "B", "B"],
+        "difficulty": ["Easy", "Hard", "Easy", "Hard"],
+        "success_rate": [0.90, 0.60, 0.85, 0.55],
+        "n": [100, 900, 900, 100],
+    }
+)
+
+simpson_df["successes"] = np.round(simpson_df["success_rate"] * simpson_df["n"]).astype(int)
+simpson_df["failures"] = simpson_df["n"] - simpson_df["successes"]
+simpson_df
+```
+
+1. Verify the paradox numerically
+
+   Using the starter table:
+
+   + compute the overall success rate for group A and group B;
+   + compute the success rate within each difficulty level;
+   + show numerically that A is better within each subgroup but worse overall.
+
+   Present your results in one clean table.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 1"
+
+# TODO: compute overall success rates, compute within-difficulty success rates, and show the paradox in a clean table.
+
+# TODO: point out where A > B and where A < B.
+```
+
+
+2. Visualize the reversal
+
+   Create at least two plots:
+
+   + one plot showing the within-difficulty comparison;
+   + one plot showing the overall comparison.
+
+   Then write 3–5 sentences explaining what a careless analyst might conclude from the overall plot alone.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show code for Question 2"
+
+# TODO: create one plot for within-difficulty comparison and one plot for overall comparison, and explain the potential misinterpretation from the overall plot alone.
+
+```
+
