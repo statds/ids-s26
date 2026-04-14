@@ -4,6 +4,14 @@
 
 {{< include _kmeans.qmd >}}
 
+## Lasso Regression
+
+{{< include _lasso.qmd >}}
+
+## Statistical Analysis for Proportions and Rates
+
+{{< include _Statistical_Proportions_and_Rates.qmd >}}
+
 ## Logistic Regression
 
 {{< include _logistic_regression.qmd >}}
@@ -19,3 +27,9 @@
 ## False Discovery Rate (FDR) Control
 
 {{< include _fdr_control.qmd >}}
+## Gradient Boosting
+
+{{< include _gradient_boosting.qmd >}}
+
+## Neural Networks in Sports Analytics
+

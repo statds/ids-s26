@@ -1,24 +1,14 @@
----
-title: "Neural Network Basics in Sports Statistics"
-author: "Vinnie Carbone"
-format:
-  html:
-    toc: true
-    toc-depth: 2
-    number-sections: true
-    theme: default
-execute:
-  echo: true
----
+This presentation is prepared by Vincenzo Carbone.
 
-# Neural Networks in Sports Analytics
-## What is a Neural Network?
+### Neural Networks in Sports Analytics
+
+#### What is a Neural Network?
 
  - A neural network is a statistically trained model that draws inspiration from the human brain
  - In learns from data in order to make predictions
  - It is not explicitly programmed, the key here is that it **learns** 
 
-## Why Use Neural Networks? 
+#### Why Use Neural Networks? 
 
 - Able to see **complex relationships** in data
     - Works best with nonlinear patterns
@@ -27,15 +17,15 @@ execute:
     - Speech recogniition
     - Sports analytics
 
-## Today's Goal
+#### Today's Goal
 
 - Build a simple neural network to predict NBA player performance. We will predict:
     - Points, rebounds, and assists.
 - Compare predicted vs actual stats to see how well the neural network predicts
 
-# How Neural Networks Work
+### How Neural Networks Work
 
-## Basic Structure 
+#### Basic Structure 
 
 - Neural networks are made up of layers of neurons (the human brain has billions of neurons)
   - Input layer
@@ -46,20 +36,20 @@ execute:
   - Applies a transformation
   - Passes the result forward
 
-## Flow of Information
+#### Flow of Information
 
 - Data moves **forward** through the network
     
 - Each layer transforms the data slightly
 - Final layer produces a prediction
 
-## Simple Diagram
+#### Simple Diagram
 
 ![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
-# What Happens Inside a Neural Network?
+### What Happens Inside a Neural Network?
 
-## Neurons (Nodes)
+#### Neurons (Nodes)
 
 - Each circle in the network is called a **neuron/node**
 - A neuron:
@@ -67,7 +57,7 @@ execute:
   - Processes them
   - Passes an output forward
  
-## Weights and Bias
+#### Weights and Bias
 
 - **Weights**:
   - Control how important each input is
@@ -77,7 +67,7 @@ execute:
   - A constant added to help shift predictions
   - Allows the model to be more flexible
 
-## Activation Function (ReLU)
+#### Activation Function (ReLU)
 
 - After combining inputs, neurons apply an **activation function**
 - We used **ReLU (Rectified Linear Unit)**:
@@ -92,15 +82,15 @@ $$
 
 ![Neuron diagram](neural-network-diagrams/neuron_diagram.png)
 
-## Why This Matters
+#### Why This Matters
 
 - ReLU helps the model learn **nonlinear patterns**
 - This is important because:
   - Player performance is not perfectly linear
 
-# Other Activation Functions
+### Other Activation Functions
 
-## Sigmoid
+#### Sigmoid
 
 - Outputs values between **0 and 1**
 - Often used for probabilities
@@ -112,7 +102,7 @@ $$
 - Limitation:
   - Can slow down learning in deeper networks
 
-## Tanh (Hyperbolic Tangent)
+#### Tanh (Hyperbolic Tangent)
 
 - Outputs values between **-1 and 1**
 - Centered at 0 (helps learning compared to sigmoid)
@@ -123,13 +113,13 @@ $$
 
 - Still can have issues with slow learning in deep networks
 
-## Key Takeaway
+#### Key Takeaway
 
 - Different activation functions change how the model learns patterns
 - ReLU is most common, but others are useful in specific situations
 
 
-# Example of a Neural Network in Sports Statistics
+### Example of a Neural Network in Sports Statistics
 
 
 ```{python}
@@ -150,7 +140,7 @@ seasons = [
     "2024.csv"
 ]
 
-csv_files = glob.glob("nba-player-data/*.csv")
+csv_files = glob.glob("data/nba-player-data/*.csv")
 
 all_df = pd.concat((pd.read_csv(f) for f in csv_files), ignore_index=True)
 
@@ -211,7 +201,7 @@ all_df = all_df.dropna(subset=["efg"])
 print(all_df.isna().sum())
 ```
 
-## Data
+#### Data
  - Using Basketball-Reference.com, I imported these eight stats from players in the NBA since the 2019 season
  - Data cleaning: 0 and NA are not the same thing in this context
 
@@ -225,7 +215,7 @@ lebron_df = all_df[all_df["player"] == "LeBron James"] \
 lebron_df
 ```
 
-## Model Structure
+#### Model Structure
 
 - Input features:
   - Previous season stats:
@@ -243,7 +233,7 @@ lebron_df_2 = all_df[all_df["player"] == "LeBron James"] \
 lebron_df_2
 ```
 
-## Inputs & Targets
+#### Inputs & Targets
 
 - We started with stats from 2018 - 2024. We dropped the first year, because this year has no 'previous season'. 
 ```{python}
@@ -264,7 +254,7 @@ y = all_df[["pts","trb","ast"]]
 
 ```
 
-## Architecture
+#### Architecture
 
 - Input layer → 8 features
 - Hidden Layer 1 → 64 neurons (ReLU)
@@ -273,7 +263,7 @@ y = all_df[["pts","trb","ast"]]
 
 ![Neural network diagram](neural-network-diagrams/simple_diagram.png)
 
-## Why 64 and 32?
+#### Why 64 and 32?
 
 - More neurons = more ability to learn patterns
 - First layer (64):
@@ -283,7 +273,7 @@ y = all_df[["pts","trb","ast"]]
 
 (insert code)
 
-## Training the Model
+#### Training the Model
 
 - The model learns by adjusting:
   - Weights
@@ -319,7 +309,7 @@ print(y_train.shape)
 print(y_test.shape)
 ```
 
-## Epochs
+#### Epochs
 - Used TensorFlow library which has tools to create, train, and optimize neural networks
 - We trained for 50 **epochs**
   - Each epoch = one full pass through the training data 
@@ -371,16 +361,16 @@ plt.show()
 ```
 
 
-## Key Idea
+#### Key Idea
 
 - The network learns patterns like:
   - “Higher minutes + higher usage → more points”
   - “Aging + lower minutes → possible decline”
 
 
-# Results and Model Performance
+### Results and Model Performance
 
-## Overall Accuracy
+#### Overall Accuracy
 
 - MAE = [pts error + trb error + ast error] / 3
   - The model is off by about 1.4 stats per game on average
@@ -454,7 +444,7 @@ for player in players:
     plt.show()
 ```
 
-# Limitations of This Specfic Model
+### Limitations of This Specfic Model
 
 - Only used basic statistics:
   - Age, minutes, shooting, previous stats, etc
@@ -471,7 +461,7 @@ for player in players:
   - Teammates
   - Coaching changes
 
-# Limitations of Neural Networks in General
+### Limitations of Neural Networks in General
 
 - Neural networks require **large amounts of data**
   - Performance suffers with limited or noisy data
@@ -483,7 +473,7 @@ for player in players:
   - Time-consuming
   - Resource-intensive
 
-# Further Reading
+### Further Reading
 
 - [Other applications of neural networks] (https://www.ibm.com/think/topics/neural-networks)
 - https://course.elementsofai.com/en-ie/5/1

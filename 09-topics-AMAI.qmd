@@ -1,6 +1,10 @@
 ---
 execute:
   freeze: false
+include-in-header: 
+  text: |
+    \usepackage{fvextra}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
 ---
 
 # Advanced Methods & AI
@@ -9,6 +13,13 @@ execute:
 
 {{< include _markov.qmd >}}
 
+
 ## LLM Agents
 
 {{< include LLM-Agents/LLM-Agents.qmd >}}
+
+## Animation
+
+{{< include _animation.qmd >}}
+
+## Natural Language Processing

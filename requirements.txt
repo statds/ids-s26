@@ -101,7 +101,7 @@ nltk==3.9.2
 notebook==7.5.0
 notebook_shim==0.2.4
 numba==0.62.1
-numpy==2.3.5
+numpy==1.26.4
 nycflights13==0.0.3
 openml==0.15.1
 openai==2.7.1

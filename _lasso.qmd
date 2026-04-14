@@ -1,5 +1,7 @@
 This presentation was prepared by Emily Bennett.
 
+
+### Introduction
 **What is LASSO?**
 
 LASSO stands for Least Absolute Shrinkage and Selection Operator. LASSO is a regression technique used in statistics and machine learning.
@@ -14,7 +16,7 @@ LASSO is used in regression models to:
 
 LASSO gives you a better model that is more effective and efficient.
 
-#### Refresh of Regression
+### Refresh of Regression
 
 Y = β₀ + β₁x₁ + β₂x₂ + ... + βₚxₚ + ε
 
@@ -33,7 +35,7 @@ A good example use of linear regression is from our midterm:
 -   Estimating the number of bike rental sales from different variables like season, location, temperature, etc.
 -   Each coefficient shows how much the variable will affect the output
 
-#### Main Idea of LASSO
+### Main Idea of LASSO
 
 In linear regression, we have trouble understanding what variables are helpful and influential and what variables are just noise. The model could overfit, which means the model would not perform well on new data.
 
@@ -49,7 +51,7 @@ LASSO will penalize these unhelpful variables by either:
 
 -   Making the coefficent be zero -\> has no effect on equation
 
-#### LASSO Regularization
+### LASSO Regularization
 
 LASSO will add a penalty term to the model. If there is a variable that doesn't add much or affect the model, this penalty term will help shrink that variables' coefficient.
 
@@ -67,7 +69,7 @@ Lambda controls how strong the penalty is.
 
 -   If lambda is big then the model is simple and a lot of the variables are removed or shrunk
 
-#### Example through coding
+### Example through coding
 
 I am using a real dataset to predict housing prices in California
 
@@ -224,19 +226,19 @@ Mean Squared Error: 0.67962
 
 -   This measures prediction error
 
-#### Cons of LASSO
+### Cons of LASSO
 
 -   LASSO has trouble with points that are highly correlated. LASSO might just pick one of the variables and throw the other variable out, without figuring out which one is the important one. In this case use a different tool called Elastic Net
 
 -   If the lambda is too high, LASSO might shrink the coefficients too much. This would make the model too simple
 
-#### Conclusion
+### Conclusion
 
 "LASSO is like a personal trainer for your model: it pushes you to do better while keeping things lean and focused." (Ujang Riswanto, 2024)
 
 LASSO is a tool to help your model from over-fitting. It finds the unimportant variables and adds a penalty to them, especially in bigger datasets.
 
-#### References
+### References
 
 <https://ujangriswanto08.medium.com/a-beginners-guide-to-lasso-regression-when-and-how-to-use-it-dc872e4ee489>
 

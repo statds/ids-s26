@@ -10,7 +10,7 @@
 
 ## Visualizing Spatial Data
 
-{{< _visualizing_spatial_data.qmd >}}
+{{< include _visualizing_spatial_data.qmd >}}
 
 ## Introduction to PowerBI and Tableau
 

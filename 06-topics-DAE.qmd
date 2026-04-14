@@ -11,3 +11,7 @@
 ## Web Scraping
 
 {{< include _webscraping.qmd >}}
+
+## Accessing U.S. Census Data
+
+{{< include _AccessingUSCensusData.qmd >}}
