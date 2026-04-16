@@ -1,0 +1,198 @@
+## Deep Learning
+
+This presentation was prepared by Omar Ibrahim
+
+### What is Deep Learning and how does it work?:
+
+Deep Learning is a subset of machine learning that utilizes artificial neural network to learn patterns from data and make intelligent decisions.
+
+The concept is inspired by the structure and function of the human brain, allowing computers to recognize images and text, understand speech, and solve complex problems similar to the human brain.
+
+#### Neural Networks: Brief Summary:
+
+-   A neural network is a ML model consisting of ***layers*** of interconnected “neurons” called ***nodes***.
+
+-   The nodes are interconnected in an intra-layer manner by ***weights***.
+
+-   Starting from the input, each node processes information and passes it forward to the nodes in the next layer until the network reaches the final layer, which forms the output.
+
+-   The network learns autonomously by adjusting weights and biases over time based on data, which improves accuracy.
+
+![Figure 1: Simple Neural Network Diagram (Geeksfor](https://media.geeksforgeeks.org/wp-content/uploads/20240916160154/234.webp)
+
+### Deep Learning Model Example and Applications: CNN
+
+There are numerous Deep Learning models that serve different purposes and function uniquely. We are going to go over CNN due to its widespread use in applications around us.
+
+#### CNN:
+
+-   A Convolutional Neural Network (CNN) is a deep learning model designed for image and visual data processing, especially tasks like object detection and image classification.
+
+-   CNNs were developed to replace traditional manual feature extraction methods, which were considered time-consuming, allowing models to automatically learn important features from data.
+
+-   Some common applications include:
+
+    -   Smartphone Facial Recognition (e.g., Apple Face ID)
+    -   Motion and object detection in security cameras (e.g., Ring Camera)
+    -   Medical scan analysis for early disease detection. (e.g., tumor identification)
+
+-   How does a CNN work?:
+
+    1.  Breaking Down the Image:
+
+    -   The computer sees an image as a grid of pixels.
+        -   **Color Images:** Use three stacked matrices representing Red, Green, and Blue channels.
+
+        -   **Grayscale Images:** Use a single layer where numbers range from 0 (black) to 255 (white).
+
+    2.  Feature Extraction (The "Detective" Work):
+
+    -   This is the core of the CNN, where spatial patterns are identified through Convolution, that consists of three main components:
+
+        -   Convolutional Layers:
+            -   Small filters called "kernels" slide across the image and create feature maps through performing element-wise multiplication.
+            -   Detect patterns such as edges, textures, and shapes.
+        -   Stride & Padding:
+            -   **Stride**: the number of pixels the filter shifts during each step. A higher stride reduces the output's spatial dimensions.
+            -   **Padding**: is the addition of zero-value pixels around the input border to ensure the filter processes edge data and maintains output size.
+        -   Pooling Layers:
+            -   Reduce the size of the feature maps.
+            -   Keep important information while improving efficiency and reducing overfitting.
+
+    3.  Flattening (Translation):
+
+    -   Once the features of the image are identified, the data is still in a 2D or 3D grid. The Flattening Layer stretches this grid into a 1D vector of numbers, so the next layer of the NN can process it.
+
+    4.  Classification (The Final Decision):
+
+    -   The flattened data is passed into Dense Layers (Fully Connected Layers).
+    -   These layers combine all learned features to predict the final output.
+
+![Figure 2: In depth diagram displaying the end-to-end process of how CNN performs image recognition based on a given input.](https://www.dragon1.com/images/convolutional-neural-networks-cnns.png)
+
+##### Example Code Snippet: Building and Training a CNN for Image Classification on the MNIST Dataset
+
+```{python}
+# Dependencies/libraries required
+import ssl
+import certifi
+import numpy as np
+import tensorflow as tf
+from tensorflow.keras import layers, models
+from tensorflow.keras.models import Sequential 
+import matplotlib.pyplot as plt
+```
+
+::: callout-caution
+In terminal, you have to run `/Applications/Python\ 3.12/Install\ Certificates.command` in order to fetch the image data.
+:::
+
+```{python}
+
+#Loading image data with numpy and train_test split.
+
+ssl._create_default_https_context = lambda: ssl.create_default_context(cafile=certifi.where())
+
+# URL for MNIST dataset
+DATA_URL = 'https://storage.googleapis.com/tensorflow/tf-keras-datasets/mnist.npz'
+
+#Download dataset
+mnist_file = tf.keras.utils.get_file('mnist.npz', DATA_URL)
+
+# Train/test split from loaded image data; loaded image using numpy
+with np.load(mnist_file) as data:
+    X_train = data['x_train']
+    y_train = data['y_train']
+    X_test = data['x_test']
+    y_test= data['y_test']
+
+# Convert data into TensorFlow datasets for efficient processing
+train_dataset = tf.data.Dataset.from_tensor_slices((X_train, y_train))
+test_dataset = tf.data.Dataset.from_tensor_slices((X_test, y_test))
+
+# Define batch and shuffle sizes
+BATCH_SIZE = 64
+SHUFFLE_BUFFER_SIZE = 100
+
+# Shuffle and batch training and testing data
+
+train_dataset = train_dataset.shuffle(SHUFFLE_BUFFER_SIZE).batch(BATCH_SIZE)
+test_dataset = test_dataset.batch(BATCH_SIZE)
+
+
+# Visualize input image using matplotlib
+
+plt.imshow(X_train[0], cmap='gray')
+plt.title(f"Label: {y_train[0]}")
+plt.axis('off')
+plt.show()
+```
+
+```{python}
+
+#Building the model
+
+model = tf.keras.Sequential([
+    # Convolutional layer: detects image features like edges and patterns
+    tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+    
+    # Pooling layer: reduces image size and computation
+    tf.keras.layers.MaxPooling2D((2, 2)),
+    
+    # Flatten layer: converts 2D feature maps into a 1D vector
+    tf.keras.layers.Flatten(),
+    
+    # Dense layer: learns higher-level patterns
+    tf.keras.layers.Dense(128, activation='relu'),
+    
+    # Output layer: predicts one of 10 digit classes
+    tf.keras.layers.Dense(10)
+])
+    
+
+#Compile the model
+model.compile(
+    optimizer='adam',
+    loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    metrics=['accuracy']
+)
+
+# Train the model
+model.fit(train_dataset, epochs=5)
+
+# Evaluate the model on test data
+model.evaluate(test_dataset)
+
+# Print a summary of the model's architecture
+model.summary()
+
+
+```
+
+### Advantages and Limitations
+
+-   Advantages:
+    -   Automatic Feature Learning: DL models automatically learn patterns from raw data, eliminating the need for the outdated manual feature engineering.
+    -   High Accuracy on Complex Tasks: Performs extremely well on tasks like image recognition, speech processing, and natural language understanding
+    -   Scalability with Data: Performance improves as more data becomes available
+-   Limitations:
+    -   High Computational Cost: Requires powerful hardware (e.g., GPUs) and significant energy to train models.
+    -   Prone to Overfitting: Can memorize training data instead of generalizing if not properly tuned
+    -   Data Dependency: Needs large amounts of high-quality labeled data to perform well
+    -   Poor Interpretability (“Black Box”): Difficult to understand how the model arrives at its decisions
+
+### Conclusion:
+
+Deep learning represents a major leap in technological capability, enabling machines to process complex, nonlinear data and make decisions that were once thought to require human intelligence. It is fascinating to consider how far computing has advanced—systems can now learn from data, recognize patterns, and continuously improve over time. As this technology continues to evolve, its impact will only grow, shaping industries and everyday life. However, with this power comes responsibility, and understanding both the strengths and limitations of deep learning will be essential to ensuring it is used effectively and ethically in the future
+
+#### Further readings:
+
+1.  https://www.ibm.com/think/topics/deep-learning#763338456 - IBM : What is Deep Learning?
+
+2.  https://www.geeksforgeeks.org/deep-learning artificial-neural-networks-and-its-applications/ - GeeksforGeeks: Artificial Neural Networks and its Applications.
+
+3.  https://developer.nvidia.com/discover/convolutional-neural-network - NVIDIA Developer: Convolutional Neural Network (CNN)
+
+4.  https://www.geeksforgeeks.org/deep-learning advantages-and-disadvantages-of-deep-learning/ - GeeksforGeeks: Advantages and Disadvantages of Deep Learning :::
+
+5.  <https://medium.com/thedeephub/convolutional-neural-networks-a-comprehensive-guide-5cc0b5eae175> - Medium : Convolutional Neural Networks: A Comprehensive Guide
