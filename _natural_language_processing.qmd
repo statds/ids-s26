@@ -1,0 +1,324 @@
+This presentation is prepared by Kevin Liu.
+
+### Introduction
+
+#### What is NLP?
+Natural Language Processing (NLP) is a multidisciplinary field of lingusitics, computer science, and machine learning. It focuses on the interactions between computers and human languages, specifically how to program computers to process and analyze large amounts of natural language data
+
+#### The Challenge of Ambiguity
+**Lexical Ambiguity** - a single word has multiple meaning  
+**Structural Ambiguity** - a sentence can be parsed in multiple ways  
+**Contextual Ambiguity** - meaning changes based on situation/context  
+
+#### Core Applications
+
+NLP powers everything from virtual assistants and machine translation to Sentiment Analysis
+
+- Virutal Assitants : Siri, Alexa, and Google Assistant
+- Machine Translation : Google Translate
+- Sentiment Analysis : Businesses use to track product reviews and/or social media mentions
+- Summarization: Condensing long articles into short, readable bullet points 
+
+### NLP Pipeline
+$$\text{Data Acquisition} \longrightarrow \text{Text Cleaning \& Preprocessing} \longrightarrow$$
+$$\text{Feature Engineering} \longleftrightarrow \text{Model Building} \longrightarrow \text{Evaluation \& Deployment}$$
+
+#### Data Acquisition
+The process of gathering raw text data. This can involve web scraping, using APIs, and/or utilizing datasets like the Common Crawl.
+
+```{python}
+from datasets import load_dataset
+
+base_url = "https://huggingface.co/datasets/hf-internal-testing/dataset_with_data_files/resolve/"
+dataset = load_dataset("text", data_files=base_url+"main/data/train.txt")
+example_text = dataset['train'][0]['text']
+print(f"Sample from dataset: {example_text}")
+
+```
+
+#### Preprocessing Basics
+
+##### Tokenization
+Breaks a stream of text into smaller units called tokens such as words, characters, or subwords
+
+```{python}
+import re
+
+example_text = "The quick brown foxes are jumping over the lazy dogs at 187 Main St.!"
+
+# whitespace tokenization
+wsToken_text = example_text.split()
+print(wsToken_text)
+
+# punctuation-based tokenization
+pToken_text = re.findall(r'\w+|[^\w\s]', example_text)
+print(pToken_text)
+
+# character tokenization
+cToken_text = list(example_text)
+print(cToken_text)
+
+# number tokenization
+nToken_text = re.findall(r"\d+|\D+", example_text)
+print(nToken_text)
+```
+
+Other Forms of Tokenization : Word, Sentence, Tweet, Phrase, Semantic, N-gram, etc
+
+##### Noise Reduction
+**Stop Word Removal** - deleting common words that has little unique meaning such as "is", "the", and "at", so that more focus are on the core keywords
+
+```{python}
+import nltk
+#from nltk.corpus import stopwords
+
+#nltk.download('stopwords')
+#stopword_list = stopwords.words("english")
+stopword_list = ["the", "are", "over", "at"] # example stopword list
+words = example_text.split()
+filtered_words = [word for word in words if word.lower() not in stopword_list]
+print(filtered_words)
+```
+
+**Lowercasing** - turn all words to lowercase to maintain uniformity
+```{python}
+example_text = example_text.lower()
+print(example_text)
+```
+
+##### Normalization
+**Stemming** - a heuristic process that remove the ends of words (e.g. "connection $\rightarrow$ connect")
+```{python eval=FALSE}
+from nltk.stem import PorterStemmer
+
+stemmer = PorterStemmer()
+example_words = ["learning", "running", "communication", "unhelpful"]
+stemmed_words = [stemmer.stem(word) for word in example_words]
+print(stemmed_words)
+```
+
+**Lemmatization** - a approach that uses vocabulary and morphological analysis to return a word to its base dictonary form (e.g. "sorrow $\rightarrow$ sad")
+```{python eval=FALSE}
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet
+
+nltk.download("wordnet")
+lemmatizer = WordNetLemmatizer()
+example_words = ["running", "better", "studies", "was"]
+lemmas = [
+    lemmatizer.lemmatize("running", pos=wordnet.VERB),
+    lemmatizer.lemmatize("better", pos=wordnet.ADJ),
+    lemmatizer.lemmatize("studies", pos=wordnet.NOUN),
+    lemmatizer.lemmatize("was", pos=wordnet.VERB)
+]
+print(lemmas)
+```
+
+#### Feature Engineering
+##### Linguistic Annotation
+**Part of Speech Tagging** - labeling words as part of speech such as nouns, verbs, adjectives, etc, based on their definition and context  
+```{python eval=FALSE}
+import spacy
+nlp = spacy.load("en_core_web_sm")
+doc = nlp(example_text)
+
+print("POS Tagging:")
+for token in doc:
+    print(f"{token.text:<12} | {token.pos_:<6} | {token.tag_}")
+```
+**Named Entity Recognition (NER)** - Identifying and categorizing key entities in text into predined categories such as Names, Organizations, Locations, and Dates  
+```{python eval=FALSE}
+
+doc = nlp("Samsung was founded in South Korea in 1938")
+
+print("Named Entities:")
+for ent in doc.ents:
+    print(f"{ent.text:<12} | {ent.label_}")
+```
+##### Vectorization
+
+###### Sparse Embeddings
+Sparse embeddings represent data in very high-dimensional spaces where most of the values are zero  
+
+**Bag of Words (BoW)** - a simple count of word occurrences, it ignores grammer and word order but it is fast for basic classification  
+```{python}
+from sklearn.feature_extraction.text import CountVectorizer
+import pandas as pd
+
+corpus = [
+    "The cat sat on the mat.",
+    "The fox sat on the log.",
+    "The cat and the fox are friends."
+]
+
+vectorizer = CountVectorizer()
+sparse_matrix = vectorizer.fit_transform(corpus)
+words = vectorizer.get_feature_names_out()
+df_bow = pd.DataFrame(sparse_matrix.toarray(), columns=words)
+
+print("Vocabulary:", words)
+print("Bag of Words Matrix:")
+print(df_bow)
+```
+
+**Term Frequency-Inverse Document Frequency (TF-IDF)** - Measures how important a word is to a document relative to a collection of documents. It punishes frequent words and rewards rare descriptive words  
+$$TF(t,d) = \frac{\# \text{ of times term } t \text{ appears in document } d}{\text{ Total number of terms in document } d}$$
+$$ID(t,D) = \log \frac{\text{Total number of documents in cropus } D}{\text{Number of documents containing term } t}$$
+
+```{python}
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+tfidf_vectorizer = TfidfVectorizer()
+tfidf_matrix = tfidf_vectorizer.fit_transform(corpus)
+words = tfidf_vectorizer.get_feature_names_out()
+df_tfidf = pd.DataFrame(tfidf_matrix.toarray(), columns=words)
+
+print(df_tfidf.round(3))
+```
+
+###### Dense Embedding
+Dense embeddings represent data in a much smaller, fixed-dimensional space (typically 768 or 1536 dimensions) where almost every value is a non-zero number  
+
+**word2vec** - A shallow neural network that maps words into a high-dimensional space where semantically similar words are placed close together  
+```{python eval=FALSE}
+import gensim.downloader as api
+
+model = api.load("word2vec-google-news-300")
+vector = model['cat']
+
+print("Similarity (cat, fox):", model.similarity('cat', 'fox'))
+print("Similarity (cat, car):", model.similarity('cat', 'car'))
+```
+
+##### Positional Encoding
+Positional encoding adds information about the position of each token in the sequence to the input embedding which helps transformers understand the relative/absolute position of token. 
+
+**Sinusoidal Positional Formula**
+$$PE_{pos, 2i} = \sin\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right)$$
+$$PE_{pos, 2i+1} = \cos\left(\frac{pos}{10000^{\frac{2i}{d_{\text{model}}}}}\right) $$
+
+**BERT** - A bi-directional neural network that looks at the words before and after a target word to understand its specific context
+```{python eval=FALSE}
+import torch
+from transformers import BertTokenizer, BertModel
+from torch.nn.functional import cosine_similarity
+
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertModel.from_pretrained('bert-base-uncased')
+sentences = [
+    "The feline rested on the rug.",
+    "The cat sat on the mat."
+]
+
+inputs = tokenizer(sentences, padding=True, truncation=True, return_tensors="pt")
+with torch.no_grad(): outputs = model(**inputs)
+
+embeddings = outputs.last_hidden_state[:, 0, :]
+similarity = cosine_similarity(embeddings[0].unsqueeze(0), embeddings[1].unsqueeze(0))
+
+print(f"Sentence 1: {sentences[0]}")
+print(f"Sentence 2: {sentences[1]}")
+print(f"Semantic Similarity Score: {similarity.item():.4f}")
+```
+### Evolution of NLP Models & Algorithms
+
+#### Phase 1: Rule-Based Systems (Heuristics)
+**Era : 1950s - 1990s**  
+Early NLP relied on complex "if-then" rules and dictionaries written by linguists. They were focused on the syntax over semantics, making them precise but incredibly brittle and failed to scale.
+
+- **Key Approach** : Regular Expressions (Regex) and Context-Free Grammers
+- **Famous Example** : ELIZA (1966)  a "psychotherapist" chatbot that mirrored user input using simple pattern matching
+
+#### Phase 2: Statistical NLP (N-grams, Hidden Markov Models)
+**Era : 1990s - 2010s**  
+Models that predicted the "next word" based on the frequenct of previous word sequences (N-grams)
+
+- **N-grams** : Predicting the *n*-th word based on the $n-1$ previous words
+- **Hidden Markov Models** : Used extensively for POS tagging and early Speech to Text
+
+#### Phase 3: Deep Learning & Transformer
+**Era : 2013 - 2018**  
+Introduces the Recurrent Neural Networks (RNNs) and later the Transformer architecture allowed models to handle long-range depenncies in text using an *Atttention* mechanism
+
+- **The Breakthrough** : 2017 paper "Attention is All You Need" introduced the **Transformer** architecture
+- **Attention Mechanism** : the model checks all words in a setnec simultaneously and weight which ones are most relevant to the current word
+- **Key Models** : BERT (understanding/Context) and ELMo
+
+#### Phase 4: Large Language Models (LLMs) & Generative AI
+**Era : 2018 - Current**  
+Current models like GPT, Calude, that are trained on massive datasets, having beyond analysis to generation, capable of coding, reasoning, and creative writing.
+
+- **Instruction Tuning & RLHF** - techniques like reinforcement learning from human feedback allowed models to follow complex instructions and align with human values
+- **Emergent Abilities** : At certain scale, these models began to show "reasoning", code generation, and the ability to expain jokes, etc
+
+### Evaluation
+#### Classification Metrics
+
+**Precision** : measures how often the models positive predictions are correct
+$$\text{Precision } = \frac{TP}{TP + FP}$$
+
+**Recall** : finds how many real positive cases the model was able to correctly identify
+$$\text{Recall } = \frac{\text{TP}}{\text{TP + FN}}$$
+
+**F1-Score** : harmonic mean of precision and recall
+$$F1 = 2 \times \frac{\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}$$
+
+```{python}
+from sklearn.metrics import precision_score, recall_score, f1_score
+
+# Example: 1 = Positive (e.g., Spam), 0 = Negative (e.g., Not Spam)
+y_true = [1, 0, 1, 1, 0, 1]
+y_pred = [1, 0, 1, 0, 0, 1]
+
+precision = precision_score(y_true, y_pred)
+recall = recall_score(y_true, y_pred)
+f1 = f1_score(y_true, y_pred)
+
+print(f"Precision: {precision:.2f}")
+print(f"Recall:    {recall:.2f}")
+print(f"F1-Score:  {f1:.2f}")
+```
+
+#### Text Generation Metrics
+**BLEU Score** - meausres the accuracy of machine-translated text compared to a reference human translation
+$$\text{BLEU } = BP \cdot exp(\sum^N_{n=1}w_nlog P_n)$$
+
+```{python eval=FALSE}
+from nltk.translate.bleu_score import sentence_bleu
+
+reference = [["the", "quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog"]]
+candidate = ["the", "fast", "brown", "fox", "leaps", "over", "the", "lazy", "dog"]
+
+score = sentence_bleu(reference, candidate)
+print(f"BLEU Score: {score:.4f}")
+```
+
+**ROUGE Score** - measures the quality of a summary by comparing it to reference human summaries
+$$\text{ROUGE-L } = \frac{\text{LCS}(\text{candidate},\text{reference})}{\text{length of reference}}$$
+$$\text{ROUGE-N } = \frac{\sum_{n-gram}min(Cnt_{candiadate}, Cnt_{reference})}{\sum_{n-gram}Cnt_{reference}}$$
+$$\text{ROUGE-S } = \frac{\#\text{ of matching skip-bigrams}}{Total skip-bigrams in reference}$$
+```{python eval=FALSE}
+from rouge_score import rouge_scorer
+
+scorer = rouge_scorer.RougeScorer(['rouge1', 'rougeL'], use_stemmer=True)
+reference = "The capital of France is Paris."
+candidate = "Paris is the capital city of France."
+
+scores = scorer.score(reference, candidate)
+
+print(f"ROUGE-1: {scores['rouge1'].fmeasure:.4f}") # Overlap of individual words
+print(f"ROUGE-L: {scores['rougeL'].fmeasure:.4f}") # Longest Common Subsequence
+```
+
+**Perplexity** - measures how well a model predicts a sample
+$$\text{Perplexity } = 2^{H(p)}$$
+```{python}
+import numpy as np
+
+cross_entropy_loss = 2.3
+perplexity = np.exp(cross_entropy_loss)
+
+print(f"Cross-Entropy Loss: {cross_entropy_loss}")
+print(f"Perplexity:         {perplexity:.2f}")
+```

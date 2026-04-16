@@ -1,0 +1,248 @@
+---
+title: "Take-Home Midterm Exam — Solution"
+format: html
+jupyter: python3
+execute:
+  echo: true
+---
+
+# Take-Home Midterm Exam — Solution
+
+## Setup
+
+```{python}
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import Ridge
+from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+
+def find_day_csv() -> Path:
+    candidates = [Path("data/day.csv"), Path("day.csv")]
+    candidates.extend(Path("midterm-submissions").rglob("day.csv"))
+    for path in candidates:
+        if path.exists():
+            return path
+    raise FileNotFoundError("Could not locate day.csv in the workspace")
+
+
+day = pd.read_csv(find_day_csv())
+day["dteday"] = pd.to_datetime(day["dteday"])
+day.shape
+```
+
+## Part 1 — Data import and data quality
+
+### Task 1 — Data checks
+
+```{python}
+task1 = pd.DataFrame(
+    {
+        "missing_values": day.isna().sum(),
+        "duplicate_dates": day.duplicated("dteday").sum(),
+    }
+)
+
+cnt_check = (day["cnt"] != day["casual"] + day["registered"]).sum()
+
+print(day.head(10))
+print()
+print(task1)
+print()
+print(f"cnt != casual + registered in {cnt_check} rows")
+```
+
+All columns have no missing values, there are no duplicated dates, and `cnt` matches `casual + registered` for every row.
+
+### Task 2 — Marginal distributions
+
+```{python}
+weather_vars = ["temp", "atemp", "hum", "windspeed"]
+day[weather_vars].describe().T
+```
+
+```{python}
+fig, axes = plt.subplots(2, 2, figsize=(10, 6), constrained_layout=True)
+for ax, var in zip(axes.ravel(), weather_vars):
+    ax.hist(day[var], bins=30, color="#4C78A8", edgecolor="white")
+    ax.set_title(var)
+plt.show()
+```
+
+The normalized weather variables look plausible: most values are concentrated in the middle of the range, with no obvious impossible outliers.
+
+## Part 2 — Exploratory data analysis
+
+### Task 3 — Summary statistics for demand
+
+```{python}
+cnt_summary = pd.DataFrame(
+    {
+        "mean": [day["cnt"].mean()],
+        "median": [day["cnt"].median()],
+        "std": [day["cnt"].std()],
+    },
+    index=["cnt"],
+)
+
+by_year = (
+    day.groupby("yr", as_index=False)["cnt"]
+    .mean()
+    .assign(year=lambda d: d["yr"].map({0: 2011, 1: 2012}))
+    [["year", "cnt"]]
+    .rename(columns={"cnt": "mean_cnt"})
+)
+
+print(cnt_summary)
+print()
+print(by_year)
+print()
+print(f"Mean difference (2012 - 2011): {by_year.loc[by_year.year==2012, 'mean_cnt'].iloc[0] - by_year.loc[by_year.year==2011, 'mean_cnt'].iloc[0]:.2f}")
+```
+
+Bike demand is higher in 2012 than in 2011, so the series has a clear upward shift over time.
+
+### Task 4 — Trend over time
+
+```{python}
+fig, ax = plt.subplots(figsize=(10, 4))
+ax.plot(day["dteday"], day["cnt"], color="#4C78A8", linewidth=1)
+ax.set_title("Daily bike rentals over time")
+ax.set_xlabel("Date")
+ax.set_ylabel("cnt")
+plt.show()
+```
+
+There is an overall upward trend and a strong repeating seasonal pattern.
+
+### Task 5 — Group comparisons
+
+```{python}
+fig, axes = plt.subplots(1, 2, figsize=(12, 4), constrained_layout=True)
+
+day.boxplot(column="cnt", by="season", ax=axes[0])
+axes[0].set_title("Demand by season")
+axes[0].set_xlabel("season")
+axes[0].set_ylabel("cnt")
+
+day.boxplot(column="cnt", by="weathersit", ax=axes[1])
+axes[1].set_title("Demand by weather")
+axes[1].set_xlabel("weathersit")
+axes[1].set_ylabel("cnt")
+
+plt.suptitle("")
+plt.show()
+```
+
+Demand is highest in the warmer seasons and lower under worse weather, which is consistent with bike usage being weather-sensitive.
+
+## Part 3 — Predictive modeling
+
+### Task 6 — Modeling target and features
+
+I use calendar, weather, and time variables known at prediction time. I exclude `casual` and `registered` because they directly add up to `cnt`, so they would leak the target.
+
+### Task 7 — Train/test split
+
+The split is chronological: the first 80% of dates are training data and the last 20% are test data. Random splitting would leak future information into the training set and make the evaluation too optimistic.
+
+### Task 8 — Model training
+
+```{python}
+features = [
+    "season", "yr", "mnth", "holiday", "weekday", "workingday",
+    "weathersit", "temp", "atemp", "hum", "windspeed",
+]
+
+day_sorted = day.sort_values("dteday").reset_index(drop=True)
+split = int(len(day_sorted) * 0.80)
+train = day_sorted.iloc[:split]
+test = day_sorted.iloc[split:]
+
+X_train = train[features]
+y_train = train["cnt"]
+X_test = test[features]
+y_test = test["cnt"]
+
+cat_cols = [c for c in ["season", "yr", "mnth", "holiday", "weekday", "workingday", "weathersit"] if c in X_train.columns]
+num_cols = [c for c in X_train.columns if c not in cat_cols]
+
+preprocess = ColumnTransformer(
+    transformers=[
+        ("num", StandardScaler(), num_cols),
+        ("cat", OneHotEncoder(handle_unknown="ignore"), cat_cols),
+    ]
+)
+
+ridge_pipe = Pipeline(
+    steps=[
+        ("preprocess", preprocess),
+        ("model", Ridge()),
+    ]
+)
+
+ridge_grid = GridSearchCV(
+    ridge_pipe,
+    param_grid={"model__alpha": np.logspace(-3, 3, 25)},
+    scoring="neg_root_mean_squared_error",
+    cv=5,
+    n_jobs=-1,
+)
+
+ridge_grid.fit(X_train, y_train)
+ridge_pred = ridge_grid.predict(X_test)
+
+rf_pipe = Pipeline(
+    steps=[
+        ("preprocess", preprocess),
+        ("model", RandomForestRegressor(n_estimators=300, random_state=42, n_jobs=-1, min_samples_leaf=2)),
+    ]
+)
+
+rf_pipe.fit(X_train, y_train)
+rf_pred = rf_pipe.predict(X_test)
+
+results = pd.DataFrame(
+    {
+        "model": ["Ridge", "Random forest"],
+        "rmse": [np.sqrt(mean_squared_error(y_test, ridge_pred)), np.sqrt(mean_squared_error(y_test, rf_pred))],
+        "r2": [r2_score(y_test, ridge_pred), r2_score(y_test, rf_pred)],
+    }
+)
+
+print("Best ridge alpha:", ridge_grid.best_params_["model__alpha"])
+print(results)
+```
+
+I would choose the model with the lower test RMSE; in practice, the ridge model is a strong baseline and the random forest is the main non-linear comparator.
+
+```{python}
+feature_names = ridge_grid.best_estimator_.named_steps["preprocess"].get_feature_names_out()
+coefs = ridge_grid.best_estimator_.named_steps["model"].coef_
+
+top5 = (
+    pd.Series(coefs, index=feature_names)
+    .abs()
+    .sort_values(ascending=False)
+    .head(5)
+)
+
+print(top5)
+```
+
+### Task 9 — Short memo
+
+- Demand is seasonal and weather-sensitive, with higher ridership in warmer months and lower ridership in poor weather.
+- Bike usage increased in 2012, so the system experienced a clear upward shift over the study period.
+- I would use the model with the lower test RMSE; ridge is a good interpretable baseline, while random forest can capture non-linear effects.
+- Limitations: the model does not use external weather forecasts or event data, and it only sees one year of training history.
+- Next steps: add holiday/event indicators, richer weather features, and possibly lagged demand variables.

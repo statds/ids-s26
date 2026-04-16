@@ -1,0 +1,8 @@
+---
+title: "Demo"
+format: html
+jupyter: ids-s26
+---
+```{python}
+import sys
+sys.version

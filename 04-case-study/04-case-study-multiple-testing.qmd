@@ -1,0 +1,739 @@
+# Case study: Multiple testing for differential gene expression
+
+## Background
+
+In a microarray study, we do not test one hypothesis. We test thousands of them at once.
+
+That changes the statistical problem in an important way. If we test a single gene at level $0.05$, then a false positive is relatively rare. But if we test thousands of genes, then even when *no* genes truly differ, we should still expect many small p-values just by chance.
+
+This case study uses a classic microarray example from Callow et al. (2000), where the goal is to identify genes with altered expression in HDL-deficient mice. It combines scientific interpretation with a core statistical difficulty: how to detect genuine signals while controlling false discoveries across thousands of simultaneous tests.
+
+## Objective
+
+The purpose of this case study is to use microarray data to learn four closely related ideas:
+
+1. how to construct gene-level test statistics,
+2. why multiple testing creates a serious Type I error problem,
+3. how stricter thresholds can reduce false positives but increase false negatives,
+4. how to estimate the false discovery rate (FDR) from permutations.
+
+The main workflow is:
+
+1. compute log-ratios and log-intensities,
+2. apply block-wise loess normalization,
+3. calculate Welch two-sample t-statistics,
+4. examine the consequences of multiple testing,
+5. estimate the false discovery rate (FDR) by permutation.
+
+## Data & Resources
+
+- `Callow-data1.txt`: raw two-color microarray intensities for 6384 spots across 16 arrays
+- `Spot-location1.txt`: printing-pin block locations for the spots
+- `Callow et al 2000.pdf`: paper describing the scientific setting and the multiple-testing framework
+
+## Why this case study matters
+
+This is a nice data-science example because the challenge is not just computing p-values. The real challenge is *decision-making under many simultaneous comparisons*.
+
+At the level of one gene:
+
+- A *Type I error* means calling a gene differentially expressed when it is not.
+- A *Type II error* means missing a gene that truly is differentially expressed.
+
+At the level of thousands of genes:
+
+- Controlling the chance of *any* false positive can become too strict.
+- Ignoring multiplicity can produce too many false discoveries.
+- The *false discovery rate* provides a useful compromise: among the genes we call significant, what fraction do we expect to be false positives?
+
+That is exactly the issue this case study is designed to illustrate.
+
+## Key setup: what can happen in a hypothesis test?
+
+Before we compute anything, it helps to be clear about what a hypothesis test is trying to do.
+
+For each gene, we make a decision:
+
+- either *reject* the null hypothesis and call the gene differentially expressed,
+- or *do not reject* the null hypothesis and decide that the evidence is not strong enough.
+
+But the gene itself also has a hidden truth:
+
+- either the null hypothesis is really true, meaning the gene is *not* differentially expressed,
+- or the null hypothesis is false, meaning the gene *is* differentially expressed.
+
+That gives four possible outcomes.
+
+```{mermaid}
+flowchart TD
+    A[One gene] --> B{What is true?}
+    B --> C[Null true;no real difference]
+    B --> D[Null false;real difference]
+    C --> E{Our decision}
+    D --> F{Our decision}
+    E --> G[Reject null;false positive;Type I error]
+    E --> H[Do not reject;true negative]
+    F --> I[Reject null;true positive]
+    F --> J[Do not reject;false negative;Type II error]
+```
+
+| Reality | Our decision | Name |
+|---|---|---|
+| Gene is not differentially expressed | Reject the null | *False positive* = *Type I error* |
+| Gene is not differentially expressed | Do not reject the null | *True negative* |
+| Gene is differentially expressed | Reject the null | *True positive* |
+| Gene is differentially expressed | Do not reject the null | *False negative* = *Type II error* |
+
+For a *single* hypothesis test:
+
+- A *Type I error* means we claim a signal that is not really there.
+- A *Type II error* means we miss a real signal.
+
+So in plain language:
+
+- Type I error = a *false alarm*.
+- Type II error = a *missed detection*.
+
+## Key setup: what changes in multiple testing?
+
+In a microarray study, we do not make this decision once. We make it thousands of times, once for each gene.
+
+That means we should keep track not only of individual mistakes, but also of how the *entire collection* of testing results breaks down.
+
+Suppose we test many genes at once. Then the outcomes can be summarized like this:
+
+```{mermaid}
+flowchart LR
+    A[All tested genes] --> B[Called significant; R = V + S]
+    A --> C[Not called significant; m - R = U + T]
+    B --> D[True positives;S]
+    B --> E[False positives;V]
+    C --> F[True negatives;U]
+    C --> G[False negatives;T]
+```
+
+| Truth about the gene | Called significant | Not called significant |
+|---|---|---|
+| Null true | *False positive* | *True negative* |
+| Null false | *True positive* | *False negative* |
+
+Sometimes statisticians label these counts with letters:
+
+- $V$: number of *false positives*,
+- $S$: number of *true positives*,
+- $U$: number of *true negatives*,
+- $T$: number of *false negatives*.
+
+From these pieces, a few important totals are built:
+
+- $R = V + S$: total number of genes we call significant,
+- $m - R = U + T$: total number of genes we do not call significant.
+
+This notation matters because different statistical goals focus on different parts of the table:
+
+- *Family-wise error rate (FWER)* asks whether we make *any* false positive at all.
+- *False discovery rate (FDR)* asks: among the genes we call significant, what fraction are false positives?
+- *Power* asks how often we successfully detect truly differentially expressed genes.
+
+The key practical tension is this:
+
+- If we use a very loose threshold, we may get many discoveries, but also many false positives.
+- If we use a very strict threshold, we reduce false positives, but we may miss real genes and increase false negatives.
+
+This case study is about learning how to manage that tradeoff in a realistic high-dimensional setting.
+
+
+
+
+
+
+## Load packages and data
+
+```{python}
+#| warning: false
+#| message: false
+
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+from scipy.stats import ttest_ind, norm
+from statsmodels.nonparametric.smoothers_lowess import lowess
+from statsmodels.stats.multitest import multipletests
+
+pd.set_option("display.max_columns", 200)
+pd.set_option("display.width", 120)
+```
+
+```{python}
+path_data = "Callow-data1.txt"
+path_spot = "Spot-location1.txt"
+
+raw = pd.read_csv(path_data, sep="\t")
+spot = pd.read_csv(path_spot, sep="\t")
+
+print("raw shape:", raw.shape)
+print("spot shape:", spot.shape)
+
+raw.head()
+```
+
+## Understand the experimental layout
+
+The 16 arrays are divided into two groups of 8:
+
+- `c1` to `c8`: control arrays
+- `k1` to `k8`: knockout arrays
+
+For each array, the data contain two fluorescence channels, one green and one red. The code constructs
+
+- a *log-ratio*
+  $$M = \log_2(R/G),$$
+- and a *log-intensity*
+  $$A = \frac{1}{2}\log_2(RG).$$
+
+The spot-location file provides the printing-pin blocks used for block-wise normalization.
+
+```{python}
+col_names = raw.columns.tolist()
+print(col_names[:12])
+print("...")
+print(col_names[16:24])
+
+block1 = spot.iloc[:, 1].to_numpy()
+block2 = spot.iloc[:, 2].to_numpy()
+
+print("Unique block1 values:", np.unique(block1))
+print("Unique block2 values:", np.unique(block2))
+print("Number of spots:", len(block1))
+```
+
+## Preprocess the raw intensities
+
+For invalid intensities, we use a simple preprocessing rule:
+
+- if either channel is nonpositive, set the log-ratio to 0,
+- and set the log-intensity to 8.
+
+This keeps the transformed values well-defined and lets us focus on the multiple-testing ideas rather than on missing-value edge cases.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+
+n = 8
+G = raw.shape[0]
+datm = raw.iloc[:, 1:33].to_numpy(dtype=float)
+
+def build_log_matrices(arr):
+    logr = np.zeros((G, n))
+    logi = np.zeros((G, n))
+    for i in range(n):
+        g = arr[:, 2 * i]
+        r = arr[:, 2 * i + 1]
+        ok = (g > 0) & (r > 0)
+        logr[:, i] = 0.0
+        logi[:, i] = 8.0
+        logr[ok, i] = np.log2(r[ok] / g[ok])
+        logi[ok, i] = 0.5 * np.log2(r[ok] * g[ok])
+    return logr, logi
+
+logr1, logi1 = build_log_matrices(datm[:, :16])
+logr2, logi2 = build_log_matrices(datm[:, 16:32])
+
+print(logr1.shape, logi1.shape, logr2.shape, logi2.shape)
+```
+
+## Explore the raw M-A structure
+
+Before normalization, we should check whether the log-ratios depend on intensity. If they do, then naive testing would be distorted by systematic bias.
+
+### M-A plots for the first control and first knockout arrays
+
+```{python}
+plot_df = pd.DataFrame({
+    "A_control": logi1[:, 0],
+    "M_control": logr1[:, 0],
+    "A_knockout": logi2[:, 0],
+    "M_knockout": logr2[:, 0],
+})
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Control array 1", "Knockout array 1"))
+fig.add_trace(
+    go.Scattergl(x=plot_df["A_control"], y=plot_df["M_control"], mode="markers", marker=dict(size=3), opacity=0.35, showlegend=False),
+    row=1, col=1,
+)
+fig.add_trace(
+    go.Scattergl(x=plot_df["A_knockout"], y=plot_df["M_knockout"], mode="markers", marker=dict(size=3), opacity=0.35, showlegend=False),
+    row=1, col=2,
+)
+fig.update_xaxes(title_text="log intensity", row=1, col=1)
+fig.update_xaxes(title_text="log intensity", row=1, col=2)
+fig.update_yaxes(title_text="log ratio", row=1, col=1)
+fig.update_yaxes(title_text="log ratio", row=1, col=2)
+fig.update_layout(title="Raw M-A plots", height=450)
+fig.show()
+```
+
+### Block-specific structure for one array
+
+We normalize *within printing-pin blocks*, not globally. That already tells us something important: the technical bias may vary by block.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+
+block_panels = []
+for i in range(1, 5):
+    for j in range(1, 5):
+        bk = (block1 == i) & (block2 == j)
+        block_panels.append(
+            pd.DataFrame({
+                "A": logi1[bk, 0],
+                "M": logr1[bk, 0],
+                "block": f"({i},{j})"
+            })
+        )
+block_df = pd.concat(block_panels, ignore_index=True)
+
+fig = px.scatter(
+    block_df,
+    x="A",
+    y="M",
+    facet_col="block",
+    facet_col_wrap=4,
+    opacity=0.35,
+    title="Raw M-A plots by printing-pin block for control array 1",
+)
+fig.update_traces(marker=dict(size=3))
+fig.update_layout(height=900)
+fig.show()
+```
+
+## Block-wise loess normalization
+
+Now we carry out the main normalization step. For each array and each printing-pin block, we fit a robust loess curve of log-ratio on log-intensity, then subtract the fitted curve.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+
+def blockwise_lowess_normalize(logr, logi, block1, block2, frac=0.2, it=3):
+    ndat = logr.copy()
+    fitted = np.zeros_like(logr)
+    for k in range(logr.shape[1]):
+        for i in range(1, 5):
+            for j in range(1, 5):
+                bk = (block1 == i) & (block2 == j)
+                x = logi[bk, k]
+                y = logr[bk, k]
+                yfit = lowess(y, x, frac=frac, it=it, return_sorted=False)
+                fitted[bk, k] = yfit
+                ndat[bk, k] = y - yfit
+    return ndat, fitted
+
+ndat1, ncurv1 = blockwise_lowess_normalize(logr1, logi1, block1, block2)
+ndat2, ncurv2 = blockwise_lowess_normalize(logr2, logi2, block1, block2)
+
+print(ndat1.shape, ndat2.shape)
+```
+
+### Before and after normalization
+
+```{python}
+bk = (block1 == 1) & (block2 == 1)
+curve_df = pd.DataFrame({
+    "A": logi1[bk, 0],
+    "raw_M": logr1[bk, 0],
+    "fit": ncurv1[bk, 0],
+    "normalized_M": ndat1[bk, 0],
+}).sort_values("A")
+
+fig = make_subplots(rows=1, cols=2, subplot_titles=("Raw with loess fit", "After normalization"))
+fig.add_trace(
+    go.Scattergl(x=curve_df["A"], y=curve_df["raw_M"], mode="markers", marker=dict(size=4), opacity=0.4, name="raw"),
+    row=1, col=1,
+)
+fig.add_trace(
+    go.Scatter(x=curve_df["A"], y=curve_df["fit"], mode="lines", name="loess fit"),
+    row=1, col=1,
+)
+fig.add_trace(
+    go.Scattergl(x=curve_df["A"], y=curve_df["normalized_M"], mode="markers", marker=dict(size=4), opacity=0.4, showlegend=False),
+    row=1, col=2,
+)
+fig.update_xaxes(title_text="log intensity", row=1, col=1)
+fig.update_xaxes(title_text="log intensity", row=1, col=2)
+fig.update_yaxes(title_text="log ratio", row=1, col=1)
+fig.update_yaxes(title_text="normalized log ratio", row=1, col=2)
+fig.update_layout(title="Effect of block-wise loess normalization", height=450)
+fig.show()
+```
+
+## Gene-wise Welch t-tests
+
+After normalization, we compare the two groups gene by gene using Welch’s two-sample t-test, which allows unequal variances across the two groups.
+
+```{python}
+mean_control = ndat1.mean(axis=1)
+mean_knockout = ndat2.mean(axis=1)
+mean_diff = mean_control - mean_knockout
+
+welch = ttest_ind(ndat1, ndat2, axis=1, equal_var=False)
+t_stat = welch.statistic
+p_value = welch.pvalue
+
+results = pd.DataFrame({
+    "gene_id": np.arange(1, G + 1),
+    "mean_control": mean_control,
+    "mean_knockout": mean_knockout,
+    "mean_diff": mean_diff,
+    "t_stat": t_stat,
+    "p_value": p_value,
+    "avg_intensity": np.concatenate([logi1, logi2], axis=1).mean(axis=1),
+})
+
+results.nsmallest(10, "p_value")
+```
+
+## Visualize the testing results
+
+### Volcano plot
+
+```{python}
+results["neglog10_p"] = -np.log10(results["p_value"])
+fig = px.scatter(
+    results,
+    x="mean_diff",
+    y="neglog10_p",
+    hover_data=["gene_id", "t_stat", "p_value"],
+    opacity=0.45,
+    title="Volcano plot after normalization",
+)
+fig.show()
+```
+
+### Normal Q-Q plot of t-statistics
+
+The paper uses a normal Q-Q plot to see whether the extreme t-statistics depart from what we would expect under a mostly-null distribution.
+
+```{python}
+t_sorted = np.sort(t_stat)
+probs = (np.arange(1, G + 1) - 0.5) / G
+theoretical = norm.ppf(probs)
+qq_df = pd.DataFrame({"theoretical": theoretical, "observed": t_sorted})
+
+fig = px.scatter(
+    qq_df,
+    x="theoretical",
+    y="observed",
+    opacity=0.45,
+    title="Normal Q-Q plot of gene-wise t-statistics",
+)
+fig.add_trace(
+    go.Scatter(
+        x=[qq_df["theoretical"].min(), qq_df["theoretical"].max()],
+        y=[qq_df["theoretical"].min(), qq_df["theoretical"].max()],
+        mode="lines",
+        name="45-degree line",
+    )
+)
+fig.show()
+```
+
+### t-statistics versus intensity
+
+The paper also argues that large t-statistics do not simply correspond to low-intensity artifacts. This plot helps us see that issue directly.
+
+```{python}
+fig = px.scatter(
+    results,
+    x="avg_intensity",
+    y="t_stat",
+    hover_data=["gene_id", "p_value"],
+    opacity=0.4,
+    title="Gene-wise t-statistics versus average intensity",
+)
+fig.show()
+```
+
+## Why multiple testing changes the problem
+
+Suppose, for a moment, that *all 6384 genes were null*.
+
+Then even under complete null truth, we would expect approximately
+
+- $6384 \times 0.05 \approx 319$ p-values below 0.05,
+- $6384 \times 0.01 \approx 64$ p-values below 0.01,
+- $6384 \times 0.001 \approx 6.4$ p-values below 0.001.
+
+That simple calculation is often the first moment we realize that "p < 0.05" is not remotely enough in a high-dimensional setting.
+
+```{python}
+alpha_grid = np.array([0.05, 0.01, 0.001, 0.0001])
+expected_false_positives = G * alpha_grid
+observed_hits = np.array([(p_value < a).sum() for a in alpha_grid])
+
+mult_df = pd.DataFrame({
+    "alpha": alpha_grid,
+    "expected_false_positives_under_global_null": expected_false_positives,
+    "observed_hits": observed_hits,
+})
+mult_df
+```
+
+```{python}
+mult_long = mult_df.melt(id_vars="alpha", var_name="quantity", value_name="count")
+fig = px.bar(
+    mult_long,
+    x="alpha",
+    y="count",
+    color="quantity",
+    barmode="group",
+    title="Observed discoveries versus what we would expect under a complete null",
+)
+fig.update_xaxes(type="category")
+fig.show()
+```
+
+## Type I and Type II errors: a quick simulation
+
+In the real dataset, we do not know the truth for each gene. So to illustrate the Type I / Type II trade-off clearly, we create a small simulation where the truth *is* known.
+
+This is not part of the original paper. It is included here because it makes the error concepts concrete.
+
+```{python}
+rng = np.random.default_rng(3255)
+
+m = 2000
+n_per_group = 8
+n_nonnull = 80
+true_effect = np.zeros(m)
+true_effect[:n_nonnull] = 1.0
+rng.shuffle(true_effect)
+
+x1 = rng.normal(0, 1, size=(m, n_per_group))
+x2 = rng.normal(true_effect[:, None], 1, size=(m, n_per_group))
+
+sim_test = ttest_ind(x1, x2, axis=1, equal_var=False)
+sim_p = sim_test.pvalue
+
+thresholds = np.array([0.05, 0.01, 0.001, 0.0001])
+rows = []
+for th in thresholds:
+    reject = sim_p < th
+    type1 = np.sum(reject & (true_effect == 0))
+    type2 = np.sum((~reject) & (true_effect != 0))
+    rows.append({
+        "threshold": th,
+        "type_I_errors": type1,
+        "type_II_errors": type2,
+        "discoveries": reject.sum(),
+    })
+
+sim_summary = pd.DataFrame(rows)
+sim_summary
+```
+
+```{python}
+sim_long = sim_summary.melt(id_vars="threshold", value_vars=["type_I_errors", "type_II_errors"],
+                            var_name="error_type", value_name="count")
+fig = px.line(
+    sim_long,
+    x="threshold",
+    y="count",
+    color="error_type",
+    markers=True,
+    title="In a simple simulation, stricter thresholds reduce Type I errors but increase Type II errors",
+)
+fig.update_xaxes(type="category")
+fig.show()
+```
+
+The basic lesson is simple but important:
+
+- making the threshold stricter usually reduces false positives,
+- but it also makes it easier to miss real signals.
+
+That is one reason FDR-based thinking is so useful.
+
+## Classical multiplicity adjustments
+
+Before moving to permutation-based FDR estimation, it is useful to compare two standard multiplicity adjustments available in many software packages:
+
+- *Bonferroni*, which is very strict,
+- *Benjamini-Hochberg (BH)*, which controls the false discovery rate under standard assumptions.
+
+```{python}
+reject_bonf, p_bonf, _, _ = multipletests(p_value, alpha=0.05, method="bonferroni")
+reject_bh, p_bh, _, _ = multipletests(p_value, alpha=0.05, method="fdr_bh")
+
+summary_adjust = pd.DataFrame({
+    "method": ["raw p < 0.0001", "Bonferroni 0.05", "BH FDR 0.05"],
+    "discoveries": [int((p_value < 1e-4).sum()), int(reject_bonf.sum()), int(reject_bh.sum())],
+})
+summary_adjust
+```
+
+```{python}
+fig = px.bar(summary_adjust, x="method", y="discoveries", title="How many genes are called significant under different decision rules")
+fig.show()
+```
+
+```{python}
+results["p_bonf"] = p_bonf
+results["p_bh"] = p_bh
+results.nsmallest(10, "p_value")[["gene_id", "mean_diff", "t_stat", "p_value", "p_bonf", "p_bh"]]
+```
+
+## Permutation-based FDR estimation
+
+Now we turn to the main goal of this case study: estimating how many of our apparent discoveries may be false.
+
+One intuitive approach is to estimate FDR by permutation:
+
+1. combine the normalized data from both groups,
+2. randomly permute the 16 group labels,
+3. recompute all gene-wise p-values,
+4. count how many genes fall below a chosen threshold,
+5. average these counts over many permutations,
+6. divide by the number of observed discoveries at that threshold.
+
+This yields an empirical estimate of
+
+$$
+\mathrm{FDR}(c) \approx \frac{E[V(c)]}{R(c)},
+$$
+
+where $V(c)$ is the number of false discoveries under threshold $c$, and $R(c)$ is the number of observed discoveries.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show Python"
+
+rng = np.random.default_rng(123)
+ndat12 = np.concatenate([ndat1, ndat2], axis=1)
+thresholds = np.array([0.01, 0.001, 0.0001])
+perm_no = 50
+perm_counts = np.zeros((perm_no, len(thresholds)), dtype=int)
+
+for b in range(perm_no):
+    ind = rng.permutation(ndat12.shape[1])
+    fake1 = ndat12[:, ind[:8]]
+    fake2 = ndat12[:, ind[8:]]
+    p_perm = ttest_ind(fake1, fake2, axis=1, equal_var=False).pvalue
+    perm_counts[b, :] = [(p_perm < th).sum() for th in thresholds]
+
+observed_counts = np.array([(p_value < th).sum() for th in thresholds])
+expected_false = perm_counts.mean(axis=0)
+empirical_fdr = np.divide(
+    expected_false,
+    observed_counts,
+    out=np.full_like(expected_false, np.nan, dtype=float),
+    where=observed_counts > 0,
+)
+
+perm_summary = pd.DataFrame({
+    "threshold": thresholds,
+    "observed_discoveries": observed_counts,
+    "expected_false_discoveries": expected_false,
+    "estimated_fdr": empirical_fdr,
+})
+perm_summary
+```
+
+```{python}
+fig = px.bar(
+    perm_summary.melt(id_vars="threshold", value_vars=["observed_discoveries", "expected_false_discoveries"],
+                      var_name="quantity", value_name="count"),
+    x="threshold",
+    y="count",
+    color="quantity",
+    barmode="group",
+    title="Observed discoveries and permutation-based expected false discoveries",
+)
+fig.update_xaxes(type="category")
+fig.show()
+```
+
+```{python}
+fig = px.line(
+    perm_summary,
+    x="threshold",
+    y="estimated_fdr",
+    markers=True,
+    title="Estimated FDR from permutations",
+)
+fig.update_xaxes(type="category")
+fig.show()
+```
+
+In this dataset, the estimated FDR is much lower at the most stringent threshold. That illustrates the main tradeoff: a stricter threshold gives fewer discoveries, but the discoveries we keep are more credible.
+
+## Identify a small high-confidence gene set
+
+The remaining question at this point is: after all of this adjustment and checking, what genes would we actually carry forward for follow-up?
+
+One simple answer is to focus on the genes with raw p-values below `0.0001`, which is a very stringent cutoff in this example.
+
+```{python}
+selected = results.loc[results["p_value"] < 1e-4, ["gene_id", "p_value", "mean_diff", "t_stat"]].copy()
+selected = selected.sort_values("p_value")
+selected
+```
+
+
+## What should we report?
+
+A common beginner mistake is to report only a list of "significant genes." A better report should state at least the following:
+
+- how the raw intensities were transformed,
+- how normalization was performed,
+- what gene-wise test statistic was used,
+- how multiplicity was handled,
+- what threshold or FDR target was chosen,
+- and how many genes were ultimately selected.
+
+For this case study, a concise summary for a results section is:
+
+```{python}
+final_summary = pd.DataFrame({
+    "quantity": [
+        "number of spots tested",
+        "raw hits at p < 0.01",
+        "raw hits at p < 0.001",
+        "raw hits at p < 0.0001",
+        "BH discoveries at FDR 0.05",
+        "Bonferroni discoveries at 0.05",
+        "estimated FDR at p < 0.0001",
+    ],
+    "value": [
+        G,
+        int((p_value < 0.01).sum()),
+        int((p_value < 0.001).sum()),
+        int((p_value < 0.0001).sum()),
+        int(reject_bh.sum()),
+        int(reject_bonf.sum()),
+        float(perm_summary.loc[perm_summary["threshold"] == 0.0001, "estimated_fdr"].iloc[0]),
+    ],
+})
+final_summary
+```
+
+## Discussion questions
+
+1. Why is `p < 0.05` not a sensible default rule when testing 6384 genes?
+2. Why does permutation help in this problem where the null distribution and dependence structure may be complicated?
+3. Why can a method that reduces Type I errors too aggressively also be scientifically unsatisfying?
+4. What is the conceptual difference between controlling the family-wise error rate and controlling the false discovery rate?
+
+
+## Exercises
+
+1. Increase the number of permutations from 50 to 200 and see how stable the FDR estimates become.
+2. Add a histogram of the p-values and explain what shape you would expect under a complete null.
+3. Compare Welch's t-test with the equal-variance two-sample t-test and check whether the top-ranked genes change.
+4. Use a grid of thresholds from `1e-5` to `1e-2` and plot the entire estimated FDR curve.
+5. Repeat the Type I / Type II simulation with a smaller true effect and explain what happens to power.

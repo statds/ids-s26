@@ -1,0 +1,63 @@
+project:
+  type: book
+
+execute:
+  enabled: true
+  freeze: auto
+  kernel: ids-s26
+
+book:
+  title: "Introduction to Data Science"
+  subtitle: "STAT 3255/5255 @ UConn, Spring 2026"
+  author:
+    - name: "[Kun Chen](https://kun-chen.uconn.edu)"
+    - name: "[Jun Yan](https://statcomp.org)"
+  date: today
+
+#  sidebar:
+#    logo: images/ids-f24.png
+  
+  chapters:
+    - index.qmd
+    - 01-intro.qmd
+    - 02-git.qmd
+    - 03-quarto.qmd
+    - 04-python.qmd
+    - 05-ethics_communiacation.qmd
+    - 06-topics-DAE.qmd
+    - 07-topics-DWV.qmd
+    - 08-topics-SMML.qmd
+    - 09-topics-AMAI.qmd
+    - 01-case-study/01-case-study.qmd
+    - 02-case-study/02_case_study_simpsons_paradox.qmd
+    - 03-case-study/03-case-study-protein-clustering.qmd
+    - 04-case-study/04-case-study-multiple-testing.qmd
+    - 05-case-study/05-case-study-causal-inference.qmd
+   # - 05-visualization.qmd
+   # - 06-manipulation.qmd
+   # - 07-exploration.qmd
+   # - 08-regression.qmd
+   # - 09-classification.qmd
+   # - 10-supervised.qmd
+   # - 11-unsupervised.qmd
+   # - 20-deeplearning.qmd
+   # - 90-advanced.qmd
+    - 95-exercises.qmd
+    - 96-midterm-bike-sharing.qmd
+    - 99-references.qmd
+
+bibliography:
+    - references.bib
+    - jyrefs.bib
+    - chen_mark.bib
+
+csl: apa.csl
+
+format:
+  html:
+    html-math-method: mathjax
+    theme: cosmo
+#  pdf:
+#    documentclass: scrbook
+#    include-in-header: preamble.tex
+#    prefer-html: true
