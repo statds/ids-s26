@@ -28,6 +28,10 @@
 
 {{< include _gradient_boosting.qmd >}}
 
+## Support Vector Machines
+
+{{< include _support_vector_machine.qmd >}}
+
 ## Principal Component Analysis
 
 {{< include _PCA.qmd >}}

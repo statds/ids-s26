@@ -1,6 +1,4 @@
----
-jupyter: python3
----
+## Support Vector Machines
 
 This presentation was prepared by Kyle Burns.
 
