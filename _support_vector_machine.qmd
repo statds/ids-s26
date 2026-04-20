@@ -1,0 +1,338 @@
+---
+jupyter: python3
+---
+
+This presentation was prepared by Kyle Burns.
+
+### Introduction
+
+Support Vector Machines (SVMs) are a supervised machine learning models that take in classifed data, and mathematically divide the data into sections. SVMs are supervised models, so they need a labeled data set to learn off of before being applied. If given a new set of data points, SVMs can quickly and easily classify these new points. This makes them very good at problems like image classification, face detection, and text categorization.
+
+### Definitions
+
+#### Hyperplanes
+
+In the general sense, a hyperplane is a flat, n-1 dimensional subspace that separates an 
+n dimensional space into two half-spaces. In the case of SVMs, these spaces are often labeled 1 and -1.
+
++ In a 2D vizualization, a hyperplane is simply a line. 
++ In a 3D space, it is a plane.
+
+```{python}
+#| echo: false
+
+import pandas as pd
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv"
+df = pd.read_csv(url)
+
+# Select features and target
+features = df[["bill_depth_mm", "body_mass_g"]].copy()
+target = df["species"].copy()
+
+# Filter to Adelie and Gentoo only
+species_filter = target.isin(["Adelie", "Gentoo"])
+features = features.loc[species_filter].copy()
+target = target.loc[species_filter].copy()
+
+# Drop missing values
+mask = features.notna().all(axis=1) & target.notna()
+features = features.loc[mask]
+target = target.loc[mask]
+
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
+
+# Scale the features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(features)
+
+# Train a linear SVM classifier
+svm = SVC(kernel="linear", C=1e10, random_state=37)
+svm.fit(X_scaled, target)
+
+# Scatter plot of the data and decision boundaries
+plt.figure(figsize=(8, 6))
+
+# Plot the points
+species_order = ["Adelie", "Gentoo"]
+colors = ["red", "blue"]
+for species_name, color in zip(species_order, colors):
+    species_mask = target == species_name
+    plt.scatter(
+        features.loc[species_mask, "bill_depth_mm"],
+        features.loc[species_mask, "body_mass_g"],
+        label=species_name,
+        color=color,
+        alpha=0.8,
+        edgecolor="k",
+        s=60,
+    )
+
+# Plot support vectors
+support_vectors = scaler.inverse_transform(svm.support_vectors_)
+plt.scatter(
+    support_vectors[:, 0],
+    support_vectors[:, 1],
+    facecolors="green",
+    s=60,
+    alpha=0.4,
+    linewidths=1.5,
+    label="Support vectors",
+)
+
+# Plot optimal hyperplane
+w = svm.coef_[0]
+b = svm.intercept_[0]
+w_orig = w / scaler.scale_
+b_orig = b - (w * scaler.mean_ / scaler.scale_).sum()
+
+x_vals = np.linspace(features["bill_depth_mm"].min(), features["bill_depth_mm"].max(), 100)
+y_vals = -(w_orig[0] * x_vals + b_orig) / w_orig[1]
+plt.plot(x_vals, y_vals, color="black", linestyle="--", linewidth=2, label="Optimal hyperplane")
+
+# Plot the margins
+y_vals_pos = -(w_orig[0] * x_vals + (b_orig - 1)) / w_orig[1]
+plt.plot(x_vals, y_vals_pos, color="gray", linestyle="--", linewidth=1, label="Margins")
+
+y_vals_neg = -(w_orig[0] * x_vals + (b_orig + 1)) / w_orig[1]
+plt.plot(x_vals, y_vals_neg, color="gray", linestyle="--", linewidth=1)
+
+plt.xlabel("Bill depth (mm)")
+plt.ylabel("Body mass (g)")
+plt.title("SVM classification of penguin species")
+plt.legend()
+
+plt.show()
+```
+
+#### Margins 
+
+Extending perpendicularly out from the hyperplane are its margins. They extend out until they hit a point.
+
+#### Support Vectors
+
+Support vectors are the data points that lie on the margins of the hyperplane. These points heavily influence the resulting optimal hyperplane.
+
+```{python}
+#| echo: false
+
+# 3D SVM plot
+features3D = df[["bill_depth_mm", "body_mass_g", "flipper_length_mm"]].copy()
+
+# Filter to Adelie and Gentoo only
+species_filter = df["species"].isin(["Adelie", "Gentoo"])
+features3D = features3D.loc[species_filter].reset_index(drop=True)
+target3D = df.loc[species_filter, "species"].reset_index(drop=True)
+
+# Drop missing values in the chosen columns
+mask = features3D.notna().all(axis=1) & target3D.notna()
+features3D = features3D.loc[mask]
+target3D = target3D.loc[mask]
+
+# Scale and train SVM for 3D
+scaler3D = StandardScaler()
+X_scaled_3D = scaler3D.fit_transform(features3D)
+svm3D = SVC(kernel="linear", C=1e10, random_state=37)
+svm3D.fit(X_scaled_3D, target3D)
+
+# Get coefficients for plotting
+w = svm3D.coef_[0]
+b = svm3D.intercept_[0]
+w_orig = w / scaler3D.scale_
+b_orig = b - (w * scaler3D.mean_ / scaler3D.scale_).sum()
+
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+# Plot the points
+species_order = ["Adelie", "Gentoo"]
+colors = ["red", "blue"]
+for species_name, color in zip(species_order, colors):
+    species_mask = target3D == species_name
+    ax.scatter(
+        features3D.loc[species_mask, "bill_depth_mm"],
+        features3D.loc[species_mask, "body_mass_g"],
+        features3D.loc[species_mask, "flipper_length_mm"],
+        label=species_name,
+        color=color,
+        alpha=0.8,
+        s=60,
+    )
+
+# Plot hyperplane as a surface
+xx, yy = np.meshgrid(
+    np.linspace(features3D["bill_depth_mm"].min(), features3D["bill_depth_mm"].max(), 20),
+    np.linspace(features3D["body_mass_g"].min(), features3D["body_mass_g"].max(), 20)
+)
+zz = -(w_orig[0] * xx + w_orig[1] * yy + b_orig) / w_orig[2]
+ax.plot_surface(xx, yy, zz, alpha=0.5, color='gray', label='Hyperplane')
+
+ax.set_xlabel("Bill depth (mm)")
+ax.set_ylabel("Body mass (g)")
+ax.set_zlabel("Flipper length (mm)")
+ax.set_title("3D SVM classification of penguin species")
+ax.legend()
+
+plt.show()
+```
+
+### How It Works
+
+A hard-margin linear SVM works by finding the hyperplane with the largest possible margins. It does this by starting with a random seed where the hyperplane is in a random location and orientation. Next, this position is evaluated, and a SVM algorithm iteratively adjusts the hyperplane until it separates the two classifed groups. Then, it maximizes the width of its margins, at which point it becomes an **optimal margin classifier**.
+
+### Python Implementation
+
+#### Importing the Dataset
+
+For demonstration, I'm using this simple penguin dataset. The dataset contains physical characteristics and basic information on 3 different species of penguins: Gentoo, Adelie, and Chinstrap.
+
+```{python}
+import pandas as pd
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+url = "https://raw.githubusercontent.com/allisonhorst/palmerpenguins/master/inst/extdata/penguins.csv"
+df = pd.read_csv(url)
+
+df.head()
+```
+
+#### Filtering the Data
+
+For the purposes of this demonstration, I will only be using the columns `species`, `bill_depth_mm`, and `body_mass_g`, and only on the species Gentoo and Adelie. We will filter our dataset accordingly.
+
+```{python}
+# Select features and target
+features = df[["bill_depth_mm", "body_mass_g"]].copy()
+target = df["species"].copy()
+
+# Filter to Adelie and Gentoo only
+species_filter = target.isin(["Adelie", "Gentoo"])
+features = features.loc[species_filter].copy()
+target = target.loc[species_filter].copy()
+
+# Drop missing values
+mask = features.notna().all(axis=1) & target.notna()
+features = features.loc[mask]
+target = target.loc[mask]
+```
+
+#### Fitting the Model
+
+Now, we can fit the SVM model to the data and output some basic facts about the support vectors of this model.
+
+```{python}
+import numpy as np
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+import matplotlib.pyplot as plt
+
+# Scale the features
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(features)
+
+# Train a linear SVM classifier
+svm = SVC(kernel="linear", C=1e10, random_state=37)
+svm.fit(X_scaled, target)
+
+# Info on support vectors
+print("Number of support vectors:", len(svm.support_))
+print("Support vector indices:", svm.support_)
+print("Support vector classes:")
+for idx in svm.support_:
+    print(f"Index {idx}: {target.iloc[idx]}")
+```
+
+#### Plotting the Model
+
+```{python}
+# Scatter plot of the data and decision boundaries
+plt.figure(figsize=(8, 6))
+
+# Plot the points
+species_order = ["Adelie", "Gentoo"]
+colors = ["red", "blue"]
+for species_name, color in zip(species_order, colors):
+    species_mask = target == species_name
+    plt.scatter(
+        features.loc[species_mask, "bill_depth_mm"],
+        features.loc[species_mask, "body_mass_g"],
+        label=species_name,
+        color=color,
+        alpha=0.8,
+        edgecolor="k",
+        s=60,
+    )
+
+# Plot support vectors
+support_vectors = scaler.inverse_transform(svm.support_vectors_)
+plt.scatter(
+    support_vectors[:, 0],
+    support_vectors[:, 1],
+    facecolors="green",
+    s=60,
+    alpha=0.4,
+    linewidths=1.5,
+    label="Support vectors",
+)
+
+# Plot optimal hyperplane
+w = svm.coef_[0]
+b = svm.intercept_[0]
+w_orig = w / scaler.scale_
+b_orig = b - (w * scaler.mean_ / scaler.scale_).sum()
+
+x_vals = np.linspace(features["bill_depth_mm"].min(), features["bill_depth_mm"].max(), 100)
+y_vals = -(w_orig[0] * x_vals + b_orig) / w_orig[1]
+plt.plot(x_vals, y_vals, color="black", linestyle="--", linewidth=2, label="Optimal hyperplane")
+
+# Plot the margins
+y_vals_pos = -(w_orig[0] * x_vals + (b_orig - 1)) / w_orig[1]
+plt.plot(x_vals, y_vals_pos, color="gray", linestyle="--", linewidth=1, label="Margins")
+
+y_vals_neg = -(w_orig[0] * x_vals + (b_orig + 1)) / w_orig[1]
+plt.plot(x_vals, y_vals_neg, color="gray", linestyle="--", linewidth=1)
+
+plt.xlabel("Bill depth (mm)")
+plt.ylabel("Body mass (g)")
+plt.title("SVM classification of penguin species")
+plt.legend()
+
+plt.show()
+```
+
+### How This is Useful
+
+Now that we have this SVM model, any new data that we get on penguins of an unknown species can be used to guess the penguin's species (given that it is one of the two we have a model for). For example, if we found a penguin that weighed 3500 grams that had a bill depth of 18 millimeters, we could pretty confidently guess that the penguin is an Adelie penguin. 
+
+In the case of something like image classification, a group of images could be separated into `Contains ___` and `Does not Contain ___`.
+
+### Real World Data and Remedies
+
+This dataset is rather convinient for the application of an SVM. However, real world examples are can and will be more complicated. In such cases, remedies to SVM can be implemented. 
+
++ **Soft Margins** - Often, groups will not be linearly seperable. In cases like this, soft margins allow points to be on either side of the hyperplane, and simply find the hyperplane with the highest accuracy of classification. 
++ **Non-linear SVMs** - Sometimes, groups cannot be split by a simple plane. Instead, a geometric figure can be used to contain / exclude groups.
++ **Non-binary SVMs** - When dealing with more than two classification groups, multiple SVMs can be used to separate each group from each other group.
+
+#### Advantages
+
++ Works just as well with many features / dimensions
++ Works well even with smaller datasets
++ New data can be classified quickly and easily
+
+#### Limitations
+
++ There is often not possible to get a clean separating hyperplane, which leads to less accuracy.
++ Can sometimes struggle with non-binary classification problems.
+
+### Further Readings
+
++ [A training algorithm for optimal margin classifiers](https://dl.acm.org/doi/pdf/10.1145/130385.130401)
++ [Lectures on Machine Learning: Support Vector Machines](https://jeremy9959.net/Mathematics-for-Machine-Learning/chapters/06-svm.html)
+
