@@ -1,7 +1,7 @@
+## Lasso Regression
+
 This presentation was prepared by Emily Bennett.
 
-
-### Introduction
 **What is LASSO?**
 
 LASSO stands for Least Absolute Shrinkage and Selection Operator. LASSO is a regression technique used in statistics and machine learning.
@@ -43,7 +43,7 @@ LASSO helps us find these unhelpful variables by shrinking less important coeffi
 
 Using our real world example of bike rentals, I might think the gender of the customer is important to estimating the bike rentals, but using LASSO could show me gender doesn't matter. LASSO could shrink gender's coefficient or set it to zero if it wasn't useful to the model.
 
-#### How LASSO works
+### How LASSO works
 
 LASSO will penalize these unhelpful variables by either:
 
