@@ -422,7 +422,7 @@ window.Quarto = {
 <li>Choose one tool (e.g., VS Code, Jupyter, Positron, Emacs) and follow the Quarto documentation to reproduce the example plot.</li>
 <li>Minimum requirement: include the plot in your <code>hw.qmd</code> using a Python code cell that produces a polar line plot with Matplotlib. For example:</li>
 </ul>
-<div id="19199529" class="cell" data-execution_count="1">
+<div id="aa1e8dcc" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -535,7 +535,7 @@ a_1
 <hr>
 <p><strong>Example code: 2×2 matrices + operations</strong></p>
 <p>Here are some functions of matrices that could be useful to you. You may direct use these defined functions in implementing <code>seq_log(n, c1, c2)</code>.</p>
-<div id="76246fc5" class="cell" data-execution_count="2">
+<div id="4a9ff667" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A 2x2 matrix is represented as:</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># [[a, b],</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#  [c, d]]</span></span>
@@ -599,7 +599,7 @@ a_1
 <p>You are asked to use the provided code to run the analysis and answer the questions at the end. The code simulates a dataset with a strong signal for group A and a relatively weaker signal + higher noise for group B, and then runs three different model strategies, namely, 1) a pooled model, 2) two separate models, and 3) a partial pooling model.</p>
 <section id="creates-data-different-model-strategies" class="level3" data-number="15.3.1">
 <h3 data-number="15.3.1" class="anchored" data-anchor-id="creates-data-different-model-strategies"><span class="header-section-number">15.3.1</span> Creates data + different model strategies</h3>
-<div id="fd347827" class="cell" data-execution_count="3">
+<div id="79a754c9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -658,7 +658,7 @@ B    0.458
 Name: y, dtype: float64</code></pre>
 </div>
 </div>
-<div id="b7d4fa2e" class="cell" data-execution_count="4">
+<div id="83310bf0" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split within each group so both groups appear in train/test</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train_parts, test_parts <span class="op">=</span> [], []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> g, sub <span class="kw">in</span> df.groupby(<span class="st">"group"</span>):</span>
@@ -702,7 +702,7 @@ Name: y, dtype: float64</code></pre>
 <span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="8b1d1687" class="cell" data-execution_count="5">
+<div id="3b6aec7f" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) POOLED model</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -719,7 +719,7 @@ Name: y, dtype: float64</code></pre>
 1     B      36  0.361  0.310  0.474  0.824</code></pre>
 </div>
 </div>
-<div id="4f0e7c5e" class="cell" data-execution_count="6">
+<div id="85045629" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) SEPARATE models</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -743,7 +743,7 @@ Name: y, dtype: float64</code></pre>
 1     B      36  0.556  0.563  0.421  0.471</code></pre>
 </div>
 </div>
-<div id="0badaed5" class="cell" data-execution_count="7">
+<div id="252a8043" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) "Partial pooling"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># -----------------------------</span></span>
@@ -801,7 +801,7 @@ Name: y, dtype: float64</code></pre>
 <li>when many districts are tested at once, multiple-testing adjustment matters.</li>
 </ul>
 <p>You may use the starter code below and extend it as needed.</p>
-<div id="6d1a2fb5" class="cell" data-execution_count="8">
+<div id="da439a09" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Show starter code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -892,7 +892,7 @@ Name: y, dtype: float64</code></pre>
 </ul>
 <p>Then answer briefly: what pattern do you see, and why should this make us cautious about ranking districts only by raw observed rate?</p></li>
 </ol>
-<div id="66ace9de" class="cell" data-execution_count="9">
+<div id="f15543f3" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Show code for Question 1</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df1 <span class="op">=</span> simulate_districts(seed<span class="op">=</span><span class="dv">3255</span>)</span>
@@ -911,7 +911,7 @@ Name: y, dtype: float64</code></pre>
 </ul>
 <p>Summarize your results in a small table and one plot. Then explain what this says about instability in rare-event settings.</p></li>
 </ol>
-<div id="dab04b82" class="cell" data-execution_count="10">
+<div id="b50340ba" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show code for Question 2</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
@@ -942,7 +942,7 @@ Name: y, dtype: float64</code></pre>
 </ul>
 <p>In this simulation, all districts truly have the same rate. Explain why raw p-values can still produce “discoveries.”</p></li>
 </ol>
-<div id="f603145d" class="cell" data-execution_count="11">
+<div id="b26e059b" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Show code for Question 3</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>tested <span class="op">=</span> add_poisson_tests(df1, rate0<span class="op">=</span><span class="dv">15</span> <span class="op">/</span> <span class="dv">10000</span>, alpha<span class="op">=</span><span class="fl">0.05</span>)</span>
@@ -1074,7 +1074,7 @@ Name: y, dtype: float64</code></pre>
 <h3 data-number="15.4.2" class="anchored" data-anchor-id="part-2.-simpsons-paradox-case-study"><span class="header-section-number">15.4.2</span> Part 2. Simpson’s paradox case study</h3>
 <p>Answer the following questions based on <a href="./02-case-study/02_case_study_simpsons_paradox.html">02-case-study/02_case_study_simpsons_paradox.qmd</a>.</p>
 <p>You may use the starter code below and extend it as needed.</p>
-<div id="d7223fe1" class="cell" data-execution_count="12">
+<div id="9481cce5" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show starter code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -1163,7 +1163,7 @@ Name: y, dtype: float64</code></pre>
 </ul>
 <p>Present your results in one clean table.</p></li>
 </ol>
-<div id="12f0621f" class="cell" data-execution_count="13">
+<div id="9b67e08c" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Show code for Question 1</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: compute overall success rates, compute within-difficulty success rates, and show the paradox in a clean table.</span></span>
@@ -1180,7 +1180,7 @@ Name: y, dtype: float64</code></pre>
 </ul>
 <p>Then write 3–5 sentences explaining what a careless analyst might conclude from the overall plot alone.</p></li>
 </ol>
-<div id="2647a56c" class="cell" data-execution_count="14">
+<div id="8e120a65" class="cell" data-execution_count="14">
 <details class="code-fold">
 <summary>Show code for Question 2</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span><span class="co">: create one plot for within-difficulty comparison and one plot for overall comparison, and explain the potential misinterpretation from the overall plot alone.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
