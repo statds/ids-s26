@@ -5,11 +5,11 @@ This presentation was prepared by Violet LaCasse.
 
 This presentation will:
 
-* Define Gradient Boosting (and boosting)
+* Define Gradient Boosting (and boosting).
 
-* Provide examples of Gradient Boosting in regression and Gradient Boosting in classification
+* Provide examples of Gradient Boosting in regression and Gradient Boosting in classification.
 
-* Discuss the advantages and disadvantages of Gradient Boosting
+* Discuss the advantages and disadvantages of Gradient Boosting.
 
 
 ## What is Boosting?
