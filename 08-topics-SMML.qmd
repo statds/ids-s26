@@ -28,5 +28,9 @@
 
 {{< include _gradient_boosting.qmd >}}
 
+## Principal Component Analysis
+
+{{< include _PCA.qmd >}}
+
 ## Neural Networks in Sports Analytics
 
