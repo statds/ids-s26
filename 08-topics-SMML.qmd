@@ -32,6 +32,10 @@
 
 {{< include _support_vector_machine.qmd >}}
 
+## Multidimensional Scaling
+
+{{< include _MDS.qmd >}}
+
 ## Principal Component Analysis
 
 {{< include _PCA.qmd >}}
