@@ -2,7 +2,6 @@
 
 This section was prepared by Scott McCabe.
 
----
 ### Why False Discovery Rate Matters
 **Why Do We Need FDR Control?**
 
@@ -13,7 +12,7 @@ This section was prepared by Scott McCabe.
     - Social science: multiple survey questions
 
 
----
+***
 
 **The Multiple Testing Problem**
 
@@ -27,7 +26,7 @@ $$
 
 - We may incorrectly reject dozens of hypotheses
 
----
+***
 
 **False Positives Visualization**
 - The histogram below shows 1000 p-values generated under the null hypothesis (uniformly distributed between 0 and 1). Even though all nulls are true, we expect about 5% of them (around 50) to be below the 0.05 threshold, leading to false discoveries if we use the standard cutoff without adjustment.
@@ -64,7 +63,7 @@ $$
 R = V + S
 $$
 
----
+***
 
 ### False Discovery Proportion (FDP)
 
@@ -80,7 +79,7 @@ $$
   - FDP = 0 → all discoveries are correct
   - FDP = 0.2 → 20% of discoveries are false
 
----
+***
 
 ### False Discovery Rate (FDR)
 
@@ -96,7 +95,7 @@ $$
   - If FDR = 0.05
   - Then on average, 5% of discoveries are false
 
----
+***
 
 **Why Expectation?**
 
@@ -107,7 +106,7 @@ $$
 
 This makes FDR practical for real-world data science
 
----
+***
 
 **Example**
 
@@ -122,7 +121,7 @@ $$
 - Over many experiments:
   - The average FDP is roughly equal to FDR
 
----
+***
 
 - FDR does NOT eliminate false positives  
 - It **controls their proportion**
@@ -153,7 +152,7 @@ $$
 
 For example, if we have 1000 tests and want to maintain an overall $\alpha$ of 0.05, the Bonferroni threshold would be 0.00005, which is extremely strict and often leads to very few discoveries, even when there are true effects present.
 
----
+***
 
 **Why FWER is Too Conservative**
 
@@ -164,7 +163,7 @@ For example, if we have 1000 tests and want to maintain an overall $\alpha$ of 0
 - Very hard to detect real effects
 - While it minimizes false positives, it also leads to many false negatives (missed discoveries)
 
----
+***
 
 ### Modern Approach: False Discovery Rate (FDR)
 
@@ -178,7 +177,7 @@ $$
   - Allow some false positives  
   - But limit their proportion among discoveries
 
----
+***
 
 ### The Benjamini–Hochberg (BH) Procedure
 
@@ -198,7 +197,7 @@ $$
   - This allows more discoveries while still controlling the overall error rate.
 
 
----
+***
 
 **Mindset: FWER vs FDR**
 
@@ -208,7 +207,7 @@ $$
 - **FDR mindset:**
   “I can tolerate some false positives, as long as most discoveries are correct.”
 
----
+***
 
 **Visual Comparison**
 
@@ -237,7 +236,7 @@ This figure illustrates how the Benjamini–Hochberg (BH) procedure works step b
    - All p-values to the left of this cutoff are rejected  
    - These are considered statistically significant discoveries  
 
----
+***
 
 **Interpretation**
 
@@ -314,7 +313,7 @@ We compare three methods:
 - **BH (Benjamini–Hochberg)** – standard FDR method
 - **BY (Benjamini–Yekutieli)** – FDR under dependence
 
----
+***
 
 ### 1. FWER (Bonferroni)
 
@@ -335,7 +334,7 @@ $$
   - Extremely conservative
   - Low power (misses real signals)
 
----
+***
 
 ### 2. BH (Benjamini–Hochberg)
 
@@ -358,7 +357,7 @@ $$
 - Cons:
   - Assumes independence (or weak dependence)
 
----
+***
 
 ### 3. BY (Benjamini–Yekutieli)
 
@@ -376,7 +375,7 @@ $$
   - More conservative than BH
   - Can reduce power significantly
 
----
+***
 
 ### Visual Comparison
 
@@ -428,7 +427,7 @@ plt.show()
   - False Discovery Rate (FDR)
   - Power (true positives)
 
----
+***
 
 ### Simulation Setup
 
@@ -443,7 +442,7 @@ plt.show()
   - BH
   - BY
 
----
+***
 
 Data generation and method application are repeated across multiple simulations to assess average performance.
 

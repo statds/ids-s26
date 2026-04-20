@@ -17,9 +17,7 @@ Adjacent pixels almost always activate together because they belong to
 the same stroke. That redundancy compounds as datasets grow into
 thousands of features. This is the dimensionality problem. PCA is one
 of the most widely used techniques to address it.
-
----
-
+***
 ### What PCA Is and What It Is Not
 
 #### A Transformation, Not a Model
@@ -123,9 +121,7 @@ present in the entire image. Instead of asking what one pixel is doing,
 PCA asks what the whole image looks like along the most important
 direction of variation. That is why a handful of components can stand in
 for hundreds of individual pixels.
-
----
-
+***
 ### Standardization: The Step You Cannot Skip
 
 PCA finds directions of maximum variance, so it is directly affected by
@@ -147,9 +143,7 @@ distinguish one digit from another.
 Skipping standardization is the most common mistake when applying PCA.
 The algorithm still runs and produces output, but the output reflects
 the wrong sources of variation. Fit the scaler on training data only.
-
----
-
+***
 ### The Math Under the Hood
 
 #### Covariance, Eigenvectors, Projection
@@ -190,9 +184,7 @@ that table open to find the actual directions all that co-movement is
 pointing. The eigenvalues are scores telling you how important each
 direction is. You keep the top ones, drop the rest, and projection is
 just rotating your data into that new smaller coordinate system.
-
----
-
+***
 ### Seeing It in Action
 
 KNN classification on MNIST, run twice. Same model, same data,
@@ -309,9 +301,7 @@ plt.show()
 784 features down to 278 components. Accuracy holds and actually
 improves slightly. Prediction time drops by more than half. That is
 the core argument for PCA.
-
----
-
+***
 ### How Many Components to Keep
 
 ```{python}
@@ -368,9 +358,7 @@ The curve rises steeply then flattens. A small number of components
 does the heavy lifting. Everything after that is diminishing returns.
 This shape is what makes PCA practical, and the chart makes the
 compression tradeoff explicit rather than hiding it.
-
----
-
+***
 ### Visualizing 784 Dimensions in 2D
 
 One of the most compelling things PCA enables is projecting data that
@@ -415,9 +403,7 @@ stroke is geometrically nothing like a loop or a curve. The 0s, 2s, and
 3s cluster in their own regions. PCA found that separation purely from
 the variance in pixel intensities, with no knowledge of what any image
 actually was. That is the latent structure made visible.
-
----
-
+***
 ### Image Reconstruction: What Information Loss Actually Looks Like
 
 The clearest way to understand what PCA discards is to compress an image
@@ -510,9 +496,7 @@ coming through at just 10 to 30 components, and is clearly recognizable
 by 100. At 784 there is no loss at all. The more complex the shape, the
 more components it takes to reconstruct it faithfully, but the
 compression still works.
-
----
-
+***
 ### What PCA Actually Found: Eigendigits
 
 Because MNIST features are pixels, each principal component can be
@@ -553,9 +537,7 @@ finer distinctions: the specific curves that separate a 3 from an 8, or
 the gap that distinguishes a 7 from a 1. The model never sees individual
 pixels. It sees scores along these directions, which turns out to
 be enough.
-
----
-
+***
 ### The Full Pipeline
 
 ```{python}
@@ -602,9 +584,7 @@ print(f"Test accuracy:   {acc:.3f}")
 components explain 95 percent of variance. The test set is always
 transformed using already-fitted objects. Never re-fit the scaler or
 PCA on test data.
-
----
-
+***
 ### Real-World Applications
 
 PCA shows up wherever the dimensionality problem lives. In **finance**,
@@ -623,9 +603,7 @@ similarity between documents.
 The common thread: too many correlated variables, a need to surface the
 underlying structure, and a requirement that the result be usable
 downstream.
-
----
-
+***
 ### When Not to Use It
 
 PCA is the wrong choice in two situations. The first is
@@ -652,9 +630,7 @@ The general rule: if your data is roughly linear and you need a reusable
 pipeline step, use PCA. If you are exploring nonlinear structure or only
 need visualization, use UMAP. If you have the data and compute budget,
 autoencoders.
-
----
-
+***
 ### Key Takeaways
 
 **PCA is a preprocessing step, not a model.** Evaluate it by whether
@@ -675,9 +651,7 @@ features down to 278 at 95 percent variance retained. The cumulative
 variance curve makes that tradeoff explicit.
 
 **Avoid it when interpretability matters or relationships are nonlinear.**
-
----
-
+***
 ### Further Readings
 
 - Shlens, J. (2014). *A Tutorial on Principal Component Analysis*.
