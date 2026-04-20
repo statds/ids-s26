@@ -1,23 +1,9 @@
+]633;E;git push;4e4a6e1b-495d-4f5b-b667-6fd373729108]633;C## False Discovery Rate Control
+
+This section was prepared by Scott McCabe.
+
 ---
-title: "False Discovery Rate Control"
-author: "Scott McCabe"
-toc: true
-number-sections: true
-highlight-style: pygments
-format:
-  html: 
-    code-fold: true
-    html-math-method: katex
-    embed-resources: true
-    self-contained-math: true	
-  pdf: 
-    geometry: 
-      - top=30mm
-      - left=20mm
-execute:
-    warning: false
----
-## Why False Discovery Rate Matters
+### Why False Discovery Rate Matters
 **Why Do We Need FDR Control?**
 
 - In modern data science, we often test hundreds or thousands of hypotheses
@@ -62,7 +48,7 @@ plt.ylabel("Frequency")
 plt.show()
 ```
 
-## Definitions
+### Definitions
 
 **Measuring Errors in Multiple Testing**
 
@@ -143,7 +129,7 @@ $$
 
 > “Among all discoveries, most should be correct.”
 
-## Classical Approach vs. Modern Methods
+### Classical Approach vs. Modern Methods
 
 ### Classical Error Control: FWER
 
@@ -320,7 +306,7 @@ plt.legend()
 plt.show()
 ```
 
-## The 3 Methods
+### The 3 Methods
 
 We compare three methods:
 
@@ -432,7 +418,7 @@ plt.legend()
 plt.show()
 ```
 
-## Simulation
+### Simulation
 
 ### Simulation: Comparing Methods
 
@@ -592,7 +578,7 @@ print("BY has lower power than BH due to its conservativeness under dependence."
 print("Bonferroni has the lowest power, missing many true discoveries.")
 ```
 
-## Key Takeaways
+### Key Takeaways
 
 1. **Multiple testing is tricky**
    - Testing many hypotheses increases the chance of false positives.
@@ -619,7 +605,7 @@ print("Bonferroni has the lowest power, missing many true discoveries.")
    - No single “best” method — choose based on signal strength, test dependence, and desired strictness
    - FDR control methods like BH are often a good starting point for large-scale testing in data science.
 
-## References
+### References
 
 Efron, B. (2010). False discovery rate control. In Large‑scale inference: Empirical bayes methods
   for estimation, testing, and prediction (pp. 46–69). Cambridge University Press. https:

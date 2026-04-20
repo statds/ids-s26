@@ -40,5 +40,9 @@
 
 {{< include _PCA.qmd >}}
 
+## False Discovery Rate Control
+
+{{< include _fdr_control.qmd >}}
+
 ## Neural Networks in Sports Analytics
 
