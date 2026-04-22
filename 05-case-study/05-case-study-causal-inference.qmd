@@ -1,0 +1,919 @@
+# Case study: Cause or Coincidence — An Introduction to Causal Inference
+
+## Background
+
+Suppose you discover that cities with more ice-cream trucks also have
+higher crime rates.  Should the mayor ban ice-cream trucks?
+
+The answer is obviously *no*.  Both ice-cream sales and crime go up in
+summer because of *heat*, a common cause of both.  Confusing
+*correlation* with *causation* is one of the most consequential
+mistakes in data science.
+
+This case study introduces the essential ideas of *causal inference*
+through *causal diagrams* (Directed Acyclic Graphs, or DAGs),
+simulations, and real-world examples.  The goal is to build a
+practical toolkit for deciding *when* a statistical association
+reflects a genuine causal effect and *when* it does not.
+
+## Learning goals
+
+By the end of this case study, you should be able to:
+
+- draw and read a causal DAG;
+- identify confounders, colliders, and mediators in a DAG;
+- explain why conditioning on a confounder removes bias and
+  conditioning on a collider *creates* bias;
+- apply the backdoor criterion to decide which variables to adjust for;
+- use simulation to demonstrate each concept;
+- recognize these pitfalls in realistic data-science scenarios.
+
+
+## Load packages
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show packages"
+#| warning: false
+#| message: false
+
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import statsmodels.formula.api as smf
+```
+
+
+## What is a causal DAG?
+
+A *Directed Acyclic Graph (DAG)* is a picture of your causal
+assumptions.  Every node is a variable; every arrow means
+"directly causes (or directly influences)."  The word *acyclic*
+means no variable can cause itself through any chain of arrows.
+
+Below is the ice-cream / crime example as a DAG.  Heat causes both
+ice-cream sales and crime, but ice-cream sales do *not* cause crime.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Draw the DAG"
+
+def draw_dag(nodes, edges, title="", width=600, height=350):
+    """
+    Draw a DAG with Plotly.
+    
+    Parameters
+    ----------
+    nodes : dict  – {name: (x, y)}
+    edges : list of (source, target) tuples
+    title : str
+    """
+    fig = go.Figure()
+
+    # Draw edges as annotations with arrows
+    for src, tgt in edges:
+        x0, y0 = nodes[src]
+        x1, y1 = nodes[tgt]
+        fig.add_annotation(
+            ax=x0, ay=y0, x=x1, y=y1,
+            xref="x", yref="y", axref="x", ayref="y",
+            showarrow=True,
+            arrowhead=3, arrowsize=1.5, arrowwidth=2,
+            arrowcolor="#555",
+        )
+
+    # Draw nodes
+    xs = [pos[0] for pos in nodes.values()]
+    ys = [pos[1] for pos in nodes.values()]
+    labels = list(nodes.keys())
+    fig.add_trace(go.Scatter(
+        x=xs, y=ys, mode="markers+text", text=labels,
+        textposition="top center",
+        marker=dict(size=30, color="steelblue", line=dict(width=2, color="white")),
+        textfont=dict(size=14), showlegend=False,
+    ))
+
+    fig.update_layout(
+        title=title,
+        xaxis=dict(visible=False), yaxis=dict(visible=False),
+        width=width, height=height, margin=dict(l=20, r=20, t=50, b=20),
+        plot_bgcolor="white",
+    )
+    return fig
+
+nodes_ice = {
+    "Heat": (1, 2),
+    "Ice-cream\nsales": (0, 1),
+    "Crime": (2, 1),
+}
+edges_ice = [("Heat", "Ice-cream\nsales"), ("Heat", "Crime")]
+draw_dag(nodes_ice, edges_ice,
+         title="Ice-cream and crime: a classic confounding example").show()
+```
+
+Reading this DAG:
+
+- There is *no arrow* from Ice-cream sales to Crime, so ice-cream
+  does not cause crime.
+- *Heat* is a *common cause* of both.  Any correlation between
+  ice-cream and crime is entirely due to heat.
+
+
+## The three elemental structures
+
+Every causal DAG, no matter how complex, is built from just three
+elementary motifs.  Understanding them is sufficient to reason about
+most practical problems.
+
+
+### 1. The Fork (Confounder)
+
+A *confounder* is a common cause of both the treatment and the
+outcome.  If you ignore it, you see a spurious association.
+
+$$
+X \leftarrow Z \rightarrow Y
+$$
+
+Here $Z$ is the confounder.  The path $X \leftarrow Z \rightarrow Y$
+is called a *backdoor path* because it creates a non-causal
+association between $X$ and $Y$.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Fork DAG"
+nodes_fork = {"Z\n(Confounder)": (1, 2), "X\n(Treatment)": (0, 1), "Y\n(Outcome)": (2, 1)}
+edges_fork = [("Z\n(Confounder)", "X\n(Treatment)"), ("Z\n(Confounder)", "Y\n(Outcome)")]
+draw_dag(nodes_fork, edges_fork, title="Fork: Z confounds X → Y").show()
+```
+
+*Key rule:* To remove confounding bias, *condition on* (i.e.,
+adjust for) the confounder $Z$.
+
+
+#### Simulation: confounding makes a harmless treatment look effective
+
+Suppose a drug has *zero* actual effect on blood pressure, but
+sicker patients (higher baseline severity) are more likely to receive
+the drug, and sicker patients also have higher blood pressure
+readings.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate confounding"
+
+rng = np.random.default_rng(3255)
+n = 2000
+
+# Z = severity (confounder)
+severity = rng.normal(50, 10, n)
+
+# X = treatment (more likely if severity is high)
+prob_treat = 1 / (1 + np.exp(-(severity - 50) / 5))
+treatment = rng.binomial(1, prob_treat)
+
+# Y = blood pressure; treatment has ZERO causal effect
+bp = 120 + 0.6 * severity + 0 * treatment + rng.normal(0, 5, n)
+
+df_confound = pd.DataFrame({
+    "severity": severity,
+    "treatment": treatment,
+    "bp": bp,
+})
+df_confound["treatment_label"] = df_confound["treatment"].map(
+    {0: "Control", 1: "Treated"})
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Naïve comparison"
+naive = df_confound.groupby("treatment_label")["bp"].mean().reset_index()
+naive.columns = ["Group", "Mean BP"]
+print("=== Naïve comparison (ignoring severity) ===")
+print(naive.to_string(index=False))
+```
+
+The treated group appears to have *higher* blood pressure — a
+misleading result, because sicker patients were selected into
+treatment.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Adjusted analysis"
+model_naive = smf.ols("bp ~ treatment", data=df_confound).fit()
+model_adj   = smf.ols("bp ~ treatment + severity", data=df_confound).fit()
+
+comparison = pd.DataFrame({
+    "Model": ["Naïve (no adjustment)", "Adjusted for severity"],
+    "Treatment coefficient": [
+        round(model_naive.params["treatment"], 3),
+        round(model_adj.params["treatment"], 3),
+    ],
+    "p-value": [
+        round(model_naive.pvalues["treatment"], 4),
+        round(model_adj.pvalues["treatment"], 4),
+    ],
+})
+print(comparison.to_string(index=False))
+```
+
+After adjusting for severity, the treatment coefficient shrinks
+toward zero — correctly reflecting the true causal effect.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualize confounding"
+fig = px.scatter(
+    df_confound, x="severity", y="bp",
+    color="treatment_label",
+    opacity=0.4,
+    title="Confounding: treated patients are sicker, not harmed by treatment",
+    labels={"severity": "Baseline severity", "bp": "Blood pressure"},
+)
+fig.show()
+```
+
+
+### 2. The Chain (Mediator)
+
+A *mediator* lies on the causal path from treatment to outcome.
+
+$$
+X \rightarrow M \rightarrow Y
+$$
+
+```{python}
+#| code-fold: true
+#| code-summary: "Chain DAG"
+nodes_chain = {"X\n(Treatment)": (0, 1), "M\n(Mediator)": (1, 1), "Y\n(Outcome)": (2, 1)}
+edges_chain = [("X\n(Treatment)", "M\n(Mediator)"), ("M\n(Mediator)", "Y\n(Outcome)")]
+draw_dag(nodes_chain, edges_chain, title="Chain: M mediates the effect of X on Y").show()
+```
+
+*Key rule:* Do *not* condition on a mediator if you want the
+*total* effect of $X$ on $Y$.  Conditioning on $M$ blocks the
+causal pathway and gives you only the *direct* effect (which may be
+zero even when the total effect is large).
+
+
+#### Simulation: adjusting for the mediator hides the treatment effect
+
+Imagine an exercise program ($X$) that lowers blood pressure ($Y$)
+*entirely* by reducing weight ($M$).  If you adjust for weight, you
+block the only causal channel and the effect disappears.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate mediator"
+
+exercise = rng.binomial(1, 0.5, n)  # random assignment
+
+# M = weight loss (mediator): exercise causes weight loss
+weight_loss = 5 * exercise + rng.normal(0, 2, n)
+
+# Y = blood pressure: only affected through weight loss
+bp_med = 130 - 1.5 * weight_loss + rng.normal(0, 4, n)
+
+df_mediator = pd.DataFrame({
+    "exercise": exercise,
+    "weight_loss": weight_loss,
+    "bp": bp_med,
+})
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Total vs direct effect"
+model_total  = smf.ols("bp ~ exercise", data=df_mediator).fit()
+model_direct = smf.ols("bp ~ exercise + weight_loss", data=df_mediator).fit()
+
+med_comparison = pd.DataFrame({
+    "Model": ["Total effect (correct)", "Adjust for mediator (blocks the path)"],
+    "Exercise coefficient": [
+        round(model_total.params["exercise"], 3),
+        round(model_direct.params["exercise"], 3),
+    ],
+    "p-value": [
+        round(model_total.pvalues["exercise"], 4),
+        round(model_direct.pvalues["exercise"], 4),
+    ],
+})
+print(med_comparison.to_string(index=False))
+```
+
+The total-effect model correctly detects the benefit of exercise.
+Once we condition on the mediator (weight loss), the coefficient
+drops toward zero — not because exercise is ineffective, but because
+we *blocked the mechanism*.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualize the mediation chain"
+df_mediator["exercise_label"] = df_mediator["exercise"].map(
+    {0: "No exercise", 1: "Exercise"})
+
+fig = make_subplots(rows=1, cols=2,
+                    subplot_titles=("Exercise → Weight loss",
+                                    "Weight loss → Blood pressure"))
+
+for label, color in [("No exercise", "#636EFA"), ("Exercise", "#EF553B")]:
+    sub = df_mediator[df_mediator["exercise_label"] == label]
+    fig.add_trace(go.Scatter(
+        x=sub["exercise"] + rng.uniform(-0.15, 0.15, len(sub)),
+        y=sub["weight_loss"], mode="markers", name=label,
+        marker=dict(opacity=0.3, color=color),
+    ), row=1, col=1)
+
+fig.add_trace(go.Scatter(
+    x=df_mediator["weight_loss"], y=df_mediator["bp"],
+    mode="markers", name="All subjects",
+    marker=dict(opacity=0.3, color="gray"),
+    showlegend=False,
+), row=1, col=2)
+
+fig.update_xaxes(title_text="Exercise (jittered)", row=1, col=1)
+fig.update_yaxes(title_text="Weight loss", row=1, col=1)
+fig.update_xaxes(title_text="Weight loss", row=1, col=2)
+fig.update_yaxes(title_text="Blood pressure", row=1, col=2)
+fig.update_layout(title="The mediation chain: X → M → Y", height=400)
+fig.show()
+```
+
+
+### 3. The Collider
+
+A *collider* is a common *effect* of two variables.
+
+$$
+X \rightarrow C \leftarrow Y
+$$
+
+```{python}
+#| code-fold: true
+#| code-summary: "Collider DAG"
+nodes_coll = {"X": (0, 2), "C\n(Collider)": (1, 1), "Y": (2, 2)}
+edges_coll = [("X", "C\n(Collider)"), ("Y", "C\n(Collider)")]
+draw_dag(nodes_coll, edges_coll, title="Collider: conditioning on C creates a spurious link").show()
+```
+
+*Key rule:* $X$ and $Y$ are independent (no arrow between them).
+But if you *condition on the collider* $C$, you *create* a
+spurious association between $X$ and $Y$.  This is sometimes called
+*collider bias* or *selection bias*.
+
+
+#### The talent–looks example
+
+Imagine that Hollywood selects actors who are *either* very talented
+*or* very attractive (or both).  Among the general population,
+talent and attractiveness are independent.  But among selected actors,
+knowing someone is not very attractive tells you they must be very
+talented — an induced negative correlation.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate collider bias"
+
+talent = rng.normal(0, 1, 5000)
+attractiveness = rng.normal(0, 1, 5000)
+
+# Selection into Hollywood: selected if talent + attractiveness > threshold
+score = talent + attractiveness
+selected = score > np.percentile(score, 75)  # top 25%
+
+df_collider = pd.DataFrame({
+    "talent": talent,
+    "attractiveness": attractiveness,
+    "selected": selected,
+})
+
+corr_all = df_collider["talent"].corr(df_collider["attractiveness"])
+corr_sel = (df_collider.loc[selected, "talent"]
+            .corr(df_collider.loc[selected, "attractiveness"]))
+
+print(f"Correlation in full population:      {corr_all: .3f}")
+print(f"Correlation among selected (actors): {corr_sel: .3f}")
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualize collider bias"
+df_collider["group"] = df_collider["selected"].map(
+    {True: "Selected (actors)", False: "Not selected"})
+
+fig = px.scatter(
+    df_collider, x="talent", y="attractiveness",
+    color="group",
+    opacity=0.3,
+    title="Collider bias: conditioning on selection induces a negative correlation",
+    labels={"talent": "Talent", "attractiveness": "Attractiveness"},
+    category_orders={"group": ["Not selected", "Selected (actors)"]},
+)
+fig.show()
+```
+
+In the scatter plot, the full cloud is roughly round (uncorrelated),
+but the orange points (selected actors) show a clear negative trend.
+*The act of conditioning on the collider manufactured a
+relationship that does not exist in the population.*
+
+
+#### A medical collider: hospitalization
+
+This is a more serious version of the same idea.  Suppose two
+diseases, A and B, are independent in the general population.  Both
+diseases can lead to hospitalization (the collider).  If you study
+only hospitalized patients, disease A and disease B will appear
+negatively correlated — a phenomenon known as *Berkson's paradox*.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate Berkson's paradox"
+
+disease_A = rng.binomial(1, 0.10, 10000)
+disease_B = rng.binomial(1, 0.08, 10000)
+
+# Hospitalization: either disease (plus some random admissions)
+hospitalized = ((disease_A == 1) | (disease_B == 1) |
+                (rng.uniform(0, 1, 10000) < 0.02))
+
+df_berkson = pd.DataFrame({
+    "disease_A": disease_A,
+    "disease_B": disease_B,
+    "hospitalized": hospitalized,
+})
+
+corr_pop  = df_berkson["disease_A"].corr(df_berkson["disease_B"])
+corr_hosp = (df_berkson.loc[df_berkson["hospitalized"], "disease_A"]
+             .corr(df_berkson.loc[df_berkson["hospitalized"], "disease_B"]))
+
+print(f"Correlation in full population:         {corr_pop: .3f}")
+print(f"Correlation among hospitalized patients: {corr_hosp: .3f}")
+```
+
+Among hospitalized patients, the two independent diseases become
+negatively correlated — exactly the collider mechanism.  A study
+restricted to hospital records would incorrectly conclude that having
+disease A is *protective* against disease B.
+
+
+## Summary of the three structures
+
+| Structure | Pattern | Conditioning effect |
+|-----------|---------|-------------------|
+| *Fork* (confounder) | $X \leftarrow Z \rightarrow Y$ | Adjusting for $Z$ *removes* spurious association |
+| *Chain* (mediator) | $X \rightarrow M \rightarrow Y$ | Adjusting for $M$ *blocks* the causal pathway |
+| *Collider* | $X \rightarrow C \leftarrow Y$ | Adjusting for $C$ *creates* spurious association |
+
+The rule of thumb: *block backdoor paths, do not block causal paths,
+and never open collider paths.*
+
+
+## The Backdoor Criterion
+
+The *backdoor criterion* [@pearl2009causality] provides a formal rule
+for choosing which variables to adjust for when estimating the causal
+effect of $X$ on $Y$.
+
+A set of variables $\mathbf{S}$ satisfies the backdoor criterion
+relative to the ordered pair $(X, Y)$ if:
+
+1. No variable in $\mathbf{S}$ is a descendant of $X$.
+2. $\mathbf{S}$ blocks every path between $X$ and $Y$ that contains
+   an arrow *into* $X$.
+
+If these conditions hold, then:
+
+$$
+P(Y \mid \text{do}(X)) = \sum_{\mathbf{s}} P(Y \mid X, \mathbf{S} = \mathbf{s})\, P(\mathbf{S} = \mathbf{s})
+$$
+
+This formula says: the causal effect of $X$ on $Y$ can be computed
+from observational data by adjusting for $\mathbf{S}$.
+
+
+### Example: which variables to adjust for?
+
+Consider the following DAG where we want to estimate
+the causal effect of $X$ on $Y$.
+
+```{python}
+#| code-fold: true
+#| code-summary: "A more complex DAG"
+
+nodes_bd = {
+    "Z₁": (0, 2),
+    "Z₂": (2, 2),
+    "X": (0, 1),
+    "Y": (2, 1),
+    "C": (1, 0),
+}
+edges_bd = [
+    ("Z₁", "X"), ("Z₁", "Z₂"),
+    ("Z₂", "Y"),
+    ("X", "Y"),     # causal effect of interest
+    ("X", "C"),     # C is a collider
+    ("Y", "C"),
+]
+draw_dag(nodes_bd, edges_bd,
+         title="Which variables should we adjust for?",
+         width=650).show()
+```
+
+- *$Z_1$* and *$Z_2$* lie on the backdoor path
+  $X \leftarrow Z_1 \rightarrow Z_2 \rightarrow Y$.  Adjusting for
+  either $Z_1$ or $Z_2$ (or both) blocks this path. ✅
+- *$C$* is a *collider* on the path $X \rightarrow C \leftarrow Y$.
+    This path is already blocked.  If we condition on $C$, we *open*
+  it and introduce bias. ❌
+
+Correct adjustment sets: $\{Z_1\}$, $\{Z_2\}$, or $\{Z_1, Z_2\}$.
+*Do not* include $C$.
+
+
+### Simulation: verifying the backdoor criterion
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate the complex DAG"
+
+TRUE_EFFECT = 3.0  # true causal effect of X on Y
+
+z1 = rng.normal(0, 1, n)
+z2 = 0.8 * z1 + rng.normal(0, 1, n)
+x  = 0.7 * z1 + rng.normal(0, 1, n)
+y  = TRUE_EFFECT * x + 0.6 * z2 + rng.normal(0, 1, n)
+c  = 0.5 * x + 0.5 * y + rng.normal(0, 1, n)    # collider
+
+df_bd = pd.DataFrame({"x": x, "y": y, "z1": z1, "z2": z2, "c": c})
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Compare adjustment strategies"
+
+models = {
+    "No adjustment (biased)":  "y ~ x",
+    "Adjust for Z₁ (correct)": "y ~ x + z1",
+    "Adjust for Z₂ (correct)": "y ~ x + z2",
+    "Adjust for Z₁ + Z₂":     "y ~ x + z1 + z2",
+    "Adjust for C (WRONG!)":   "y ~ x + c",
+    "Adjust for Z₁ + C (WRONG!)": "y ~ x + z1 + c",
+}
+
+rows = []
+for label, formula in models.items():
+    fit = smf.ols(formula, data=df_bd).fit()
+    rows.append({
+        "Model": label,
+        "Estimated effect of X": round(fit.params["x"], 3),
+        "True effect": TRUE_EFFECT,
+        "Bias": round(fit.params["x"] - TRUE_EFFECT, 3),
+    })
+
+results = pd.DataFrame(rows)
+print(results.to_string(index=False))
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Visualize the bias"
+
+fig = px.bar(
+    results, x="Model", y="Estimated effect of X",
+    text="Estimated effect of X",
+    title="Estimated causal effect under different adjustment strategies",
+    color="Model",
+)
+fig.add_hline(y=TRUE_EFFECT, line_dash="dash", line_color="red",
+              annotation_text=f"True effect = {TRUE_EFFECT}")
+fig.update_traces(texttemplate="%{text:.2f}", textposition="outside")
+fig.update_layout(
+    yaxis_title="Estimated causal effect of X on Y",
+    xaxis_title="", showlegend=False, height=500,
+    xaxis_tickangle=-30,
+)
+fig.show()
+```
+
+The results confirm the theory:
+
+- *No adjustment* overestimates the effect (confounding bias from the
+  backdoor path through $Z_1, Z_2$).
+- *Adjusting for $Z_1$ or $Z_2$* (or both) gives estimates close to
+  the true value of $3.0$.
+- *Adjusting for the collider $C$* distorts the estimate, sometimes
+  dramatically — this is collider bias in action.
+
+
+## Extended example: does a college degree cause higher earnings?
+
+This is a classic question in labor economics and a perfect
+illustration of multiple causal-inference pitfalls appearing together.
+
+### The DAG
+
+```{python}
+#| code-fold: true
+#| code-summary: "Earnings DAG"
+
+nodes_earn = {
+    "Family\nincome": (0, 2),
+    "Ability": (2, 2),
+    "College": (0.5, 1),
+    "Earnings": (1.5, 1),
+    "Job\nperformance": (1, 0),
+}
+edges_earn = [
+    ("Family\nincome", "College"),
+    ("Family\nincome", "Earnings"),
+    ("Ability", "College"),
+    ("Ability", "Earnings"),
+    ("College", "Earnings"),
+    ("College", "Job\nperformance"),
+    ("Earnings", "Job\nperformance"),
+]
+draw_dag(nodes_earn, edges_earn,
+         title="Does college cause higher earnings?",
+         width=700, height=400).show()
+```
+
+Reading the DAG:
+
+- *Family income* is a confounder (common cause of college and
+  earnings).
+- *Ability* is a confounder (common cause of college and earnings).
+- *Job performance* is a collider (caused by both college and
+  earnings).
+
+To estimate the causal effect of college on earnings, we should
+adjust for *family income* and *ability*, and we must *not*
+adjust for *job performance*.
+
+### Simulation
+
+```{python}
+#| code-fold: true
+#| code-summary: "Simulate college–earnings"
+
+COLLEGE_EFFECT = 15  # true causal effect in thousands of dollars
+
+family_income = rng.normal(60, 20, n)
+ability       = rng.normal(100, 15, n)
+
+# College attendance depends on family income and ability
+prob_college = 1 / (1 + np.exp(-0.03 * (family_income - 60)
+                                - 0.04 * (ability - 100)))
+college = rng.binomial(1, prob_college)
+
+# Earnings: causal effect of college + confounders
+earnings = (30 + COLLEGE_EFFECT * college
+            + 0.3 * family_income + 0.2 * ability
+            + rng.normal(0, 10, n))
+
+# Job performance: collider
+job_perf = 0.4 * college + 0.01 * earnings + rng.normal(0, 0.5, n)
+
+df_earn = pd.DataFrame({
+    "family_income": family_income,
+    "ability": ability,
+    "college": college,
+    "earnings": earnings,
+    "job_perf": job_perf,
+})
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Estimate college earnings premium"
+
+earn_models = {
+    "Naïve":                     "earnings ~ college",
+    "Adjust family income":      "earnings ~ college + family_income",
+    "Adjust ability":            "earnings ~ college + ability",
+    "Adjust both confounders":   "earnings ~ college + family_income + ability",
+    "Also adjust collider (BAD)": "earnings ~ college + family_income + ability + job_perf",
+}
+
+rows_earn = []
+for label, formula in earn_models.items():
+    fit = smf.ols(formula, data=df_earn).fit()
+    rows_earn.append({
+        "Model": label,
+        "College coefficient": round(fit.params["college"], 2),
+        "True effect": COLLEGE_EFFECT,
+        "Bias": round(fit.params["college"] - COLLEGE_EFFECT, 2),
+    })
+
+results_earn = pd.DataFrame(rows_earn)
+print(results_earn.to_string(index=False))
+```
+
+```{python}
+#| code-fold: true
+#| code-summary: "Bar chart of estimates"
+
+fig = px.bar(
+    results_earn, x="Model", y="College coefficient",
+    text="College coefficient",
+    title="Estimated college earnings premium under different adjustments",
+    color="Model",
+)
+fig.add_hline(y=COLLEGE_EFFECT, line_dash="dash", line_color="red",
+              annotation_text=f"True effect = {COLLEGE_EFFECT}k")
+fig.update_traces(texttemplate="%{text:.1f}", textposition="outside")
+fig.update_layout(
+    yaxis_title="Estimated premium ($k)",
+    xaxis_title="", showlegend=False, height=500,
+    xaxis_tickangle=-25,
+)
+fig.show()
+```
+
+This demonstrates every lesson at once:
+
+1. The naïve estimate is too high (confounding by family income and
+   ability).
+2. Adjusting for the confounders brings the estimate close to the
+   truth.
+3. Adjusting for the collider (job performance) distorts the estimate
+   again.
+
+
+## What can go wrong: a catalogue of pitfalls
+
+### Pitfall 1 — Omitted-variable bias (unobserved confounder)
+
+If a confounder is not measured, you cannot adjust for it and the
+estimate will be biased.  This is the most common limitation of
+observational studies.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Omitted-variable bias simulation"
+
+# True DGP: Y = 2*X + 3*U + noise, and U also causes X
+u = rng.normal(0, 1, n)
+x_ov = 0.6 * u + rng.normal(0, 1, n)
+y_ov = 2 * x_ov + 3 * u + rng.normal(0, 1, n)
+
+df_ov = pd.DataFrame({"x": x_ov, "y": y_ov, "u": u})
+
+fit_ov_biased   = smf.ols("y ~ x", data=df_ov).fit()
+fit_ov_unbiased = smf.ols("y ~ x + u", data=df_ov).fit()
+
+print(f"True effect of X:             2.000")
+print(f"Naïve estimate (U omitted):   {fit_ov_biased.params['x']:.3f}  ← biased")
+print(f"Adjusted estimate (U included):{fit_ov_unbiased.params['x']:.3f}  ← unbiased")
+```
+
+### Pitfall 2 — Conditioning on a post-treatment variable
+
+Adjusting for a variable that is *caused by* the treatment (a
+descendant) can introduce bias.  We saw this with the mediator and
+the collider.
+
+### Pitfall 3 — Selection bias (conditioning on a collider)
+
+We demonstrated this extensively above.  The lesson: restricting your
+sample to a subgroup that is *affected by* both the treatment and the
+outcome (e.g., studying only hospitalized patients, only employed
+workers, or only published studies) can create spurious associations.
+
+### Pitfall 4 — Reverse causation
+
+If $Y$ actually causes $X$ rather than the other way around, the DAG
+you assumed is wrong and no amount of statistical adjustment will
+give you the causal effect of $X$ on $Y$.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Reverse-causation simulation"
+
+# Truth: Y causes X, not the reverse
+y_rc = rng.normal(0, 1, n)
+x_rc = 0.8 * y_rc + rng.normal(0, 1, n)
+
+fit_wrong = smf.ols("y_rc ~ x_rc",
+                     data=pd.DataFrame({"y_rc": y_rc, "x_rc": x_rc})).fit()
+print(f"True effect of X on Y:  0.000  (X does not cause Y)")
+print(f"Regression of Y on X:   {fit_wrong.params['x_rc']:.3f}  ← misleading")
+print()
+print("The regression is non-zero because Y *does* cause X.")
+print("A regression coefficient does not tell you the direction of causation.")
+```
+
+
+## Simulation: when randomization solves everything
+
+The gold standard for causal inference is a *randomized controlled
+trial (RCT)*.  Randomization breaks all backdoor paths because
+treatment is not caused by any other variable.
+
+```{python}
+#| code-fold: true
+#| code-summary: "Randomization simulation"
+
+# Same confounders exist, but treatment is randomly assigned
+severity_rct = rng.normal(50, 10, n)
+treatment_rct = rng.binomial(1, 0.5, n)  # coin flip — no confounding
+
+# Y depends on treatment (true effect = -5) and severity
+bp_rct = 120 + 0.6 * severity_rct - 5 * treatment_rct + rng.normal(0, 5, n)
+
+df_rct = pd.DataFrame({
+    "severity": severity_rct,
+    "treatment": treatment_rct,
+    "bp": bp_rct,
+})
+
+fit_rct_naive = smf.ols("bp ~ treatment", data=df_rct).fit()
+fit_rct_adj   = smf.ols("bp ~ treatment + severity", data=df_rct).fit()
+
+rct_comparison = pd.DataFrame({
+    "Model": ["Naïve (works because of randomization!)",
+              "Adjusted for severity (also works)"],
+    "Treatment coefficient": [
+        round(fit_rct_naive.params["treatment"], 3),
+        round(fit_rct_adj.params["treatment"], 3),
+    ],
+    "True effect": [-5.0, -5.0],
+})
+print(rct_comparison.to_string(index=False))
+```
+
+With randomization, even the naïve estimate is unbiased.  The
+adjusted estimate is slightly more precise (smaller standard error)
+but both are correct.  This is the fundamental advantage of
+experimental design over observational analysis.
+
+
+## When you cannot randomize: natural experiments and other strategies
+
+In practice, randomization is often impossible (you cannot randomly
+assign education, poverty, or smoking).  Causal inference from
+observational data then relies on:
+
+1. *Regression adjustment* — control for all measured confounders
+   (requires the DAG to be correct and all confounders measured).
+2. *Instrumental variables* — find a variable that affects the
+   treatment but has no direct effect on the outcome.
+3. *Difference-in-differences* — compare changes over time between
+   treated and untreated groups.
+4. *Regression discontinuity* — exploit a cutoff rule that assigns
+   treatment quasi-randomly.
+5. *Propensity score methods* — model the probability of treatment
+   and use it to balance confounders.
+
+Each strategy has assumptions that can be evaluated using the DAG
+framework we developed in this case study.
+
+
+## Summary
+
+| Concept | What it is | What to do |
+|---------|-----------|------------|
+| *Confounder* | Common cause of treatment and outcome | Adjust for it |
+| *Mediator* | Variable on the causal path | Do *not* adjust for total effect |
+| *Collider* | Common effect of treatment and outcome | Do *not* adjust — it creates bias |
+| *Backdoor criterion* | Formal rule for adjustment | Block all backdoor paths without opening colliders |
+| *Randomization* | Random treatment assignment | Breaks all backdoor paths automatically |
+| *Omitted-variable bias* | Unmeasured confounder | Cannot be fixed by adjustment alone |
+
+The single most important lesson:
+
+> *Drawing the causal diagram first — before running any regression
+> — is the most valuable step in any causal analysis.*
+
+Without a DAG, you cannot know whether adjusting for a variable helps
+or hurts.  With a DAG, the rules are mechanical: block backdoor
+paths, leave causal paths open, and never condition on a collider.
+
+
+## Discussion questions
+
+1. In an observational study of the effect of a new teaching method on
+   exam scores, draw a plausible DAG.  What variables would you adjust
+   for?  Are there likely unmeasured confounders?
+
+2. A news headline says: "People who eat breakfast daily have lower
+   BMI."  Draw a DAG for this claim.  What could go wrong with the
+   causal interpretation?
+
+3. Suppose you are analyzing a dataset that only includes workers who
+   were *promoted*.  Promotion depends on both performance and
+   networking.  Draw the DAG and explain why the analysis might show a
+   negative correlation between performance and networking, even if
+   they are independent in the full workforce.
+
+4. A company runs an A/B test but then restricts the analysis to users
+   who clicked at least once (the "engaged" users).  Engagement is
+   affected by both the treatment arm and the user's prior interest.
+   Why might this restriction bias the estimated treatment effect?
+   What is the collider in this DAG?
+
+5. Give an example from your own field of interest where reverse
+   causation might be mistaken for a causal effect.  How would you
+   investigate the direction of causation?

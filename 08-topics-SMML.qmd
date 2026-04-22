@@ -28,5 +28,21 @@
 
 {{< include _gradient_boosting.qmd >}}
 
+## Support Vector Machines
+
+{{< include _support_vector_machine.qmd >}}
+
+## Multidimensional Scaling
+
+{{< include _MDS.qmd >}}
+
+## Principal Component Analysis
+
+{{< include _PCA.qmd >}}
+
+## False Discovery Rate Control
+
+{{< include _fdr_control.qmd >}}
+
 ## Neural Networks in Sports Analytics
 

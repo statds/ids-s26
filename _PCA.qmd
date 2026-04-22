@@ -1,0 +1,672 @@
+## Principal Component Analysis
+
+This section was prepared by Alexander Wolven.
+
+### The Dimensionality Problem
+
+Most real datasets have far more variables than you actually need. Many
+of those variables are correlated, meaning they are partially measuring
+the same underlying thing. Feeding all of them into a model means
+handing redundant information to the algorithm and letting it treat that
+redundancy as if it were real signal. The result is slower training,
+higher overfitting risk, and data that is impossible to visualize.
+
+MNIST is a useful example. It contains 70,000 handwritten digit images,
+each stored as a 28-by-28 pixel grid, giving 784 features per image.
+Adjacent pixels almost always activate together because they belong to
+the same stroke. That redundancy compounds as datasets grow into
+thousands of features. This is the dimensionality problem. PCA is one
+of the most widely used techniques to address it.
+***
+### What PCA Is and What It Is Not
+
+#### A Transformation, Not a Model
+
+PCA takes high-dimensional data and finds a lower-dimensional
+representation that preserves as much of the original information as
+possible. It does not predict anything. It does not classify digits or
+make decisions. It is a preprocessing step. The compressed output gets
+handed to an actual model, which does the predicting.
+
+This changes how you evaluate PCA. You do not ask whether PCA made good
+predictions. You ask whether the downstream model performs better,
+faster, or more reliably after PCA than without it.
+
+The standard pipeline:
+
+```
+raw data  -->  standardize  -->  PCA  -->  classifier or regressor
+```
+
+Fit the scaler and PCA on training data only, then apply both to the
+test set using parameters learned from training. Fitting on the full
+dataset before splitting leaks test information into the transformation
+and makes results look better than they are.
+
+#### It Is Just a Rotation
+
+Take two correlated variables and plot them against each other. You get
+an elongated cloud of points tilted diagonally. Most of the variation
+lives along that diagonal, not along the original axes. The original
+axes were chosen by whoever designed the measurement system, not because
+they describe the structure of the data well.
+
+PCA rotates the axes to fit the data instead of forcing the data to fit
+the axes. PC1 points along the direction of maximum variance. PC2 is
+perpendicular and captures whatever variance is left. The data points do
+not move. Only the coordinate system changes.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+np.random.seed(42)
+X_rot    = np.random.multivariate_normal(
+    [0, 0], [[3, 2.5], [2.5, 3]], 300
+)
+pca_rot  = PCA(n_components=2)
+pca_rot.fit(X_rot)
+comps    = pca_rot.components_
+mean_vec = X_rot.mean(axis=0)
+
+fig, ax = plt.subplots(figsize=(6, 5))
+ax.scatter(X_rot[:, 0], X_rot[:, 1], alpha=0.4, color='steelblue', s=20)
+
+for comp, color, label, scale in zip(
+    comps, ['red', 'orange'],
+    ['PC1 (most variance)', 'PC2 (remaining variance)'], [3, 1.5]
+):
+    ax.annotate('', xy=mean_vec + scale * comp, xytext=mean_vec,
+                arrowprops=dict(arrowstyle='->', color=color, lw=2.5))
+    ax.text(*(mean_vec + (scale + 0.3) * comp), label,
+            color=color, fontsize=9)
+
+ax.set_title("PCA: Rotating Axes to Fit the Data")
+ax.set_xlabel("Variable 1")
+ax.set_ylabel("Variable 2")
+ax.set_aspect('equal')
+plt.tight_layout()
+plt.show()
+```
+
+In higher dimensions the same idea extends beyond what you can
+visualize. PCA finds a sequence of perpendicular directions, each
+capturing as much remaining variance as possible, ordered from most to
+least important.
+
+#### What a Principal Component Actually Is
+
+A single raw pixel feature looks like this:
+
+$$x_{14} = 182$$
+
+It is just one number. One pixel intensity. It tells you nothing on its
+own about what digit you are looking at.
+
+A principal component instead takes every pixel and combines them with
+learned weights:
+
+$$
+PC_1 = 0.03 \cdot x_1 + 0.01 \cdot x_2 + \cdots +
+0.31 \cdot x_{14} + 0.28 \cdot x_{15} + \cdots +
+(-0.18 \cdot x_{401}) + \cdots
+$$
+
+That single number summarizes how much of the dominant visual pattern is
+present in the entire image. Instead of asking what one pixel is doing,
+PCA asks what the whole image looks like along the most important
+direction of variation. That is why a handful of components can stand in
+for hundreds of individual pixels.
+***
+### Standardization: The Step You Cannot Skip
+
+PCA finds directions of maximum variance, so it is directly affected by
+the scale of your variables. If one variable is measured in dollars and
+another in percentages, the dollar variable will dominate the variance
+calculation simply because its numbers are larger, not because it
+carries more information. Standardizing every variable to mean zero and
+standard deviation one removes that bias and puts all variables on equal
+footing before PCA runs.
+
+$$z = \frac{x - \mu}{\sigma}$$
+
+In MNIST every pixel already shares the same scale, but standardizing
+still matters. Some pixels are almost always dark across every image and
+carry near-zero variance. Without centering, PCA gets pulled toward
+overall brightness rather than the structural differences that actually
+distinguish one digit from another.
+
+Skipping standardization is the most common mistake when applying PCA.
+The algorithm still runs and produces output, but the output reflects
+the wrong sources of variation. Fit the scaler on training data only.
+***
+### The Math Under the Hood
+
+#### Covariance, Eigenvectors, Projection
+
+The **covariance matrix** measures how much every pair of variables
+moves together across observations. For MNIST this is a 784-by-784
+matrix. Each entry captures how much two pixels tend to activate
+together across all images. Diagonal entries are the variances of
+individual pixels. Off-diagonal entries are covariances between pairs.
+Many large off-diagonal values mean adjacent pixels are highly
+correlated and there is a lot of redundancy to compress.
+
+$$\Sigma = \frac{1}{n-1} X^T X$$
+
+PCA finds the directions explaining the most variation via
+**eigendecomposition**:
+
+$$\Sigma v = \lambda v$$
+
+Here $v$ is an eigenvector and $\lambda$ is its eigenvalue. Eigenvectors
+are the directions the covariance matrix does not rotate, only stretch.
+Each eigenvector defines one principal component. Each eigenvalue tells
+you how much variance that direction captures. Sort by eigenvalue from
+largest to smallest and you have your principal components in order of
+importance.
+
+**Projection** is the final step:
+
+$$Z = X W$$
+
+$W$ holds the top $k$ eigenvectors you chose to keep. The result $Z$
+is the new lower-dimensional dataset, with columns that are uncorrelated
+by construction and ordered from most to least informative.
+
+**The plain English version:** the covariance matrix is a table of how
+much every pixel moves with every other pixel. Eigendecomposition cracks
+that table open to find the actual directions all that co-movement is
+pointing. The eigenvalues are scores telling you how important each
+direction is. You keep the top ones, drop the rest, and projection is
+just rotating your data into that new smaller coordinate system.
+***
+### Seeing It in Action
+
+KNN classification on MNIST, run twice. Same model, same data,
+different input: all 784 pixel features versus PCA-reduced features
+retaining 95 percent of the variance. We use 10,000 samples for speed.
+
+```{python}
+import time
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import fetch_openml
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.utils import resample
+from sklearn.pipeline import Pipeline
+
+mnist  = fetch_openml('mnist_784', version=1, as_frame=False, parser='auto')
+X_full = mnist.data.astype(float)
+y_full = mnist.target.astype(int)
+
+X, y = resample(X_full, y_full, n_samples=10000, random_state=42)
+
+scaler   = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+pca   = PCA(n_components=0.95)
+X_pca = pca.fit_transform(X_scaled)
+
+pipe_raw = Pipeline([
+    ('knn', KNeighborsClassifier(n_neighbors=5, algorithm='brute'))
+])
+pipe_pca = Pipeline([
+    ('pca', PCA(n_components=0.95)),
+    ('knn', KNeighborsClassifier(n_neighbors=5, algorithm='brute'))
+])
+
+acc_raw = cross_val_score(
+    pipe_raw, X_scaled, y, cv=3, scoring='accuracy'
+).mean()
+acc_pca = cross_val_score(
+    pipe_pca, X_scaled, y, cv=3, scoring='accuracy'
+).mean()
+
+n_runs  = 20
+knn_raw = KNeighborsClassifier(
+    n_neighbors=5, algorithm='brute'
+).fit(X_scaled, y)
+start    = time.perf_counter()
+for _ in range(n_runs):
+    knn_raw.predict(X_scaled)
+time_raw = (time.perf_counter() - start) / n_runs
+
+knn_pca = KNeighborsClassifier(
+    n_neighbors=5, algorithm='brute'
+).fit(X_pca, y)
+start    = time.perf_counter()
+for _ in range(n_runs):
+    knn_pca.predict(X_pca)
+time_pca = (time.perf_counter() - start) / n_runs
+
+print(f"Without PCA | Features: {X_scaled.shape[1]} | "
+      f"Acc: {acc_raw:.3f} | Time: {time_raw:.3f}s")
+print(f"With PCA    | Features: {X_pca.shape[1]}   | "
+      f"Acc: {acc_pca:.3f} | Time: {time_pca:.3f}s")
+```
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+n_raw, n_pca_feats = X_scaled.shape[1], X_pca.shape[1]
+cats = [
+    f'Without PCA\n({n_raw} features)',
+    f'With PCA\n({n_pca_feats} components)'
+]
+
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+
+bars1 = axes[0].bar(
+    cats, [acc_raw, acc_pca],
+    color=['steelblue', 'seagreen'], width=0.4
+)
+axes[0].set_title("Classification Accuracy (3-Fold CV)")
+axes[0].set_ylabel("Accuracy")
+axes[0].set_ylim(0, 1.0)
+for bar, v in zip(bars1, [acc_raw, acc_pca]):
+    axes[0].text(
+        bar.get_x() + bar.get_width() / 2, v - 0.06,
+        f"{v:.3f}", ha='center', fontsize=11,
+        color='white', fontweight='bold'
+    )
+
+bars2 = axes[1].bar(
+    cats, [time_raw, time_pca],
+    color=['steelblue', 'seagreen'], width=0.4
+)
+axes[1].set_title(f"Avg Prediction Time ({n_runs} runs)")
+axes[1].set_ylabel("Seconds")
+for bar, v in zip(bars2, [time_raw, time_pca]):
+    axes[1].text(
+        bar.get_x() + bar.get_width() / 2,
+        v - (max(time_raw, time_pca) * 0.08),
+        f"{v:.3f}s", ha='center', fontsize=11,
+        color='white', fontweight='bold'
+    )
+
+plt.suptitle("KNN on MNIST: Raw vs PCA-Reduced", fontsize=11)
+plt.tight_layout()
+plt.show()
+```
+
+784 features down to 278 components. Accuracy holds and actually
+improves slightly. Prediction time drops by more than half. That is
+the core argument for PCA.
+***
+### How Many Components to Keep
+
+```{python}
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import numpy as np
+
+scaler_full   = StandardScaler()
+X_scaled_full = scaler_full.fit_transform(X)
+
+pca_full = PCA()
+pca_full.fit(X_scaled_full)
+cumvar = np.cumsum(pca_full.explained_variance_ratio_)
+
+print(f"Samples:                     {X.shape[0]}")
+print(f"Features:                    {X.shape[1]}")
+print(f"Components for 80% variance: {np.argmax(cumvar >= 0.80) + 1}")
+print(f"Components for 90% variance: {np.argmax(cumvar >= 0.90) + 1}")
+print(f"Components for 95% variance: {np.argmax(cumvar >= 0.95) + 1}")
+```
+
+Each principal component comes with an explained variance ratio: the
+fraction of total variance it captures. Summing these in order gives
+the cumulative curve below. Common thresholds are 80 percent for
+maximum compression, 90 percent for a reasonable balance, and 95 percent
+when high fidelity for a downstream model matters. There is no
+universally correct answer.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(7, 4))
+plt.plot(range(1, len(cumvar) + 1), cumvar,
+         marker='.', markersize=3, color='steelblue')
+plt.axhline(0.95, color='red',    linestyle='--', label='95% threshold')
+plt.axhline(0.80, color='orange', linestyle='--', label='80% threshold')
+plt.axvline(np.argmax(cumvar >= 0.95) + 1,
+            color='red',    linestyle=':', alpha=0.7)
+plt.axvline(np.argmax(cumvar >= 0.80) + 1,
+            color='orange', linestyle=':', alpha=0.7)
+plt.xlabel("Number of Components")
+plt.ylabel("Cumulative Explained Variance")
+plt.title("MNIST: How Many Components Do We Need?")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+The curve rises steeply then flattens. A small number of components
+does the heavy lifting. Everything after that is diminishing returns.
+This shape is what makes PCA practical, and the chart makes the
+compression tradeoff explicit rather than hiding it.
+***
+### Visualizing 784 Dimensions in 2D
+
+One of the most compelling things PCA enables is projecting data that
+cannot otherwise be visualized. Below, all 784 pixel features are
+compressed to two components for digits 0, 1, 2, and 3. PCA was given
+no digit labels during the transformation.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+from sklearn.decomposition import PCA
+
+digits_subset = [0, 1, 2, 3]
+mask          = np.isin(y, digits_subset)
+X_sub         = X_scaled_full[mask]
+y_sub         = y[mask]
+
+pca2 = PCA(n_components=2)
+X_2d = pca2.fit_transform(X_sub)
+
+colors = ['steelblue', 'tomato', 'seagreen', 'darkorange']
+fig, ax = plt.subplots(figsize=(8, 6))
+for digit, color in zip(digits_subset, colors):
+    m = y_sub == digit
+    ax.scatter(X_2d[m, 0], X_2d[m, 1],
+               c=color, label=str(digit),
+               alpha=0.5, s=15, edgecolors='white', lw=0.1)
+
+ax.set_title(
+    "MNIST: 784 Dimensions Projected to 2D via PCA\n(Digits 0, 1, 2, 3)"
+)
+ax.set_xlabel("Principal Component 1")
+ax.set_ylabel("Principal Component 2")
+ax.legend(title="Digit", markerscale=2)
+plt.tight_layout()
+plt.show()
+```
+
+The 1s separate cleanly from everything else because a single vertical
+stroke is geometrically nothing like a loop or a curve. The 0s, 2s, and
+3s cluster in their own regions. PCA found that separation purely from
+the variance in pixel intensities, with no knowledge of what any image
+actually was. That is the latent structure made visible.
+***
+### Image Reconstruction: What Information Loss Actually Looks Like
+
+The clearest way to understand what PCA discards is to compress an image
+to different numbers of components and reconstruct it back to pixel
+space.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+from sklearn.decomposition import PCA
+
+n_list     = [2, 10, 30, 50, 100, 200, 784]
+sample_idx = 1
+
+fig, axes = plt.subplots(2, 4, figsize=(14, 7))
+axes = axes.flatten()
+
+axes[0].imshow(X[sample_idx].reshape(28, 28), cmap='gray_r')
+axes[0].set_title("Original", fontsize=10)
+axes[0].axis('off')
+
+for i, n in enumerate(n_list):
+    pca_n   = PCA(n_components=n)
+    X_r     = pca_n.fit_transform(X_scaled_full)
+    X_recon = scaler_full.inverse_transform(
+        pca_n.inverse_transform(X_r)
+    )
+    axes[i + 1].imshow(
+        X_recon[sample_idx].reshape(28, 28), cmap='gray_r'
+    )
+    axes[i + 1].set_title(f"{n} components", fontsize=10)
+    axes[i + 1].axis('off')
+
+plt.suptitle(
+    "MNIST Image Reconstruction at Different Component Counts",
+    fontsize=11
+)
+plt.tight_layout()
+plt.show()
+```
+
+At 2 components you can already make out the shape of the digit,
+remarkable given that 2 numbers are standing in for 784 pixels. As
+components are added the image sharpens progressively. At 784 there is
+no loss at all. The fact that the digit is readable at such low numbers
+of components is the whole point: 87 percent of the pixel information
+was either redundant or noise that did not matter for recognizing
+the shape.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+from sklearn.decomposition import PCA
+
+n_list      = [2, 10, 30, 50, 100, 200, 784]
+sample_idx6 = np.where(y.astype(int) == 6)[0][0]
+
+fig, axes = plt.subplots(2, 4, figsize=(14, 7))
+axes = axes.flatten()
+
+axes[0].imshow(X[sample_idx6].reshape(28, 28), cmap='gray_r')
+axes[0].set_title("Original", fontsize=10)
+axes[0].axis('off')
+
+for i, n in enumerate(n_list):
+    pca_n   = PCA(n_components=n)
+    X_r     = pca_n.fit_transform(X_scaled_full)
+    X_recon = scaler_full.inverse_transform(
+        pca_n.inverse_transform(X_r)
+    )
+    axes[i + 1].imshow(
+        X_recon[sample_idx6].reshape(28, 28), cmap='gray_r'
+    )
+    axes[i + 1].set_title(f"{n} components", fontsize=10)
+    axes[i + 1].axis('off')
+
+plt.suptitle(
+    "MNIST Image Reconstruction at Different Component Counts (Digit 6)",
+    fontsize=11
+)
+plt.tight_layout()
+plt.show()
+```
+
+At 2 components the shape is very blurry, as a 6 is more geometrically
+complex than a simple digit like 0. However the digit already starts
+coming through at just 10 to 30 components, and is clearly recognizable
+by 100. At 784 there is no loss at all. The more complex the shape, the
+more components it takes to reconstruct it faithfully, but the
+compression still works.
+***
+### What PCA Actually Found: Eigendigits
+
+Because MNIST features are pixels, each principal component can be
+reshaped back into a 28-by-28 image and viewed directly. These are
+called eigendigits.
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+from sklearn.decomposition import PCA
+
+pca_vis = PCA(n_components=16)
+pca_vis.fit(X_scaled_full)
+
+fig, axes = plt.subplots(2, 8, figsize=(14, 4))
+for i, ax in enumerate(axes.flatten()):
+    component = pca_vis.components_[i].reshape(28, 28)
+    ax.imshow(component, cmap='RdBu_r')
+    var = pca_vis.explained_variance_ratio_[i] * 100
+    ax.set_title(f"PC{i+1}\n{var:.1f}%", fontsize=8)
+    ax.axis('off')
+
+plt.suptitle(
+    "First 16 Principal Components of MNIST (Eigendigits)", fontsize=11
+)
+plt.tight_layout()
+plt.show()
+```
+
+Each eigendigit is a question PCA is asking about every image it sees.
+PC1 looks like an oval because the single biggest source of variation
+across all digits is whether the pixels forming a circular or loop-like
+pattern are lit. Digits like 0, 6, 8, and 9 all have that structure.
+PC2 and PC3 start separating on stroke orientation, whether dominant
+lines are horizontal or vertical. Later components capture progressively
+finer distinctions: the specific curves that separate a 3 from an 8, or
+the gap that distinguishes a 7 from a 1. The model never sees individual
+pixels. It sees scores along these directions, which turns out to
+be enough.
+***
+### The Full Pipeline
+
+```{python}
+import numpy as np
+from sklearn.datasets import fetch_openml
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.utils import resample
+
+mnist  = fetch_openml('mnist_784', version=1, as_frame=False, parser='auto')
+X_all  = mnist.data.astype(float)
+y_all  = mnist.target.astype(int)
+X_all, y_all = resample(X_all, y_all, n_samples=10000, random_state=42)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X_all, y_all, test_size=0.2, random_state=42
+)
+
+# Step 1: Standardize on training data only
+scaler         = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled  = scaler.transform(X_test)
+
+# Step 2: Fit PCA on training data only
+pca         = PCA(n_components=0.95)
+X_train_pca = pca.fit_transform(X_train_scaled)
+X_test_pca  = pca.transform(X_test_scaled)
+
+print(f"Original shape:  {X_train.shape}")
+print(f"Reduced shape:   {X_train_pca.shape}")
+print(f"Components kept: {pca.n_components_}")
+
+# Step 3: Train and evaluate
+clf = LogisticRegression(max_iter=1000, random_state=42)
+clf.fit(X_train_pca, y_train)
+acc = accuracy_score(y_test, clf.predict(X_test_pca))
+print(f"Test accuracy:   {acc:.3f}")
+```
+
+`n_components=0.95` tells sklearn to automatically select however many
+components explain 95 percent of variance. The test set is always
+transformed using already-fitted objects. Never re-fit the scaler or
+PCA on test data.
+***
+### Real-World Applications
+
+PCA shows up wherever the dimensionality problem lives. In **finance**,
+equity returns across hundreds of stocks collapse to a small number of
+underlying risk factors. The first component typically captures broad
+market movement. In **genomics**, expression measurements across tens of
+thousands of genes reduce to a manageable number of axes capturing the
+major sources of biological variation. In **manufacturing**, correlated
+sensor readings compress into a low-dimensional representation of a
+machine's operating state, and readings that fall outside the normal
+pattern get flagged before failures occur. In **NLP**, Latent Semantic
+Analysis applies PCA to word-document frequency matrices to surface
+underlying topics, one of the earliest techniques for measuring semantic
+similarity between documents.
+
+The common thread: too many correlated variables, a need to surface the
+underlying structure, and a requirement that the result be usable
+downstream.
+***
+### When Not to Use It
+
+PCA is the wrong choice in two situations. The first is
+**interpretability**: once you project into PCA space you can no longer
+point to a specific pixel or feature as the driver of a prediction. The
+second is **nonlinearity**: PCA assumes the important structure in your
+data lives along linear directions. When relationships between variables
+are nonlinear, PCA will miss that structure entirely.
+
+In those cases, consider the alternatives:
+
+- **UMAP or t-SNE:** Better for visualization when you care about
+  preserving local cluster structure. They handle nonlinear relationships
+  well but cannot be plugged into a modeling pipeline the way PCA can.
+- **Kernel PCA:** Extends PCA to nonlinear relationships by implicitly
+  mapping data into a higher-dimensional space before reducing it. More
+  flexible than standard PCA but harder to interpret and more
+  computationally expensive.
+- **Autoencoders:** Neural networks that learn a compressed nonlinear
+  representation of the data. Most powerful option but require
+  significantly more data and compute to train well.
+
+The general rule: if your data is roughly linear and you need a reusable
+pipeline step, use PCA. If you are exploring nonlinear structure or only
+need visualization, use UMAP. If you have the data and compute budget,
+autoencoders.
+***
+### Key Takeaways
+
+**PCA is a preprocessing step, not a model.** Evaluate it by whether
+the downstream model improves, not by whether PCA itself predicts
+anything.
+
+**It finds latent structure by maximizing variance.** The principal
+components surface the stroke patterns and shapes explaining why groups
+of pixels activate together. Components are uncorrelated with each other
+by construction.
+
+**Always standardize first.** Features on different scales will dominate
+the variance calculation simply because of their magnitude, not because
+they carry more information. Fit the scaler on training data only.
+
+**Choose components by explained variance.** MNIST goes from 784
+features down to 278 at 95 percent variance retained. The cumulative
+variance curve makes that tradeoff explicit.
+
+**Avoid it when interpretability matters or relationships are nonlinear.**
+***
+### Further Readings
+
+- Shlens, J. (2014). *A Tutorial on Principal Component Analysis*.
+  arXiv:1404.1100.
+  <https://arxiv.org/abs/1404.1100> --- math-focused walkthrough
+  deriving PCA from first principles; good if you want to go deeper
+  on the eigenvector derivation.
+
+- VanderPlas, J. (2016). *Python Data Science Handbook*, Chapter 5:
+  In Depth: Principal Component Analysis.
+  <https://jakevdp.github.io/PythonDataScienceHandbook/05.09-principal-component-analysis.html>
+  --- freely available online; uses sklearn and the digits dataset,
+  very close to the pipeline shown here.
+
+- scikit-learn developers. *sklearn.decomposition.PCA --- API Reference*.
+  <https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html>
+  --- full documentation for every parameter and attribute used in
+  this section.
