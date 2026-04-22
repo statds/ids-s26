@@ -49,6 +49,8 @@ __________________________________________________________________________
 
 ## Types of Differentiations
 
+*Important Note:* Differentiation methods are used to compute derivatives of complex functions. It could be utilized in situations not necessarily related to deep learning. This could include engineering design optimization, scientific/statistical parameter estimation, sensitivity analysis, and so forth. Neural Networks did not invent AD, but it's essentially unavoidable when dealing with optimization. 
+
 **Symbolic:** We take a given function, and continously compute it's derivative. In this sense, we are quite literally computing the slope E(w).This method is "strenuous" and becomes increasingly unsavory the more complicated the function becomes. 
 
 **Numeric:** Instead of finding the direct derivative as the symbolic method, we use the follow definition of derivatives: $f^1(x) = f(x + h) - f(x)/h$. This method is fairly straightforward, but once $h$ gets very large or small, the derivative becomes more susceptible truncation errors.
