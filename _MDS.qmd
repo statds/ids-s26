@@ -1,13 +1,10 @@
----
-title: "Multidimensional Scaling (MDS)"
-bibliography: references.bib
----
+## Multidimensional Scaling
 
 ------------------------------------------------------------------------
 
 Presentation by Mallory Whitlow
 
-## Introduction: What is Multidimensional Scaling?
+### Introduction: What is Multidimensional Scaling?
 
 **Multidimensional Scaling (MDS)** is an unsupervised ML dimensionality reduction technique that visualizes the similarity between objects in a lower-dimensional space.
 
@@ -43,7 +40,7 @@ $$\text{Stress} = \sqrt{\frac{\sum_{i<j}(\delta_{ij} - d_{ij})^2}{\sum_{i<j} d_{
 | 0.10 – 0.20 | Fair                                |
 | \> 0.20     | Poor fit - consider more dimensions |
 
-## Core Idea
+### Core Idea
 
 *If cities A and B are 100 km apart, and B and C are 200 km apart, where is C relative to A?*
 
@@ -73,7 +70,7 @@ plt.scatter(D_transformed[:, 0], D_transformed[:, 1])
 plt.show()
 ```
 
-**From scikit-learn manual**
+**From scikit-learn manual
 
 `n_components`: number of dimensions in output
 
@@ -89,7 +86,7 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## **Type 1 - Classical**
+### Type 1 - Classical
 
 Equivalent to PCA (Principal Coordinate Analysis) when the distances are Euclidian.
 
@@ -97,13 +94,13 @@ $$B = -\tfrac{1}{2} H \Delta^{(2)} H, \qquad H = I - \tfrac{1}{n}\mathbf{1}\math
 
 $$X = V_k \Lambda_k^{1/2}$$
 
-**When to use it**
+**When to use it
 
 -   Your dissimilarities are Euclidean distances
 -   You need results to be reproducible across runs
 -   Dataset is small/medium (under 5,000 observations)
 
-**Real-world uses**
+**Real-world uses
 
 **Geographic reconstruction** - given a table of road distances between cities, create an approximate map.
 
@@ -113,19 +110,19 @@ $$X = V_k \Lambda_k^{1/2}$$
 
 ------------------------------------------------------------------------
 
-## Type 2 - Metric
+### Type 2 - Metric
 
 A generalization of cMDS, it accepts any quantitative dissimilarity measure and finds a configuration that minimizes stress iteratively.
 
 \*Unlike cMDS, metric MDS uses numerical optimization (gradient descent), so results can vary slightly with initialization and may need multiple restarts.
 
-**When to use it**
+**When to use it
 
 -   You have quantitative dissimilarities that are not strictly Euclidean (e.g. correlation-based, cosine distances)
 -   You want to fit many dimensions and compare stress across them
 -   Classical MDS gives negative eigenvalues (a sign the distances are non-Euclidean) and you need a robust alternative
 
-**Real-World Uses**
+**Real-World Uses
 
 **Market research -** compute dissimilarity between brands from survey ratings and produce a map showing the competitive landscape.
 
@@ -179,20 +176,20 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## Type 3 - Non-Metric (Ordinal) MDS
+### Type 3 - Non-Metric (Ordinal) MDS
 
 Used for qualitative dissimilarities, non-metric MDS finds a non-parametric monotonic relationship between the differences and the distance between data.
 
 \*Though metric MDS shows a linear relationship, nMDS is described using curves.
 
-**When to use it**
+**When to use it
 
 -   Your dissimilarities come from rankings, preference data, or subjective ratings where the scale is arbitrary
 -   You cannot assume the data is Euclidean or metric
 -   Classical or metric MDS gives high stress and you suspect non-linearity
 -   Used almost universally in community ecology
 
-**Real-world uses**
+**Real-world uses
 
 **Ecology** - Bray-Curtis dissimilarity between ecological communities based on species counts is ordinal; nMDS is the standard tool.
 
@@ -300,18 +297,18 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## Why is MDS a good reduction method?
+### Why is MDS a good reduction method?
 
-1.  **They preserve distances directly.**
+1.  **They preserve distances directly.
     -   Other methods, like PCA, don't explicitly preserve pairwise distances, focusing on variance instead.
-2.  **They work with any distance metric.**
+2.  **They work with any distance metric.
     -   Euclidian, Manhattan, Cosine, Genetics, and survey data are just some of the different metrics MDS can analyze.
-3.  **Handles nonlinear structures well.**
+3.  **Handles nonlinear structures well.
     -   MDS does not require the distance to have numerical meaning, and therefore can be used by many different nominal and ordinal data sets.
 
 ------------------------------------------------------------------------
 
-## Limitations
+### Limitations
 
 1.  **Sensitive to noise and outliers.** This can distort representations, especially in 2D spaces.
 2.  **Computational complexity.** MDS can demand a lot of resources, especially for large data sets.
@@ -320,7 +317,7 @@ plt.show()
 
 ------------------------------------------------------------------------
 
-## References
+### References
 
 <!-- Include all sources even if not cited in the text -->
 
