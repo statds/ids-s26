@@ -1,6 +1,6 @@
+
 This presentation is prepared by Vincenzo Carbone.
 
-### Neural Networks in Sports Analytics
 
 #### What is a Neural Network?
 
@@ -45,7 +45,7 @@ This presentation is prepared by Vincenzo Carbone.
 
 #### Simple Diagram
 
-![Neural network diagram](neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
 
 ### What Happens Inside a Neural Network?
 
@@ -80,7 +80,7 @@ $$
   - If input is negative → output is 0
   - If input is positive → keep it
 
-![Neuron diagram](neural-network-diagrams/neuron_diagram.png)
+![Neuron diagram](nba-player-data/neural-network-diagrams/neuron_diagram.png)
 
 #### Why This Matters
 
@@ -123,7 +123,6 @@ $$
 
 
 ```{python}
-#| echo: false
 #| include: false
 import pandas as pd
 import numpy as np
@@ -214,6 +213,8 @@ lebron_df = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df
 ```
+</details>
+## Model Structure
 
 #### Model Structure
 
@@ -232,11 +233,13 @@ lebron_df_2 = all_df[all_df["player"] == "LeBron James"] \
     ]
 lebron_df_2
 ```
+</details>
 
 #### Inputs & Targets
 
 - We started with stats from 2018 - 2024. We dropped the first year, because this year has no 'previous season'. 
 ```{python}
+#| include: false
 # Assigning previous season stats as features / inputs
 X = all_df[[
     "prev_age",
@@ -261,7 +264,7 @@ y = all_df[["pts","trb","ast"]]
 - Hidden Layer 2 → 32 neurons (ReLU)
 - Output Layer → 3 neurons (PTS, TRB, AST)
 
-![Neural network diagram](neural-network-diagrams/simple_diagram.png)
+![Neural network diagram](nba-player-data/neural-network-diagrams/simple_diagram.png)
 
 #### Why 64 and 32?
 
@@ -271,6 +274,7 @@ y = all_df[["pts","trb","ast"]]
 - Second layer (32):
   - Refines and simplifies those patterns
 
+## Training the Model
 (insert code)
 
 #### Training the Model
@@ -288,9 +292,10 @@ from sklearn.preprocessing import StandardScaler
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 ```
+</details>
 
 - Random training/testing split, rows are shuffled before splitting so the model sees different players and different seasons
-- **random_state=42** sets the random seed just saw the data splits the same time every run.  
+- **random_state=42** sets the random seed just so the data splits the same time every run.  
 
 ```{python}
 # Train/test split
@@ -317,11 +322,30 @@ print(y_test.shape)
 - **Train Loss** = error on the data the model is learning from (learning)
 - **Validation Loss** = error on the data the model has NOT trained on (generalization)
 
+
+## Back Propagation
+- **What to change**
+- Determines how much each weight contributes to the prediction error  
+- Works **backwards through the network** (output → input)  
+- Computes gradients (how each weight should change)  
+- Happens automatically during `model.fit()`  
+- Provides the information needed to update the weights  
+
+## Stochastic Gradient Descent
+- **How to change it**
+- Uses the gradients from backpropagation to update weights  
+- Adjusts weights to reduce prediction error  
+- Runs repeatedly during training  
+- Uses **small batches of data (32 rows)** instead of all data at once  
+- The optimizer = "adam" is an advanced form of gradient descent that improves efficiency 
+
 - Mean Squared Error (MSE/Train Loss) as the loss function to train the model, and Mean Absolute Error (MAE) as a metric to interpret how far off our predictions were
 
-<details>
-<summary>Click to expand code</summary>
+
 ```{python}
+#| eval: false
+
+#| include: false
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -376,6 +400,7 @@ plt.show()
   - The model is off by about 1.4 stats per game on average
 
 ```{python}
+#| eval: false
 #| echo: false
 
 test_loss, test_mae = model.evaluate(X_test, y_test, verbose=0)
@@ -387,9 +412,13 @@ print("Model RMSE:",rmse)
 ```
 
 ```{python}
+#| eval: false
 #| echo: false
 
-players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
+import warnings
+warnings.filterwarnings("ignore")
+
+players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
 
 for player in players:
     row = all_df[all_df["player"] == player].sort_values("season").iloc[-1]
@@ -409,12 +438,14 @@ for player in players:
 ```
 
 ```{python}
+#| eval: false
 #| echo: false
 #| fig-height: 4
 #| fig-width: 7
+#| cache: true
 
 
-players = ["Jaylen Brown","Jayson Tatum", "Al Horford", "Jrue Holiday", "Kristaps Porziņģis", "Sam Hauser", "Luke Kornet"]
+players = ["Jaylen Brown","Jayson Tatum", "Jrue Holiday"]
 
 stats = ["PTS", "TRB", "AST"]
 
@@ -475,6 +506,6 @@ for player in players:
 
 ### Further Reading
 
-- [Other applications of neural networks] (https://www.ibm.com/think/topics/neural-networks)
+- [Other applications of neural networks](https://www.ibm.com/think/topics/neural-networks)
 - https://course.elementsofai.com/en-ie/5/1
-- [Creating your own neural network in python] (https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)
+- [Creating your own neural network in python](https://medium.com/@soukaina./creating-your-first-neural-network-model-in-python-a-detailed-guide-681ce456b90e)

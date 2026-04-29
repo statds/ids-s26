@@ -22,4 +22,8 @@ include-in-header:
 
 {{< include _animation.qmd >}}
 
+## Deep Learning
+
+{{< include _deep_learning.qmd >}}
+
 ## Natural Language Processing
