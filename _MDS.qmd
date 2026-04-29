@@ -1,24 +1,24 @@
 ## Multidimensional Scaling
 
-------------------------------------------------------------------------
-
-Presentation by Mallory Whitlow
+Presentation by Mallory Whitlow.
 
 ### Introduction: What is Multidimensional Scaling?
 
-**Multidimensional Scaling (MDS)** is an unsupervised ML dimensionality reduction technique that visualizes the similarity between objects in a lower-dimensional space.
+**Multidimensional Scaling** finds a lower-dimensional coordinate representation of objects so that the distances between points in the new space match the original similarities/dissimilarities as closely as possible. The quality of the representation is measured by stress, which MDS tries to minimize.
 
 -   Takes a distance or dissimilarity square matrix as input
 
 -   Determines number of dimensions for visualization
 
--   Minimizes "stress" (the measure of how poorly the low-dim distances represent the original distances)
+-   Minimizes stress (the measure of how poorly the low-dim distances represent the original distances)
 
 -   Produces a 2D/3D map where similar objects are placed closer together
 
 -   Preserves pairwise relationships as faithfully as possible
 
 Widely used in psychology, marketing, bioinformatics, and neuro-linguistic programming, but can be used for any sort of relational data.
+
+### Definitions
 
 Before diving into each type, a few terms used throughout:
 
@@ -28,10 +28,24 @@ Before diving into each type, a few terms used throughout:
     -   Examples include: PCA, t-SNE, UMAP, and MDS
 -   **Dissimilarity matrix** $\Delta$: an $n \times n$ matrix where $\delta_{ij}$ is how different objects $i$ and $j$ are.
 -   **Configuration** $X$: the recovered $n \times k$ coordinate matrix in the low-dimensional space.
--   **Euclidian Distance**: the shortest path between two points (Pythagorean distance/hypotenuse).
+-   **Euclidean Distance**: the shortest path between two points (Pythagorean distance/hypotenuse).
 -   **Stress**: a scalar measuring how badly the configuration distorts the original dissimilarities.
 
-$$\text{Stress} = \sqrt{\frac{\sum_{i<j}(\delta_{ij} - d_{ij})^2}{\sum_{i<j} d_{ij}^2}}$$
+$$
+\text{Stress}(X) = \sqrt{\frac{\sum_{i<j}(\delta_{ij} - d_{ij}(X))^2}{\sum_{i<j} d_{ij}(X)^2}}
+$$
+
+$$
+\begin{aligned}
+\delta_{ij} &: \text{ original dissimilarity between objects } i \text{ and } j \\
+d_{ij}(X) &: \text{ Euclidean distance between } i \text{ and } j \text{ in the configuration } X \\
+X &: \text{ matrix of coordinates in the low-dimensional space}
+\end{aligned}
+$$
+
+Metric MDS minimizes stress by iteratively updating point coordinates using numerical optimization, while classical MDS computes a solution directly using eigen decomposition.
+
+You can think of each pair of points as having a target distance, and MDS adjusts their positions until all those distances are satisfied as closely as possible.
 
 | Stress      | Quality                             |
 |-------------|-------------------------------------|
@@ -40,37 +54,7 @@ $$\text{Stress} = \sqrt{\frac{\sum_{i<j}(\delta_{ij} - d_{ij})^2}{\sum_{i<j} d_{
 | 0.10 – 0.20 | Fair                                |
 | \> 0.20     | Poor fit - consider more dimensions |
 
-### Core Idea
-
-*If cities A and B are 100 km apart, and B and C are 200 km apart, where is C relative to A?*
-
-**The primary goal?** Visualizing similarities in the data and identifying hidden structures.
-
-```{python}
-import pandas as pd
-import numpy as np
-from sklearn.manifold import MDS
-import matplotlib.pyplot as plt
-
-labels = ["A", "B", "C", "D"]
-D = np.array([[0, 1, 2, 3],
-              [1, 0, 1, 2],
-              [2, 1, 0, 1],
-              [3, 2, 1, 0]])
-
-df = pd.DataFrame(D, index=labels, columns=labels)
-print("Example Distance Matrix:")
-print(df.to_string())
-
-mds = MDS(n_components=2,dissimilarity="precomputed", random_state=49)
-
-D_transformed = mds.fit_transform(D)
-
-plt.scatter(D_transformed[:, 0], D_transformed[:, 1])
-plt.show()
-```
-
-**From scikit-learn manual
+**From scikit-learn manual**
 
 `n_components`: number of dimensions in output
 
@@ -78,29 +62,43 @@ plt.show()
 
 `dissimilarity`: dissimilarity measure to use
 
--   'euclidean': pairwise Euclidian distances between dataset points
+-   'euclidean': pairwise Euclidean distances between dataset points
 
 -   'precomputed': pre-computed dissimilarities passed directly to fit and fit_transform.
 
 `random_state`: determines the random number generator used to initialize centers.
 
-------------------------------------------------------------------------
+### Core Idea
+
+Suppose we only know how similar every pair of objects is, like how similar different flowers are based on their measurements.
+
+We don’t know their actual positions in space.
+
+**MDS reconstructs a map of these objects in a lower-dimensional space (like 2D) so that the distances between points match the original similarities as closely as possible.**
 
 ### Type 1 - Classical
 
-Equivalent to PCA (Principal Coordinate Analysis) when the distances are Euclidian.
+**Classical MDS** uses Euclidean distances to find a lower-dimensional representation of the data.
+
+It works by converting the distance matrix into an inner-product matrix and then using eigenvalue decomposition to recover coordinates.
 
 $$B = -\tfrac{1}{2} H \Delta^{(2)} H, \qquad H = I - \tfrac{1}{n}\mathbf{1}\mathbf{1}^\top$$
 
 $$X = V_k \Lambda_k^{1/2}$$
 
-**When to use it
+**Connection to PCA:**\
+When the dissimilarities are Euclidean distances, classical MDS gives an embedding equivalent to PCA up to rotation/reflection.
+
+\
+PCA maximizes variance, while MDS focuses on preserving pairwise distances. Stress is used to evaluate MDS fit, but PCA itself does not directly compute or minimize stress.
+
+**When to use it**
 
 -   Your dissimilarities are Euclidean distances
 -   You need results to be reproducible across runs
 -   Dataset is small/medium (under 5,000 observations)
 
-**Real-world uses
+**Real-world uses**
 
 **Geographic reconstruction** - given a table of road distances between cities, create an approximate map.
 
@@ -108,7 +106,117 @@ $$X = V_k \Lambda_k^{1/2}$$
 
 **Chemistry** - visualize molecular similarity from fingerprint-based distance matrices.
 
-------------------------------------------------------------------------
+#### Application: The Iris Dataset
+
+This dataset includes 3 different types of irises' (Setosa, Versicolour, and Virginica) petal and sepal length, stored in a 150x4 numpy array.
+
+This code is from the scikit-learn manual for doing PCA on the Iris dataset.
+
+```{python}
+# unused but required import for doing 3d projections with matplotlib < 3.2
+import mpl_toolkits.mplot3d  
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+
+iris = load_iris()
+X = iris.data
+
+from sklearn.decomposition import PCA
+
+fig = plt.figure(1, figsize=(8, 6))
+ax = fig.add_subplot(111, projection="3d", elev=-150, azim=110)
+
+X_reduced = PCA(n_components=3).fit_transform(X)
+ax.scatter(
+    X_reduced[:, 0],
+    X_reduced[:, 1],
+    X_reduced[:, 2],
+    c=iris.target,
+    s=40,
+)
+
+ax.set_title("First three PCA dimensions")
+ax.set_xlabel("1st Eigenvector")
+ax.xaxis.set_ticklabels([])
+ax.set_ylabel("2nd Eigenvector")
+ax.yaxis.set_ticklabels([])
+ax.set_zlabel("3rd Eigenvector")
+ax.zaxis.set_ticklabels([])
+
+plt.show()
+```
+
+PCA creates 3 new features that are linear combinations of the 4 original features, maximizing variance. Using PCA on this dataset helps us to differentiate between the 3 types better.
+
+\*PCA is finding directions in the data, using linear algebra (starts from the original data matrix X and finds directions that explain the most variance.)
+
+**MDS Code**
+
+```{python}
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.metrics import pairwise_distances
+
+iris = load_iris()
+X = iris.data
+
+D = pairwise_distances(X, metric="euclidean")
+
+n = D.shape[0]
+H = np.eye(n) - np.ones((n, n)) / n
+B = -0.5 * H @ (D**2) @ H
+
+eigvals, eigvecs = np.linalg.eigh(B)
+
+idx = np.argsort(eigvals)[::-1]
+eigvals = eigvals[idx]
+eigvecs = eigvecs[:, idx]
+
+k = 3
+X_cmds = eigvecs[:, :k] @ np.diag(np.sqrt(eigvals[:k]))
+
+fig = plt.figure(figsize=(8,6))
+ax = fig.add_subplot(111, projection='3d')
+
+ax.scatter(
+    X_cmds[:, 0],
+    X_cmds[:, 1],
+    X_cmds[:, 2],
+    c=iris.target,
+    s=40
+)
+
+ax.set_title("Classical MDS (3D)")
+ax.set_xlabel("Dim 1")
+ax.set_ylabel("Dim 2")
+ax.set_zlabel("Dim 3")
+
+plt.show()
+```
+
+Although classical MDS does not explicitly minimize stress, we can compute stress after obtaining the embedding to evaluate how well the low-dimensional representation preserves the original distances.
+
+```{python}
+
+D_low = pairwise_distances(X_cmds)
+
+numerator = np.sum((D - D_low)**2)
+denominator = np.sum(D_low**2)
+
+stress = np.sqrt(numerator / denominator)
+
+print("Classical MDS Stress:", stress)
+```
+
+MDS starts from a Euclidean distance matrix and finds coordinates whose distances preserve the original pairwise distances as closely as possible.
+
+The classical MDS embedding has a stress value of **0.0123**, which indicates an excellent fit. This means the 3D lower-dimensional representation preserves the original pairwise Euclidean distances with very little distortion.
+
+**PCA vs MDS**
+
+PCA takes the original Iris measurements and finds new axes that explain the greatest variance in the data. Classical MDS first converts the data into a Euclidean distance matrix, then reconstructs a lower-dimensional coordinate system that preserves those pairwise distances. When the distances are Euclidean, classical MDS and PCA give equivalent embeddings up to rotation/reflection, but they come from different perspectives: PCA focuses on variance, while classical MDS focuses on distances.
 
 ### Type 2 - Metric
 
@@ -116,17 +224,19 @@ A generalization of cMDS, it accepts any quantitative dissimilarity measure and 
 
 \*Unlike cMDS, metric MDS uses numerical optimization (gradient descent), so results can vary slightly with initialization and may need multiple restarts.
 
-**When to use it
+**When to use it**
 
 -   You have quantitative dissimilarities that are not strictly Euclidean (e.g. correlation-based, cosine distances)
 -   You want to fit many dimensions and compare stress across them
 -   Classical MDS gives negative eigenvalues (a sign the distances are non-Euclidean) and you need a robust alternative
 
-**Real-World Uses
+**Real-World Uses**
 
 **Market research -** compute dissimilarity between brands from survey ratings and produce a map showing the competitive landscape.
 
 **Neuroscience** - visualize brain region similarity from fMRI correlation matrices.
+
+#### Application: The Iris Dataset
 
 ```{python}
 from sklearn.manifold import MDS
@@ -143,7 +253,7 @@ dist_matrix = pairwise_distances(X, metric="euclidean")
 
 
 mds = MDS(n_components=2, metric=True, dissimilarity="precomputed",
-          random_state=42, normalized_stress="auto")
+          random_state=42, normalized_stress=True)
 coords = mds.fit_transform(dist_matrix)
 
 df_coords = pd.DataFrame(coords, columns=["Dim1", "Dim2"])
@@ -172,9 +282,14 @@ ax.grid(color="#2a2a4a", linestyle="--", linewidth=0.5)
 plt.tight_layout()
 plt.show()
 
+print("Metric MDS Stress:", mds.stress_)
 ```
 
-------------------------------------------------------------------------
+Using MDS, we are trying preserve the distance between the points across multiple dimensions. The axes have no specific meaning and the output is showing the distance between the data.
+
+Metric MDS directly minimizes stress during the optimization process, so the stress value reported by the model reflects how well the final configuration preserves the original dissimilarities.
+
+The stress value of 0.0393 indicates an excellent fit, meaning the 2D MDS representation preserves the original pairwise relationships with very little distortion. Despite reducing the data to only two dimensions, the stress remains below 0.05, suggesting that the intrinsic structure of the Iris dataset is well captured in a low-dimensional space.
 
 ### Type 3 - Non-Metric (Ordinal) MDS
 
@@ -182,20 +297,24 @@ Used for qualitative dissimilarities, non-metric MDS finds a non-parametric mono
 
 \*Though metric MDS shows a linear relationship, nMDS is described using curves.
 
-**When to use it
+**When to use it**
 
 -   Your dissimilarities come from rankings, preference data, or subjective ratings where the scale is arbitrary
 -   You cannot assume the data is Euclidean or metric
 -   Classical or metric MDS gives high stress and you suspect non-linearity
 -   Used almost universally in community ecology
 
-**Real-world uses
+**Real-world uses**
 
 **Ecology** - Bray-Curtis dissimilarity between ecological communities based on species counts is ordinal; nMDS is the standard tool.
 
 **Psychology** - participants rank how similar different stimuli are (smells, faces, colors).
 
 **Social science** - survey respondents rank preferences.
+
+#### Application: The Digits Dataset
+
+The digits dataset is comprised of 1797 8x8 images of hand-written digits. By using MDS, the 64-dimensional pixel data is reduced to a lower-dimensional 2D space so that we can determine which digits are the most similarly drawn.
 
 ```{python}
 from sklearn.datasets import load_digits
@@ -225,14 +344,14 @@ print(f"\nSample shape       : {X_sample.shape}  (30 per digit)")
 ```{python}
 
 scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X_sample)
+X_scaled = scaler.fit_transform(X_sample) #Standardized Pixels 
 
-dist_digits = pairwise_distances(X_scaled, metric="euclidean")
+dist_digits = pairwise_distances(X_scaled, metric="euclidean") #Compute Distances
 
 
 n = dist_digits.shape[0]
 upper_idx = np.triu_indices(n, k=1)
-ranks = rankdata(dist_digits[upper_idx])
+ranks = rankdata(dist_digits[upper_idx]) #Converts distances to ranks 
 
 ranked_dist = np.zeros_like(dist_digits)
 ranked_dist[upper_idx] = ranks
@@ -252,7 +371,7 @@ nmds_digits = MDS(
     metric=False,                
     dissimilarity="precomputed",
     random_state=42,
-    normalized_stress="auto",
+    normalized_stress=True,
     max_iter=1000,
     n_init=10
 )
@@ -293,20 +412,23 @@ ax.text(0.02, 0.97, f"Stress = {stress:.3f} ({quality})",
         transform=ax.transAxes, color="#9EB3C2", fontsize=9, va="top")
 plt.tight_layout()
 plt.show()
+
 ```
 
-------------------------------------------------------------------------
+This code standardizes the pixels, computes distances, converts distances to ranks, and runs a non-metric MDS.
+
+Digits that look similar will be closer together, and digits that are less similar will be further apart. 4,6, and 9 cluster together because they are drawn very similarly.
+
+The stress is .1022, which is deemed fair. This means that the map worked fairly well at preserving the original similarity ranking. Since this data set is 64-dimensional, a larger stress value is expected.
 
 ### Why is MDS a good reduction method?
 
-1.  **They preserve distances directly.
+1.  **They preserve distances directly.**
     -   Other methods, like PCA, don't explicitly preserve pairwise distances, focusing on variance instead.
-2.  **They work with any distance metric.
-    -   Euclidian, Manhattan, Cosine, Genetics, and survey data are just some of the different metrics MDS can analyze.
-3.  **Handles nonlinear structures well.
+2.  **They work with any distance metric.**
+    -   Euclidean, Manhattan, Cosine, Genetics, and survey data are just some of the different metrics MDS can analyze.
+3.  **Handles nonlinear structures well.**
     -   MDS does not require the distance to have numerical meaning, and therefore can be used by many different nominal and ordinal data sets.
-
-------------------------------------------------------------------------
 
 ### Limitations
 
@@ -314,8 +436,6 @@ plt.show()
 2.  **Computational complexity.** MDS can demand a lot of resources, especially for large data sets.
 3.  **Data is lost.** MDS loses data when reducing size, so the outcome may not truly represent the original data.
 4.  **Subjectivity.** The interpretation of the MDS result can be quite subjective, depending on the arrangement of points.
-
-------------------------------------------------------------------------
 
 ### References
 
